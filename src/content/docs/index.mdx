@@ -1,17 +1,80 @@
 ---
-title: Welcome to SRR
-description: Structure UI once. Maintain it forever.
-# template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: SRR
+description: UI 구조 설계 방법론 SRR 공식 문서
+template: splash # Remove or comment out this line to display the site sidebar on this page.
 hero:
-  tagline: Structure UI once. Maintain it forever.
+  tagline: UI 구조 설계 방법론
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: 시작하기
+      link: /start/overview/
       icon: right-arrow
-    # - text: Read the Starlight docs
-    #   link: https://starlight.astro.build
-    #   icon: external
-    #   variant: minimal
+    - text: 레퍼런스 보기
+      link: /reference/prefix-table/
+      variant: minimal
 ---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+# SRR: UI 구조 설계 방법론
+
+한 번 구조화한 UI를  
+오래 유지할 수 있도록 설계합니다.
+
+---
+
+## 왜 SRR인가?
+
+- 클래스 네이밍 기준이 사람마다 다릅니다.
+- 스타일 수정이 구조 수정으로 이어집니다.
+- 디자이너와 개발자의 UI 해석이 어긋납니다.
+- 프로젝트가 커질수록 유지보수가 어려워집니다.
+
+---
+
+## SRR의 핵심 개념
+
+<CardGrid stagger>
+  <Card title="Structure (구조)" icon="document">
+    UI를 스타일의 집합이 아닌  
+    **안정적인 구조**로 설계합니다.
+
+    DOM 구조만 보아도  
+    UI의 역할이 읽히도록 구성합니다.
+  </Card>
+
+  <Card title="Rule (규칙)" icon="pencil">
+    클래스 네이밍과 작성 규칙을  
+    프로젝트 전반에 **일관되게 유지**합니다.
+
+    누가 작성해도  
+    같은 구조로 읽히는 것을 목표로 합니다.
+  </Card>
+
+  <Card title="Role (역할)" icon="add-document">
+    각 요소가 무엇을 담당하는지  
+    **명확한 역할 기준**으로 설계합니다.
+
+    장식 요소와  
+    의미·기능 요소를 의도적으로 구분합니다.
+  </Card>
+</CardGrid>
+
+---
+
+## 이런 분들을 위한 문서입니다
+
+- UI 개발자 / 퍼블리셔
+- CSS 구조와 네이밍에 고민이 있는 분
+- 디자인 시스템 또는 UI 가이드를 만들고 싶은 팀
+- 1회성이 아닌 운영 가능한 UI 구조를 만들고 싶은 실무자
+
+---
+
+## SRR은 프레임워크가 아닙니다
+
+SRR은 특정 기술이나 라이브러리에 종속되지 않는  
+**UI 구조 설계 기준이자 문서화 방법론**입니다.
+
+어떤 환경에서도 적용할 수 있습니다.
