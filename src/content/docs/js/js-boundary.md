@@ -1,9 +1,9 @@
 ---
 title: JavaScript 책임 범위
-description: SRR 방법론에서 JavaScript가 담당해야 할 역할과 책임의 경계를 설명합니다.
+description: SLUR UI System에서 JavaScript가 담당해야 할 역할과 책임의 경계를 설명합니다.
 ---
 
-SRR 방법론에서는  
+SLUR UI System에서는  
 JavaScript의 역할을 명확히 제한하여  
 UI 구조와 스타일, 동작이 서로 침범하지 않도록 합니다.  
 JavaScript는 UI를 구성하는 도구가 아니라,  
@@ -27,7 +27,7 @@ UI가 **어떤 상태가 될지**만 결정합니다.
 
 ## JavaScript가 하지 않는 역할
 
-SRR에서는 JavaScript가 다음 역할을 수행하는 것을 지양합니다.
+SLUR UI System에서는 JavaScript가 다음 역할을 수행하는 것을 지양합니다.
 
 - UI 구조 생성 또는 변경
 - 스타일 직접 제어
@@ -41,7 +41,7 @@ UI 설계는 빠르게 복잡해집니다.
 
 ## JavaScript와 CSS의 경계
 
-SRR에서는 JavaScript와 CSS의 책임을 명확히 구분합니다.
+SLUR UI System에서는 JavaScript와 CSS의 책임을 명확히 구분합니다.
 
 - JavaScript는 상태를 변경합니다.
 - CSS는 상태를 해석해 스타일을 적용합니다.

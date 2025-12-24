@@ -1,9 +1,9 @@
 ---
 title: LCP 최적화
-description: SRR 방법론에서 Largest Contentful Paint(LCP)를 기준으로 초기 화면 성능을 최적화하는 전략을 설명합니다.
+description: SLUR UI System에서 Largest Contentful Paint(LCP)를 기준으로 초기 화면 성능을 최적화하는 전략을 설명합니다.
 ---
 
-SRR 방법론에서는  
+SLUR UI System에서는  
 초기 화면 성능을 판단하는 핵심 지표로  
 **LCP(Largest Contentful Paint)**를 중요하게 다룹니다.  
 LCP는 단순한 성능 수치가 아니라,  
@@ -13,7 +13,7 @@ LCP는 단순한 성능 수치가 아니라,
 
 ## LCP를 바라보는 관점
 
-SRR에서는 LCP를 다음과 같이 해석합니다.
+SLUR UI System에서는 LCP를 다음과 같이 해석합니다.
 
 - LCP는 첫 화면 경험의 질을 나타냅니다.
 - LCP 대상 요소는 명확히 정의되어야 합니다.
@@ -32,7 +32,7 @@ LCP 대상은 보통 다음 요소 중 하나입니다.
 - 첫 화면의 대표 콘텐츠 블록
 - 가장 큰 텍스트 콘텐츠 영역
 
-SRR에서는  
+SLUR UI System에서는  
 **LCP 대상 요소를 의도적으로 설계**하는 것을 원칙으로 합니다.
 
 ---
@@ -67,7 +67,7 @@ LCP 대상이 이미지인 경우 다음을 고려합니다.
 
 ## 구조와 LCP의 관계
 
-SRR에서는  
+SLUR UI System에서는  
 LCP 문제를 구조 문제로 접근합니다.
 
 - LCP 요소가 구조상 늦게 등장하지 않는가
@@ -85,6 +85,6 @@ LCP 최적화는
 점수 개선을 위한 작업이 아니라,  
 사용자가 빠르게 콘텐츠를 인지하도록 돕기 위한 기준입니다.
 
-SRR는  
+SLUR UI System은  
 초기 화면에서의 명확한 구조와 빠른 렌더링을 통해  
 체감 성능이 좋은 UI를 만드는 것을 목표로 합니다.

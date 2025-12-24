@@ -1,9 +1,9 @@
 ---
 title: 블록 규칙
-description: SRR 방법론에서 블록(Block)의 정의와 사용 규칙을 설명합니다.
+description: SLUR UI System에서 블록(Block)의 정의와 사용 규칙을 설명합니다.
 ---
 
-SRR 방법론에서 블록(Block)은  
+SLUR UI System에서 블록(Block)은  
 UI 구조를 구성하는 가장 기본이 되는 **독립적인 구조 단위**입니다.  
 모든 UI는 하나 이상의 블록을 기준으로 설계됩니다.
 

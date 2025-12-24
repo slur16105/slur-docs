@@ -6,7 +6,7 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'SRR',
+			title: 'SLUR UI System',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			customCss: [
 				'./src/styles/custom.css',
@@ -17,7 +17,7 @@ export default defineConfig({
 					items: [
 						{ label: "개요", slug: "start/overview" },
 						{ label: "설계 철학", slug: "start/philosophy" },
-						{ label: "왜 SRR인가?", slug: "start/why" },
+						{ label: "왜 SLUR UI System인가?", slug: "start/why" },
 						{ label: "문서 읽는 방법", slug: "start/how-to-read" },
 					],
 				},
@@ -39,7 +39,7 @@ export default defineConfig({
 						{ label: "중첩 구조 규칙", slug: "css/nested-structure" },
 						{ label: "한 줄 CSS 규칙", slug: "css/one-line-rule" },
 						{ label: "토큰 및 변수 전략", slug: "css/tokens" },
-						{ label: "SRR에서 지양하는 패턴", slug: "css/what-srr-avoids" },
+						{ label: "SLUR UI System에서 지양하는 패턴", slug: "css/what-srr-avoids" },
 					],
 				},
 				{
@@ -100,9 +100,9 @@ export default defineConfig({
 				// {
 				//   label: "Start Here",
 				//   items: [
-				//     { label: "SRR Overview", slug: "start/overview" },
+				//     { label: "SLUR UI System Overview", slug: "start/overview" },
 				//     { label: "Philosophy", slug: "start/philosophy" },
-				//     { label: "Why SRR", slug: "start/why" },
+				//     { label: "Why SLUR UI System", slug: "start/why" },
 				//     { label: "How to Read This Documentation", slug: "start/how-to-read" },
 				//   ],
 				// },
@@ -124,7 +124,7 @@ export default defineConfig({
 				// 		{ label: "Nested Structure Rules", slug: "css/nested-structure" },
 				// 		{ label: "One-line CSS Rule", slug: "css/one-line-rule" },
 				// 		{ label: "Token & Variable Strategy", slug: "css/tokens" },
-				// 		{ label: "What SRR Avoids", slug: "css/what-srr-avoids" },
+				// 		{ label: "What SLUR UI System Avoids", slug: "css/what-srr-avoids" },
 				// 	],
 				// },
 				// {

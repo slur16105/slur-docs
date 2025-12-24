@@ -1,10 +1,10 @@
-# SRR (Structure · Rule · Role)
+# SLUR UI System
 
 [![Docs](https://img.shields.io/badge/docs-SRR-blue)](http://nas.slur.co.kr/)
 ![Status](https://img.shields.io/badge/status-active-success)
 ![Methodology](https://img.shields.io/badge/type-UI%20Methodology-informational)
 
-**SRR** is a UI structure design methodology that organizes  
+**SLUR UI System** is a UI structure design methodology that organizes  
 HTML markup and CSS architecture through three perspectives:
 
 - **Structure** — how UI is composed  
@@ -12,11 +12,11 @@ HTML markup and CSS architecture through three perspectives:
 - **Role** — what each element is responsible for  
 
 This repository contains the **official documentation and references**  
-for applying SRR in real-world UI projects.
+for applying SLUR UI System in real-world UI projects.
 
 ---
 
-## Why SRR?
+## Why SLUR UI System?
 
 In many UI projects, the same problems keep repeating:
 
@@ -25,7 +25,7 @@ In many UI projects, the same problems keep repeating:
 - Miscommunication between designers and developers
 - Poor maintainability as the project grows
 
-SRR addresses these issues by treating UI not as a visual result,  
+SLUR UI System addresses these issues by treating UI not as a visual result,  
 but as a **structured and readable system**.
 
 ---
@@ -64,10 +64,10 @@ but as a **structured and readable system**.
 This repository is organized as follows:
 
 - **Start Here**  
-  Introduction, philosophy, and core concepts of SRR
+  Introduction, philosophy, and core concepts of SLUR UI System
 
 - **Guides**  
-  How to understand and apply SRR in practice
+  How to understand and apply SLUR UI System in practice
 
 - **Reference**  
   Naming rules, markup examples, and structural patterns  
@@ -80,13 +80,13 @@ This repository is organized as follows:
 
 ## How to Use
 
-1. If you are new to SRR  
+1. If you are new to SLUR UI System  
    → Start with the **Start Here** section.
 
 2. If you want practical guidance  
    → Use the **Reference** section as a working guide.
 
-3. SRR is **not a framework**  
+3. SLUR UI System is **not a framework**  
    → It is not tied to any library, build tool, or technology stack.
 
 ---
@@ -94,7 +94,7 @@ This repository is organized as follows:
 ## Project Scope
 
 - This repository is **not a code library**
-- SRR is a **UI structure and documentation methodology**
+- SLUR UI System is a **UI structure and documentation methodology**
 - It can be applied to any environment  
   (HTML/CSS, Astro, React, Vue, or static markup)
 
