@@ -1,49 +1,118 @@
-# Starlight Starter Kit: Basics
+# SRR (Structure · Rule · Role)
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+[![Docs](https://img.shields.io/badge/docs-SRR-blue)](http://nas.slur.co.kr/)
+![Status](https://img.shields.io/badge/status-active-success)
+![Methodology](https://img.shields.io/badge/type-UI%20Methodology-informational)
 
-```
-npm create astro@latest -- --template starlight
-```
+**SRR** is a UI structure design methodology that organizes  
+HTML markup and CSS architecture through three perspectives:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Structure** — how UI is composed  
+- **Rule** — how it is written and maintained  
+- **Role** — what each element is responsible for  
 
-## 🚀 Project Structure
+This repository contains the **official documentation and references**  
+for applying SRR in real-world UI projects.
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+---
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+## Why SRR?
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+In many UI projects, the same problems keep repeating:
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+- Inconsistent class naming across team members
+- Style changes unintentionally affecting structure
+- Miscommunication between designers and developers
+- Poor maintainability as the project grows
 
-Static assets, like favicons, can be placed in the `public/` directory.
+SRR addresses these issues by treating UI not as a visual result,  
+but as a **structured and readable system**.
 
-## 🧞 Commands
+---
 
-All commands are run from the root of the project, from a terminal:
+## Core Concepts
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### 1. Structure
+- Clearly separates layout, page, and component levels
+- Makes UI intent readable directly from the DOM
+- Encourages structures that remain stable as styles change
 
-## 👀 Want to learn more?
+### 2. Rule
+- Defines consistent class naming conventions
+- Clarifies relationships between blocks, inner elements, and modifiers
+- Establishes rules for pseudo-elements and data attributes
+- Keeps writing standards consistent across the project
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+### 3. Role
+- Focuses on what each element *does*, not just how it looks
+- Distinguishes decorative elements from semantic or functional ones
+- Supports accessibility, collaboration, and long-term maintenance
+
+---
+
+## Who This Is For
+
+- UI developers and publishers
+- Front-end engineers working with HTML/CSS
+- Teams building or maintaining design systems
+- Anyone who wants a scalable and understandable UI structure
+
+---
+
+## Documentation Overview
+
+This repository is organized as follows:
+
+- **Start Here**  
+  Introduction, philosophy, and core concepts of SRR
+
+- **Guides**  
+  How to understand and apply SRR in practice
+
+- **Reference**  
+  Naming rules, markup examples, and structural patterns  
+  (intended for direct use in real projects)
+
+- **FAQ / Version History**  
+  Common questions and documented changes
+
+---
+
+## How to Use
+
+1. If you are new to SRR  
+   → Start with the **Start Here** section.
+
+2. If you want practical guidance  
+   → Use the **Reference** section as a working guide.
+
+3. SRR is **not a framework**  
+   → It is not tied to any library, build tool, or technology stack.
+
+---
+
+## Project Scope
+
+- This repository is **not a code library**
+- SRR is a **UI structure and documentation methodology**
+- It can be applied to any environment  
+  (HTML/CSS, Astro, React, Vue, or static markup)
+
+---
+
+## Author
+
+**SLUR**  
+A UI-focused studio specializing in  
+structure-driven markup and CSS methodology
+
+---
+
+## License
+
+This documentation is available for personal learning and reference.  
+Guidelines for commercial use or redistribution may be defined later.
+
+---
+
+📘 Read this documentation in [Korean](./README_KR.md)
