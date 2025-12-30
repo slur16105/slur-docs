@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+const GA_ID = 'G-GHY00755Y6';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,6 +11,26 @@ export default defineConfig({
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			customCss: [
 				'./src/styles/custom.css',
+			],
+			head: [
+				{
+					tag: 'script',
+					attrs: {
+						async: true,
+						src: `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`,
+					},
+				},
+				{
+					tag: 'script',
+					content: `
+						window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', '${GA_ID}', {
+							anonymize_ip: true
+						});
+					`,
+				},
 			],
 			sidebar: [
 				{
