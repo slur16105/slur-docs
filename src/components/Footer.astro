@@ -1,0 +1,42 @@
+---
+import { logos } from 'virtual:starlight/user-images';
+import Pagination from 'virtual:starlight/components/Pagination';
+---
+
+<footer class="layout_footer">
+    <div class="l_pagination">
+        <Pagination />
+    </div>
+    <div class="l_footer_info">
+        <div class="l_logo">
+            {
+                logos && logos.dark && logos.light ? (
+                    <>
+                        <img
+                            class="m_light"
+                            src={logos.light.src ?? logos.light}
+                            alt={logos.alt ?? 'SLUR logo'}
+                            loading="lazy"
+                        />
+                        <img
+                            class="m_dark"
+                            src={logos.dark.src ?? logos.dark}
+                            alt={logos.alt ?? 'SLUR logo'}
+                            loading="lazy"
+                        />
+                    </>
+                ) : (
+                    <div class="site-title-text">SLUR UI Architecture</div>
+                )
+            }
+            UI Architecture
+        </div>
+        <nav class="L_nav">
+            <ul>
+                <li><a href="https://slur.co.kr/" class="l_link" target="_blank" title="새창으로 열기">SLUR</a></li>
+                <li><a href="https://blog.slur.co.kr/" class="l_link" target="_blank" title="새창으로 열기">SLUR Blog</a></li>
+            </ul>
+        </nav>
+        <p class="l_copyright">© 2016 SLUR, All right reserved</p>
+    </div>
+</footer>

@@ -7,11 +7,21 @@ const GA_ID = 'G-GHY00755Y6';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'SLUR UI System',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: 'UI Architecture',
+			logo: {
+				/* Use relative importable paths so Starlight can import/validate them */
+				light: './src/assets/logo_black.svg',
+				dark: './src/assets/logo_white.svg',
+				alt: 'SLUR logo',
+				replacesTitle: false,
+			},
+			// social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			customCss: [
 				'./src/styles/custom.css',
 			],
+			components: {
+				Footer: './src/components/Footer.astro',
+			},
 			head: [
 				{
 					tag: 'script',

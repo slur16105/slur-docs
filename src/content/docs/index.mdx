@@ -1,11 +1,11 @@
 ---
-title: SLUR UI System
-description: UI 구조 설계 방법론 SLUR UI System 공식 문서
+title: SLUR UI Architecture
+description: SLUR UI 구조 설계 방법론 공식 문서
 template: splash # Remove or comment out this line to display the site sidebar on this page.
 hero:
   tagline: UI 구조 설계 방법론
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/sliller.svg
   actions:
     - text: 시작하기
       link: /start/overview/
@@ -17,14 +17,13 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-# SLUR UI System: UI 구조 설계 방법론
+# SLUR UI Architecture: UI 구조 설계 방법론
 
-한 번 구조화한 UI를  
-오래 유지할 수 있도록 설계합니다.
+한 번 구조화한 UI를 오래 유지할 수 있도록 설계합니다.
 
 ---
 
-## 왜 SLUR UI System인가?
+## 왜 SLUR UI Architecture인가?
 
 - 클래스 네이밍 기준이 사람마다 다릅니다.
 - 스타일 수정이 구조 수정으로 이어집니다.
@@ -33,31 +32,22 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ---
 
-## SLUR UI System의 핵심 개념
+## 핵심 개념
 
 <CardGrid stagger>
   <Card title="Structure (구조)" icon="document">
-    UI를 스타일의 집합이 아닌  
-    **안정적인 구조**로 설계합니다.
-
-    DOM 구조만 보아도  
-    UI의 역할이 읽히도록 구성합니다.
+    UI를 스타일의 집합이 아닌 **안정적인 구조**로 설계합니다.
+    DOM 구조만 보아도 UI의 역할이 읽히도록 구성합니다.
   </Card>
 
   <Card title="Rule (규칙)" icon="pencil">
-    클래스 네이밍과 작성 규칙을  
-    프로젝트 전반에 **일관되게 유지**합니다.
-
-    누가 작성해도  
-    같은 구조로 읽히는 것을 목표로 합니다.
+    클래스 네이밍과 작성 규칙을 프로젝트 전반에 **일관되게 유지**합니다.
+    누가 작성해도 같은 구조로 읽히는 것을 목표로 합니다.
   </Card>
 
   <Card title="Role (역할)" icon="add-document">
-    각 요소가 무엇을 담당하는지  
-    **명확한 역할 기준**으로 설계합니다.
-
-    장식 요소와  
-    의미·기능 요소를 의도적으로 구분합니다.
+    각 요소가 무엇을 담당하는지 **명확한 역할 기준**으로 설계합니다.
+    장식 요소와 의미·기능 요소를 의도적으로 구분합니다.
   </Card>
 </CardGrid>
 
@@ -65,16 +55,16 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ## 이런 분들을 위한 문서입니다
 
-- UI 개발자 / 퍼블리셔
+- 프론트엔드 개발자 / 퍼블리셔
 - CSS 구조와 네이밍에 고민이 있는 분
 - 디자인 시스템 또는 UI 가이드를 만들고 싶은 팀
 - 1회성이 아닌 운영 가능한 UI 구조를 만들고 싶은 실무자
 
 ---
 
-## SLUR UI System은 프레임워크가 아닙니다
+## SLUR UI Architecture는 프레임워크가 아닙니다
 
-SLUR UI System은 특정 기술이나 라이브러리에 종속되지 않는  
+SLUR UI Architecture는 특정 기술이나 라이브러리에 종속되지 않는  
 **UI 구조 설계 기준이자 문서화 방법론**입니다.
 
 어떤 환경에서도 적용할 수 있습니다.
