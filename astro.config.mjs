@@ -46,6 +46,7 @@ export default defineConfig({
 				{ label: "환영합니다", link: "/" },
 				{
 					label: "시작하기",
+					collapsed: true,
 					items: [
 						{ label: "개요", slug: "start/overview" },
 						{ label: "설계 철학", slug: "start/philosophy" },
@@ -55,6 +56,7 @@ export default defineConfig({
 				},
 				{
 					label: "핵심 개념",
+					collapsed: true,
 					items: [
 						{ label: "UI 구조 모델", slug: "core/structure-model" },
 						{ label: "네이밍 시스템", slug: "core/naming-system" },
@@ -63,6 +65,7 @@ export default defineConfig({
 				},
 				{
 					label: "CSS 방법론",
+					collapsed: true,
 					items: [
 						{ label: "블록 규칙", slug: "css/block" },
 						{ label: "내부 요소 (i_)", slug: "css/internal-elements" },
@@ -76,6 +79,7 @@ export default defineConfig({
 				},
 				{
 					label: "JavaScript 및 상태 관리",
+					collapsed: true,
 					items: [
 						{ label: "상태 기반 UI", slug: "js/state-driven-ui" },
 						{ label: "외부 라이브러리 연동", slug: "js/external-libraries" },
@@ -83,6 +87,7 @@ export default defineConfig({
 				},
 				{
 					label: "접근성",
+					collapsed: true,
 					items: [
 						{ label: "접근성 설계 철학", slug: "a11y/philosophy" },
 						{ label: "대체 텍스트 규칙", slug: "a11y/alt-rules" },
@@ -92,6 +97,7 @@ export default defineConfig({
 				},
 				{
 					label: "미디어 및 성능",
+					collapsed: true,
 					items: [
 						{ label: "이미지 역할 정의", slug: "media/image-role" },
 						{ label: "이미지 다루기", slug: "media/image-handling" },
@@ -100,6 +106,7 @@ export default defineConfig({
 				},
 				{
 					label: "패턴",
+					collapsed: true,
 					items: [
 						{ label: "구조 계층", slug: "patterns/structure-hierarchy" },
 						{ label: "팝업 / 모달 패턴", slug: "patterns/popup-modal" },
@@ -108,6 +115,7 @@ export default defineConfig({
 				},
 				{
 					label: "경험 설계 (UX)",
+					collapsed: true,
 					items: [
 						{ label: "화면 상태 설계", slug: "ux/screen-states" },
 						{ label: "피드백 원칙", slug: "ux/feedback" },
@@ -117,6 +125,7 @@ export default defineConfig({
 				},
 				{
 					label: "참고",
+					collapsed: true,
 					items: [
 						{ label: "접두사 참조 표", slug: "reference/prefix-table" },
 						{ label: "클래스 네이밍 예제", slug: "reference/naming-examples" },
@@ -127,6 +136,7 @@ export default defineConfig({
 				},
 				{
 					label: "변경 이력",
+					collapsed: true,
 					items: [
 						{ label: "버전 히스토리", slug: "changelog/version-history" },
 					],
