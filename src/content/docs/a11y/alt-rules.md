@@ -36,6 +36,16 @@ description: SLUR UX/UI System에서 이미지의 의미에 따라 대체 텍스
 대체 텍스트는  
 이미지가 전달하려는 **핵심 의미만** 포함해야 합니다.
 
+```html
+<img src="/sales-q4.png" alt="분기별 매출 그래프">
+```
+
+```html
+<!-- ❌ 나쁜 예: 역할 대신 무의미한 표현 -->
+<img src="/sales-q4.png" alt="이미지">
+<img src="/sales-q4.png" alt="그래프 사진">
+```
+
 ---
 
 ### 기능 이미지
@@ -46,6 +56,15 @@ description: SLUR UX/UI System에서 이미지의 의미에 따라 대체 텍스
 이 경우 대체 텍스트는  
 이미지의 모양이 아니라 **기능**을 설명해야 합니다.
 
+```html
+<button class="btn m_primary" type="button"><img class="i_icon" src="/icon-search.svg" alt="검색"></button>
+```
+
+```html
+<!-- ❌ 나쁜 예: 기능이 아니라 모양을 설명 -->
+<button class="btn m_primary" type="button"><img class="i_icon" src="/icon-search.svg" alt="돋보기 아이콘"></button>
+```
+
 ---
 
 ### 장식 이미지
@@ -55,6 +74,15 @@ description: SLUR UX/UI System에서 이미지의 의미에 따라 대체 텍스
 
 이 경우 `alt=""`를 사용해  
 보조 기술의 읽기 대상에서 제외합니다.
+
+```html
+<img class="i_deco" src="/divider.svg" alt="">
+```
+
+```html
+<!-- ❌ 나쁜 예: 장식인데 무의미한 alt로 읽게 만듦 -->
+<img class="i_deco" src="/divider.svg" alt="장식 이미지">
+```
 
 ---
 

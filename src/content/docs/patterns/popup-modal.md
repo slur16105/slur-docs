@@ -63,6 +63,34 @@ UI 흐름을 제어하기 위한 구조적 장치로 취급합니다.
 클래스 토글만으로  
 암묵적인 제어를 하지 않습니다.
 
+모달 루트는 컴포넌트명(`modal_login`)을 그대로 쓰고,  
+열림 / 닫힘은 `.active` 같은 클래스가 아니라 `data-state`로만 표현합니다.  
+팝업 전용 블록 접두사가 필요하면 [접두사 참조 표](/reference/prefix-table/)의 `popup_`을 사용합니다.
+
+```html
+<div class="modal_login" data-state="close" role="dialog" aria-modal="true" aria-labelledby="modal_login_title">
+  <div class="i_wrap">
+    <div class="i_head">
+      <h2 class="i_title" id="modal_login_title">로그인</h2>
+      <button class="i_close" type="button" aria-label="닫기"></button>
+    </div>
+    <div class="i_body">
+      <!-- 단일 목적 인터랙션 -->
+    </div>
+  </div>
+</div>
+```
+
+시각적 표현은 CSS가 `data-state` 값만 보고 결정합니다.  
+닫힘은 `display: none`, 열림은 `display: flex`로, 상태와 스타일이 1:1로 대응합니다.
+
+```css
+.modal_login { display: none; position: fixed; inset: 0; }
+.modal_login[data-state="open"] { display: flex; }
+.modal_login .i_wrap { width: 360px; margin: auto; padding: 24px; border-radius: 8px; background: #fff; }
+.modal_login .i_head { display: flex; justify-content: space-between; align-items: center; }
+```
+
 ---
 
 ## 팝업 / 모달 설계 기준
@@ -73,6 +101,23 @@ UI 흐름을 제어하기 위한 구조적 장치로 취급합니다.
 - 페이지 전환으로 해결 가능한가
 - 단일 목적을 유지하고 있는가
 - 접근성(포커스 이동, 닫기 방식)이 고려되었는가
+
+JavaScript는 스타일을 직접 만지지 않고 `data-state`만 토글합니다.  
+열릴 때는 모달 안으로 초점을 옮기고, `Esc` 키로 닫을 수 있어야 합니다.
+
+```js
+const modalLogin = {
+  el: document.querySelector('.modal_login'),
+  open() { this.el.dataset.state = 'open'; this.el.querySelector('.i_close').focus(); },
+  close() { this.el.dataset.state = 'close'; },
+  init() {
+    document.querySelector('[data-action="modal_login_open"]')?.addEventListener('click', () => this.open());
+    this.el.querySelector('.i_close')?.addEventListener('click', () => this.close());
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.el.dataset.state === 'open') this.close(); });
+  }
+};
+modalLogin.init();
+```
 
 불필요한 팝업은  
 UI 복잡도의 가장 큰 원인입니다.

@@ -24,6 +24,21 @@ UI 구조의 안정성을 유지하기 위해
 중첩은 편의를 위한 수단이 아니라,  
 구조를 표현하기 위한 설계 선택입니다.
 
+구조적 의미가 다른 단위는 중첩할 수 있습니다.  
+컴포넌트(`card`) 안에 내부 요소(`i_body`)가 들어가고,  
+그 안에 또 다른 내부 요소(`i_title`)가 들어가는 구조는  
+각 단위의 역할이 명확히 구분되므로 허용됩니다.
+
+```html
+<article class="card">
+  <div class="i_thumb"><img src="cover.jpg" alt="상품 표지"></div>
+  <div class="i_body">
+    <h3 class="i_title">중첩 구조 규칙</h3>
+    <p class="i_text">구조적 의미가 있는 중첩만 허용합니다.</p>
+  </div>
+</article>
+```
+
 ---
 
 ## 구조 범위가 다른 경우의 중첩
@@ -53,6 +68,36 @@ UI 구조의 안정성을 유지하기 위해
 - 구조 해석이 코드만으로 불가능해집니다.
 
 **같은 구조 범위의 중첩은 구조 설계 오류로 판단합니다.**
+
+같은 구조 범위의 단위를 그대로 겹쳐 쓰면  
+어느 것이 상위 구조인지 코드만으로 알 수 없게 됩니다.  
+컴포넌트 안에 같은 컴포넌트(`card` 안에 `card`),  
+페이지 안에 다른 페이지(`page_home` 안에 `page_about`)를 넣는 구조가 이에 해당합니다.
+
+```html
+<!-- ❌ 나쁜 예: 컴포넌트 안에 같은 범위의 컴포넌트를 중첩 -->
+<article class="card">
+  <div class="i_body">
+    <article class="card"><div class="i_body">중첩된 카드</div></article>
+  </div>
+</article>
+
+<!-- ❌ 나쁜 예: 페이지 안에 또 다른 페이지를 중첩 -->
+<main class="page_home">
+  <main class="page_about">소개 페이지</main>
+</main>
+```
+
+같은 범위가 반복될 때는 중첩이 아니라  
+내부 요소(`i_item`)로 분리하거나 조합 관계로 배치합니다.
+
+```html
+<!-- ✅ 좋은 예: 같은 항목은 내부 요소로 나열 -->
+<ul class="card">
+  <li class="i_item">첫 번째 항목</li>
+  <li class="i_item">두 번째 항목</li>
+</ul>
+```
 
 ---
 

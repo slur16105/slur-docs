@@ -51,6 +51,35 @@ UI 구조의 내부 구현을 알 필요가 없습니다.
 라이브러리는  
 상태 변경의 트리거 역할만 담당합니다.
 
+라이브러리 콜백/이벤트 안에서는  
+스타일을 직접 만지지 말고  
+`data-state`만 토글합니다.
+
+```js
+const accordion = document.querySelector('.accordion');
+const lib = new SomeLibrary(accordion);
+
+lib.on('open', () => { accordion.dataset.state = 'open'; });
+lib.on('close', () => { accordion.dataset.state = 'close'; });
+```
+
+라이브러리는 상태 변경 트리거일 뿐이며,  
+표현은 `data-state`에 연결된 CSS가 담당합니다.
+
+```css
+.accordion[data-state="close"] .i_panel { display: none; }
+.accordion[data-state="open"] .i_panel { display: block; }
+```
+
+❌ 나쁜 예 — 라이브러리 콜백에서 스타일을 직접 조작하면 역할 분리가 무너집니다.
+
+```js
+lib.on('open', () => { accordion.querySelector('.i_panel').style.display = 'block'; });
+```
+
+콜백에서 `style`을 직접 만지면  
+표현이 JS에 흩어지고 CSS와 어긋나므로 금지합니다.
+
 ---
 
 ## 클래스 사용 제한

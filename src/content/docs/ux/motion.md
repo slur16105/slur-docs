@@ -42,6 +42,15 @@ description: SLUR UX/UI System에서 애니메이션과 전환을 언제 왜 사
 - 전환은 사용자가 기다린다고 느끼지 않을 만큼 짧게 유지합니다.
 - 같은 화면에서 여러 모션이 동시에 시선을 다투지 않게 합니다.
 
+`transition`은 의미 있는 상태 전이에만, 짧은 `duration`으로 한 줄에 작성합니다. `data-state`가 바뀔 때 자연스럽게 이어지도록 상태 선택자에 전이를 겁니다.
+
+```css
+.accordion .i_panel { overflow: hidden; height: 0; transition: height 150ms ease; }
+.accordion[data-state="open"] .i_panel { height: auto; }
+.modal_login { opacity: 0; transition: opacity 200ms ease; }
+.modal_login[data-state="open"] { opacity: 1; }
+```
+
 구체적인 duration·easing 값은 [토큰](/css/tokens/)에서 정의합니다.
 
 ---
@@ -49,6 +58,12 @@ description: SLUR UX/UI System에서 애니메이션과 전환을 언제 왜 사
 ## 접근성 고려
 
 움직임에 민감한 사용자를 위한 모션 축소, `prefers-reduced-motion` 대응, 모션 없이도 정보가 전달되어야 한다는 원칙은 [접근성 철학](/a11y/philosophy/)에서 다룹니다.
+
+모션을 줄이도록 설정한 사용자에게는 `@media (prefers-reduced-motion: reduce)`로 전환을 최소화합니다. 상태 변화 자체는 그대로 남고, 그 사이의 움직임만 제거합니다.
+
+```css
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms; } }
+```
 
 ---
 

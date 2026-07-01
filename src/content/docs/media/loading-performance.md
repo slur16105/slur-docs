@@ -81,6 +81,14 @@ LCP 대상이 이미지인 경우 다음을 고려합니다.
 - 반응형 이미지 전략을 적용합니다.
 - 크기 정보(width, height)를 명시합니다.
 
+즉시 로딩과 지연 로딩의 대비를 코드로 보면 이렇습니다.  
+LCP 대상은 `fetchpriority="high"`로 우선순위를 올리고(필요하면 `<link rel="preload">`로 앞당깁니다), 그 외 이미지는 `loading="lazy"`로 지연합니다. 두 경우 모두 `width`/`height`를 명시해 레이아웃 이동(CLS)을 막습니다.
+
+```html
+<img class="i_thumb" src="/hero.webp" alt="주요 히어로 이미지" width="1200" height="600" fetchpriority="high">
+<img class="i_thumb" src="/thumb.webp" alt="하위 콘텐츠 이미지" width="320" height="200" loading="lazy">
+```
+
 이미지 LCP는  
 대부분 포맷과 로딩 전략으로 개선할 수 있습니다.
 

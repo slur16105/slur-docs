@@ -50,7 +50,19 @@ description: SLUR UX/UI System에서 폼의 유효성 검사 시점, 오류 표�
 "오류가 발생했습니다"보다  
 "이메일에 @를 포함해 주세요"가 사용자를 앞으로 나아가게 합니다.
 
----
+제출·블러 시 검사된 입력은 `data-state="error"`가 되고,
+`i_error` 문구가 해당 입력 바로 옆에서 고치는 방법을 안내합니다.
+`label`과 입력은 `for`·`id`로 연결한 채 유지합니다.
+
+```html
+<form class="form_login">
+  <div class="i_field" data-state="error">
+    <label class="i_label" for="login_email">이메일</label>
+    <input class="i_input" id="login_email" type="email" name="email" value="minyeong" aria-describedby="login_email_error">
+    <p class="i_error" id="login_email_error">이메일에 @를 포함해 주세요.</p>
+  </div>
+</form>
+```
 
 ## 입력 안내
 

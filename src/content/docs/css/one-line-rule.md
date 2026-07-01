@@ -42,6 +42,30 @@ CSS는 “작성하는 코드”가 아니라
 - 구조적 구분은 클래스 분리로 해결합니다.
 - 스타일 복잡성은 토큰과 구조로 분산합니다.
 
+같은 선택자라도 여러 줄로 펼치면 규칙 위반이고, 한 줄로 모으면 규칙을 지킨 것입니다.
+
+❌ 나쁜 예 — 선택자를 여러 줄로 펼침
+
+```css
+.btn {
+  display: inline-flex;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+```
+
+✅ 좋은 예 — 같은 선택자를 한 줄로
+
+```css
+.btn { display: inline-flex; padding: 8px 16px; border-radius: 6px; }
+```
+
+선언이 많아져도 줄을 나누지 않습니다. 속성이 많은 `.card`도 한 줄로 유지합니다.
+
+```css
+.card { display: flex; width: 320px; margin: 0; padding: 16px; border: 1px solid var(--color_border); border-radius: 12px; background: var(--color_surface); color: var(--color_text); }
+```
+
 스타일이 길어질수록  
 구조 설계를 다시 검토해야 합니다.
 

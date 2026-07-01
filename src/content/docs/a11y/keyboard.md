@@ -32,6 +32,19 @@ UI의 예외 케이스가 아닙니다.
 - 구조적 순서를 CSS로 뒤집지 않습니다.
 - 임의의 `tabindex` 사용을 지양합니다.
 
+양수 `tabindex`는 DOM 순서를 무시하고 포커스 순서를 뒤섞으므로 사용하지 않습니다. 비표준 요소에 포커스가 필요할 때만 `tabindex="0"`으로 자연스러운 흐름에 편입시킵니다.
+
+```html
+<!-- ❌ 나쁜 예: 양수 tabindex로 순서를 인위적으로 조작 -->
+<button class="btn m_primary" type="button" tabindex="3">저장</button>
+<a class="i_link" href="/help" tabindex="1">도움말</a>
+
+<!-- ✅ 좋은 예: DOM 순서를 그대로 따르고, 비표준 요소만 0으로 편입 -->
+<button class="btn m_primary" type="button">저장</button>
+<a class="i_link" href="/help">도움말</a>
+<div class="accordion" data-state="close"><button class="i_trigger" type="button">더 보기</button></div>
+```
+
 포커스 순서는 DOM 구조를 그대로 따릅니다.
 
 ---
@@ -56,6 +69,13 @@ UI의 예외 케이스가 아닙니다.
 - 기본 포커스 스타일을 유지하거나
 - 명확한 대체 스타일을 제공합니다.
 
+마우스 클릭에는 표시하지 않고 키보드 포커스에만 표시하려면 `:focus-visible`을 사용합니다.
+
+```css
+.btn:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; border-radius: 4px; }
+.i_trigger:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
+```
+
 포커스가 보이지 않는 UI는  
 키보드 사용자에게 사용 불가능한 UI입니다.
 
@@ -68,6 +88,26 @@ UI의 예외 케이스가 아닙니다.
 - Enter, Space 키 동작은 명확히 정의합니다.
 - Escape 키는 닫기/취소 역할을 수행해야 합니다.
 - 방향키 사용 시 일관된 이동 규칙을 유지합니다.
+
+이벤트는 JS에서 등록하고, 키 입력에 따라 `data-state`만 토글합니다. 스타일은 CSS가 담당합니다.
+
+```js
+const modal = document.querySelector(".modal_login");
+const trigger = document.querySelector(".accordion .i_trigger");
+
+// Esc: 열린 요소 닫기
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && modal.dataset.state === "open") modal.dataset.state = "close";
+});
+
+// Enter/Space: 활성화(토글)
+trigger.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault();
+  const accordion = trigger.closest(".accordion");
+  accordion.dataset.state = accordion.dataset.state === "open" ? "close" : "open";
+});
+```
 
 키보드 동작은  
 사용자가 예측 가능한 방식으로 동작해야 합니다.

@@ -35,6 +35,14 @@ description: SLUR UX/UI System에서 디자인 토큰과 CSS 변수를 사용하
 토큰은 **값 자체**가 아니라  
 **의미를 담은 단위**입니다.
 
+의미 기반 토큰은 `:root`에 선언하며, 이름에 역할과 목적이 드러나야 합니다.
+
+```css
+:root { --color_primary: #2563eb; --color_text: #1a1a1a; --color_border: #e5e7eb; }
+:root { --space_sm: 8px; --space_md: 16px; --space_lg: 24px; }
+:root { --radius_md: 8px; --radius_lg: 16px; }
+```
+
 ---
 
 ## 변수 사용 기준
@@ -47,6 +55,20 @@ CSS 변수는 다음 기준에 따라 사용합니다.
 
 변수는 스타일 구현 수단이며,  
 구조 설계 도구가 아닙니다.
+
+컴포넌트에서는 값을 직접 쓰지 않고 `var()`로 토큰을 참조합니다.
+
+```css
+/* ❌ 나쁜 예 — 하드코딩된 값이 흩어져 유지보수가 어려움 */
+.card { padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; }
+.card .i_title { color: #1a1a1a; }
+```
+
+```css
+/* ✅ 좋은 예 — 의미 기반 토큰을 var()로 참조 */
+.card { padding: var(--space_md); border: 1px solid var(--color_border); border-radius: var(--radius_md); }
+.card .i_title { color: var(--color_text); }
+```
 
 ---
 

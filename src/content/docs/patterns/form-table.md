@@ -36,6 +36,29 @@ description: SLUR UX/UI System에서 입력 폼과 테이블 UI를 구조적으�
 레이아웃을 맞추기 위한 구조가 아니라,  
 입력 흐름을 표현하는 구조입니다.
 
+`<label for>`와 `<input id>`를 연결하고, 오류는 `data-state="error"`와 `i_error` 메시지로 표현합니다.
+
+```html
+<form class="form_login">
+  <div class="i_field">
+    <label class="i_label" for="login_email">이메일</label>
+    <input class="i_input" id="login_email" type="email" name="email" required />
+  </div>
+  <div class="i_field" data-state="error">
+    <label class="i_label" for="login_pw">비밀번호</label>
+    <input class="i_input" id="login_pw" type="password" name="password" required />
+    <p class="i_error">비밀번호를 입력해 주세요.</p>
+  </div>
+  <button class="btn m_primary" type="submit">로그인</button>
+</form>
+```
+
+```css
+.i_field {display:flex; flex-direction:column;}
+.i_error {display:none; margin-top:4px; font-size:13px; color:#d33;}
+.i_field[data-state="error"] .i_error {display:block;}
+```
+
 ---
 
 ## 테이블 패턴 설계 기준
@@ -50,6 +73,37 @@ description: SLUR UX/UI System에서 입력 폼과 테이블 UI를 구조적으�
 
 테이블은  
 데이터 구조를 그대로 드러내야 합니다.
+
+데이터 표현에는 `<thead>`와 `scope`가 있는 `<th>`로 열·행의 의미를 명확히 합니다.
+
+```html
+<table class="table_order">
+  <thead>
+    <tr>
+      <th scope="col">주문번호</th>
+      <th scope="col">상품명</th>
+      <th scope="col">금액</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">A-1024</th>
+      <td>무선 키보드</td>
+      <td>39,000원</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+레이아웃 정렬 목적으로 테이블을 쓰지 않습니다.
+
+```html
+<!-- ❌ 나쁜 예: 화면 배치를 위해 table 사용 -->
+<table><tr><td>메뉴</td><td>본문</td></tr></table>
+
+<!-- ✅ 좋은 예: 배치는 레이아웃 요소로 -->
+<div class="l_page"><nav class="l_nav">메뉴</nav><main class="l_main">본문</main></div>
+```
 
 ---
 

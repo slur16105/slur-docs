@@ -34,6 +34,27 @@ description: SLUR UX/UI System에서 사용자 행동에 대한 반응을 언제
 기준은 단순합니다.  
 **흐름을 멈춰야 하는가**에 따라 방식을 고릅니다.
 
+토스트는 `toast_message` 컴포넌트로 만들고, 노출 여부는 `data-state`로 제어합니다. 닫기 버튼은 대부분 모달 닫기와 스타일이 달라 내부 요소 `i_close`로 둡니다.
+
+```html
+<div class="toast_message" data-state="show" role="status">
+  <p class="i_text">저장되었습니다.</p>
+  <button class="i_close" type="button" aria-label="닫기"></button>
+</div>
+```
+
+인라인 오류는 입력 요소 옆 `i_error`로 표현하고, 오류 상태는 클래스가 아니라 `data-state="error"`로 나타냅니다.
+
+```html
+<div class="form_group" data-state="error">
+  <label for="user_email">이메일</label>
+  <input type="email" id="user_email" class="input_text" aria-describedby="user_email_error">
+  <p class="i_error" id="user_email_error">올바른 이메일 형식이 아닙니다.</p>
+</div>
+```
+
+모달은 흐름을 멈추는 반응이며, 구조는 [팝업/모달 패턴](/patterns/popup-modal/)을 따릅니다.
+
 ---
 
 ## 파괴적 행동의 확인

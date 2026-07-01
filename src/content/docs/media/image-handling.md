@@ -51,6 +51,15 @@ description: SLUR UX/UI System에서 이미지 포맷 선택과 반응형 제공
 WebP는  
 범용적인 기본 포맷으로 권장됩니다.
 
+`<picture>`로 WebP를 우선 제공하고, 미지원 브라우저를 위한 대체 포맷을 `<img>`에 둡니다.
+
+```html
+<picture>
+  <source srcset="/img/hero.webp" type="image/webp">
+  <img src="/img/hero.jpg" alt="봄 신상품 컬렉션 대표 이미지" width="1200" height="800">
+</picture>
+```
+
 ---
 
 ### AVIF
@@ -87,6 +96,12 @@ AVIF는
 
 반응형 이미지는  
 디자인이 아닌 **구조 기준**으로 설계해야 합니다.
+
+`srcset`으로 후보 이미지를, `sizes`로 표시 폭을 알려 브라우저가 리소스를 선택하게 합니다. 레이아웃 밀림을 막기 위해 `width`/`height`는 항상 명시합니다.
+
+```html
+<img src="/img/card.jpg" srcset="/img/card-480.jpg 480w, /img/card-960.jpg 960w" sizes="(max-width: 600px) 100vw, 480px" alt="상품 카드 썸네일" width="480" height="320">
+```
 
 ---
 

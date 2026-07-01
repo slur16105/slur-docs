@@ -39,6 +39,54 @@ ARIA는
 - 시각적 상태와 다른 ARIA 상태 전달
 - 상태 변경 없이 고정된 ARIA 속성 사용
 
+버튼이 필요하면 `<button>`을 씁니다.  
+`<div>`에 role과 tabindex를 얹어 버튼을 흉내내지 않습니다.
+
+```html
+<!-- ❌ 나쁜 예: div로 버튼을 흉내내면 키보드/포커스/엔터를 직접 구현해야 한다 -->
+<div class="btn m_primary" role="button" tabindex="0">저장</div>
+
+<!-- ✅ 좋은 예: button은 역할·포커스·키보드 조작을 기본 제공한다 -->
+<button class="btn m_primary" type="button">저장</button>
+```
+
+이미 역할을 가진 요소에 같은 role을 다시 지정하지 않습니다.  
+`<button>`은 이미 `button` 역할이므로 `role="button"`은 중복입니다.
+
+```html
+<!-- ❌ 나쁜 예: 이미 가진 역할을 role로 중복 지정 -->
+<button class="btn" type="button" role="button">닫기</button>
+<nav role="navigation"><!-- ... --></nav>
+
+<!-- ✅ 좋은 예: 시맨틱 요소는 role 없이 그대로 쓴다 -->
+<button class="btn" type="button">닫기</button>
+<nav><!-- ... --></nav>
+```
+
+시맨틱 요소로 표현할 수 없는 커스텀 컴포넌트에만  
+상태를 나타내는 최소 ARIA를 더합니다.  
+상태 자체는 `data-state`로 관리하고, ARIA는 상태를 보조 기술에 알리는 용도로만 씁니다.
+
+```html
+<!-- ✅ 좋은 예: 커스텀 아코디언에 aria-expanded만 최소로 부여 -->
+<div class="accordion" data-state="open">
+  <button class="i_trigger" type="button" aria-expanded="true" aria-controls="panel_notice">공지사항</button>
+  <div class="i_panel" id="panel_notice">
+    <p class="i_text">7월 정기 점검 안내입니다.</p>
+  </div>
+</div>
+```
+
+```js
+// data-state를 토글하고, 같은 값을 aria-expanded에 반영한다
+document.querySelector(".accordion .i_trigger").addEventListener("click", (e) => {
+  const accordion = e.currentTarget.closest(".accordion");
+  const open = accordion.getAttribute("data-state") === "open";
+  accordion.setAttribute("data-state", open ? "close" : "open");
+  e.currentTarget.setAttribute("aria-expanded", String(!open));
+});
+```
+
 허용되는 경우에도 ARIA는 최소 범위로만 적용합니다.  
 중복된 ARIA는 접근성을 개선하지 않고 혼란만 증가시킵니다.
 
