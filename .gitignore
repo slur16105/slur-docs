@@ -12,3 +12,6 @@ dist/
 # OS / editor
 .DS_Store
 .vscode/
+
+# AI 도구 로컬 설정
+CLAUDE.md
