@@ -29,19 +29,24 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 ## 핵심 원칙
 
 <CardGrid>
-  <Card title="Structure · 구조" icon="document">
-    UI를 스타일의 집합이 아닌 **안정적인 구조**로 설계합니다.
-    DOM 구조만 보아도 UI의 역할이 읽히도록 구성합니다.
+  <Card title="구조 우선" icon="document">
+    클래스 이름만 봐도 구조와 역할이 읽히도록 설계합니다.
+    UI를 스타일의 집합이 아닌 **안정적인 구조**로 다룹니다.
   </Card>
 
-  <Card title="Rule · 규칙" icon="pencil">
-    네이밍과 작성 규칙을 프로젝트 전반에 **일관되게 유지**합니다.
-    누가 작성해도 같은 구조로 읽히는 것을 목표로 합니다.
+  <Card title="역할 분리" icon="setting">
+    구조는 HTML, 표현은 CSS, 동작은 JavaScript,
+    상태는 **`data-state`**가 담당합니다.
   </Card>
 
-  <Card title="Role · 역할" icon="add-document">
-    각 요소가 무엇을 담당하는지 **명확한 역할 기준**으로 설계합니다.
-    장식 요소와 의미·기능 요소를 의도적으로 구분합니다.
+  <Card title="일관된 규칙" icon="pencil">
+    누가 작성해도 같은 구조로 읽힙니다.
+    **일관성이 생산성**을 만듭니다.
+  </Card>
+
+  <Card title="완결성" icon="star">
+    정상 상태만이 아니라 로딩·에러 상태, 접근성, 성능까지
+    **처음부터 설계**합니다.
   </Card>
 </CardGrid>
 
