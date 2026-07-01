@@ -1,22 +1,20 @@
-# SLUR UI System
+# SLUR UX/UI System
 
-[![Docs](https://img.shields.io/badge/docs-SRR-blue)](http://nas.slur.co.kr/)
+[![Docs](https://img.shields.io/badge/docs-docs.slur.co.kr-blue)](https://docs.slur.co.kr)
 ![Status](https://img.shields.io/badge/status-active-success)
-![Methodology](https://img.shields.io/badge/type-UI%20Methodology-informational)
+![Methodology](https://img.shields.io/badge/type-UX%2FUI%20Methodology-informational)
 
-**SLUR UI System** is a UI structure design methodology that organizes  
-HTML markup and CSS architecture through three perspectives:
+**SLUR UX/UI System** is a front-end UX/UI methodology for designing UI that stays
+maintainable long after it is first built. It keeps a single, consistent standard
+across the whole surface — **structure, state, accessibility, performance, and experience** —
+so that class names alone reveal structure and intent, without depending on any framework.
 
-- **Structure** — how UI is composed  
-- **Rule** — how it is written and maintained  
-- **Role** — what each element is responsible for  
-
-This repository contains the **official documentation and references**  
-for applying SLUR UI System in real-world UI projects.
+This repository contains the **official documentation** for the system, published at
+[docs.slur.co.kr](https://docs.slur.co.kr).
 
 ---
 
-## Why SLUR UI System?
+## Why SLUR UX/UI System?
 
 In many UI projects, the same problems keep repeating:
 
@@ -25,94 +23,78 @@ In many UI projects, the same problems keep repeating:
 - Miscommunication between designers and developers
 - Poor maintainability as the project grows
 
-SLUR UI System addresses these issues by treating UI not as a visual result,  
-but as a **structured and readable system**.
+SLUR treats UI not as a visual result, but as a **structured, readable system** — and
+extends that discipline beyond markup into state, accessibility, media, and user experience.
 
 ---
 
-## Core Concepts
+## Core Principles
 
-### 1. Structure
-- Clearly separates layout, page, and component levels
-- Makes UI intent readable directly from the DOM
-- Encourages structures that remain stable as styles change
-
-### 2. Rule
-- Defines consistent class naming conventions
-- Clarifies relationships between blocks, inner elements, and modifiers
-- Establishes rules for pseudo-elements and data attributes
-- Keeps writing standards consistent across the project
-
-### 3. Role
-- Focuses on what each element *does*, not just how it looks
-- Distinguishes decorative elements from semantic or functional ones
-- Supports accessibility, collaboration, and long-term maintenance
+- **Structure first** — class names reveal structure and role; UI is treated as a stable structure, not a pile of styles.
+- **Separation of concerns** — HTML for structure, CSS for presentation, JavaScript for behavior, and `data-state` for state.
+- **Consistent rules** — anyone writing code produces the same structure. Consistency creates productivity.
+- **Completeness** — not just the normal state, but loading/error states, accessibility, and performance are designed in from the start.
 
 ---
 
-## Who This Is For
+## What It Covers
 
-- UI developers and publishers
-- Front-end engineers working with HTML/CSS
-- Teams building or maintaining design systems
-- Anyone who wants a scalable and understandable UI structure
+The system goes beyond structural design and connects everything under one standard:
+
+- **Structure & Naming** — block / internal-element hierarchy and the prefix system
+- **State & Script** — `data-state`-driven state design, CSS/JS responsibility boundaries
+- **Accessibility** — semantics first, minimal ARIA, keyboard access
+- **Media & Performance** — image roles, responsive images, loading performance
+- **Experience (UX)** — screen states, feedback, motion, form-input experience
+- **Reference** — prefix table, naming examples, checklist, FAQ
 
 ---
 
 ## Documentation Overview
 
-This repository is organized as follows:
+The documentation is organized as follows (see the sidebar at [docs.slur.co.kr](https://docs.slur.co.kr)):
 
-- **Start Here**  
-  Introduction, philosophy, and core concepts of SLUR UI System
-
-- **Guides**  
-  How to understand and apply SLUR UI System in practice
-
-- **Reference**  
-  Naming rules, markup examples, and structural patterns  
-  (intended for direct use in real projects)
-
-- **FAQ / Version History**  
-  Common questions and documented changes
+- **Start Here** — overview, philosophy, why the system exists, how to read the docs
+- **Core Concepts** — UI structure model, naming system, separation of concerns
+- **CSS Methodology** — block rules, internal elements (`i_`), modifiers (`m_`), nesting, one-line rule, tokens, anti-patterns, pseudo-elements
+- **JavaScript & State** — state-driven UI, external library integration
+- **Accessibility** — philosophy, alt text, ARIA policy, keyboard navigation
+- **Media & Performance** — image role, image handling, loading performance
+- **Patterns** — structure hierarchy, popup/modal, form & table
+- **Experience (UX)** — screen states, feedback, motion, form UX
+- **Reference** — prefix table, naming examples, do & don't, checklist, FAQ
+- **Changelog** — version history
 
 ---
 
 ## How to Use
 
-1. If you are new to SLUR UI System  
-   → Start with the **Start Here** section.
-
-2. If you want practical guidance  
-   → Use the **Reference** section as a working guide.
-
-3. SLUR UI System is **not a framework**  
-   → It is not tied to any library, build tool, or technology stack.
+1. New to SLUR UX/UI System → start with the **Start Here** section.
+2. Applying it in practice → use **Reference** and the relevant methodology sections as a working guide.
+3. SLUR UX/UI System is **not a framework** → it is not tied to any library, build tool, or stack (HTML/CSS, Astro, React, Vue, or static markup).
 
 ---
 
-## Project Scope
+## About This Repository
 
-- This repository is **not a code library**
-- SLUR UI System is a **UI structure and documentation methodology**
-- It can be applied to any environment  
-  (HTML/CSS, Astro, React, Vue, or static markup)
+The published site is built with **Astro + Starlight**. Common commands:
 
----
+```bash
+npm run dev      # local dev server
+npm run build    # production build → dist/
+npm run preview  # preview the built site
+```
 
-## Author
-
-**SLUR**  
-A UI-focused studio specializing in  
-structure-driven markup and CSS methodology
+Content lives in `src/content/docs/`. This repository is the **documentation** for the
+methodology, not a code library.
 
 ---
 
 ## License
 
-This documentation is available for personal learning and reference.  
+This documentation is available for personal learning and reference.
 Guidelines for commercial use or redistribution may be defined later.
 
 ---
 
-📘 Read this documentation in [Korean](./README_KR.md)
+📘 이 문서를 [한국어](./README_KR.md)로 읽기
