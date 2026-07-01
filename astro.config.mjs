@@ -7,7 +7,7 @@ const GA_ID = 'G-GHY00755Y6';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'UI Architecture',
+			title: 'UX/UI System',
 			logo: {
 				/* Use relative importable paths so Starlight can import/validate them */
 				light: './src/assets/logo_black.svg',
@@ -48,7 +48,7 @@ export default defineConfig({
 					items: [
 						{ label: "개요", slug: "start/overview" },
 						{ label: "설계 철학", slug: "start/philosophy" },
-						{ label: "왜 SLUR UI System인가?", slug: "start/why" },
+						{ label: "왜 SLUR UX/UI System인가?", slug: "start/why" },
 						{ label: "문서 읽는 방법", slug: "start/how-to-read" },
 					],
 				},
@@ -57,7 +57,6 @@ export default defineConfig({
 					items: [
 						{ label: "UI 구조 모델", slug: "core/structure-model" },
 						{ label: "네이밍 시스템", slug: "core/naming-system" },
-						{ label: "결과 기반 CSS", slug: "core/result-based-css" },
 						{ label: "역할 분리 원칙", slug: "core/separation-of-concerns" },
 					],
 				},
@@ -70,15 +69,14 @@ export default defineConfig({
 						{ label: "중첩 구조 규칙", slug: "css/nested-structure" },
 						{ label: "한 줄 CSS 규칙", slug: "css/one-line-rule" },
 						{ label: "토큰 및 변수 전략", slug: "css/tokens" },
-						{ label: "SLUR UI System에서 지양하는 패턴", slug: "css/what-srr-avoids" },
+						{ label: "지양하는 패턴", slug: "css/anti-patterns" },
+						{ label: "가상 요소 규칙", slug: "css/pseudo-elements" },
 					],
 				},
 				{
 					label: "JavaScript 및 상태 관리",
 					items: [
-						{ label: "데이터 속성 전략", slug: "js/data-attributes" },
 						{ label: "상태 기반 UI", slug: "js/state-driven-ui" },
-						{ label: "JavaScript 책임 범위", slug: "js/js-boundary" },
 						{ label: "외부 라이브러리 연동", slug: "js/external-libraries" },
 					],
 				},
@@ -88,7 +86,6 @@ export default defineConfig({
 						{ label: "접근성 설계 철학", slug: "a11y/philosophy" },
 						{ label: "대체 텍스트 규칙", slug: "a11y/alt-rules" },
 						{ label: "ARIA 최소 사용 원칙", slug: "a11y/aria-policy" },
-						{ label: "가상 요소 사용 규칙", slug: "a11y/pseudo-elements" },
 						{ label: "키보드 내비게이션", slug: "a11y/keyboard" },
 					],
 				},
@@ -96,20 +93,25 @@ export default defineConfig({
 					label: "미디어 및 성능",
 					items: [
 						{ label: "이미지 역할 정의", slug: "media/image-role" },
-						{ label: "이미지 포맷 전략", slug: "media/image-format" },
-						{ label: "반응형 이미지", slug: "media/responsive-images" },
-						{ label: "지연 로딩 전략", slug: "media/lazy-loading" },
-						{ label: "LCP 최적화", slug: "media/lcp" },
+						{ label: "이미지 다루기", slug: "media/image-handling" },
+						{ label: "로딩 성능", slug: "media/loading-performance" },
 					],
 				},
 				{
 					label: "패턴",
 					items: [
-						{ label: "레이아웃 패턴", slug: "patterns/layout" },
-						{ label: "페이지 구조 패턴", slug: "patterns/page" },
-						{ label: "컴포넌트 패턴", slug: "patterns/component" },
+						{ label: "구조 계층", slug: "patterns/structure-hierarchy" },
 						{ label: "팝업 / 모달 패턴", slug: "patterns/popup-modal" },
 						{ label: "폼 및 테이블 패턴", slug: "patterns/form-table" },
+					],
+				},
+				{
+					label: "경험 설계 (UX)",
+					items: [
+						{ label: "화면 상태 설계", slug: "ux/screen-states" },
+						{ label: "피드백 원칙", slug: "ux/feedback" },
+						{ label: "모션 원칙", slug: "ux/motion" },
+						{ label: "폼 입력 경험", slug: "ux/form-ux" },
 					],
 				},
 				{
@@ -155,7 +157,7 @@ export default defineConfig({
 				// 		{ label: "Nested Structure Rules", slug: "css/nested-structure" },
 				// 		{ label: "One-line CSS Rule", slug: "css/one-line-rule" },
 				// 		{ label: "Token & Variable Strategy", slug: "css/tokens" },
-				// 		{ label: "What SLUR UI System Avoids", slug: "css/what-srr-avoids" },
+				// 		{ label: "What SLUR UX/UI System Avoids", slug: "css/anti-patterns" },
 				// 	],
 				// },
 				// {

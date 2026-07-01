@@ -1,9 +1,9 @@
 ---
 title: 설계 철학
-description: SLUR UI System Methodology의 설계 철학과 구조 중심 UI 사고 방식을 소개합니다.
+description: SLUR UX/UI System의 설계 철학과 구조 중심 UI 사고 방식을 소개합니다.
 ---
 
-실무 UI를 구조화하고 표준화하여 일관성과 유지보수성을 확보하기 위해 설계한 SLUR의 UI 개발 방법론입니다.
+실무 UI를 구조화하고 표준화하여 일관성과 유지보수성을 확보하기 위해 설계한 SLUR UX/UI System의 UI 개발 방법론입니다.
 
 UI를 단순한 스타일 결과물이 아닌, 명확한 구조와 규칙을 가진 시스템으로 정의합니다.
 

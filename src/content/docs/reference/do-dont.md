@@ -1,18 +1,18 @@
 ---
 title: 권장 / 비권장 사례
-description: SLUR UI System에서 권장하는 UI 구조 설계 방식과 지양해야 할 사례를 비교해 설명합니다.
+description: SLUR UX/UI System에서 권장하는 UI 구조 설계 방식과 지양해야 할 사례를 비교해 설명합니다.
 ---
 
 이 문서는  
-SLUR UI System에서 **권장되는 UI 구조와 네이밍 방식**,  
+**권장되는 UI 구조와 네이밍 방식**,  
 그리고 **지양해야 할 사례**를 비교하여 설명하는 Reference 문서입니다.
 
 이 문서의 목적은  
 정답 코드를 제시하는 것이 아니라,  
 **올바른 판단 기준을 명확히 하는 것**입니다.
 
-HTML 예제는 항목별로 분리되어 있으며,  
-이 문서에서는 **예제가 들어갈 위치와 의도만 설명**합니다.
+권장되는 구조의 정상 스니펫은 [네이밍 예제](/reference/naming-examples/)에서 정본으로 관리하며,  
+이 문서에서는 **비권장 사례를 대비로 보여 판단 기준을 명확히** 합니다.
 
 ---
 
@@ -24,12 +24,7 @@ HTML 예제는 항목별로 분리되어 있으며,
 - 접두사를 사용하지 않습니다
 - 내부 요소(`i_`)는 컴포넌트 내부에서만 사용됩니다
 
-```html
-<div class="card">
-  <h3 class="i_title">Title</h3>
-  <p class="i_desc">Description</p>
-</div>
-```
+정상 스니펫은 [네이밍 예제](/reference/naming-examples/)를 참고하세요.
 
 ---
 
@@ -56,11 +51,7 @@ HTML 예제는 항목별로 분리되어 있으며,
 - 구조는 변경하지 않습니다
 - 기존 블록 클래스와 함께 사용됩니다
 
-```html
-<div class="card m_selected">
-  <h3 class="i_title">Title</h3>
-</div>
-```
+정상 스니펫은 [네이밍 예제](/reference/naming-examples/)를 참고하세요.
 
 ---
 
@@ -86,15 +77,7 @@ HTML 예제는 항목별로 분리되어 있으며,
 - 페이지 내부 요소(`p_`)는 페이지 전용으로 사용됩니다
 - 컴포넌트는 페이지에 종속되지 않습니다
 
-```html
-<section class="page_home">
-  <div class="p_section">
-    <div class="card">
-      <h3 class="i_title">Title</h3>
-    </div>
-  </div>
-</section>
-```
+정상 스니펫은 [네이밍 예제](/reference/naming-examples/)를 참고하세요.
 
 ---
 
@@ -119,16 +102,7 @@ HTML 예제는 항목별로 분리되어 있으며,
 - 배치와 틀 역할에 집중합니다
 - 페이지/컴포넌트 의미를 포함하지 않습니다
 
-```html
-<header class="layout_header">
-  <nav class="l_nav">
-    <ul class="l_list">
-      <li class="l_item"><a href="/">Home</a></li>
-      <li class="l_item"><a href="/about">About</a></li>
-    </ul>
-  </nav>
-</header>
-```
+정상 스니펫은 [네이밍 예제](/reference/naming-examples/)를 참고하세요.
 
 ---
 
@@ -155,12 +129,7 @@ HTML 예제는 항목별로 분리되어 있으며,
 - 클래스는 구조만 담당합니다
 - CSS가 상태를 해석해 스타일을 적용합니다
 
-```html
-<div class="accordion" data-state="open">
-  <button class="i_trigger">Toggle</button>
-  <div class="i_panel">Content</div>
-</div>
-```
+정상 스니펫은 [네이밍 예제](/reference/naming-examples/)를 참고하세요.
 
 ---
 
@@ -185,15 +154,7 @@ HTML 예제는 항목별로 분리되어 있으며,
 - 구조 단위는 조합으로만 사용됩니다
 - 같은 구조 단위끼리 중첩되지 않습니다
 
-```html
-<header class="layout_header">
-  <section class="page_home">
-    <div class="card">
-      <h3 class="i_title">Title</h3>
-    </div>
-  </section>
-</header>
-```
+정상 스니펫은 [네이밍 예제](/reference/naming-examples/)를 참고하세요.
 
 ---
 
@@ -232,6 +193,5 @@ HTML 예제는 항목별로 분리되어 있으며,
 “이렇게 쓰세요”를 강제하는 문서가 아니라,  
 **“이게 맞는 구조인가?”를 판단하기 위한 기준 문서**입니다.
 
-SLUR UI System은  
 권장 사례를 통해 방향을 제시하고,  
 비권장 사례를 통해 실수를 예방합니다.

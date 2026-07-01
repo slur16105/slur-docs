@@ -1,9 +1,9 @@
 ---
 title: 폼 및 테이블 패턴
-description: SLUR UI System에서 입력 폼과 테이블 UI를 구조적으로 설계하는 기준을 설명합니다.
+description: SLUR UX/UI System에서 입력 폼과 테이블 UI를 구조적으로 설계하는 기준을 설명합니다.
 ---
 
-SLUR UI System에서 폼(Form)과 테이블(Table)은  
+폼(Form)과 테이블(Table)은  
 데이터를 입력·표현하기 위한 **구조 중심 UI 패턴**입니다.  
 폼 및 테이블 패턴은 시각적 정렬이 아니라,  
 역할과 책임을 명확히 분리하기 위한 기준입니다.
