@@ -43,6 +43,7 @@ export default defineConfig({
 				},
 			],
 			sidebar: [
+				{ label: "환영합니다", link: "/" },
 				{
 					label: "시작하기",
 					items: [
