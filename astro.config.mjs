@@ -5,6 +5,7 @@ const GA_ID = 'G-GHY00755Y6';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://docs.slur.co.kr',
 	integrations: [
 		starlight({
 			title: 'UX/UI System',
