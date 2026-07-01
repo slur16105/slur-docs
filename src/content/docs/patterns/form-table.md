@@ -102,7 +102,7 @@ description: SLUR UX/UI System에서 입력 폼과 테이블 UI를 구조적으�
 <table><tr><td>메뉴</td><td>본문</td></tr></table>
 
 <!-- ✅ 좋은 예: 배치는 레이아웃 요소로 -->
-<div class="l_page"><nav class="l_nav">메뉴</nav><main class="l_main">본문</main></div>
+<div class="layout_wrap"><nav class="l_nav">메뉴</nav><main class="l_main">본문</main></div>
 ```
 
 ---

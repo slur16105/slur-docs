@@ -63,9 +63,9 @@ UI 흐름을 제어하기 위한 구조적 장치로 취급합니다.
 클래스 토글만으로  
 암묵적인 제어를 하지 않습니다.
 
-모달 루트는 컴포넌트명(`modal_login`)을 그대로 쓰고,  
+팝업·모달 블록은 `modal_` 접두사로 짓고(`modal_login`, `modal_alert`),  
 열림 / 닫힘은 `.active` 같은 클래스가 아니라 `data-state`로만 표현합니다.  
-팝업 전용 블록 접두사가 필요하면 [접두사 참조 표](/reference/prefix-table/)의 `popup_`을 사용합니다.
+접두사 기준은 [접두사 참조 표](/reference/prefix-table/)를 따릅니다.
 
 ```html
 <div class="modal_login" data-state="close" role="dialog" aria-modal="true" aria-labelledby="modal_login_title">
