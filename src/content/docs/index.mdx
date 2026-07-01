@@ -1,30 +1,34 @@
 ---
 title: SLUR UX/UI System
 description: 구조·상태·접근성·성능·경험까지 일관되게 설계하는 프론트엔드 UX/UI 시스템. SLUR UX/UI System 공식 문서.
-template: splash
-hero:
-  tagline: 구조부터 사용자 경험까지, 오래 유지되는 프론트엔드 UX/UI 시스템
-  image:
-    file: ../../assets/sliller.svg
-  actions:
-    - text: 시작하기
-      link: /start/overview/
-      icon: right-arrow
-    - text: 접두사 표 보기
-      link: /reference/prefix-table/
-      variant: minimal
 ---
 
-import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard, LinkButton } from '@astrojs/starlight/components';
 
-## 왜 SLUR인가?
+구조부터 사용자 경험까지, 한 번 구조화한 UI를 오래 유지하도록 설계하는 프론트엔드 UX/UI 시스템입니다.
+클래스 이름만 봐도 구조와 역할이 읽히며, 특정 프레임워크에 종속되지 않습니다.
 
-- 클래스 네이밍 기준이 사람마다 다릅니다.
-- 스타일 수정이 구조 수정으로 이어집니다.
-- 로딩·에러 같은 상태, 접근성, 성능이 매번 설계에서 빠집니다.
-- 프로젝트가 커질수록 유지보수가 어려워집니다.
+<LinkButton href="/start/overview/" icon="right-arrow">시작하기</LinkButton>
+<LinkButton href="/reference/prefix-table/" variant="minimal">접두사 표 보기</LinkButton>
 
----
+## 처음이신가요?
+
+- [개요](/start/overview/) — SLUR가 무엇이고 왜 필요한지
+- [왜 SLUR UX/UI System인가?](/start/why/) — 기존 UI 개발의 문제와 해결 범위
+- [문서 읽는 방법](/start/how-to-read/) — 어디부터 읽으면 좋을지
+
+## 다루는 범위
+
+구조 설계에서 끝나지 않고, 상태·접근성·성능·경험까지 하나의 기준으로 이어집니다.
+
+<CardGrid>
+  <LinkCard title="구조 · 네이밍" href="/core/structure-model/" description="블록·내부 요소 계층과 접두사 체계" />
+  <LinkCard title="상태 · 스크립트" href="/js/state-driven-ui/" description="data-state 기반 상태 설계, CSS·JS 역할 분리" />
+  <LinkCard title="접근성" href="/a11y/philosophy/" description="시맨틱 우선, 최소 ARIA, 키보드 접근" />
+  <LinkCard title="미디어 · 성능" href="/media/image-role/" description="이미지 역할, 반응형, 로딩 성능" />
+  <LinkCard title="경험 설계 (UX)" href="/ux/screen-states/" description="화면 상태, 피드백, 모션, 폼 입력 경험" />
+  <LinkCard title="참고" href="/reference/prefix-table/" description="접두사 표, 예제, 체크리스트, FAQ" />
+</CardGrid>
 
 ## 핵심 원칙
 
@@ -50,51 +54,8 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
   </Card>
 </CardGrid>
 
----
-
-## 다루는 범위
-
-구조 설계에서 끝나지 않고, 상태·접근성·성능·경험까지 하나의 기준으로 이어집니다.
-
-<CardGrid>
-  <LinkCard title="구조 · 네이밍" href="/core/structure-model/" description="블록·내부 요소 계층과 접두사 체계" />
-  <LinkCard title="상태 · 스크립트" href="/js/state-driven-ui/" description="data-state 기반 상태 설계, CSS·JS 역할 분리" />
-  <LinkCard title="접근성" href="/a11y/philosophy/" description="시맨틱 우선, 최소 ARIA, 키보드 접근" />
-  <LinkCard title="미디어 · 성능" href="/media/image-role/" description="이미지 역할, 반응형, 로딩 성능" />
-  <LinkCard title="경험 설계 (UX)" href="/ux/screen-states/" description="화면 상태, 피드백, 모션, 폼 입력 경험" />
-</CardGrid>
-
----
-
-## 접두사 하나로 구조가 읽힙니다
-
-블록과 내부 요소를 접두사로 구분해, 클래스 이름만으로 구조 범위를 판단할 수 있습니다.
-
-```html
-<article class="card_product" data-state="loading">
-  <div class="i_body">
-    <h3 class="i_title">상품명</h3>
-  </div>
-  <button class="btn m_primary">담기</button>
-</article>
-```
-
-`page_`·`p_` / `layout_`·`l_` / `modal_` / `i_` / `m_` / `data-state` — 전체 기준은 [접두사 참조 표](/reference/prefix-table/)에서 확인합니다.
-
----
-
-## 이런 분들을 위한 문서입니다
-
-- 프론트엔드 개발자 / 퍼블리셔
-- CSS 구조와 네이밍에 고민이 있는 분
-- 디자인 시스템 또는 UI 가이드를 만들고 싶은 팀
-- 1회성이 아닌 운영 가능한 UI를 만들고 싶은 실무자
-
----
-
 ## SLUR UX/UI System은 프레임워크가 아닙니다
 
-특정 기술이나 라이브러리에 종속되지 않는  
+특정 기술이나 라이브러리에 종속되지 않는
 **UI 설계 기준이자 문서화 방법론**입니다.
-
 어떤 환경에서도 적용할 수 있습니다.
