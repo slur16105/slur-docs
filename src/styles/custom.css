@@ -28,6 +28,8 @@
 	--sl-color-black: #ffffff;
 }
 
+.content-panel .sl-container {max-width: none;}
+
 .header:where(.astro-vrdttmbt) {border-bottom: none; backdrop-filter:blur(4px); background-color: transparent;}
 .header:where(.astro-vrdttmbt)::before {content: ''; width: 100%; height: 10px; background-color: var(--sl-color-black); position: absolute; top: 0; left: 0; z-index: -1;}
 .header:where(.astro-vrdttmbt)::after {content: ''; width: 100%; height: 46px; background: linear-gradient(to bottom,var(--sl-color-black),transparent); position: absolute; top: 10px; left: 0; z-index: -1;}
