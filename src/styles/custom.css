@@ -41,11 +41,11 @@
 .layout_footer .l_pagination a {padding: 0.5rem;}
 .layout_footer .l_pagination .link-title {font-size: var(--sl-text-xl);}
 .layout_footer .l_footer_info {padding: 20px 0 0; border-top: 1px solid var(--sl-color-gray-6);}
-.layout_footer .L_nav {margin-bottom: 8px;}
-.layout_footer .L_nav ul {display: flex; padding: 0; gap: 24px; list-style: none;}
-.layout_footer .L_nav ul li {position: relative;}
-.layout_footer .L_nav ul li + li::after {content: ''; width: 1px; height: 12px; background-color: var(--sl-color-gray-5); position: absolute; left: -12px; top: calc(50% - 6px);}
-.layout_footer .L_nav ul li a {color: inherit; font-size: 14px; text-decoration: none;}
+.layout_footer .l_nav {margin-bottom: 8px;}
+.layout_footer .l_nav ul {display: flex; padding: 0; gap: 24px; list-style: none;}
+.layout_footer .l_nav ul li {position: relative;}
+.layout_footer .l_nav ul li + li::after {content: ''; width: 1px; height: 12px; background-color: var(--sl-color-gray-5); position: absolute; left: -12px; top: calc(50% - 6px);}
+.layout_footer .l_nav ul li a {color: inherit; font-size: 14px; text-decoration: none;}
 .layout_footer .l_copyright {font-size: 12px;}
 .layout_footer .l_logo {display: flex; align-items: center; gap: 4px; color: var(--sl-color-white);}
 .layout_footer .l_logo img {display: inline-block; height: 1rem; width: auto;}
