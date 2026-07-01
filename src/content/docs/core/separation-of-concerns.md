@@ -1,6 +1,6 @@
 ---
 title: 역할 분리 원칙
-description: SLUR UI 방법론에서 CSS, JavaScript, 데이터 속성의 책임과 분리 기준을 설명합니다.
+description: SLUR UX/UI System에서 CSS, JavaScript, 데이터 속성의 책임과 분리 기준을 설명합니다.
 ---
 
 UI의 안정성을 위해 CSS, JavaScript, 데이터 속성의 역할을 명확히 분리합니다.

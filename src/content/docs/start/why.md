@@ -1,5 +1,5 @@
 ---
-title: 왜 SLUR UI 방법론인가?
+title: 왜 SLUR UX/UI System인가?
 description: 기존 UI 개발에서 반복적으로 발생하는 문제와 SLUR UX/UI System이 해결하는 범위를 설명합니다.
 ---
 
