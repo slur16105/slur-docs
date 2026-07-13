@@ -7,6 +7,8 @@
 
 .alert { display: flex; gap: var(--space-12); padding: var(--space-12) var(--space-16); border: 1px solid var(--color-brand); border-radius: var(--radius-8); background: var(--color-brand-soft); }
 .alert .i_icon { display: inline-flex; margin-top: 1px; color: var(--color-text-brand); flex: none; }
+.alert .i_icon svg { width: 1.25em; height: 1.25em; }
+.alert .i_close svg { width: 1.125em; height: 1.125em; }
 .alert .i_body { display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .alert .i_title { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-primary); }
 .alert .i_text { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }

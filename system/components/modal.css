@@ -17,4 +17,5 @@
 .modal_dialog .i_text { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
 .modal_dialog .i_close { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: none; border-radius: var(--radius-8); background: transparent; color: var(--color-text-muted); cursor: pointer; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
 .modal_dialog .i_close:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
+.modal_dialog .i_close svg { width: 1.125em; height: 1.125em; }
 .modal_dialog .i_foot { display: flex; justify-content: flex-end; gap: var(--space-8); margin-top: var(--space-8); padding: var(--space-20); }

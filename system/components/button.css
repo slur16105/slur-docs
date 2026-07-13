@@ -9,6 +9,7 @@
 .btn:hover { background: var(--color-surface-hover); }
 .btn:active { background: var(--color-surface-sunken); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+.btn svg { width: 1.125em; height: 1.125em; flex: none; }
 
 /* 색상 변형 */
 .btn.m_primary { border-color: transparent; background: var(--color-brand); color: var(--color-on-brand); }

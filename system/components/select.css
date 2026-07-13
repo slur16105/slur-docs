@@ -8,3 +8,4 @@
 .select { display: flex; width: 100%; align-items: center; position: relative; }
 .select .input_text { width: 100%; padding-right: 2.25rem; cursor: pointer; appearance: none; -webkit-appearance: none; }
 .select .i_icon { display: inline-flex; color: var(--color-text-muted); position: absolute; right: var(--space-12); pointer-events: none; }
+.select .i_icon svg { width: 1.125em; height: 1.125em; }
