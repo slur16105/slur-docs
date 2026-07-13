@@ -1,0 +1,77 @@
+/* ─────────────────────────────────────────────
+   SLUR THEME — Starlight 어댑터
+   system/ 토큰을 Starlight의 --sl-* 변수에 배선한다.
+   @import는 Vite가 빌드 타임에 번들하므로 허용 영역.
+   이 파일은 colors.css와 같은 "시맨틱 배선" 계층이라
+   프리미티브 참조가 허용된다.
+   ───────────────────────────────────────────── */
+@import url("../../system/tokens/colors.css");
+@import url("../../system/tokens/typography.css");
+@import url("../../system/tokens/spacing.css");
+@import url("../../system/tokens/radius.css");
+@import url("../../system/tokens/shadows.css");
+
+/* 폰트·그림자 */
+:root { --sl-font: var(--font-sans); --sl-shadow-sm: var(--shadow-sm); --sl-shadow-md: var(--shadow-md); --sl-shadow-lg: var(--shadow-lg); }
+
+/* 제목 스케일 — Starlight 기본(h1 ≈ 3rem)이 과해서 SLUR 타이포 토큰으로 한 단계씩 하향 */
+:root { --sl-text-h1: var(--text-3xl); --sl-text-h2: var(--text-2xl); --sl-text-h3: var(--text-lg); --sl-text-h4: var(--text-base); }
+
+/* 링크 버튼 — SLUR 컨트롤 규격(높이 2.5rem, sm, radius-8)으로 하향 */
+.sl-link-button { gap: var(--space-8); height: 2.5rem; padding: 0 var(--space-16); border-radius: var(--radius-8); font-size: var(--text-sm); font-weight: var(--weight-medium); line-height: 1; }
+
+/* 본문 리듬 — 제목 자간·굵기, 행간 */
+:root { --sl-line-height: var(--leading-relaxed); }
+.sl-markdown-content :is(h1, h2, h3, h4) { letter-spacing: var(--tracking-tight); font-weight: var(--weight-semibold); }
+.sl-markdown-content code:not(:where(.expressive-code *)) { padding: 0.125em 0.375em; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-4); background: var(--color-surface-sunken); }
+
+/* 카드 — SLUR 카드 결(은은한 보더, radius-12, hover 반응) */
+.sl-markdown-content .card { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-xs); }
+.sl-markdown-content .sl-link-card { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-xs); transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard); }
+.sl-markdown-content .sl-link-card:hover { border-color: var(--color-border-default); background: var(--color-surface-hover); }
+
+/* 사이드바·내비 배경을 페이지와 통일 (기본값은 gray-6/7이라 면이 따로 논다).
+   경계는 헤어라인이 담당 — 다크 기본 hairline-shade가 배경색과 같아 선이 사라지므로 보더 토큰으로 배선 */
+:root { --sl-color-bg-sidebar: var(--sl-color-bg); --sl-color-bg-nav: var(--sl-color-bg); --sl-color-hairline-shade: var(--color-border-subtle); }
+
+/* 사이드바 — 현재 페이지는 무채색 필 */
+.sidebar-content { font-size: var(--text-sm); }
+.sidebar-content a { border-radius: var(--radius-8); transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.sidebar-content a[aria-current="page"], .sidebar-content a[aria-current="page"]:hover { background: var(--color-surface-hover); color: var(--color-text-primary); font-weight: var(--weight-semibold); }
+
+/* 우측 목차 */
+.right-sidebar-panel { font-size: var(--text-sm); }
+
+/* ── 다크 (Starlight 기본 스코프) ─────────────── */
+:root {
+  --sl-color-accent-low: color-mix(in srgb, var(--color-brand-500) 25%, var(--color-neutral-950));
+  --sl-color-accent: var(--color-brand-400);
+  --sl-color-accent-high: var(--color-brand-300);
+  --sl-color-white: var(--color-neutral-100);
+  --sl-color-gray-1: var(--color-neutral-200);
+  --sl-color-gray-2: var(--color-neutral-300);
+  --sl-color-gray-3: var(--color-neutral-400);
+  --sl-color-gray-4: var(--color-neutral-600);
+  --sl-color-gray-5: var(--color-neutral-700);
+  --sl-color-gray-6: var(--color-neutral-800);
+  --sl-color-black: var(--color-neutral-900);
+}
+
+/* ── 라이트 ─────────────────────────────────────
+   주의: Starlight는 라이트 모드에서 변수 의미가 반전된다 —
+   --sl-color-white = 텍스트(진한 색), --sl-color-black = 배경(밝은 색),
+   gray-1이 가장 어둡고 gray-7이 가장 밝다. */
+:root[data-theme="light"] {
+  --sl-color-accent-low: var(--color-brand-50);
+  --sl-color-accent: var(--color-brand-500);
+  --sl-color-accent-high: var(--color-brand-700);
+  --sl-color-white: var(--color-neutral-900);
+  --sl-color-gray-1: var(--color-neutral-800);
+  --sl-color-gray-2: var(--color-neutral-700);
+  --sl-color-gray-3: var(--color-neutral-500);
+  --sl-color-gray-4: var(--color-neutral-400);
+  --sl-color-gray-5: var(--color-neutral-300);
+  --sl-color-gray-6: var(--color-neutral-100);
+  --sl-color-gray-7: var(--color-neutral-50);
+  --sl-color-black: var(--color-neutral-0);
+}

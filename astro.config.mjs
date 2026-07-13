@@ -18,12 +18,20 @@ export default defineConfig({
 			},
 			// social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			customCss: [
+				'./src/styles/slur-theme.css',
 				'./src/styles/custom.css',
 			],
 			components: {
 				Footer: './src/components/Footer.astro',
 			},
 			head: [
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'stylesheet',
+						href: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css',
+					},
+				},
 				{
 					tag: 'script',
 					attrs: {
@@ -75,7 +83,6 @@ export default defineConfig({
 						{ label: "중첩 구조 규칙", slug: "css/nested-structure" },
 						{ label: "한 줄 CSS 규칙", slug: "css/one-line-rule" },
 						{ label: "토큰 및 변수 전략", slug: "css/tokens" },
-						{ label: "지양하는 패턴", slug: "css/anti-patterns" },
 						{ label: "가상 요소 규칙", slug: "css/pseudo-elements" },
 					],
 				},
@@ -110,7 +117,6 @@ export default defineConfig({
 					label: "패턴",
 					collapsed: true,
 					items: [
-						{ label: "구조 계층", slug: "patterns/structure-hierarchy" },
 						{ label: "팝업 / 모달 패턴", slug: "patterns/popup-modal" },
 						{ label: "폼 및 테이블 패턴", slug: "patterns/form-table" },
 					],

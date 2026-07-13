@@ -42,7 +42,7 @@ description: SLUR Design System — 시각 어휘(디자인 토큰과 컴포넌�
 - **보더**: `--color-border-subtle` `-default` `-strong` `-focus`
 - **브랜드**: `--color-brand` `-hover` `-active` `-soft`, `--color-on-brand`, `--color-focus-ring`
 - **상태**: `--color-success` `-warning` `-danger` (+ 각 `-soft`), `--color-on-danger` `-on-success` `-on-warning`
-- **타이포**: `--font-sans`, `--text-xs`(12) `-sm`(14) `-base`(16) `-lg`(18) `-2xl`(24) `-3xl`(30) `-4xl`(36), `--weight-medium`(500) `-semibold`(600) `-bold`(700), `--leading-normal`(1.5), `--tracking-tight` `-snug` `-wide`
+- **타이포**: `--font-sans`, `--text-xs`(12) `-sm`(14) `-base`(16) `-lg`(18) `-2xl`(24) `-3xl`(30) `-4xl`(36), `--weight-medium`(500) `-semibold`(600) `-bold`(700), `--leading-normal`(1.5) `-relaxed`(1.7, 장문), `--tracking-tight` `-snug` `-wide`
 - **간격**: `--space-4` `-8` `-12` `-16` `-20` `-24` (rem, 이름 = px 환산값)
 - **라디우스**: `--radius-4` `-8` `-12` `-full` (px)
 - **그림자**: `--shadow-xs` `-sm` `-md` `-lg`

@@ -101,9 +101,10 @@
   --color-text-inverse:   var(--color-neutral-900);
   --color-text-brand:    var(--color-brand-400);
 
-  --color-surface-page:    var(--color-neutral-950);
+  /* 다크 배경은 순흑이 아닌 900 — 순흑+밝은 글자는 halation으로 눈을 피로하게 한다 */
+  --color-surface-page:    var(--color-neutral-900);
   --color-surface-card:    var(--color-neutral-800);
-  --color-surface-sunken:  var(--color-neutral-900);
+  --color-surface-sunken:  var(--color-neutral-950);
   --color-surface-hover:   var(--color-neutral-700);
   --color-surface-inverse: var(--color-neutral-0);
 
