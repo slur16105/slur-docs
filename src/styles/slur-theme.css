@@ -30,8 +30,9 @@
 .sl-markdown-content .sl-link-card { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-xs); transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard); }
 .sl-markdown-content .sl-link-card:hover { border-color: var(--color-border-default); background: var(--color-surface-hover); }
 
-/* 사이드바·내비 배경을 페이지와 통일 (기본값은 gray-6/7이라 면이 따로 논다) */
-:root { --sl-color-bg-sidebar: var(--sl-color-bg); --sl-color-bg-nav: var(--sl-color-bg); }
+/* 사이드바·내비 배경을 페이지와 통일 (기본값은 gray-6/7이라 면이 따로 논다).
+   경계는 헤어라인이 담당 — 다크 기본 hairline-shade가 배경색과 같아 선이 사라지므로 보더 토큰으로 배선 */
+:root { --sl-color-bg-sidebar: var(--sl-color-bg); --sl-color-bg-nav: var(--sl-color-bg); --sl-color-hairline-shade: var(--color-border-subtle); }
 
 /* 사이드바 — 현재 페이지는 무채색 필 */
 .sidebar-content { font-size: var(--text-sm); }
