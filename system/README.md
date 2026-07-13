@@ -19,13 +19,19 @@
 
 ```
 system/
-├── tokens/        # 클로드디자인에서 가져온 토큰 (index.css 하나만 링크하면 전부 로드)
+├── tokens/        # 클로드디자인에서 가져온 토큰 — 카테고리별 파일, 개별 <link>로 로드
 ├── global.css     # 공통 리셋 — box-sizing/margin/padding 리셋, 컨트롤 타이포 상속, 포커스 링
 ├── components/    # slur-ux 문법으로 변환한 컴포넌트 CSS
 └── demo.html      # 브라우저에서 바로 열어 확인하는 데모
 ```
 
-로드 순서: `tokens/index.css` → `global.css` → `components/*.css`. 리셋과 컨트롤 공통값(font-family/size, color 상속, 포커스 링)은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다.
+로드 순서: `tokens/*.css` → `global.css` → `components/*.css` (전부 개별 `<link>`, 병렬 로드). 리셋과 컨트롤 공통값(font-family/size, color 상속, 포커스 링)은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다.
+
+## 파일 분할과 로드
+
+- 소스(저작)는 카테고리별 파일로 나눈다. 로드는 개별 `<link>`로 한다 — **`@import`가 브라우저에 도달하면 순차 폭포가 생기므로 런타임 사용 금지.**
+- 번들 파이프라인(npm 패키징 등)이 생기면 그때 진입점 `index.css`를 빌드 전용으로 재도입한다. `@import`는 빌드 타임에 해석될 때만 허용.
+- 웹폰트(Pretendard)는 시스템이 강제 로드하지 않는다 — 소비자 페이지가 `<link>`로 직접 넣는다 (demo.html 참고).
 
 ## 단위·토큰 기준
 
