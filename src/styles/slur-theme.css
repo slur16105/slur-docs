@@ -1,0 +1,43 @@
+/* ─────────────────────────────────────────────
+   SLUR THEME — Starlight 어댑터
+   system/ 토큰을 Starlight의 --sl-* 변수에 배선한다.
+   @import는 Vite가 빌드 타임에 번들하므로 허용 영역.
+   이 파일은 colors.css와 같은 "시맨틱 배선" 계층이라
+   프리미티브 참조가 허용된다.
+   ───────────────────────────────────────────── */
+@import url("../../system/tokens/colors.css");
+@import url("../../system/tokens/typography.css");
+
+/* 폰트 — Pretendard (CDN 링크는 astro.config head에서 로드) */
+:root { --sl-font: var(--font-sans); }
+
+/* ── 다크 (Starlight 기본 스코프) ─────────────── */
+:root {
+  --sl-color-accent-low: color-mix(in srgb, var(--color-brand-500) 25%, var(--color-neutral-950));
+  --sl-color-accent: var(--color-brand-400);
+  --sl-color-accent-high: var(--color-brand-300);
+  --sl-color-white: var(--color-neutral-100);
+  --sl-color-gray-1: var(--color-neutral-200);
+  --sl-color-gray-2: var(--color-neutral-300);
+  --sl-color-gray-3: var(--color-neutral-400);
+  --sl-color-gray-4: var(--color-neutral-600);
+  --sl-color-gray-5: var(--color-neutral-700);
+  --sl-color-gray-6: var(--color-neutral-800);
+  --sl-color-black: var(--color-neutral-950);
+}
+
+/* ── 라이트 ───────────────────────────────────── */
+:root[data-theme="light"] {
+  --sl-color-accent-low: var(--color-brand-50);
+  --sl-color-accent: var(--color-brand-500);
+  --sl-color-accent-high: var(--color-brand-700);
+  --sl-color-white: var(--color-neutral-0);
+  --sl-color-gray-1: var(--color-neutral-50);
+  --sl-color-gray-2: var(--color-neutral-100);
+  --sl-color-gray-3: var(--color-neutral-300);
+  --sl-color-gray-4: var(--color-neutral-500);
+  --sl-color-gray-5: var(--color-neutral-600);
+  --sl-color-gray-6: var(--color-neutral-100);
+  --sl-color-gray-7: var(--color-neutral-50);
+  --sl-color-black: var(--color-neutral-900);
+}

@@ -18,12 +18,20 @@ export default defineConfig({
 			},
 			// social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			customCss: [
+				'./src/styles/slur-theme.css',
 				'./src/styles/custom.css',
 			],
 			components: {
 				Footer: './src/components/Footer.astro',
 			},
 			head: [
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'stylesheet',
+						href: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css',
+					},
+				},
 				{
 					tag: 'script',
 					attrs: {
