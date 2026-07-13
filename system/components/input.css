@@ -32,7 +32,7 @@
 
 /* 아이콘 포함 래퍼 */
 .input_wrap { display: flex; width: 100%; align-items: center; position: relative; }
-.input_wrap .input_text { width: 100%; box-sizing: border-box; }
+.input_wrap .input_text { width: 100%; }
 .input_wrap .i_icon { display: inline-flex; color: var(--color-text-muted); position: absolute; left: var(--space-12); pointer-events: none; }
 .input_wrap .i_icon.m_right { left: auto; right: var(--space-12); }
 .input_wrap .input_text.m_icon_left { padding-left: 2.25rem; }

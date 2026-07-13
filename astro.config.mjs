@@ -68,7 +68,7 @@ export default defineConfig({
 					label: "CSS 방법론",
 					collapsed: true,
 					items: [
-						{ label: "공통 베이스 레이어", slug: "css/base-layer" },
+						{ label: "공통 레이어 (global.css)", slug: "css/global-layer" },
 						{ label: "블록 규칙", slug: "css/block" },
 						{ label: "내부 요소 (i_)", slug: "css/internal-elements" },
 						{ label: "수정자 (m_)", slug: "css/modifiers" },

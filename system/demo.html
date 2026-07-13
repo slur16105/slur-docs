@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SLUR Design System × slur-ux — 컴포넌트 데모</title>
 <link rel="stylesheet" href="./tokens/index.css">
-<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./global.css">
 <link rel="stylesheet" href="./components/button.css">
 <link rel="stylesheet" href="./components/input.css">
 <link rel="stylesheet" href="./components/selection.css">
@@ -21,12 +21,12 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
 .page_demo { display: flex; width: 100%; max-width: 960px; margin: 0 auto; flex-direction: column; gap: 64px; }
 .page_demo .p_head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
 .page_demo .p_eyebrow { font-size: var(--text-xs); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
-.page_demo .p_title { margin: 0; font-size: var(--text-4xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
-.page_demo .p_desc { margin: 0; max-width: 56ch; font-size: var(--text-base); color: var(--color-text-secondary); }
+.page_demo .p_title { font-size: var(--text-4xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
+.page_demo .p_desc { max-width: 56ch; font-size: var(--text-base); color: var(--color-text-secondary); }
 .page_demo .p_component { display: flex; flex-direction: column; gap: 24px; }
-.page_demo .p_component_title { margin: 0; font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); }
+.page_demo .p_component_title { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); }
 .page_demo .p_section { display: flex; flex-direction: column; gap: 16px; }
-.page_demo .p_section_title { margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--color-border-subtle); font-size: var(--text-sm); font-weight: var(--weight-medium); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
+.page_demo .p_section_title { padding-bottom: 8px; border-bottom: 1px solid var(--color-border-subtle); font-size: var(--text-sm); font-weight: var(--weight-medium); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
 .page_demo .p_row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .page_demo .p_col { display: flex; flex-direction: column; gap: 12px; }
 .page_demo .p_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

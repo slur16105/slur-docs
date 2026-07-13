@@ -21,16 +21,19 @@ CSS는 구조를 표현하는 언어다. HTML 구조를 바꾸지 않고, 재사
 
 ---
 
-## 공통 베이스 레이어
+## 공통 레이어 — global.css
 
-"공통 스타일을 우선 작성한다"는 **base 레이어를 컴포넌트보다 먼저 만든다**는 뜻이다. 시스템 기본값(타이포, 색 상속, 포커스)은 base가 담당하고, 컴포넌트 CSS에는 기본값과 **다른 값(변형)**만 남긴다.
+"공통 스타일을 우선 작성한다"는 **공통 레이어(파일명 관례: `global.css`)를 컴포넌트보다 먼저 만든다**는 뜻이다. 리셋과 시스템 기본값(타이포, 색 상속, 포커스)은 global이 담당하고, 컴포넌트 CSS에는 기본값과 **다른 값(변형)**만 남긴다.
 
+- **전체 선택자 리셋을 선언한다**: `box-sizing: border-box`와 `margin: 0; padding: 0`. 모던 브라우저에서 `*`의 성능 비용은 없으며, gap 기반 간격 체계에서 UA 기본 마진·패딩은 전부 소음이다.
 - **폼 컨트롤은 body에서 font/color를 상속받지 않는다** (브라우저 UA 스타일). 태그 레벨에서 `inherit`로 상속을 연다.
-- **`outline: none`은 반드시 대체 포커스 링과 한 쌍**으로, base에서 한 번만 선언한다. 컴포넌트마다 반복하지 않는다.
-- 컨트롤 기본 타이포(예: 본문 16px / 컨트롤 14px)는 시스템 규칙으로 base에 명시한다.
+- **`outline: none`은 반드시 대체 포커스 링과 한 쌍**으로, global에서 한 번만 선언한다. 컴포넌트마다 반복하지 않는다.
+- 컨트롤 기본 타이포(예: 본문 16px / 컨트롤 14px)는 시스템 규칙으로 global에 명시한다.
 
 ```css
-body { margin: 0; background: var(--color-surface-page); font-family: var(--font-sans); font-size: var(--text-base); color: var(--color-text-primary); }
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+body { background: var(--color-surface-page); font-family: var(--font-sans); font-size: var(--text-base); color: var(--color-text-primary); }
 input, textarea, select, button { font-family: inherit; font-size: var(--text-sm); line-height: inherit; color: inherit; }
 button { font-weight: var(--weight-medium); line-height: 1; }
 input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }

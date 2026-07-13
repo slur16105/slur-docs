@@ -10,7 +10,7 @@
 .alert .i_body { display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .alert .i_title { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-primary); }
 .alert .i_text { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
-.alert .i_close { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; padding: 0; border: none; border-radius: var(--radius-8); background: transparent; color: var(--color-text-muted); cursor: pointer; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.alert .i_close { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: none; border-radius: var(--radius-8); background: transparent; color: var(--color-text-muted); cursor: pointer; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
 .alert .i_close:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
 
 /* 색상 변형 */
