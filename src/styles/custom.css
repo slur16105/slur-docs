@@ -1,32 +1,5 @@
-/* Dark mode colors. */
-:root {
-	--sl-color-accent-low: #00273d;
-	--sl-color-accent: #0071a7;
-	--sl-color-accent-high: #92d1fe;
-	--sl-color-white: #ffffff;
-	--sl-color-gray-1: #e7eff2;
-	--sl-color-gray-2: #bac4c8;
-	--sl-color-gray-3: #7b8f96;
-	--sl-color-gray-4: #495c62;
-	--sl-color-gray-5: #2a3b41;
-	--sl-color-gray-6: #182a2f;
-	--sl-color-black: #121a1c;
-}
-/* Light mode colors. */
-:root[data-theme='light'] {
-	--sl-color-accent-low: #b0deff;
-	--sl-color-accent: #5454D4;
-	--sl-color-accent-high: #003653;
-	--sl-color-white: #121a1c;
-	--sl-color-gray-1: #182a2f;
-	--sl-color-gray-2: #2a3b41;
-	--sl-color-gray-3: #495c62;
-	--sl-color-gray-4: #7b8f96;
-	--sl-color-gray-5: #bac4c8;
-	--sl-color-gray-6: #e7eff2;
-	--sl-color-gray-7: #f3f7f9;
-	--sl-color-black: #ffffff;
-}
+/* 색상·타이포 테마는 slur-theme.css(SLUR 토큰 → --sl-* 배선)가 담당한다.
+   이 파일은 사이트 고유의 레이아웃·컴포넌트 보정만 다룬다. */
 
 .content-panel .sl-container {max-width: none;}
 
@@ -38,15 +11,15 @@
 .header .social-icons:where(.astro-kmkmnagf)::after {display: none;}
 
 .layout_footer .l_pagination {margin-bottom: 24px;}
-.layout_footer .l_pagination a {padding: 0.5rem;}
+.layout_footer .l_pagination a {padding: var(--space-8); border-radius: var(--radius-8);}
 .layout_footer .l_pagination .link-title {font-size: var(--sl-text-xl);}
 .layout_footer .l_footer_info {padding: 20px 0 0; border-top: 1px solid var(--sl-color-gray-6);}
 .layout_footer .l_nav {margin-bottom: 8px;}
 .layout_footer .l_nav ul {display: flex; padding: 0; gap: 24px; list-style: none;}
 .layout_footer .l_nav ul li {position: relative;}
 .layout_footer .l_nav ul li + li::after {content: ''; width: 1px; height: 12px; background-color: var(--sl-color-gray-5); position: absolute; left: -12px; top: calc(50% - 6px);}
-.layout_footer .l_nav ul li a {color: inherit; font-size: 14px; text-decoration: none;}
-.layout_footer .l_copyright {font-size: 12px;}
+.layout_footer .l_nav ul li a {color: inherit; font-size: var(--text-sm); text-decoration: none;}
+.layout_footer .l_copyright {font-size: var(--text-xs);}
 .layout_footer .l_logo {display: flex; align-items: center; gap: 4px; color: var(--sl-color-white);}
 .layout_footer .l_logo img {display: inline-block; height: 1rem; width: auto;}
 .layout_footer .l_logo .m_dark {display: none;}

@@ -7,9 +7,12 @@
    ───────────────────────────────────────────── */
 @import url("../../system/tokens/colors.css");
 @import url("../../system/tokens/typography.css");
+@import url("../../system/tokens/spacing.css");
+@import url("../../system/tokens/radius.css");
+@import url("../../system/tokens/shadows.css");
 
-/* 폰트 — Pretendard (CDN 링크는 astro.config head에서 로드) */
-:root { --sl-font: var(--font-sans); }
+/* 폰트·그림자 */
+:root { --sl-font: var(--font-sans); --sl-shadow-sm: var(--shadow-sm); --sl-shadow-md: var(--shadow-md); --sl-shadow-lg: var(--shadow-lg); }
 
 /* ── 다크 (Starlight 기본 스코프) ─────────────── */
 :root {
