@@ -28,8 +28,6 @@
 
   /* Accent — blue */
   --color-brand-50:  #eef4ff;
-  --color-brand-100: #d9e6ff;
-  --color-brand-200: #b8d1ff;
   --color-brand-300: #8fb4ff;
   --color-brand-400: #5c8dff;
   --color-brand-500: #2f6bff;
@@ -53,7 +51,6 @@
   --color-text-muted:     var(--color-neutral-400);
   --color-text-inverse:   var(--color-neutral-0);
   --color-text-brand:    var(--color-brand-600);
-  --color-text-link:      var(--color-brand-600);
 
   /* Surfaces */
   --color-surface-page:    var(--color-neutral-0);
@@ -94,7 +91,6 @@
   --color-text-muted:     var(--color-neutral-500);
   --color-text-inverse:   var(--color-neutral-900);
   --color-text-brand:    var(--color-brand-400);
-  --color-text-link:      var(--color-brand-400);
 
   --color-surface-page:    var(--color-neutral-950);
   --color-surface-card:    var(--color-neutral-800);
