@@ -21,6 +21,29 @@ CSS는 구조를 표현하는 언어다. HTML 구조를 바꾸지 않고, 재사
 
 ---
 
+## 공통 베이스 레이어
+
+"공통 스타일을 우선 작성한다"는 **base 레이어를 컴포넌트보다 먼저 만든다**는 뜻이다. 시스템 기본값(타이포, 색 상속, 포커스)은 base가 담당하고, 컴포넌트 CSS에는 기본값과 **다른 값(변형)**만 남긴다.
+
+- **폼 컨트롤은 body에서 font/color를 상속받지 않는다** (브라우저 UA 스타일). 태그 레벨에서 `inherit`로 상속을 연다.
+- **`outline: none`은 반드시 대체 포커스 링과 한 쌍**으로, base에서 한 번만 선언한다. 컴포넌트마다 반복하지 않는다.
+- 컨트롤 기본 타이포(예: 본문 16px / 컨트롤 14px)는 시스템 규칙으로 base에 명시한다.
+
+```css
+body { margin: 0; background: var(--color-surface-page); font-family: var(--font-sans); font-size: var(--text-base); color: var(--color-text-primary); }
+input, textarea, select, button { font-family: inherit; font-size: var(--text-sm); line-height: inherit; color: inherit; }
+button { font-weight: var(--weight-medium); line-height: 1; }
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
+```
+
+```css
+/* 컴포넌트에는 변형만 남긴다 — font-family/color/outline 반복 ❌ */
+.btn { display: inline-flex; height: 40px; padding: 0 18px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; }
+.btn.m_large { height: 48px; padding: 0 24px; font-size: var(--text-base); }
+```
+
+---
+
 ## 한 줄 작성 규칙 (중요)
 
 클래스 선언은 **속성이 아무리 많아도 한 줄**로 작성한다. 세로로 펼치지 않는다.
