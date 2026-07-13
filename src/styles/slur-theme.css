@@ -14,6 +14,12 @@
 /* 폰트·그림자 */
 :root { --sl-font: var(--font-sans); --sl-shadow-sm: var(--shadow-sm); --sl-shadow-md: var(--shadow-md); --sl-shadow-lg: var(--shadow-lg); }
 
+/* 제목 스케일 — Starlight 기본(h1 ≈ 3rem)이 과해서 SLUR 타이포 토큰으로 한 단계씩 하향 */
+:root { --sl-text-h1: var(--text-3xl); --sl-text-h2: var(--text-2xl); --sl-text-h3: var(--text-lg); --sl-text-h4: var(--text-base); }
+
+/* 링크 버튼 — SLUR 컨트롤 규격(높이 2.5rem, sm, radius-8)으로 하향 */
+.sl-link-button { gap: var(--space-8); height: 2.5rem; padding: 0 var(--space-16); border-radius: var(--radius-8); font-size: var(--text-sm); font-weight: var(--weight-medium); line-height: 1; }
+
 /* ── 다크 (Starlight 기본 스코프) ─────────────── */
 :root {
   --sl-color-accent-low: color-mix(in srgb, var(--color-brand-500) 25%, var(--color-neutral-950));
@@ -29,18 +35,21 @@
   --sl-color-black: var(--color-neutral-950);
 }
 
-/* ── 라이트 ───────────────────────────────────── */
+/* ── 라이트 ─────────────────────────────────────
+   주의: Starlight는 라이트 모드에서 변수 의미가 반전된다 —
+   --sl-color-white = 텍스트(진한 색), --sl-color-black = 배경(밝은 색),
+   gray-1이 가장 어둡고 gray-7이 가장 밝다. */
 :root[data-theme="light"] {
   --sl-color-accent-low: var(--color-brand-50);
   --sl-color-accent: var(--color-brand-500);
   --sl-color-accent-high: var(--color-brand-700);
-  --sl-color-white: var(--color-neutral-0);
-  --sl-color-gray-1: var(--color-neutral-50);
-  --sl-color-gray-2: var(--color-neutral-100);
-  --sl-color-gray-3: var(--color-neutral-300);
-  --sl-color-gray-4: var(--color-neutral-500);
-  --sl-color-gray-5: var(--color-neutral-600);
+  --sl-color-white: var(--color-neutral-900);
+  --sl-color-gray-1: var(--color-neutral-800);
+  --sl-color-gray-2: var(--color-neutral-700);
+  --sl-color-gray-3: var(--color-neutral-500);
+  --sl-color-gray-4: var(--color-neutral-400);
+  --sl-color-gray-5: var(--color-neutral-300);
   --sl-color-gray-6: var(--color-neutral-100);
   --sl-color-gray-7: var(--color-neutral-50);
-  --sl-color-black: var(--color-neutral-900);
+  --sl-color-black: var(--color-neutral-0);
 }
