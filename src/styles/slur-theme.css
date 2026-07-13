@@ -30,7 +30,10 @@
 .sl-markdown-content .sl-link-card { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-xs); transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard); }
 .sl-markdown-content .sl-link-card:hover { border-color: var(--color-border-default); background: var(--color-surface-hover); }
 
-/* 사이드바 — 현재 페이지는 brand-soft 필 */
+/* 사이드바·내비 배경을 페이지와 통일 (기본값은 gray-6/7이라 면이 따로 논다) */
+:root { --sl-color-bg-sidebar: var(--sl-color-bg); --sl-color-bg-nav: var(--sl-color-bg); }
+
+/* 사이드바 — 현재 페이지는 무채색 필 */
 .sidebar-content { font-size: var(--text-sm); }
 .sidebar-content a { border-radius: var(--radius-8); transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
 .sidebar-content a[aria-current="page"], .sidebar-content a[aria-current="page"]:hover { background: var(--color-surface-hover); color: var(--color-text-primary); font-weight: var(--weight-semibold); }
