@@ -26,13 +26,11 @@
 .input_text.m_small { height: 2rem; padding: 0 var(--space-8); font-size: var(--text-xs); }
 .input_text.m_large { height: 3rem; padding: 0 var(--space-16); font-size: var(--text-base); }
 
-/* 텍스트에리어 / 셀렉트 변형 */
+/* 텍스트에리어 변형 */
 .input_text.m_textarea { height: auto; padding: var(--space-8) var(--space-12); resize: vertical; }
-.input_text.m_select { padding: 0 2.25rem 0 var(--space-12); appearance: none; -webkit-appearance: none; cursor: pointer; }
 
 /* 아이콘 포함 래퍼 */
 .input_wrap { display: flex; width: 100%; align-items: center; position: relative; }
 .input_wrap .input_text { width: 100%; }
 .input_wrap .i_icon { display: inline-flex; color: var(--color-text-muted); position: absolute; left: var(--space-12); pointer-events: none; }
-.input_wrap .i_icon.m_right { left: auto; right: var(--space-12); }
 .input_wrap .input_text.m_icon_left { padding-left: 2.25rem; }
