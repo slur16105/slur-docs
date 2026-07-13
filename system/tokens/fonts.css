@@ -1,0 +1,4 @@
+/* Webfonts — Pretendard (single family).
+   The imported stylesheet supplies the @font-face rules
+   that get shipped to consumers. */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
