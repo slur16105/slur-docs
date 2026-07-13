@@ -33,6 +33,23 @@ description: SLUR Design System — 시각 어휘(디자인 토큰과 컴포넌�
 - **포커스는 global.css가 처리한다** — 컴포넌트에서 outline/포커스 링을 반복 선언하지 않는다.
 - 아이콘은 `em`(`1.125em` 기본), `stroke="currentColor"` — 텍스트 크기·색을 따라간다.
 
+## 토큰 빠른 참조 (실제 이름 — 추측 금지)
+
+원본 파일을 읽을 수 없는 환경에서도 아래 이름을 그대로 쓴다. 여기 없는 토큰은 존재하지 않는 것이다 — 지어내지 말고 원본을 확인하거나 사용자에게 묻는다.
+
+- **텍스트**: `--color-text-primary` `-secondary` `-muted` `-inverse` `-brand`
+- **면**: `--color-surface-page` `-card` `-sunken` `-hover` `-inverse`
+- **보더**: `--color-border-subtle` `-default` `-strong` `-focus`
+- **브랜드**: `--color-brand` `-hover` `-active` `-soft`, `--color-on-brand`, `--color-focus-ring`
+- **상태**: `--color-success` `-warning` `-danger` (+ 각 `-soft`), `--color-on-danger` `-on-success` `-on-warning`
+- **타이포**: `--font-sans`, `--text-xs`(12) `-sm`(14) `-base`(16) `-lg`(18) `-2xl`(24) `-3xl`(30) `-4xl`(36), `--weight-medium`(500) `-semibold`(600) `-bold`(700), `--leading-normal`(1.5), `--tracking-tight` `-snug` `-wide`
+- **간격**: `--space-4` `-8` `-12` `-16` `-20` `-24` (rem, 이름 = px 환산값)
+- **라디우스**: `--radius-4` `-8` `-12` `-full` (px)
+- **그림자**: `--shadow-xs` `-sm` `-md` `-lg`
+- **모션**: `--duration-fast`(120ms) `-base`(200ms) `-slow`(280ms), `--ease-standard` `-in` `-out` `-spring`
+- **z-index**: `--z-base` `-dropdown` `-sticky` `-overlay` `-modal` `-popover` `-toast` (0~600, 100 간격)
+- **브레이크포인트**(참조용): `--breakpoint-sm`(640) `-md`(768) `-lg`(1024) `-xl`(1280) — 미디어쿼리에는 px 리터럴 직접 사용
+
 ## 원본과의 관계
 
 - **클로드디자인 프로젝트**(SLUR Design System)는 전체 팔레트를 가진 **디자인 작업대** — 새 역할·컴포넌트 탐색은 거기서 하고, 확정된 것을 `system/`으로 내려받는다(DesignSync).

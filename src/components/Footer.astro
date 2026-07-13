@@ -1,6 +1,8 @@
 ---
 import { logos } from 'virtual:starlight/user-images';
 import Pagination from 'virtual:starlight/components/Pagination';
+
+const year = new Date().getFullYear();
 ---
 
 <footer class="layout_footer">
@@ -37,6 +39,6 @@ import Pagination from 'virtual:starlight/components/Pagination';
                 <li><a href="https://blog.slur.co.kr/" class="l_link" target="_blank" title="새창으로 열기">SLUR Blog</a></li>
             </ul>
         </nav>
-        <p class="l_copyright">© 2016 SLUR, All right reserved</p>
+        <p class="l_copyright">© {year} SLUR, All rights reserved</p>
     </div>
 </footer>
