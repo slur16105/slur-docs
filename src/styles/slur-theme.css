@@ -33,7 +33,7 @@
 /* 사이드바 — 현재 페이지는 brand-soft 필 */
 .sidebar-content { font-size: var(--text-sm); }
 .sidebar-content a { border-radius: var(--radius-8); transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
-.sidebar-content a[aria-current="page"], .sidebar-content a[aria-current="page"]:hover { background: var(--color-brand-soft); color: var(--color-text-brand); font-weight: var(--weight-semibold); }
+.sidebar-content a[aria-current="page"], .sidebar-content a[aria-current="page"]:hover { background: var(--color-surface-hover); color: var(--color-text-primary); font-weight: var(--weight-semibold); }
 
 /* 우측 목차 */
 .right-sidebar-panel { font-size: var(--text-sm); }
@@ -50,7 +50,7 @@
   --sl-color-gray-4: var(--color-neutral-600);
   --sl-color-gray-5: var(--color-neutral-700);
   --sl-color-gray-6: var(--color-neutral-800);
-  --sl-color-black: var(--color-neutral-950);
+  --sl-color-black: var(--color-neutral-900);
 }
 
 /* ── 라이트 ─────────────────────────────────────

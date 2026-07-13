@@ -9,7 +9,7 @@
 .header .social-icons:where(.astro-kmkmnagf)::after {display: none;}
 
 .layout_footer .l_pagination {margin-bottom: 24px;}
-.layout_footer .l_pagination a {padding: var(--space-12) var(--space-16); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-8); background: var(--color-surface-card); box-shadow: none; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);}
+.layout_footer .l_pagination a {padding: var(--space-12) var(--space-16); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-8); background: transparent; box-shadow: none; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);}
 .layout_footer .l_pagination a:hover {border-color: var(--color-border-default); background: var(--color-surface-hover);}
 .layout_footer .l_pagination .link-title {font-size: var(--text-base); font-weight: var(--weight-semibold);}
 .layout_footer .l_pagination svg {width: 1.125em; height: 1.125em;}
