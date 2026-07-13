@@ -27,15 +27,17 @@ system/
 ## 변환 현황
 
 - [x] tokens (colors, typography, spacing, radius, shadows, motion, fonts, breakpoints, z-index)
-- [x] Button (파일럿)
-- [ ] Input
-- [ ] Selection
-- [ ] Badge
-- [ ] Card
-- [ ] Alert
-- [ ] Modal
-- [ ] Navigation
-- [ ] Table
+- [x] Button
+- [x] Input
+- [x] Selection
+- [x] Badge
+- [x] Card
+- [x] Alert
+- [x] Modal
+- [x] Navigation
+- [x] Table
+
+주의: 내부 요소(`i_`/`p_`/`l_`) 선택자는 반드시 블록 하위로 스코프한다(`.page_demo .p_head` ✅, `.p_head` 단독 ❌ — `css/internal-elements.md` 참고).
 
 ## 동기화 원칙
 

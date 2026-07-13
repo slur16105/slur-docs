@@ -1,0 +1,33 @@
+/* ─────────────────────────────────────────────
+   ALERT — SLUR Design System × slur-ux
+   기본형은 정보(brand). 색은 m_success/m_warning/m_danger,
+   형태는 m_inline(한 줄) / m_banner(액션 포함).
+   ───────────────────────────────────────────── */
+
+.alert { display: flex; gap: 12px; padding: 14px 16px; border: 1px solid var(--color-brand); border-radius: var(--radius-8); background: var(--color-brand-soft); }
+.alert .i_icon { display: inline-flex; margin-top: 1px; color: var(--color-text-brand); flex: none; }
+.alert .i_body { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.alert .i_title { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-primary); }
+.alert .i_text { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.alert .i_close { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border: none; border-radius: var(--radius-8); background: transparent; color: var(--color-text-muted); cursor: pointer; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.alert .i_close:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
+
+/* 색상 변형 */
+.alert.m_success { border-color: var(--color-success); background: var(--color-success-soft); }
+.alert.m_success .i_icon { color: var(--color-success); }
+.alert.m_warning { border-color: var(--color-warning); background: var(--color-warning-soft); }
+.alert.m_warning .i_icon { color: var(--color-warning); }
+.alert.m_danger { border-color: var(--color-danger); background: var(--color-danger-soft); }
+.alert.m_danger .i_icon { color: var(--color-danger); }
+
+/* 인라인 — 한 줄, 테두리 없음 */
+.alert.m_inline { align-items: center; gap: 10px; padding: 10px 14px; border: none; font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-brand); }
+.alert.m_inline.m_success { color: var(--color-success); }
+.alert.m_inline.m_warning { color: var(--color-warning); }
+.alert.m_inline.m_danger { color: var(--color-danger); }
+.alert.m_inline .i_icon { margin-top: 0; color: currentColor; }
+
+/* 배너 — 가로 정렬 + 액션 버튼 */
+.alert.m_banner { align-items: center; gap: 14px; }
+.alert.m_banner .i_icon { margin-top: 0; }
+.alert.m_banner .btn { height: 34px; padding: 0 14px; flex: none; }
