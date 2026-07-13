@@ -152,8 +152,8 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
     <div class="p_section">
       <h3 class="p_section_title">토글</h3>
       <div class="p_row">
-        <button type="button" class="switch demo_switch" data-state="on" aria-label="알림 토글"><span class="i_knob"></span></button>
-        <button type="button" class="switch demo_switch" data-state="off" aria-label="2단계 인증 토글"><span class="i_knob"></span></button>
+        <button type="button" class="switch" data-state="on" aria-label="알림 토글"><span class="i_knob"></span></button>
+        <button type="button" class="switch" data-state="off" aria-label="2단계 인증 토글"><span class="i_knob"></span></button>
       </div>
     </div>
   </section>
@@ -272,13 +272,13 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
     <h2 class="p_component_title">Navigation</h2>
     <div class="p_section">
       <h3 class="p_section_title">탭 · 밑줄 / 필</h3>
-      <div class="tab_menu demo_tabs">
+      <div class="tab_menu">
         <button type="button" class="i_tab" data-state="active">개요</button>
         <button type="button" class="i_tab">활동</button>
         <button type="button" class="i_tab">설정</button>
         <button type="button" class="i_tab">멤버</button>
       </div>
-      <div class="tab_menu m_pill demo_tabs">
+      <div class="tab_menu m_pill">
         <button type="button" class="i_tab" data-state="active">일</button>
         <button type="button" class="i_tab">주</button>
         <button type="button" class="i_tab">월</button>
@@ -287,7 +287,7 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
     <div class="p_section">
       <h3 class="p_section_title">사이드바 · 브레드크럼</h3>
       <div class="p_grid" style="grid-template-columns: 240px 1fr;">
-        <nav class="nav_side demo_nav">
+        <nav class="nav_side">
           <span class="i_group">워크스페이스</span>
           <a href="#" class="i_item" data-state="active"><span class="i_label">대시보드</span></a>
           <a href="#" class="i_item"><span class="i_label">프로젝트</span><span class="badge m_count">12</span></a>
@@ -403,13 +403,13 @@ themeToggle.addEventListener("click", () => {
 
 document.getElementById("demoIndet").indeterminate = true;
 
-document.querySelectorAll(".demo_switch").forEach((sw) => {
+document.querySelectorAll(".switch").forEach((sw) => {
   sw.addEventListener("click", () => {
     sw.setAttribute("data-state", sw.getAttribute("data-state") === "on" ? "off" : "on");
   });
 });
 
-document.querySelectorAll(".demo_tabs").forEach((menu) => {
+document.querySelectorAll(".tab_menu").forEach((menu) => {
   menu.querySelectorAll(".i_tab").forEach((tab) => {
     tab.addEventListener("click", () => {
       menu.querySelectorAll(".i_tab").forEach((t) => t.removeAttribute("data-state"));
@@ -418,10 +418,10 @@ document.querySelectorAll(".demo_tabs").forEach((menu) => {
   });
 });
 
-document.querySelectorAll(".demo_nav .i_item").forEach((item) => {
+document.querySelectorAll(".nav_side .i_item").forEach((item) => {
   item.addEventListener("click", (e) => {
     e.preventDefault();
-    document.querySelectorAll(".demo_nav .i_item").forEach((i) => i.removeAttribute("data-state"));
+    document.querySelectorAll(".nav_side .i_item").forEach((i) => i.removeAttribute("data-state"));
     item.setAttribute("data-state", "active");
   });
 });
