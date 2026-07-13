@@ -10,7 +10,6 @@
 .check .i_input { display: inline-flex; width: 18px; height: 18px; margin: 0; border: 1px solid var(--color-border-default); border-radius: var(--radius-4); background: var(--color-surface-card); cursor: pointer; appearance: none; -webkit-appearance: none; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
 .check .i_input:checked { border-color: var(--color-brand); background: var(--color-brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 12px no-repeat; }
 .check .i_input:indeterminate { border-color: var(--color-brand); background: var(--color-brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M2 12h20'/%3E%3C/svg%3E") center / 12px no-repeat; }
-.check .i_input:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
 .check .i_input:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); cursor: not-allowed; }
 .check:has(.i_input:disabled) { color: var(--color-text-muted); cursor: not-allowed; }
 
@@ -18,7 +17,6 @@
 .radio { display: inline-flex; align-items: center; gap: 10px; font-size: var(--text-sm); cursor: pointer; }
 .radio .i_input { display: inline-flex; width: 18px; height: 18px; margin: 0; border: 1px solid var(--color-border-default); border-radius: 50%; background: var(--color-surface-card); cursor: pointer; appearance: none; -webkit-appearance: none; flex: none; transition: border-color var(--duration-fast) var(--ease-standard); }
 .radio .i_input:checked { border-color: var(--color-brand); background: radial-gradient(circle, var(--color-brand) 0 4px, transparent 4.5px); }
-.radio .i_input:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
 .radio .i_input:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); cursor: not-allowed; }
 .radio:has(.i_input:disabled) { color: var(--color-text-muted); cursor: not-allowed; }
 
@@ -27,5 +25,4 @@
 .switch .i_knob { width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); position: absolute; top: 2px; left: 2px; transition: left var(--duration-base) var(--ease-standard); }
 .switch[data-state="on"] { background: var(--color-brand); }
 .switch[data-state="on"] .i_knob { left: 18px; }
-.switch:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
 .switch:disabled { opacity: 0.45; cursor: not-allowed; }

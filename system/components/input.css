@@ -13,7 +13,7 @@
 .field[data-state="disabled"] .i_label { color: var(--color-text-muted); }
 
 /* 텍스트 컨트롤 — input/textarea/select 공통 */
-.input_text { height: 40px; padding: 0 12px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); font-family: var(--font-sans); font-size: var(--text-sm); color: var(--color-text-primary); outline: none; transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard); }
+.input_text { height: 40px; padding: 0 12px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard); }
 .input_text:hover { border-color: var(--color-border-strong); }
 .input_text:focus { border-color: var(--color-border-focus); box-shadow: var(--color-focus-ring); }
 .input_text:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); color: var(--color-text-muted); cursor: not-allowed; }

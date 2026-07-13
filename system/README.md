@@ -20,9 +20,12 @@
 ```
 system/
 ├── tokens/        # 클로드디자인에서 가져온 토큰 (index.css 하나만 링크하면 전부 로드)
+├── base.css       # 공통 리셋 — 컨트롤 타이포 상속(font/color), outline 제거 + 포커스 링
 ├── components/    # slur-ux 문법으로 변환한 컴포넌트 CSS
 └── demo.html      # 브라우저에서 바로 열어 확인하는 데모
 ```
+
+로드 순서: `tokens/index.css` → `base.css` → `components/*.css`. 컨트롤 공통값(font-family/size, color 상속, 포커스 링)은 base가 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다.
 
 ## 변환 현황
 

@@ -6,10 +6,9 @@
 
 /* 탭 — 밑줄(기본) */
 .tab_menu { display: flex; gap: 4px; border-bottom: 1px solid var(--color-border-subtle); }
-.tab_menu .i_tab { margin-bottom: -1px; padding: 10px 14px; border: none; border-bottom: 2px solid transparent; background: none; font-family: var(--font-sans); font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-secondary); cursor: pointer; transition: color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
+.tab_menu .i_tab { margin-bottom: -1px; padding: 10px 14px; border: none; border-bottom: 2px solid transparent; background: none; color: var(--color-text-secondary); cursor: pointer; transition: color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
 .tab_menu .i_tab:hover { color: var(--color-text-primary); }
 .tab_menu .i_tab[data-state="active"] { border-bottom-color: var(--color-brand); font-weight: var(--weight-semibold); color: var(--color-text-primary); }
-.tab_menu .i_tab:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
 
 /* 탭 — 필 변형 */
 .tab_menu.m_pill { display: inline-flex; padding: 4px; border-bottom: none; border-radius: var(--radius-full); background: var(--color-surface-hover); align-self: flex-start; }

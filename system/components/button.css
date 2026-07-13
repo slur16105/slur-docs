@@ -4,10 +4,9 @@
    색·크기·모션 값은 전부 시맨틱 토큰만 사용한다.
    ───────────────────────────────────────────── */
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: 40px; padding: 0 18px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: var(--weight-medium); line-height: 1; color: var(--color-text-primary); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: 40px; padding: 0 18px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
 .btn:hover { background: var(--color-surface-hover); }
 .btn:active { background: var(--color-surface-sunken); }
-.btn:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 
 /* 색상 변형 */
