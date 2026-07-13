@@ -1,0 +1,34 @@
+/* ─────────────────────────────────────────────
+   BUTTON — SLUR Design System × slur-ux
+   기본형은 보조(중립) 버튼. 변형은 m_, 상태는 data-state.
+   높이·패딩은 rem(텍스트와 함께 확대), 값은 시맨틱 토큰만.
+   공유 컨트롤 높이: 2/2.5/3rem (32/40/48).
+   ───────────────────────────────────────────── */
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: 2.5rem; padding: 0 var(--space-16); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
+.btn:hover { background: var(--color-surface-hover); }
+.btn:active { background: var(--color-surface-sunken); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+/* 색상 변형 */
+.btn.m_primary { border-color: transparent; background: var(--color-brand); color: var(--color-on-brand); }
+.btn.m_primary:hover { background: var(--color-brand-hover); }
+.btn.m_primary:active { background: var(--color-brand-active); }
+.btn.m_ghost { border-color: transparent; background: transparent; }
+.btn.m_ghost:hover { background: var(--color-surface-hover); }
+.btn.m_ghost:active { background: var(--color-surface-sunken); }
+.btn.m_danger { border-color: transparent; background: var(--color-danger); color: var(--color-on-danger); }
+.btn.m_danger:hover { filter: brightness(0.92); }
+.btn.m_danger:active { filter: brightness(0.85); }
+.btn.m_danger:focus-visible { box-shadow: 0 0 0 3px var(--color-danger-soft); }
+
+/* 크기 변형 — 공유 컨트롤 높이 2/2.5/3rem */
+.btn.m_small { gap: var(--space-4); height: 2rem; padding: 0 var(--space-12); font-size: var(--text-xs); }
+.btn.m_large { gap: var(--space-12); height: 3rem; padding: 0 var(--space-24); font-size: var(--text-base); }
+.btn.m_full { width: 100%; font-weight: var(--weight-semibold); }
+.btn.m_icon { width: 2.5rem; padding: 0; }
+.btn.m_icon.m_small { width: 2rem; }
+.btn.m_icon.m_large { width: 3rem; }
+
+/* 상태 */
+.btn[data-state="loading"] { opacity: 0.6; pointer-events: none; cursor: wait; }

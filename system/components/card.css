@@ -1,0 +1,28 @@
+/* ─────────────────────────────────────────────
+   CARD — SLUR Design System × slur-ux
+   기본형은 1px 테두리 + 은은한 그림자.
+   변형은 m_flat / m_elevated / m_link,
+   내부 구조는 i_head / i_body / i_foot.
+   내부 여백은 rem 토큰(텍스트와 함께 확대).
+   ───────────────────────────────────────────── */
+
+.card { display: flex; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); flex-direction: column; overflow: hidden; box-shadow: var(--shadow-sm); }
+.card.m_flat { box-shadow: none; }
+.card.m_elevated { box-shadow: var(--shadow-md); }
+
+/* 내부 구조 */
+.card .i_head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-12); padding: var(--space-20) var(--space-20) 0; }
+.card .i_body { padding: var(--space-16) var(--space-20); }
+.card .i_foot { display: flex; gap: var(--space-8); padding: var(--space-16) var(--space-20); border-top: 1px solid var(--color-border-subtle); }
+.card .i_title { font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+.card .i_desc { font-size: var(--text-sm); color: var(--color-text-secondary); }
+
+/* 인터랙티브(링크) 카드 */
+.card.m_link { padding: var(--space-16); text-decoration: none; color: var(--color-text-primary); cursor: pointer; transition: box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
+.card.m_link:hover { border-color: var(--color-border-default); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.card.m_link:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
+
+/* 리스트 카드 — 행 단위 hover */
+.card.m_list { padding: var(--space-4); }
+.card .i_row { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-8) var(--space-12); border-radius: var(--radius-8); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard); }
+.card .i_row:hover { background: var(--color-surface-hover); }

@@ -1,0 +1,20 @@
+/* ─────────────────────────────────────────────
+   GLOBAL — 공통 리셋
+   시스템 기본값은 여기가 담당하고, 컴포넌트에는
+   기본값과 다른 값(변형)만 남긴다.
+   폼 컨트롤은 UA 스타일 때문에 body에서 font/color를
+   상속받지 않으므로 태그 레벨에서 상속을 연다.
+   outline 제거는 대체 포커스 링과 반드시 한 쌍.
+   ───────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+body { background: var(--color-surface-page); font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-primary); }
+
+/* 컨트롤 기본 타이포 — 시스템 규칙: 컨트롤은 14px(sm), 본문은 16px(base).
+   색은 상속(color: inherit)으로 열어 한곳(body)에서 관리한다. */
+input, textarea, select, button { font-family: inherit; font-size: var(--text-sm); line-height: inherit; color: inherit; }
+button { font-weight: var(--weight-medium); line-height: 1; }
+
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }

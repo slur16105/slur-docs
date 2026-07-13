@@ -1,0 +1,14 @@
+/* ─────────────────────────────────────────────
+   BREAKPOINTS — responsive width thresholds
+   NOTE: CSS custom properties cannot be used
+   inside @media queries, so these live here for
+   reference and for JS (matchMedia). In CSS, write
+   the px literals directly and keep them matching.
+     sm  640px   md  768px   lg 1024px   xl 1280px
+   ───────────────────────────────────────────── */
+:root {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}

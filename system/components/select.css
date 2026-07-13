@@ -1,0 +1,10 @@
+/* ─────────────────────────────────────────────
+   SELECT — SLUR Design System × slur-ux
+   네이티브 select + 화살표 아이콘을 가진 블록.
+   컨트롤 스타일은 input_text를 그대로 쓰고,
+   select 고유의 것(appearance, 화살표 공간)만 얹는다.
+   ───────────────────────────────────────────── */
+
+.select { display: flex; width: 100%; align-items: center; position: relative; }
+.select .input_text { width: 100%; padding-right: 2.25rem; cursor: pointer; appearance: none; -webkit-appearance: none; }
+.select .i_icon { display: inline-flex; color: var(--color-text-muted); position: absolute; right: var(--space-12); pointer-events: none; }
