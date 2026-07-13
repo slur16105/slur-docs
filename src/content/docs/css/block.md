@@ -3,7 +3,7 @@ title: 블록 규칙
 description: SLUR UX/UI System에서 블록(Block)의 정의와 사용 규칙을 설명합니다.
 ---
 
-블록(Block)의 정의와 계층상 위치는 [구조 모델](/core/structure-model/)에서 다룹니다.  
+블록(Block)의 정의와 계층상 위치는 [구조 모델](/core/structure-model/)에서 다룹니다.
 이 문서는 블록의 **CSS 작성 규칙**만 설명합니다.
 
 ---
@@ -35,10 +35,10 @@ description: SLUR UX/UI System에서 블록(Block)의 정의와 사용 규칙을
 
 ## 블록 네이밍 기준
 
-블록은 접두사를 사용하지 않으며,  
+블록은 접두사를 사용하지 않으며,
 구조의 기준이 되는 이름으로 정의합니다.
 
-접두사 체계와 네이밍 근거는 [접두사 기준표](/reference/prefix-table/)와  
+접두사 체계와 네이밍 근거는 [접두사 기준표](/reference/prefix-table/)와
 [네이밍 시스템](/core/naming-system/)을 참고합니다.
 
 ---
@@ -56,8 +56,8 @@ description: SLUR UX/UI System에서 블록(Block)의 정의와 사용 규칙을
 
 ## 블록 규칙의 목적
 
-블록 규칙은 UI 구조를 명확히 나누고,  
+블록 규칙은 UI 구조를 명확히 나누고,
 재사용성과 유지보수성을 높이기 위한 기준입니다.
 
-블록이 명확하게 정의되면  
+블록이 명확하게 정의되면
 이후 모든 CSS 규칙과 네이밍, 상태 관리가 단순해집니다.

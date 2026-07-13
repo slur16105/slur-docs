@@ -26,6 +26,7 @@
 
   /* Line heights */
   --leading-normal:  1.5;
+  --leading-relaxed: 1.7;  /* 장문 본문(문서 사이트 prose) */
 
   /* Letter spacing */
   --tracking-tight:  -0.02em;

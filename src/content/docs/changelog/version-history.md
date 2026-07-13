@@ -3,8 +3,8 @@ title: 버전 히스토리
 description: SLUR UX/UI System의 변경 이력과 주요 업데이트 내용을 버전별로 정리합니다.
 ---
 
-이 문서는  
-SLUR UX/UI System의  
+이 문서는
+SLUR UX/UI System의
 **버전별 변경 이력**을 기록합니다.
 
 ---
