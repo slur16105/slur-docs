@@ -20,6 +20,24 @@
 /* 링크 버튼 — SLUR 컨트롤 규격(높이 2.5rem, sm, radius-8)으로 하향 */
 .sl-link-button { gap: var(--space-8); height: 2.5rem; padding: 0 var(--space-16); border-radius: var(--radius-8); font-size: var(--text-sm); font-weight: var(--weight-medium); line-height: 1; }
 
+/* 본문 리듬 — 제목 자간·굵기, 행간 */
+:root { --sl-line-height: var(--leading-relaxed); }
+.sl-markdown-content :is(h1, h2, h3, h4) { letter-spacing: var(--tracking-tight); font-weight: var(--weight-semibold); }
+.sl-markdown-content code:not(:where(.expressive-code *)) { padding: 0.125em 0.375em; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-4); background: var(--color-surface-sunken); }
+
+/* 카드 — SLUR 카드 결(은은한 보더, radius-12, hover 반응) */
+.sl-markdown-content .card { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-xs); }
+.sl-markdown-content .sl-link-card { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-xs); transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard); }
+.sl-markdown-content .sl-link-card:hover { border-color: var(--color-border-default); background: var(--color-surface-hover); }
+
+/* 사이드바 — 현재 페이지는 brand-soft 필 */
+.sidebar-content { font-size: var(--text-sm); }
+.sidebar-content a { border-radius: var(--radius-8); transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.sidebar-content a[aria-current="page"], .sidebar-content a[aria-current="page"]:hover { background: var(--color-brand-soft); color: var(--color-text-brand); font-weight: var(--weight-semibold); }
+
+/* 우측 목차 */
+.right-sidebar-panel { font-size: var(--text-sm); }
+
 /* ── 다크 (Starlight 기본 스코프) ─────────────── */
 :root {
   --sl-color-accent-low: color-mix(in srgb, var(--color-brand-500) 25%, var(--color-neutral-950));
