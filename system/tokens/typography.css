@@ -1,10 +1,10 @@
 /* ─────────────────────────────────────────────
    TYPOGRAPHY
    Single family (Pretendard) for a clean, minimal
-   voice. Modular type scale, weights, line-heights,
-   tracking. For aligned numerals (tables, prices),
-   use `font-variant-numeric: tabular-nums` — no
-   separate mono font needed.
+   voice. 단위 기준: 글자 크기는 사용자 선호에
+   반응해야 하므로 rem (루트는 100% 유지, % 트릭 금지).
+   이름 옆 주석 = 루트 16px 기준 환산 px값.
+   토큰은 실제 사용처가 생길 때만 추가한다.
    ───────────────────────────────────────────── */
 :root {
   /* Family */
@@ -15,29 +15,20 @@
   --text-sm:   0.875rem;  /* 14 */
   --text-base: 1rem;      /* 16 */
   --text-lg:   1.125rem;  /* 18 */
-  --text-xl:   1.25rem;   /* 20 */
   --text-2xl:  1.5rem;    /* 24 */
   --text-3xl:  1.875rem;  /* 30 */
   --text-4xl:  2.25rem;   /* 36 */
-  --text-5xl:  3rem;      /* 48 */
-  --text-6xl:  3.75rem;   /* 60 */
 
   /* Weights */
-  --weight-light:    300;
-  --weight-regular:  400;
   --weight-medium:   500;
   --weight-semibold: 600;
   --weight-bold:     700;
 
   /* Line heights */
-  --leading-tight:   1.15;
-  --leading-snug:    1.3;
   --leading-normal:  1.5;
-  --leading-relaxed: 1.7;
 
   /* Letter spacing */
   --tracking-tight:  -0.02em;
   --tracking-snug:   -0.01em;
-  --tracking-normal: 0em;
   --tracking-wide:   0.04em;
 }

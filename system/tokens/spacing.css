@@ -1,21 +1,17 @@
 /* ─────────────────────────────────────────────
-   SPACING
-   4px base unit. Token name = pixel value
-   (e.g. --space-16 = 16px) so name and value
-   never diverge. Use for padding, margin, gap.
+   SPACING — 컴포넌트/텍스트 간격 전용
+   단위 기준: 글자 크기 선호에 따라 함께 커져야
+   정보 전달이 유지되는 간격이므로 rem.
+   (레이아웃 구조 간격 — 그리드 갭, 섹션 여백 —
+   은 토큰 대신 px를 직접 쓴다.)
+   토큰은 실제 사용처가 생길 때만 추가한다.
+   이름 = 루트 16px 기준 환산 px값.
    ───────────────────────────────────────────── */
 :root {
-  --space-0:  0;
   --space-4:  0.25rem;  /* 4  */
   --space-8:  0.5rem;   /* 8  */
   --space-12: 0.75rem;  /* 12 */
   --space-16: 1rem;     /* 16 */
   --space-20: 1.25rem;  /* 20 */
   --space-24: 1.5rem;   /* 24 */
-  --space-32: 2rem;     /* 32 */
-  --space-40: 2.5rem;   /* 40 */
-  --space-48: 3rem;     /* 48 */
-  --space-64: 4rem;     /* 64 */
-  --space-80: 5rem;     /* 80 */
-  --space-96: 6rem;     /* 96 */
 }

@@ -27,6 +27,14 @@ system/
 
 로드 순서: `tokens/index.css` → `base.css` → `components/*.css`. 컨트롤 공통값(font-family/size, color 상속, 포커스 링)은 base가 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다.
 
+## 단위·토큰 기준
+
+- **rem**: 글자 크기, 컨트롤 높이·패딩(2/2.5/3rem = 32/40/48), 텍스트 주변 간격(space 토큰). 기준 질문: "글자 크기를 키웠을 때 함께 커져야 정보 전달이 유지되는가" — https://blog.slur.co.kr/260107-rem/
+- **px**: 라디우스, 1px 보더, 그림자, 브레이크포인트, 레이아웃 구조 간격(데모 페이지의 섹션 여백·그리드 갭)
+- 루트 폰트 100% 유지(% 환산 트릭 금지), rem 토큰에는 px 환산 주석
+- 토큰은 실제 사용처가 생길 때만 추가(미사용 스케일 삭제됨), 반복 생값은 스케일로 스냅. z-index만 레이어 계약으로 전체 유지
+- 남은 과제: 인라인 SVG 아이콘이 `width` 속성(px)이라 글자 확대에 반응하지 않음 — em 기반 전환 필요
+
 ## 변환 현황
 
 - [x] tokens (colors, typography, spacing, radius, shadows, motion, fonts, breakpoints, z-index)

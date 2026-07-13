@@ -2,27 +2,27 @@
    SELECTION — SLUR Design System × slur-ux
    체크박스·라디오는 네이티브 input에 appearance:none,
    켜짐은 :checked(네이티브 상태). 토글은 JS 상태라
-   data-state="on|off"를 사용한다.
+   data-state="on|off". 치수는 rem(텍스트와 함께 확대).
    ───────────────────────────────────────────── */
 
 /* 체크박스 */
-.check { display: inline-flex; align-items: center; gap: 10px; font-size: var(--text-sm); cursor: pointer; }
-.check .i_input { display: inline-flex; width: 18px; height: 18px; margin: 0; border: 1px solid var(--color-border-default); border-radius: var(--radius-4); background: var(--color-surface-card); cursor: pointer; appearance: none; -webkit-appearance: none; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
-.check .i_input:checked { border-color: var(--color-brand); background: var(--color-brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 12px no-repeat; }
-.check .i_input:indeterminate { border-color: var(--color-brand); background: var(--color-brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M2 12h20'/%3E%3C/svg%3E") center / 12px no-repeat; }
+.check { display: inline-flex; align-items: center; gap: var(--space-8); font-size: var(--text-sm); cursor: pointer; }
+.check .i_input { display: inline-flex; width: 1.125rem; height: 1.125rem; margin: 0; border: 1px solid var(--color-border-default); border-radius: var(--radius-4); background: var(--color-surface-card); cursor: pointer; appearance: none; -webkit-appearance: none; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
+.check .i_input:checked { border-color: var(--color-brand); background: var(--color-brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 0.75rem no-repeat; }
+.check .i_input:indeterminate { border-color: var(--color-brand); background: var(--color-brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M2 12h20'/%3E%3C/svg%3E") center / 0.75rem no-repeat; }
 .check .i_input:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); cursor: not-allowed; }
 .check:has(.i_input:disabled) { color: var(--color-text-muted); cursor: not-allowed; }
 
 /* 라디오 */
-.radio { display: inline-flex; align-items: center; gap: 10px; font-size: var(--text-sm); cursor: pointer; }
-.radio .i_input { display: inline-flex; width: 18px; height: 18px; margin: 0; border: 1px solid var(--color-border-default); border-radius: 50%; background: var(--color-surface-card); cursor: pointer; appearance: none; -webkit-appearance: none; flex: none; transition: border-color var(--duration-fast) var(--ease-standard); }
-.radio .i_input:checked { border-color: var(--color-brand); background: radial-gradient(circle, var(--color-brand) 0 4px, transparent 4.5px); }
+.radio { display: inline-flex; align-items: center; gap: var(--space-8); font-size: var(--text-sm); cursor: pointer; }
+.radio .i_input { display: inline-flex; width: 1.125rem; height: 1.125rem; margin: 0; border: 1px solid var(--color-border-default); border-radius: 50%; background: var(--color-surface-card); cursor: pointer; appearance: none; -webkit-appearance: none; flex: none; transition: border-color var(--duration-fast) var(--ease-standard); }
+.radio .i_input:checked { border-color: var(--color-brand); background: radial-gradient(circle, var(--color-brand) 0 0.25rem, transparent 0.3rem); }
 .radio .i_input:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); cursor: not-allowed; }
 .radio:has(.i_input:disabled) { color: var(--color-text-muted); cursor: not-allowed; }
 
 /* 토글 스위치 — JS 상태이므로 data-state */
-.switch { display: inline-flex; width: 40px; height: 24px; padding: 0; border: none; border-radius: var(--radius-full); background: var(--color-border-strong); cursor: pointer; position: relative; flex: none; transition: background-color var(--duration-base) var(--ease-standard); }
-.switch .i_knob { width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); position: absolute; top: 2px; left: 2px; transition: left var(--duration-base) var(--ease-standard); }
+.switch { display: inline-flex; width: 2.5rem; height: 1.5rem; padding: 0; border: none; border-radius: var(--radius-full); background: var(--color-border-strong); cursor: pointer; position: relative; flex: none; transition: background-color var(--duration-base) var(--ease-standard); }
+.switch .i_knob { width: 1.25rem; height: 1.25rem; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); position: absolute; top: 0.125rem; left: 0.125rem; transition: left var(--duration-base) var(--ease-standard); }
 .switch[data-state="on"] { background: var(--color-brand); }
-.switch[data-state="on"] .i_knob { left: 18px; }
+.switch[data-state="on"] .i_knob { left: 1.125rem; }
 .switch:disabled { opacity: 0.45; cursor: not-allowed; }

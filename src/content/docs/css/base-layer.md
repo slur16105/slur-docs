@@ -69,8 +69,8 @@ base가 기본값을 담당하면
 
 ```css
 /* 이렇게 — 변형만 남긴다 */
-.btn { display: inline-flex; height: 40px; padding: 0 18px; border: 1px solid var(--color_border); border-radius: var(--radius_md); background: var(--color_surface); cursor: pointer; }
-.btn.m_large { height: 48px; padding: 0 24px; font-size: var(--text_base); }
+.btn { display: inline-flex; height: 2.5rem; padding: 0 var(--space_md); border: 1px solid var(--color_border); border-radius: var(--radius_md); background: var(--color_surface); cursor: pointer; }
+.btn.m_large { height: 3rem; padding: 0 var(--space_lg); font-size: var(--text_base); }
 
 /* 이렇게 하지 않는다 — base가 담당하는 값을 반복 */
 .btn { font-family: var(--font_sans); color: var(--color_text); outline: none; }

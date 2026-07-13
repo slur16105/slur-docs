@@ -1,10 +1,11 @@
 /* ─────────────────────────────────────────────
    BUTTON — SLUR Design System × slur-ux
    기본형은 보조(중립) 버튼. 변형은 m_, 상태는 data-state.
-   색·크기·모션 값은 전부 시맨틱 토큰만 사용한다.
+   높이·패딩은 rem(텍스트와 함께 확대), 값은 시맨틱 토큰만.
+   공유 컨트롤 높이: 2/2.5/3rem (32/40/48).
    ───────────────────────────────────────────── */
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: 40px; padding: 0 18px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: 2.5rem; padding: 0 var(--space-16); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
 .btn:hover { background: var(--color-surface-hover); }
 .btn:active { background: var(--color-surface-sunken); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
@@ -21,13 +22,13 @@
 .btn.m_danger:active { filter: brightness(0.85); }
 .btn.m_danger:focus-visible { box-shadow: 0 0 0 3px var(--color-danger-soft); }
 
-/* 크기 변형 — 공유 컨트롤 높이 32/40/48 */
-.btn.m_small { gap: var(--space-4); height: 32px; padding: 0 12px; font-size: var(--text-xs); }
-.btn.m_large { gap: var(--space-12); height: 48px; padding: 0 24px; font-size: var(--text-base); }
+/* 크기 변형 — 공유 컨트롤 높이 2/2.5/3rem */
+.btn.m_small { gap: var(--space-4); height: 2rem; padding: 0 var(--space-12); font-size: var(--text-xs); }
+.btn.m_large { gap: var(--space-12); height: 3rem; padding: 0 var(--space-24); font-size: var(--text-base); }
 .btn.m_full { width: 100%; font-weight: var(--weight-semibold); }
-.btn.m_icon { width: 40px; padding: 0; }
-.btn.m_icon.m_small { width: 32px; }
-.btn.m_icon.m_large { width: 48px; }
+.btn.m_icon { width: 2.5rem; padding: 0; }
+.btn.m_icon.m_small { width: 2rem; }
+.btn.m_icon.m_large { width: 3rem; }
 
 /* 상태 */
 .btn[data-state="loading"] { opacity: 0.6; pointer-events: none; cursor: wait; }

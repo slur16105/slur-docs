@@ -38,9 +38,31 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 
 ```css
 /* 컴포넌트에는 변형만 남긴다 — font-family/color/outline 반복 ❌ */
-.btn { display: inline-flex; height: 40px; padding: 0 18px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; }
-.btn.m_large { height: 48px; padding: 0 24px; font-size: var(--text-base); }
+.btn { display: inline-flex; height: 2.5rem; padding: 0 var(--space-16); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; }
+.btn.m_large { height: 3rem; padding: 0 var(--space-24); font-size: var(--text-base); }
 ```
+
+---
+
+## 단위 기준 — rem vs px
+
+기준 질문 하나로 판정한다: **"사용자가 브라우저 글자 크기를 키웠을 때, 이 값이 함께 커져야 정보 전달이 유지되는가?"** (배경: https://blog.slur.co.kr/260107-rem/ — 전면 rem이 아니라 "rem을 안 쓰는 기준"을 갖는 것이 핵심)
+
+| 단위 | 대상 | 이유 |
+|------|------|------|
+| **rem** | 글자 크기, 텍스트를 담는 컨트롤의 높이·패딩, 텍스트 주변 간격(space 토큰) | 글자만 커지고 그릇이 안 커지면 잘림 = 정보 전달 실패 |
+| **px** | 라디우스, 1px 보더(헤어라인), 그림자, 브레이크포인트, 레이아웃 구조 간격(그리드 갭·섹션 여백), 비주얼 타이포(히어로), 애니메이션 측정값 | 글자 선호와 무관한 시각·구조 속성. 함께 커지면 오히려 레이아웃 전체가 거대해지는 파손 |
+
+- 루트 폰트는 **100%(16px) 유지**. `62.5%`/`6.25%` 환산 트릭 금지 — 브라우저 최소 폰트 크기 설정(특히 CJK 로케일)에서 배율이 붕괴하고, 미디어쿼리의 rem은 루트 오버라이드를 무시해 이중 기준이 생긴다.
+- rem 값에는 항상 px 환산 주석을 단다: `--text-sm: 0.875rem; /* 14 */`
+
+---
+
+## 토큰 운영 기준
+
+- **토큰은 실제 사용처가 생길 때만 추가한다.** 완비된 스케일(0~96 전 단계 등)을 미리 만들지 않는다.
+- **반복되는 생값은 가장 가까운 스케일 값으로 스냅해 토큰으로 흡수한다** (예: `18px → var(--space-16)`, `10px → var(--space-8)`). 임의값이 반복되는 것은 토큰 부재의 신호다.
+- 예외: **z-index는 전 레이어를 유지한다** — 개별 값이 아니라 레이어 간 순서 계약이므로, 미사용 중간층을 지우면 지도가 사라진다.
 
 ---
 

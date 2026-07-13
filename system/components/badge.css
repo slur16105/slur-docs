@@ -2,10 +2,11 @@
    BADGE — SLUR Design System × slur-ux
    기본형은 soft·중립. 색은 m_brand/m_success/…,
    스타일은 m_solid/m_outline, 크기는 m_small/m_medium.
+   치수는 rem(텍스트와 함께 확대), 4px 그리드로 스냅.
    ───────────────────────────────────────────── */
 
-.badge { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 10px; border-radius: var(--radius-full); background: var(--color-surface-hover); font-size: var(--text-xs); font-weight: var(--weight-medium); color: var(--color-text-secondary); }
-.badge .i_dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.badge { display: inline-flex; align-items: center; gap: var(--space-8); height: 1.5rem; padding: 0 var(--space-8); border-radius: var(--radius-full); background: var(--color-surface-hover); font-size: var(--text-xs); font-weight: var(--weight-medium); color: var(--color-text-secondary); }
+.badge .i_dot { display: inline-block; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: currentColor; }
 
 /* 색상 변형 — soft(기본) */
 .badge.m_brand { background: var(--color-brand-soft); color: var(--color-text-brand); }
@@ -27,13 +28,13 @@
 .badge.m_outline.m_danger { border-color: var(--color-danger); background: transparent; }
 
 /* 카운트 변형 */
-.badge.m_count { justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+.badge.m_count { justify-content: center; min-width: 1.25rem; height: 1.25rem; padding: 0 var(--space-4); font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
 
 /* 크기 변형 */
-.badge.m_small { height: 18px; padding: 0 8px; font-size: 10px; }
-.badge.m_medium { height: 26px; padding: 0 12px; font-size: var(--text-sm); }
+.badge.m_small { height: 1.25rem; padding: 0 var(--space-8); }
+.badge.m_medium { height: 1.75rem; padding: 0 var(--space-12); font-size: var(--text-sm); }
 
 /* 삭제 가능한 칩 */
-.chip { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 6px 0 12px; border: 1px solid var(--color-border-default); border-radius: var(--radius-full); background: var(--color-surface-card); font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-primary); }
-.chip .i_close { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; border: none; border-radius: 50%; background: transparent; color: var(--color-text-muted); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.chip { display: inline-flex; align-items: center; gap: var(--space-8); height: 1.75rem; padding: 0 var(--space-4) 0 var(--space-12); border: 1px solid var(--color-border-default); border-radius: var(--radius-full); background: var(--color-surface-card); font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-primary); }
+.chip .i_close { display: inline-flex; align-items: center; justify-content: center; width: 1.125rem; height: 1.125rem; padding: 0; border: none; border-radius: 50%; background: transparent; color: var(--color-text-muted); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
 .chip .i_close:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }

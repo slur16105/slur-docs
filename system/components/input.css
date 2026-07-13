@@ -1,11 +1,12 @@
 /* ─────────────────────────────────────────────
    INPUT — SLUR Design System × slur-ux
    field(래퍼) + input_text(컨트롤). 오류/성공은
-   data-state, 크기는 m_. 높이는 버튼과 공유(32/40/48).
+   data-state, 크기는 m_. 높이·패딩은 rem(텍스트와
+   함께 확대), 공유 컨트롤 높이 2/2.5/3rem.
    ───────────────────────────────────────────── */
 
 /* 필드 래퍼 — 라벨/도움말 포함 */
-.field { display: flex; flex-direction: column; gap: 6px; }
+.field { display: flex; flex-direction: column; gap: var(--space-8); }
 .field .i_label { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-primary); }
 .field .i_help { font-size: var(--text-xs); color: var(--color-text-muted); }
 .field[data-state="error"] .i_help { color: var(--color-danger); }
@@ -13,7 +14,7 @@
 .field[data-state="disabled"] .i_label { color: var(--color-text-muted); }
 
 /* 텍스트 컨트롤 — input/textarea/select 공통 */
-.input_text { height: 40px; padding: 0 12px; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard); }
+.input_text { height: 2.5rem; padding: 0 var(--space-12); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard); }
 .input_text:hover { border-color: var(--color-border-strong); }
 .input_text:focus { border-color: var(--color-border-focus); box-shadow: var(--color-focus-ring); }
 .input_text:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); color: var(--color-text-muted); cursor: not-allowed; }
@@ -22,16 +23,16 @@
 .input_text[data-state="success"] { border-color: var(--color-success); box-shadow: 0 0 0 3px var(--color-success-soft); }
 
 /* 크기 변형 */
-.input_text.m_small { height: 32px; padding: 0 10px; font-size: var(--text-xs); }
-.input_text.m_large { height: 48px; padding: 0 16px; font-size: var(--text-base); }
+.input_text.m_small { height: 2rem; padding: 0 var(--space-8); font-size: var(--text-xs); }
+.input_text.m_large { height: 3rem; padding: 0 var(--space-16); font-size: var(--text-base); }
 
 /* 텍스트에리어 / 셀렉트 변형 */
-.input_text.m_textarea { height: auto; padding: 10px 12px; resize: vertical; }
-.input_text.m_select { padding: 0 36px 0 12px; appearance: none; -webkit-appearance: none; cursor: pointer; }
+.input_text.m_textarea { height: auto; padding: var(--space-8) var(--space-12); resize: vertical; }
+.input_text.m_select { padding: 0 2.25rem 0 var(--space-12); appearance: none; -webkit-appearance: none; cursor: pointer; }
 
 /* 아이콘 포함 래퍼 */
 .input_wrap { display: flex; width: 100%; align-items: center; position: relative; }
 .input_wrap .input_text { width: 100%; box-sizing: border-box; }
-.input_wrap .i_icon { display: inline-flex; color: var(--color-text-muted); position: absolute; left: 12px; pointer-events: none; }
-.input_wrap .i_icon.m_right { left: auto; right: 12px; }
-.input_wrap .input_text.m_icon_left { padding-left: 36px; }
+.input_wrap .i_icon { display: inline-flex; color: var(--color-text-muted); position: absolute; left: var(--space-12); pointer-events: none; }
+.input_wrap .i_icon.m_right { left: auto; right: var(--space-12); }
+.input_wrap .input_text.m_icon_left { padding-left: 2.25rem; }

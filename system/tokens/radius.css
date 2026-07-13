@@ -1,13 +1,12 @@
 /* ─────────────────────────────────────────────
    RADIUS
-   Token name = pixel value (e.g. --radius-8 = 8px),
-   matching the spacing scale. `full` is the one
-   exception — a concept, not a pixel value.
+   단위 기준: 모서리는 정보 전달과 무관한 시각
+   속성이므로 px — 글자 크기 선호에 반응하지 않는다.
+   `full`은 개념값(완전한 원)으로 유일한 예외.
    ───────────────────────────────────────────── */
 :root {
-  --radius-0:    0;
-  --radius-4:    0.25rem;  /* 4  */
-  --radius-8:    0.5rem;   /* 8  */
-  --radius-12:   0.75rem;  /* 12 */
+  --radius-4:    4px;
+  --radius-8:    8px;
+  --radius-12:   12px;
   --radius-full: 9999px;
 }
