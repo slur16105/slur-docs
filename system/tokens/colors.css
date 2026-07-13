@@ -80,6 +80,14 @@
   --color-warning-soft: var(--color-amber-50);
   --color-danger:       var(--color-red-500);
   --color-danger-soft:  var(--color-red-50);
+
+  /* On-status — 상태색 면 위 텍스트. 배경이 테마와 무관하게 고정이므로
+     텍스트도 고정(다크 오버라이드 없음). 색상별로 AA 대비를 만족하는
+     쪽을 선택: red 위 흰색 4.8:1, green/amber 위 진한색 5.5~5.9:1
+     (흰색은 3.2~3.3:1로 미달 — 원본 #fff에서 의도적으로 이탈). */
+  --color-on-danger:  var(--color-neutral-0);
+  --color-on-success: var(--color-neutral-900);
+  --color-on-warning: var(--color-neutral-900);
 }
 
 /* ── LAYER 2 · SEMANTIC — dark ──────────────────

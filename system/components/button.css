@@ -17,7 +17,7 @@
 .btn.m_ghost { border-color: transparent; background: transparent; }
 .btn.m_ghost:hover { background: var(--color-surface-hover); }
 .btn.m_ghost:active { background: var(--color-surface-sunken); }
-.btn.m_danger { border-color: transparent; background: var(--color-danger); color: var(--color-text-inverse); }
+.btn.m_danger { border-color: transparent; background: var(--color-danger); color: var(--color-on-danger); }
 .btn.m_danger:hover { filter: brightness(0.92); }
 .btn.m_danger:active { filter: brightness(0.85); }
 .btn.m_danger:focus-visible { box-shadow: 0 0 0 3px var(--color-danger-soft); }
