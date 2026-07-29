@@ -36,6 +36,28 @@ HTML은 콘텐츠의 구조를 정의하는 언어다. 화면을 그리기 위�
 
 ---
 
+## 목록·반복 항목은 목록 태그로
+
+같은 성격의 항목이 반복되면 `<ul>`/`<ol>` > `<li>`로 감싼다 — 내비게이션 링크 묶음, 카드 그리드, 태그 목록 등. 스크린리더가 **"목록, N개 항목"** 으로 읽어 그룹의 크기·경계를 알려주므로, 링크·항목을 평평하게 나열하지 않는다.
+
+```html
+<!-- 나쁜 예 — 평평하게 나열 -->
+<nav class="p_meganav">
+  <a class="p_link" href="#">Social</a>
+  <a class="p_link" href="#">Business</a>
+</nav>
+
+<!-- 좋은 예 — 목록으로 묶음 -->
+<nav class="p_meganav">
+  <ul class="p_list">
+    <li><a class="p_link" href="#">Social</a></li>
+    <li><a class="p_link" href="#">Business</a></li>
+  </ul>
+</nav>
+```
+
+---
+
 ## 최소한의 마크업
 
 스타일을 위해 불필요한 div를 추가하지 않는다.

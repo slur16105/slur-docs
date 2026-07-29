@@ -68,6 +68,7 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: "UI 구조 모델", slug: "core/structure-model" },
+						{ label: "시맨틱 마크업", slug: "core/semantic-markup" },
 						{ label: "네이밍 시스템", slug: "core/naming-system" },
 						{ label: "역할 분리 원칙", slug: "core/separation-of-concerns" },
 					],
@@ -103,6 +104,7 @@ export default defineConfig({
 						{ label: "대체 텍스트 규칙", slug: "a11y/alt-rules" },
 						{ label: "ARIA 최소 사용 원칙", slug: "a11y/aria-policy" },
 						{ label: "키보드 내비게이션", slug: "a11y/keyboard" },
+						{ label: "제목 구조", slug: "a11y/headings" },
 					],
 				},
 				{

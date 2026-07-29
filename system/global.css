@@ -18,3 +18,7 @@ input, textarea, select, button { font-family: inherit; font-size: var(--text-sm
 button { font-weight: var(--weight-medium); line-height: 1; }
 
 input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
+
+/* 시각적으로 숨기되 보조 기술에는 노출 — 숨긴 제목(h1 등)·오프스크린 라벨용.
+   display:none/visibility:hidden은 접근성 트리에서도 제거되므로 쓰지 않는다. */
+.a11y_hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
