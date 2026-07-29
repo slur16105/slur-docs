@@ -129,6 +129,7 @@ export default defineConfig({
 						{ label: "화면 상태 설계", slug: "ux/screen-states" },
 						{ label: "피드백 원칙", slug: "ux/feedback" },
 						{ label: "모션 원칙", slug: "ux/motion" },
+						{ label: "기능 절제 원칙", slug: "ux/feature-restraint" },
 						{ label: "폼 입력 경험", slug: "ux/form-ux" },
 					],
 				},
