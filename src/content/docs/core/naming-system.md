@@ -93,8 +93,8 @@ description: SLUR UX/UI System에서 사용하는 클래스 네이밍 기준과 
 
 중첩 구조 예시
 ```html
-<div class="layout_header">
-    <div class="l_inner">
+<div class="page_intro">
+    <div class="p_inner">
 
         <div class="card">
             <div class="i_header"></div>
@@ -104,8 +104,8 @@ description: SLUR UX/UI System에서 사용하는 클래스 네이밍 기준과 
     </div>
 </div>
 ``` 
-위 구조에서 레이아웃 블록과 컴포넌트 블록이 함께 사용되었습니다.
-접두사를 구분함으로써 중첩 구조에서도 각 요소의 소속 범위를 즉시 해석할 수 있습니다.
+위 구조에서 페이지 블록과 컴포넌트 블록이 함께 사용되었습니다.
+컴포넌트(`card`)는 레이아웃에 직접 두지 않고 **페이지가 조합**하며, 접두사(`p_`·`i_`)를 구분함으로써 중첩 구조에서도 각 요소의 소속 범위를 즉시 해석할 수 있습니다.
 
 ---
 
