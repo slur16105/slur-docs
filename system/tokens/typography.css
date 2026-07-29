@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────
    TYPOGRAPHY
-   Single family (Pretendard) for a clean, minimal
+   Single family (Noto Sans KR) for a clean, minimal
    voice. 단위 기준: 글자 크기는 사용자 선호에
    반응해야 하므로 rem (루트는 100% 유지, % 트릭 금지).
    이름 옆 주석 = 루트 16px 기준 환산 px값.
@@ -8,7 +8,7 @@
    ───────────────────────────────────────────── */
 :root {
   /* Family */
-  --font-sans: "Pretendard Variable", "Pretendard", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Pretendard Variable", sans-serif;
 
   /* Font sizes */
   --text-xs:   0.75rem;   /* 12 */
