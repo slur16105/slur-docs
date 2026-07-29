@@ -1,0 +1,107 @@
+---
+/**
+ * FontCompare — Pretendard vs Noto Sans KR 가독성 비교 위젯.
+ * SLUR 사이트가 Noto Sans KR로 폰트를 전환한 근거를 문서에서 직접 확인할 수 있게,
+ * 두 폰트를 같은 텍스트·크기·행간 조건으로 나란히 렌더한다.
+ * 테마·스무딩·크기 배율은 위젯 내부에서만 작동하며 사이트 테마를 건드리지 않는다.
+ * 두 폰트 웹폰트 로드는 이 컴포넌트를 쓰는 페이지의 frontmatter `head`가 담당한다.
+ */
+const sample = `
+  <div class="fc_h1">SLUR UX/UI System</div>
+  <p class="fc_body">구조부터 사용자 경험까지, 한 번 구조화한 UI를 오래 유지하도록 설계하는 프론트엔드 UX/UI 시스템입니다. 클래스 이름만 봐도 <b>구조와 역할</b>이 읽히며, 특정 프레임워크에 종속되지 않습니다.</p>
+  <div class="fc_h2">다루는 범위</div>
+  <p class="fc_body">구조 설계에서 끝나지 않고, 상태·접근성·성능·경험까지 하나의 기준으로 이어집니다. 정상 상태만이 아니라 로딩·에러 상태, 접근성, 성능까지 처음부터 설계합니다.</p>
+  <div class="fc_h3">핵심 원칙 — 역할 분리</div>
+  <p class="fc_body">구조는 HTML, 표현은 CSS, 동작은 JavaScript, 상태는 <code class="fc_code">data-state</code>가 담당합니다. 누가 작성해도 같은 구조로 읽히며, 일관성이 생산성을 만듭니다.</p>
+  <p class="fc_small">접두사: layout_ · page_ · modal_ · i_ · m_ · mo_ · pc_ · 숫자 0123456789 · 1,234,567 · 2026-07-29 · v1.4.1</p>
+  <p class="fc_small">작은 글자 테스트 — 받침(밟·읊·긁·닭)이 뭉개지지 않는지, 획이 가늘게 번지지 않는지, 대비가 또렷한지 살펴보세요.</p>
+`;
+---
+
+<div class="fc" data-theme="dark" data-smoothing="on" style="--fc-scale:1;">
+	<div class="fc_bar">
+		<div class="fc_ctrl">
+			<span class="fc_lbl">테마</span>
+			<button type="button" class="fc_btn" data-fc="theme" aria-pressed="false">다크</button>
+		</div>
+		<div class="fc_ctrl">
+			<span class="fc_lbl">스무딩(antialiased)</span>
+			<button type="button" class="fc_btn" data-fc="smoothing" aria-pressed="true">켜짐</button>
+		</div>
+		<div class="fc_ctrl fc_ctrl--grow">
+			<span class="fc_lbl">크기 배율 <span data-fc="scaleval">1.00×</span></span>
+			<input type="range" class="fc_range" data-fc="scale" min="0.85" max="1.4" step="0.05" value="1" aria-label="크기 배율">
+		</div>
+	</div>
+
+	<div class="fc_grid">
+		<div class="fc_col fc_pre">
+			<span class="fc_tag">Pretendard</span>
+			<Fragment set:html={sample} />
+		</div>
+		<div class="fc_col fc_noto">
+			<span class="fc_tag">Noto Sans KR</span>
+			<Fragment set:html={sample} />
+		</div>
+	</div>
+</div>
+
+<style>
+	.fc { --fc-bg:#14171a; --fc-card:#23272b; --fc-text:#cbcfd3; --fc-heading:#eef0f1; --fc-muted:#9aa1a8; --fc-line:#2b3036; --fc-accent:#5c8dff; margin: 1.5rem 0; }
+	.fc[data-theme="light"] { --fc-bg:#ffffff; --fc-card:#ffffff; --fc-text:#363b41; --fc-heading:#14171a; --fc-muted:#6b737b; --fc-line:#e2e5e7; --fc-accent:#2f6bff; }
+
+	.fc_bar { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding: 12px 16px; border: 1px solid var(--fc-line); border-radius: 12px 12px 0 0; background: var(--fc-bg); }
+	.fc_ctrl { display: flex; align-items: center; gap: 8px; }
+	.fc_ctrl--grow { flex: 1; min-width: 180px; }
+	.fc_lbl { font-size: 13px; color: var(--fc-muted); }
+	.fc_btn { padding: 5px 12px; border: 1px solid var(--fc-line); border-radius: 8px; background: var(--fc-card); color: var(--fc-text); font-size: 13px; cursor: pointer; }
+	.fc_btn[aria-pressed="true"] { border-color: var(--fc-accent); color: var(--fc-accent); }
+	.fc_range { flex: 1; min-width: 120px; accent-color: var(--fc-accent); }
+
+	.fc_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--fc-line); border-top: 0; border-radius: 0 0 12px 12px; background: var(--fc-line); overflow: hidden; }
+	@media (max-width: 640px) { .fc_grid { grid-template-columns: 1fr; } }
+
+	.fc_col { padding: 24px; background: var(--fc-bg); }
+	.fc[data-smoothing="on"] .fc_col { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+	.fc[data-smoothing="off"] .fc_col { -webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto; }
+	.fc_pre { font-family: "Pretendard Variable", "Pretendard", sans-serif; }
+	.fc_noto { font-family: "Noto Sans KR", sans-serif; }
+
+	.fc_tag { display: inline-block; margin-bottom: 16px; font-size: 12px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--fc-muted); }
+	.fc_h1 { font-size: calc(30px * var(--fc-scale)); font-weight: 600; line-height: 1.25; letter-spacing: -.02em; color: var(--fc-heading); margin: 0 0 8px; }
+	.fc_h2 { font-size: calc(24px * var(--fc-scale)); font-weight: 600; line-height: 1.3; letter-spacing: -.02em; color: var(--fc-heading); margin: 20px 0 6px; }
+	.fc_h3 { font-size: calc(18px * var(--fc-scale)); font-weight: 600; line-height: 1.4; color: var(--fc-heading); margin: 16px 0 6px; }
+	.fc_body { font-size: calc(16px * var(--fc-scale)); font-weight: 400; line-height: 1.7; color: var(--fc-text); margin: 0 0 12px; }
+	.fc_small { font-size: calc(14px * var(--fc-scale)); font-weight: 400; line-height: 1.6; color: var(--fc-muted); margin: 0 0 8px; }
+	.fc_body b { font-weight: 700; color: var(--fc-heading); }
+	.fc_code { font-family: ui-monospace, monospace; font-size: .85em; padding: 1px 5px; border-radius: 4px; background: color-mix(in srgb, var(--fc-muted) 22%, transparent); }
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>(".fc").forEach((fc) => {
+		const q = (sel: string) => fc.querySelector(sel) as HTMLElement | null;
+		const themeBtn = q('[data-fc="theme"]');
+		const smBtn = q('[data-fc="smoothing"]');
+		const scale = q('[data-fc="scale"]') as HTMLInputElement | null;
+		const scaleVal = q('[data-fc="scaleval"]');
+
+		themeBtn?.addEventListener("click", () => {
+			const light = fc.getAttribute("data-theme") === "light";
+			fc.setAttribute("data-theme", light ? "dark" : "light");
+			themeBtn.textContent = light ? "다크" : "라이트";
+			themeBtn.setAttribute("aria-pressed", String(!light));
+		});
+
+		smBtn?.addEventListener("click", () => {
+			const on = fc.getAttribute("data-smoothing") === "on";
+			fc.setAttribute("data-smoothing", on ? "off" : "on");
+			smBtn.textContent = on ? "꺼짐" : "켜짐";
+			smBtn.setAttribute("aria-pressed", String(!on));
+		});
+
+		scale?.addEventListener("input", () => {
+			fc.style.setProperty("--fc-scale", scale.value);
+			if (scaleVal) scaleVal.textContent = parseFloat(scale.value).toFixed(2) + "×";
+		});
+	});
+</script>

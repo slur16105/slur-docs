@@ -158,6 +158,7 @@ export default defineConfig({
 						{ label: "클래스 네이밍 예제", slug: "reference/naming-examples" },
 						{ label: "권장 / 비권장 사례", slug: "reference/do-dont" },
 						{ label: "체크리스트", slug: "reference/checklist" },
+						{ label: "타이포그래피 선정 기록", slug: "reference/typography-choice" },
 						{ label: "자주 묻는 질문", slug: "reference/faq" },
 					],
 				},
