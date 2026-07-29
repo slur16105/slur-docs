@@ -84,6 +84,7 @@ export default defineConfig({
 						{ label: "한 줄 CSS 규칙", slug: "css/one-line-rule" },
 						{ label: "토큰 및 변수 전략", slug: "css/tokens" },
 						{ label: "가상 요소 규칙", slug: "css/pseudo-elements" },
+						{ label: "반응형 규칙", slug: "css/responsive" },
 					],
 				},
 				{

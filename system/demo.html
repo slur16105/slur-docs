@@ -29,6 +29,7 @@
 body { padding: 48px 40px; background: var(--color-surface-sunken); transition: background-color var(--duration-base) var(--ease-standard); }
 .page_demo { display: flex; width: 100%; max-width: 960px; margin: 0 auto; flex-direction: column; gap: 64px; }
 .page_demo .p_head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.page_demo #themeToggle { width: 2.5rem; padding: 0; flex: none; } /* 데모 헤더 크롬 — 아이콘만 정사각형 */
 .page_demo .p_eyebrow { font-size: var(--text-xs); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
 .page_demo .p_title { font-size: var(--text-4xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
 .page_demo .p_desc { max-width: 56ch; font-size: var(--text-base); color: var(--color-text-secondary); }
@@ -55,7 +56,7 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
       <h1 class="p_title">컴포넌트 데모</h1>
       <p class="p_desc">SLUR Design System을 slur-ux 문법(블록 스코프 + i_/m_ + data-state)으로 구현한 전체 컴포넌트. 값은 전부 시맨틱 토큰만 사용한다.</p>
     </div>
-    <button type="button" class="btn" id="themeToggle">다크 모드</button>
+    <button type="button" class="btn" id="themeToggle" aria-label="다크 모드로 전환" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
   </header>
 
   <!-- BUTTON -->
@@ -76,9 +77,14 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
         <button type="button" class="btn m_primary m_small">작게 · 32</button>
         <button type="button" class="btn m_primary">보통 · 40</button>
         <button type="button" class="btn m_primary m_large">크게 · 48</button>
-        <button type="button" class="btn m_icon" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
         <button type="button" class="btn m_primary" disabled>비활성</button>
         <button type="button" class="btn m_primary" data-state="loading">저장 중...</button>
+      </div>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">햄버거(메뉴) 버튼 · 48</h3>
+      <div class="p_row">
+        <button type="button" class="btn_menu" aria-label="메뉴 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button>
       </div>
     </div>
   </section>
@@ -403,11 +409,17 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
 
 <script>
 const themeToggle = document.getElementById("themeToggle");
+const ICON_MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+const ICON_SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>';
 themeToggle.addEventListener("click", () => {
   const root = document.documentElement;
   const dark = root.getAttribute("data-theme") === "dark";
   if (dark) { root.removeAttribute("data-theme"); } else { root.setAttribute("data-theme", "dark"); }
-  themeToggle.textContent = dark ? "다크 모드" : "라이트 모드";
+  // 전환 후 상태 기준: 다크면 해(라이트로 전환), 라이트면 달(다크로 전환)
+  const nowDark = !dark;
+  themeToggle.innerHTML = nowDark ? ICON_SUN : ICON_MOON;
+  themeToggle.setAttribute("aria-label", nowDark ? "라이트 모드로 전환" : "다크 모드로 전환");
+  themeToggle.setAttribute("aria-pressed", String(nowDark));
 });
 
 document.getElementById("demoIndet").indeterminate = true;
