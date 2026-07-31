@@ -105,19 +105,22 @@ display → width/height → margin → padding → border → border-radius
 - **접근성** (alt·ARIA·키보드) → `references/accessibility.md`
 - **이미지·성능** (포맷·반응형·로딩) → `references/media.md`
 - **화면 상태·피드백** (빈/로딩/에러/정상, 토스트·모달) → `references/ux-states.md`
+- **기존 프로젝트 이관** (SLUR 도입 시 실패 지점과 검증법) → `references/migration.md`
 - **검토 체크리스트** → `references/checklist.md`
 
 ---
 
 ## 리팩토링 시 접근법
 
-기존 코드에 SLUR 시스템을 적용할 때:
+기존 코드에 SLUR 시스템을 적용할 때. **작업 전에 `references/migration.md`를 먼저 읽는다** — 접두사 소유권 판단, 손대면 안 되는 이름, 검증 방법이 거기 있다.
 
 1. 네이밍 규칙 우선 변환 (클래스명 → SLUR 체계)
 2. `class="active"` 등 상태 클래스 → `data-state` 변환
-3. CSS 선택자 깊이 정리
-4. JS에서 상태 관리 방식 변환
-5. 시맨틱 구조 검토
+3. JS에서 상태 관리 방식 변환 + 인라인 이벤트 제거 (`data-action` + 위임)
+4. 시맨틱 구조·접근성 검토 (제목 구조, 로고, 버튼/링크 구분)
+5. 중복 재선언 정리 (태그 기본값과 겹치는 지역 규칙 → global 또는 컴포넌트)
+
+**선택자 깊이는 이관 범위에 넣지 않는다.** 특이도가 떨어져 다른 규칙에 밀릴 수 있어, 화면이 그대로여야 하는 이관의 전제를 깬다 (`references/css.md` 참고).
 
 파일/컴포넌트 단위로 진행하며 한 번에 전체를 바꾸려 하지 않는다.
 
