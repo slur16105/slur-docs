@@ -94,3 +94,26 @@ trigger.addEventListener("keydown", (e) => {
 ```
 
 점검: 페이지에 h1이 정확히 하나 있는가 / 제목 레벨이 건너뛰지 않는가 / 보이는 제목이 없다면 `a11y_hidden`으로 넣었는가 / `<title>`이 페이지 고유한가.
+
+### 시각 숨김 클래스는 이 구현으로 고정한다
+
+`a11y_hidden`은 global.css에 **한 번만** 선언하고 아래 구현을 쓴다. 크기를 0으로 만드는 옛 방식(`width:0; height:0; font-size:0; line-height:0`)은 일부 스크린리더가 **0px 텍스트를 건너뛰어** 읽지 않는다. 기존 코드에서 `blind`·`hidden`·`skip` 같은 이름으로 이 옛 방식이 발견되면 이름과 구현을 함께 교체한다.
+
+```css
+.a11y_hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+```
+
+### 로고 마크업 표준형
+
+로고는 제목이 아니라 **홈으로 가는 링크**다. 이미지 로고면 `alt`에 사이트명을, 배경 이미지 로고면 `a11y_hidden` 텍스트를 넣는다. `alt=""`로 비우면 링크에 이름이 없어 스크린리더가 "링크"라고만 읽는다.
+
+```html
+<!-- ✅ 배경 이미지 로고 -->
+<div class="l_logo"><a href="/"><span class="a11y_hidden">Linker 홈</span></a></div>
+
+<!-- ✅ img 로고 -->
+<div class="l_logo"><a href="/"><img src="/logo.svg" alt="Linker 홈"></a></div>
+
+<!-- ❌ 모든 페이지의 h1이 사이트명으로 같아진다 / 링크에 이름이 없다 -->
+<h1 class="l_logo"><a href="/"><img src="/logo.svg" alt=""></a></h1>
+```
