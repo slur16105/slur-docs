@@ -9,6 +9,7 @@ CSS는 구조를 표현하는 언어다. HTML 구조를 바꾸지 않고, 재사
 ## 규칙
 
 - **클래스는 한 줄로 작성한다.** 속성 개수와 상관없이 선택자 하나당 한 줄.
+- **선택자에 `id`를 사용하지 않는다.** 스타일 훅은 클래스만 쓴다. `id`는 `<label for>`·`aria-describedby` 같은 접근성 연결 전용이다.
 - 스타일을 위해 HTML 구조를 변경하지 않는다.
 - 공통 스타일을 우선 작성한다.
 - 선택자는 2단계를 권장하고 3단계 이상을 지양한다.
@@ -159,6 +160,20 @@ display → width/height → margin → padding → border → border-radius
 /* 지양 — 3단계 이상 */
 .modal_login .i_wrap .i_head .i_title { }
 ```
+
+### `id`는 선택자로 쓰지 않는다
+
+레이아웃 골격도 예외 없이 클래스로 표기한다. `id`는 문서에서 유일해야 하므로 재사용이 불가능하고, 특이도가 과도해 이후 규칙이 이길 수 없게 만든다.
+
+```css
+.layout_header .l_gnb { }      /* O */
+.layout_wrap[data-state="fixed"] .layout_header { }   /* O — 상태도 data-state로 */
+
+#header .gnb { }               /* X — id 선택자 */
+#wrap.fixed #header { }        /* X — id + 상태 클래스 */
+```
+
+기존 코드를 옮길 때는 `#wrap`→`.layout_wrap`, `#header`→`.layout_header`, `#gnb`→`.l_gnb`, `#footer`→`.layout_footer` 식으로 바꾸고, HTML의 `id` 속성은 접근성 연결에 필요한 것만 남긴다.
 
 ### 내부 요소는 가장 가까운 블록 밑으로 (단독 금지, 중간 스킵)
 
