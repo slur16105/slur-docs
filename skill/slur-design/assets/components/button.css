@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────
-   BUTTON — SLUR Design System × slur-ux
+   BUTTON — SLUR Design System × slur-guidelines
    기본형은 보조(중립) 버튼. 변형은 m_, 상태는 data-state.
    높이·패딩은 rem(텍스트와 함께 확대), 값은 시맨틱 토큰만.
    공유 컨트롤 높이: 2/2.5/3rem (32/40/48).
@@ -21,12 +21,15 @@
 .btn.m_danger { border-color: transparent; background: var(--color-danger); color: var(--color-on-danger); }
 .btn.m_danger:hover { filter: brightness(0.92); }
 .btn.m_danger:active { filter: brightness(0.85); }
-.btn.m_danger:focus-visible { box-shadow: 0 0 0 3px var(--color-danger-soft); }
 
 /* 크기 변형 — 공유 컨트롤 높이 2/2.5/3rem */
 .btn.m_small { gap: var(--space-4); height: 2rem; padding: 0 var(--space-12); font-size: var(--text-xs); }
 .btn.m_large { gap: var(--space-12); height: 3rem; padding: 0 var(--space-24); font-size: var(--text-base); }
 .btn.m_full { width: 100%; font-weight: var(--weight-semibold); }
+/* 아이콘만 있는 정사각 버튼 — 보이는 크기 = 탭 영역. 모바일 단독 탭 타깃이면 m_large(48) */
+.btn.m_icon { width: 2.5rem; padding: 0; }
+.btn.m_icon.m_small { width: 2rem; }
+.btn.m_icon.m_large { width: 3rem; }
 
 /* 햄버거(메뉴) 버튼 — 모바일 내비게이션을 여는 단독 버튼.
    48×48(3rem) 고정: 이 버튼은 보이는 크기 = 실제 탭 영역이라, 모바일 최소

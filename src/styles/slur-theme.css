@@ -1,15 +1,15 @@
 /* ─────────────────────────────────────────────
    SLUR THEME — Starlight 어댑터
-   system/ 토큰을 Starlight의 --sl-* 변수에 배선한다.
+   skill/slur-design/assets/tokens 토큰을 Starlight의 --sl-* 변수에 배선한다.
    @import는 Vite가 빌드 타임에 번들하므로 허용 영역.
    이 파일은 colors.css와 같은 "시맨틱 배선" 계층이라
    프리미티브 참조가 허용된다.
    ───────────────────────────────────────────── */
-@import url("../../system/tokens/colors.css");
-@import url("../../system/tokens/typography.css");
-@import url("../../system/tokens/spacing.css");
-@import url("../../system/tokens/radius.css");
-@import url("../../system/tokens/shadows.css");
+@import url("../../skill/slur-design/assets/tokens/colors.css");
+@import url("../../skill/slur-design/assets/tokens/typography.css");
+@import url("../../skill/slur-design/assets/tokens/spacing.css");
+@import url("../../skill/slur-design/assets/tokens/radius.css");
+@import url("../../skill/slur-design/assets/tokens/shadows.css");
 
 /* 폰트·그림자 */
 :root { --sl-font: var(--font-sans); --sl-shadow-sm: var(--shadow-sm); --sl-shadow-md: var(--shadow-md); --sl-shadow-lg: var(--shadow-lg); }

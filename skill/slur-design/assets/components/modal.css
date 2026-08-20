@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────
-   MODAL — SLUR Design System × slur-ux
+   MODAL — SLUR Design System × slur-guidelines
    블록은 modal_dialog(오버레이 포함), 다이얼로그는
    i_wrap. 열림/닫힘은 data-state="open|close".
    z-index는 토큰(오버레이 300 / 모달 400),

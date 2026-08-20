@@ -9,6 +9,35 @@ SLUR UX/UI System의
 
 ---
 
+## v1.5.0 — 2026.08
+
+### 층 분리·이름 정리 + 스킬 개명 (`slur-ux` → `slur-guidelines`)
+
+업계에서 굳은 층 이름(Carbon·Primer·Polaris·W3C DTCG)에 `slur-`를 붙여 구조를 정리했다. 규칙 내용은 바뀌지 않는다(하위호환).
+
+#### 구조
+
+- SLUR을 **네 층**으로 정의 — **guidelines**(규칙 + 동봉 `global.css`) / **tokens** / **components** / **patterns**(후순위). 스킬(입구)은 그대로 **2개**: `slur-guidelines`(= 슬러 시스템), `slur-design`(= 슬러 디자인, tokens + components)
+- 스킬 `slur-ux` → **`slur-guidelines`** 개명. 호출어 "슬러 시스템"·"슬러 규칙"은 그대로, "슬러 가이드라인" 추가. `~/.claude/skills` 심볼릭 링크도 갱신
+- CSS 원본을 **스킬 폴더에 동봉** — `system/global.css` → `skill/slur-guidelines/assets/global.css`, `system/tokens/`·`system/components/` → `skill/slur-design/assets/`. 스킬만 있으면 어느 프로젝트에서도 파일을 찾을 수 있다(절대경로·"복사하라" 의존 제거). `system/`에는 `demo.html`·`README.md`만 남김
+- 로드 순서를 `global.css → tokens → components → 프로젝트 CSS`로 통일. 파일명 관례는 `global.css` 유지, `common.css` 같은 "공통 통"은 만들지 않는다(공통처럼 보이면 `layout_*` 또는 컴포넌트)
+- `slur-design` 스킬에 **모드**(`full` / `tokens-only`), **프로젝트에 넣는 법**, **하지 말 것**(Tailwind·shadcn 혼용, 새 hex, 인라인 style, 토큰 재정의, 포커스 재선언, `!important`·id 선택자), **블록→파일 색인**, **디자인 층 점검표** 추가
+
+#### 공통 레이어 (`global.css`)
+
+- 포커스 링 범위를 폼 컨트롤에서 **`a`·`summary`·`[tabindex]`까지 확장** — 링크 키보드 포커스가 보이지 않던 문제 해결
+- **`prefers-reduced-motion`** 대응 추가
+- 토큰을 `var(--x, 폴백)`으로 참조 — 토큰 없는 프로젝트(규칙만 적용)에서도 단독 동작
+- `.a11y_hidden`에 `clip` 폴백 추가(스킬 문서와 일치)
+
+#### 디자인시스템 (`skill/slur-design/assets/`)
+
+- 자기 규칙 위반 일소 — 스위치 노브 리터럴 `#fff` → `--color-on-brand`, `.btn.m_danger`의 포커스 링 재선언 제거(global이 담당), 데모의 CSS `id` 선택자·인라인 `style=` 전부 클래스로 이동
+- `.btn.m_icon` 정사각 아이콘 버튼 변형 추가(기본 40, `m_small` 32, `m_large` 48)
+- 문서의 웹폰트 표기 Pretendard → **Noto Sans KR**(v1.4.1 전환분 반영), README의 존재하지 않는 `fonts` 토큰 항목 삭제
+
+---
+
 ## v1.4.1 — 2026.07
 
 ### 본문 폰트 전환 (Pretendard → Noto Sans KR)

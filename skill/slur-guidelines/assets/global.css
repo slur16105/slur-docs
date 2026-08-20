@@ -1,0 +1,33 @@
+/* ─────────────────────────────────────────────
+   GLOBAL — 공통 레이어 (slur-guidelines 동봉)
+   룩과 무관한 기본값만 담는다: 리셋, 폼 컨트롤 상속, 포커스 링,
+   a11y_hidden, 움직임 줄이기. 색·크기 값은 토큰을 "참조"만 하고
+   토큰이 없는 프로젝트(규칙만 적용)에서도 동작하도록 폴백을 둔다.
+   로드 순서: global.css → tokens → components → 프로젝트 CSS.
+   시스템 기본값은 여기가 담당하고, 컴포넌트에는 기본값과 다른
+   값(변형)만 남긴다. outline 제거는 대체 포커스 링과 반드시 한 쌍.
+   ───────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+body { background: var(--color-surface-page, #fff); font-family: var(--font-sans, system-ui, -apple-system, "Apple SD Gothic Neo", "Segoe UI", sans-serif); font-size: var(--text-base, 1rem); line-height: var(--leading-normal, 1.5); color: var(--color-text-primary, #1f2328); }
+
+/* 컨트롤 기본 타이포 — 시스템 규칙: 컨트롤은 14px(sm), 본문은 16px(base).
+   폼 컨트롤은 UA 스타일 때문에 body에서 font/color를 상속받지 않으므로
+   태그 레벨에서 상속을 연다. 색은 상속(color: inherit)으로 한곳(body)에서 관리한다. */
+input, textarea, select, button { font-family: inherit; font-size: var(--text-sm, 0.875rem); line-height: inherit; color: inherit; }
+button { font-weight: var(--weight-medium, 500); line-height: 1; }
+
+/* 포커스 링 — 한 곳에서만 선언한다. 컴포넌트에서 반복 선언 금지.
+   폼 컨트롤뿐 아니라 링크·tabindex 요소·summary도 키보드 포커스가 보여야 한다. */
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: none; box-shadow: var(--color-focus-ring, 0 0 0 3px rgba(47, 107, 255, 0.3)); }
+
+/* 시각적으로 숨기되 보조 기술에는 노출 — 숨긴 제목(h1 등)·오프스크린 라벨용.
+   display:none/visibility:hidden은 접근성 트리에서도 제거되므로 쓰지 않는다. */
+.a11y_hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+
+/* 움직임 줄이기 — OS 설정을 존중한다. 애니메이션·트랜지션을 사실상 끈다. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
