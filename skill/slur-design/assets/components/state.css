@@ -1,22 +1,48 @@
 /* ─────────────────────────────────────────────
    STATE — SLUR Design System × slur-guidelines
-   4상태(loading / empty / error / success) 안내문의 모양 + 스피너.
-   "언제 보이나"(노출 전환)는 global.css의 4상태 스위치가 담당하고,
-   여기는 "어떻게 보이나"만 — 여백·색·스피너. 블록 이름과 무관하게
-   [data-state] > .i_status 안의 안내문에 적용한다(global.css와 같은 예외).
-   i_status 상자는 항상 렌더(role="status")이므로 상자 자체에는 스타일 없음.
-   스켈레톤은 대시보드 어휘(card·table)와 함께 추후.
+   4상태(loading / empty / error / success)의 "룩"을 담당한다.
+   "언제 보이나"(노출 전환)는 global.css의 4상태 스위치가 블록의 data-state를
+   읽어 처리하고, 여기는 "어떻게 보이나"만. 안내문 셋은 항상 렌더되는
+   i_status(role="status") 상자 안에 있다 — 상자 자체에는 스타일 없음.
+   · 슬롯 기본형 — 문장만 넣은 i_loading/i_empty/i_error의 여백·색 (global.css와 같은 [data-state] 예외)
+   · empty_state — 빈/에러 안내 패널(i_empty·i_error 슬롯 안에, 아이콘+제목+설명+행동)
+   · skeleton    — 로딩 자리표시(i_loading 슬롯 안에, 실제 콘텐츠 형태를 흉내)
+   · spinner     — 진행 중 표시(문장 옆·버튼 안·단독)
+   i_loading에는 읽힐 문장을 하나 둔다(스켈레톤만이면 보조 기술에 읽히지 않음 — a11y_hidden 가능).
+   치수는 rem/em(텍스트와 함께 확대), 값은 시맨틱 토큰만.
    ───────────────────────────────────────────── */
 
-[data-state] > .i_status > .i_loading, [data-state] > .i_status > .i_empty, [data-state] > .i_status > .i_error { padding: var(--space-24) var(--space-16); font-size: var(--text-sm); line-height: var(--leading-normal); text-align: center; color: var(--color-text-secondary); }
-[data-state="loading"] > .i_status > .i_loading { display: flex; align-items: center; justify-content: center; gap: var(--space-8); }
+/* 슬롯 기본형 — 문장만 넣었을 때의 모양(여백·글자). 내용물의 배치는 강제하지 않는다 —
+   스켈레톤 줄·empty_state 패널을 넣으면 그대로 블록으로 쌓인다. 문장 옆 스피너는 인라인(.spinner). */
+[data-state] > .i_status > .i_loading, [data-state] > .i_status > .i_empty, [data-state] > .i_status > .i_error { padding: var(--space-16); font-size: var(--text-sm); line-height: var(--leading-normal); text-align: center; color: var(--color-text-secondary); }
 [data-state] > .i_status > .i_error { color: var(--color-danger); }
 
-/* 스피너 — i_loading 앞에 자동 부착(마크업 추가 없음). 크기는 em(텍스트를 따라감). */
-[data-state] > .i_status > .i_loading::before { content: ""; display: inline-block; width: 1em; height: 1em; border: 2px solid var(--color-border-default); border-top-color: var(--color-brand); border-radius: var(--radius-full); flex: none; animation: spin_state 0.8s linear infinite; }
+/* 빈 상태 패널 — 아이콘 + 제목 + 설명 + 행동(선택). 에러는 m_error */
+.empty_state { display: flex; max-width: 360px; margin: 0 auto; padding: var(--space-24) var(--space-16); flex-direction: column; align-items: center; gap: var(--space-8); text-align: center; }
+.empty_state .i_icon { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; margin-bottom: var(--space-8); border-radius: var(--radius-full); background: var(--color-surface-sunken); color: var(--color-text-muted); }
+.empty_state .i_icon svg { width: 1.5rem; height: 1.5rem; }
+.empty_state .i_title { font-size: var(--text-base); font-weight: var(--weight-semibold); color: var(--color-text-primary); }
+.empty_state .i_text { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.empty_state .i_action { display: flex; gap: var(--space-8); margin-top: var(--space-12); flex-wrap: wrap; justify-content: center; }
+.empty_state.m_error .i_icon { background: var(--color-danger-soft); color: var(--color-danger); }
+.empty_state.m_compact { padding: var(--space-16); }
+.empty_state.m_compact .i_icon { width: 2.5rem; height: 2.5rem; margin-bottom: 0; }
 
-/* 버튼 로딩 — 같은 스피너(currentColor). button.css의 opacity 0.6·pointer-events none과 함께 쓰인다. */
-.btn[data-state="loading"]::before { content: ""; display: inline-block; width: 1em; height: 1em; border: 2px solid currentColor; border-right-color: transparent; border-radius: var(--radius-full); flex: none; animation: spin_state 0.8s linear infinite; }
+/* 스켈레톤 — 한 줄이 기본(텍스트 한 줄 높이). 형태는 m_, 너비는 자리에 맞춰 페이지가 정한다.
+   모션은 이동하는 반짝임이 아니라 숨 쉬듯 느린 펄스(투명도) — 산만하지 않고, 무한 반복에 가감속 곡선을 걸어 생기는 멈칫거림이 없다 */
+.skeleton { display: block; width: 100%; height: 1em; border-radius: var(--radius-4); background: var(--color-border-subtle); animation: skeleton_pulse 1.8s ease-in-out infinite; }
+.skeleton.m_title { height: 1.5em; }
+.skeleton.m_circle { width: 2.5rem; height: 2.5rem; border-radius: 50%; flex: none; }
+.skeleton.m_rect { height: 8rem; border-radius: var(--radius-8); }
+.skeleton.m_inline { display: inline-block; width: 6em; vertical-align: middle; }
+@keyframes skeleton_pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
-/* prefers-reduced-motion은 global.css가 animation을 끈다 — 스피너는 정지된 링으로 남는다. */
-@keyframes spin_state { to { transform: rotate(360deg); } }
+/* 스피너 — 텍스트 옆이면 em(글자 크기 따라감), 단독 큰 표시는 m_large. 장식이면 aria-hidden */
+.spinner { display: inline-block; width: 1.25em; height: 1.25em; border: 2px solid var(--color-border-subtle); border-top-color: var(--color-brand); border-radius: 50%; vertical-align: -0.3em; flex: none; animation: spinner_spin 0.8s linear infinite; }
+.spinner.m_large { width: 2.5rem; height: 2.5rem; border-width: 3px; }
+@keyframes spinner_spin { to { transform: rotate(360deg); } }
+
+/* 조합 — 버튼 로딩 중에는 현재 글자색으로 도는 작은 스피너(button.css의 opacity·pointer-events와 함께) */
+.btn .spinner { width: 1em; height: 1em; border-color: transparent; border-top-color: currentColor; }
+
+/* prefers-reduced-motion은 global.css가 animation을 끈다 — 스피너·스켈레톤은 정지된 모양으로 남는다. */

@@ -1,30 +1,36 @@
 /* ─────────────────────────────────────────────
    MODAL — SLUR Design System × slur-guidelines
-   블록은 네이티브 <dialog class="modal_dialog">. 상태 정본은 [open] —
-   data-state를 붙이지 않는다(브라우저가 Esc로 닫을 때 open만 제거하므로
-   병용하면 어긋난다). 배경 딤은 ::backdrop. showModal()이 배경 inert·
-   Esc 닫기·포커스 복귀·최상위 레이어를 제공하므로 JS는 showModal()/close()만.
-   열림·닫힘 모션은 @starting-style + allow-discrete(Chrome 117+ · Safari 17.4+,
-   미지원 환경은 모션만 생략되고 동작은 유지). ::backdrop이 :root 토큰을
-   상속하는 것도 Safari 17.4+라 var() 폴백을 둔다.
-   커스텀 오버레이가 필요하면 accessibility.md 5-A의 대안 경로를 따른다.
-   모달이 열려 있는 동안 토스트는 띄우지 않는다(ux-states.md).
-   내부 여백은 rem 토큰, 다이얼로그 폭은 레이아웃 값(px).
+   블록은 modal_dialog. 1순위는 네이티브 <dialog class="modal_dialog"> +
+   showModal() — 배경 inert·Esc·포커스 복귀·최상위 레이어를 브라우저가 준다.
+   상태 정본은 [open](네이티브) — data-state를 붙이지 않는다. 배경 딤은
+   ::backdrop. 열림 모션은 @starting-style + allow-discrete(Safari 17.4+,
+   미지원이면 모션만 생략). <dialog>를 못 쓰는 커스텀 오버레이는
+   div.modal_dialog + data-state="open|close"(대안, 아래)로 유지한다.
+   <dialog>는 자신이 블록이자 카드라 i_wrap 없이 i_head/i_body/i_foot을 직접 둔다.
+   모달이 열려 있는 동안 토스트는 띄우지 않는다(ux-states.md — dialog 바깥은 inert).
+   내부 여백은 rem 토큰. 다이얼로그 폭은 레이아웃 값(px).
    ───────────────────────────────────────────── */
 
-.modal_dialog { width: calc(100% - 48px); max-width: 420px; max-height: calc(100% - 48px); margin: auto; padding: 0; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); color: var(--color-text-primary); box-shadow: var(--shadow-lg); opacity: 0; transform: scale(0.96) translateY(8px); transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-spring), display var(--duration-base) allow-discrete, overlay var(--duration-base) allow-discrete; }
-.modal_dialog[open] { opacity: 1; transform: none; }
-@starting-style { .modal_dialog[open] { opacity: 0; transform: scale(0.96) translateY(8px); } }
+/* 1순위 — 네이티브 dialog. UA 기본(가운데 정렬·최상위 레이어)을 그대로 쓰고 룩만 입힌다.
+   가운데 정렬의 근거인 margin:auto는 전체 리셋이 지우므로 global.css가 dialog { margin: auto }로 복원한다 */
+dialog.modal_dialog { width: calc(100% - 48px); max-width: 420px; padding: 0; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); color: inherit; box-shadow: var(--shadow-lg); opacity: 0; transform: scale(0.96) translateY(8px); transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-spring), display var(--duration-base) allow-discrete, overlay var(--duration-base) allow-discrete; }
+dialog.modal_dialog[open] { opacity: 1; transform: none; }
+dialog.modal_dialog::backdrop { background: var(--color-surface-overlay); opacity: 0; transition: opacity var(--duration-base) var(--ease-standard), display var(--duration-base) allow-discrete, overlay var(--duration-base) allow-discrete; }
+dialog.modal_dialog[open]::backdrop { opacity: 1; }
+@starting-style { dialog.modal_dialog[open] { opacity: 0; transform: scale(0.96) translateY(8px); } dialog.modal_dialog[open]::backdrop { opacity: 0; } }
 
-.modal_dialog::backdrop { background: var(--color-overlay, rgba(11, 13, 15, 0.45)); opacity: 0; transition: opacity var(--duration-base) var(--ease-standard), display var(--duration-base) allow-discrete, overlay var(--duration-base) allow-discrete; }
-.modal_dialog[open]::backdrop { opacity: 1; }
-@starting-style { .modal_dialog[open]::backdrop { opacity: 0; } }
+/* 대안 — 커스텀 오버레이(div). 열림/닫힘은 data-state, 배경 inert·Tab 순환·포커스 복귀는 JS가 직접 */
+div.modal_dialog { display: flex; align-items: center; justify-content: center; padding: var(--space-24); background: var(--color-surface-overlay); position: fixed; inset: 0; z-index: var(--z-overlay); opacity: 0; pointer-events: none; transition: opacity var(--duration-base) var(--ease-standard); }
+div.modal_dialog[data-state="open"] { opacity: 1; pointer-events: auto; }
+div.modal_dialog .i_wrap { width: 100%; max-width: 420px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); position: relative; z-index: var(--z-modal); box-shadow: var(--shadow-lg); opacity: 0; transform: scale(0.96) translateY(8px); transition: transform var(--duration-base) var(--ease-spring), opacity var(--duration-base) var(--ease-standard); }
+div.modal_dialog[data-state="open"] .i_wrap { opacity: 1; transform: scale(1) translateY(0); }
 
+/* 내부 구조 — 두 방식 공통 */
 .modal_dialog .i_head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-12); padding: var(--space-20) var(--space-20) 0; }
 .modal_dialog .i_title { font-size: var(--text-lg); font-weight: var(--weight-semibold); }
 .modal_dialog .i_text { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.modal_dialog .i_body { padding: var(--space-16) var(--space-20) 0; }
 .modal_dialog .i_close { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: none; border-radius: var(--radius-8); background: transparent; color: var(--color-text-muted); cursor: pointer; flex: none; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
 .modal_dialog .i_close:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
 .modal_dialog .i_close svg { width: 1.125em; height: 1.125em; }
-.modal_dialog .i_body { padding: var(--space-16) var(--space-20) 0; }
 .modal_dialog .i_foot { display: flex; justify-content: flex-end; gap: var(--space-8); margin-top: var(--space-8); padding: var(--space-20); }

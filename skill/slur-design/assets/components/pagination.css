@@ -1,0 +1,16 @@
+/* ─────────────────────────────────────────────
+   PAGINATION — SLUR Design System × slur-guidelines
+   pagination: 이전/다음 + 페이지 목록. 현재 페이지의 정본은
+   aria-current="page"(표준 속성) — data-state를 붙이지 않는다.
+   페이지가 URL이면 a, 상태 전환이면 button — 둘 다 같은 룩.
+   테이블 하단(table_wrap .i_foot)이나 목록 아래에 둔다.
+   ───────────────────────────────────────────── */
+
+.pagination { display: flex; align-items: center; gap: var(--space-4); }
+.pagination .i_list { display: flex; gap: var(--space-4); list-style: none; }
+.pagination .i_page, .pagination .i_prev, .pagination .i_next { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 2rem; padding: 0 var(--space-8); border: 1px solid transparent; border-radius: var(--radius-8); background: transparent; font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--color-text-secondary); text-decoration: none; cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.pagination .i_page:hover, .pagination .i_prev:hover, .pagination .i_next:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
+.pagination .i_page[aria-current="page"] { border-color: var(--color-border-default); background: var(--color-surface-card); font-weight: var(--weight-semibold); color: var(--color-text-primary); box-shadow: var(--shadow-xs); }
+.pagination .i_prev:disabled, .pagination .i_next:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+.pagination .i_prev svg, .pagination .i_next svg { width: 1.125em; height: 1.125em; }
+.pagination .i_ellipsis { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 2rem; color: var(--color-text-muted); }

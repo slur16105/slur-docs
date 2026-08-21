@@ -1,39 +1,41 @@
 /* ─────────────────────────────────────────────
    TOAST — SLUR Design System × slur-guidelines
-   블록 toast_message — 흐름을 안 끊는 짧은 알림. 단일 토스트, body 직계에 둔다
-   (transform·filter가 있는 부모 안에서는 fixed가 깨진다).
-   노출은 data-state="show". 숨김은 opacity·transform·pointer-events로만 —
-   display:none 금지: role="status" 컨테이너는 항상 렌더돼 있어야 다음 알림이
-   보조 기술에 읽힌다(라이브 영역 선존재). 안의 글·버튼은 show일 때만 노출한다.
-   role="status"(기본, 자동 소멸 허용) / role="alert"(실패·세션 만료, 자동 소멸 금지)는
-   각각 별도 컨테이너로 미리 둔다 — 역할은 바꿔 끼우지 않는다.
+   블록은 toast_message, 노출은 data-state="show|close".
+   컨테이너는 페이지 블록 밖(body 직계)에 미리 두고(라이브 영역 선존재) 텍스트만 바꾼다 —
+   role="status"(기본, 자동 소멸) / role="alert"(긴급, 수동 닫기)는 각각 별도 컨테이너.
+   숨김은 display:none이 아니라 opacity·transform·pointer-events — 컨테이너가 항상
+   렌더돼 있어야 다음 알림이 보조 기술에 읽힌다. 안의 글·버튼은 show일 때만 노출한다
+   (visibility — 보이지 않는 닫기 버튼에 Tab이 닿지 않게).
+   위치는 화면 하단 중앙 한 곳 — status/alert 모두 같은 자리(강도 차이는 role과 자동 소멸 여부뿐,
+   위치를 강도에 묶지 않는다: 알림 자리가 한 곳이어야 찾는다 — WCAG 3.2.4 일관된 식별).
+   m_top은 레이아웃 사유 전용 — 하단에 고정 탭바·푸터·FAB가 있어 토스트가 포커스된 요소를
+   가릴 때(WCAG 2.4.11) status/alert 컨테이너를 함께 위로 옮긴다. z-index는 토큰(toast 600).
+   큐·자동 소멸·닫기·모달 중 대기는 slur.js(toast)가 담당한다.
    모달이 열려 있는 동안에는 띄우지 않는다(ux-states.md 토스트 절).
    색 변형 m_success / m_warning / m_danger — 이름은 alert와 같다.
-   배치는 모바일 우선(하단 전체폭) → 640px 이상 우하단 카드.
    ───────────────────────────────────────────── */
 
-.toast_message { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-12) var(--space-12) var(--space-16); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-lg); font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-primary); position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: var(--z-toast); opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
-.toast_message[data-state="show"] { opacity: 1; transform: translateY(0); pointer-events: auto; }
-@media (min-width: 640px) {
-  .toast_message { max-width: 360px; left: auto; right: 24px; bottom: 24px; }
-}
+.toast_message { display: flex; align-items: center; gap: var(--space-12); width: max-content; max-width: min(420px, calc(100vw - 32px)); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--color-surface-inverse); font-size: var(--text-sm); color: var(--color-text-inverse); position: fixed; bottom: 24px; left: 50%; z-index: var(--z-toast); box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transform: translate(-50%, 8px); transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
+.toast_message[data-state="show"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
 
-/* 내용 — show가 아닐 때는 접근성 트리에서도 숨긴다(visibility). 사라질 때는 페이드가 끝난 뒤 숨긴다. */
+/* 내용 — show가 아닐 때는 접근성 트리에서도 숨긴다. 사라질 때는 페이드가 끝난 뒤 숨긴다 */
 .toast_message .i_icon, .toast_message .i_text, .toast_message .i_close { visibility: hidden; transition: visibility 0s linear var(--duration-base); }
 .toast_message[data-state="show"] .i_icon, .toast_message[data-state="show"] .i_text, .toast_message[data-state="show"] .i_close { visibility: visible; transition-delay: 0s; }
 
-.toast_message .i_icon { display: inline-flex; color: var(--color-text-brand); flex: none; }
-.toast_message .i_icon svg { width: 1.25em; height: 1.25em; }
-.toast_message .i_text { flex: 1; }
-.toast_message .i_close { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: none; border-radius: var(--radius-8); background: transparent; color: var(--color-text-muted); cursor: pointer; flex: none; transition: visibility 0s linear var(--duration-base), background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.toast_message .i_icon { display: inline-flex; flex: none; }
+.toast_message .i_icon svg { width: 1.125em; height: 1.125em; }
+.toast_message .i_text { flex: 1; line-height: var(--leading-normal); }
+.toast_message .i_close { display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; margin: -0.25rem -0.5rem -0.25rem 0; border: none; border-radius: var(--radius-4); background: transparent; color: inherit; cursor: pointer; flex: none; opacity: 0.7; transition: visibility 0s linear var(--duration-base), opacity var(--duration-fast) var(--ease-standard); }
 .toast_message[data-state="show"] .i_close { transition-delay: 0s; }
-.toast_message .i_close:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
-.toast_message .i_close svg { width: 1.125em; height: 1.125em; }
+.toast_message .i_close:hover { opacity: 1; }
+.toast_message .i_close svg { width: 1em; height: 1em; }
 
-/* 색상 변형 */
-.toast_message.m_success { border-color: var(--color-success); }
+/* 강도·의미 — 긴급(alert) 컨테이너는 위험색 아이콘, 정적 변형은 m_ */
+.toast_message[role="alert"] .i_icon { color: var(--color-danger); }
 .toast_message.m_success .i_icon { color: var(--color-success); }
-.toast_message.m_warning { border-color: var(--color-warning); }
 .toast_message.m_warning .i_icon { color: var(--color-warning); }
-.toast_message.m_danger { border-color: var(--color-danger); }
 .toast_message.m_danger .i_icon { color: var(--color-danger); }
+
+/* 위치 변형 — 상단(레이아웃 사유 전용: 하단이 탭바·푸터·FAB로 막힐 때, 두 컨테이너 모두에) */
+.toast_message.m_top { top: 24px; bottom: auto; transform: translate(-50%, -8px); }
+.toast_message.m_top[data-state="show"] { transform: translate(-50%, 0); }

@@ -16,11 +16,12 @@ description: 컴포넌트보다 먼저 작성하는 공통 스타일 레이어(g
 
 global 레이어는 다음을 담당합니다.
 
-- 전체 선택자 리셋 (box-sizing, margin, padding)
+- 전체 선택자 리셋 (box-sizing, margin, padding) — 리셋이 지운 네이티브 기본값 복원 포함(`dialog { margin: auto }`: `showModal()` 가운데 정렬)
 - 본문 타이포그래피의 기준값 (글꼴, 크기, 행간, 색)
 - 폼 컨트롤의 상속 개방과 기본 타이포
 - 포커스 스타일의 단일 선언
-- 4상태 스위치 (`data-state` 값에 따른 안내문 노출 전환)
+- 시각 숨김(`a11y_hidden`), 움직임 줄이기(`prefers-reduced-motion`)
+- [4상태](/ux/screen-states/) 스위치 (`data-state` 값에 따라 `i_status` 안의 `i_loading` / `i_empty` / `i_error`와 `i_body` 노출 전환)
 
 컴포넌트가 이 값들을 반복 선언하면
 수정 지점이 흩어지고 드리프트가 생깁니다.
@@ -101,7 +102,8 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 
 내부 요소를 블록 대신 `[data-state]`로 스코프하는 **유일한 예외**입니다 —
 이 넷은 문법이 전역으로 예약한 이름이라 어느 블록에서나 같은 뜻이기 때문입니다.
-스피너·여백·색 같은 모양은 global이 아니라 디자인 층(컴포넌트 CSS)의 몫입니다.
+`i_status` 상자와 `i_body`는 블록의 **직계 자식**이어야 하고, 블록에는 `data-state`(`loading|empty|error|success`)가 선언되어 있어야 합니다.
+슬롯 안의 룩(스켈레톤·빈 상태 패널·스피너)은 디자인 층의 일이며 global은 노출만 정합니다.
 
 ---
 

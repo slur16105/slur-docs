@@ -80,25 +80,24 @@ HTML은 콘텐츠의 구조를 정의하는 언어다. 화면을 그리기 위�
 
 ```html
 <!-- 모달 컴포넌트 — 네이티브 dialog가 1순위. 상태 정본은 [open]이므로 data-state를 붙이지 않는다 (accessibility.md 5-A) -->
+<!-- <dialog>는 자신이 블록이자 카드 — i_wrap 없이 i_head/i_body/i_foot을 직접 둔다 -->
 <dialog class="modal_login" aria-labelledby="modal_login_title">
-  <div class="i_wrap">
-    <div class="i_head">
-      <h2 class="i_title" id="modal_login_title">로그인</h2>
-      <button class="i_close" type="button" aria-label="닫기"></button>
-    </div>
-    <div class="i_body">
-      <form>
-        <div class="form_group">
-          <label for="email">이메일</label>
-          <input type="email" id="email" class="input_text" placeholder="이메일 입력">
-        </div>
-      </form>
-    </div>
-    <div class="i_foot">
-      <div class="i_btn_wrap">
-        <button class="btn m_primary" type="submit">로그인</button>
-        <button class="btn m_outline" type="button">취소</button>
+  <div class="i_head">
+    <h2 class="i_title" id="modal_login_title">로그인</h2>
+    <button class="i_close" type="button" aria-label="닫기"></button>
+  </div>
+  <div class="i_body">
+    <form>
+      <div class="form_group">
+        <label for="email">이메일</label>
+        <input type="email" id="email" class="input_text" placeholder="이메일 입력">
       </div>
+    </form>
+  </div>
+  <div class="i_foot">
+    <div class="i_btn_wrap">
+      <button class="btn m_primary" type="submit">로그인</button>
+      <button class="btn m_outline" type="button">취소</button>
     </div>
   </div>
 </dialog>

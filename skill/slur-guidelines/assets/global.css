@@ -10,6 +10,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
+/* 전체 리셋이 지운 네이티브 기본값 복원 — <dialog>는 UA의 margin:auto로 가운데 정렬된다(showModal). 리셋이 깬 동작은 리셋이 고친다. */
+dialog { margin: auto; }
 
 body { background: var(--color-surface-page, #fff); font-family: var(--font-sans, system-ui, -apple-system, "Apple SD Gothic Neo", "Segoe UI", sans-serif); font-size: var(--text-base, 1rem); line-height: var(--leading-normal, 1.5); color: var(--color-text-primary, #1f2328); }
 
@@ -32,7 +34,8 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
    항상 렌더되는 .i_status(role="status") 상자 안에 둔다 — 상자가 미리 있어야 전환이 보조 기술에 읽힌다.
    display:none은 접근성 트리에서도 빠지므로 "지금 상태가 아닌 안내문"을 숨기는 데 맞는 방법이다.
    i_ 요소를 블록 대신 [data-state]로 스코프하는 유일한 예외 — 이 넷은 문법이 전역으로 예약한 이름이다.
-   모양(스피너·여백·색)은 여기가 아니라 slur-design components/state.css가 담당한다.
+   모양(스피너·스켈레톤·빈 상태 패널)은 여기가 아니라 slur-design components/state.css가 담당한다.
+   슬롯 안에는 무엇이든 둘 수 있지만(스켈레톤·empty_state), i_loading에는 읽힐 문장을 하나 둔다(a11y_hidden 가능).
      <section class="list_x" data-state="loading">
        <div class="i_status" role="status"> .i_loading / .i_empty / .i_error </div>
        <ul class="i_body">…</ul>

@@ -11,13 +11,28 @@ description: SLUR Design System — 시각 어휘(디자인 토큰과 컴포넌�
 
 ```
 slur-design/
+├── references/
+│   └── recipes.md     # 대시보드 레시피 — 앱 셸·4상태·토스트·메뉴·툴팁·표 정렬/페이지·차트 토큰·다크 토글·위임
 └── assets/
-    ├── tokens/        # tokens 층 — colors, typography, spacing, radius, shadows, motion, breakpoints, z-index
-    ├── components/    # components 층 — button, input, select, selection, badge, card, alert, state, toast, modal, navigation, table
-    └── patterns/      # patterns 층 — (후순위, 아직 없음)
+    ├── tokens/        # tokens 층 — colors(차트 5슬롯·overlay 포함), typography, spacing, radius, shadows, motion, breakpoints, z-index
+    ├── components/    # components 층 — button, input, select, selection, badge, card, alert, modal, navigation, table,
+    │                  #                 toast, state, menu, tooltip, pagination
+    └── patterns/      # patterns 층 — app-shell(대시보드 앱 셸 layout_app)
 ```
 
-공통 레이어는 `../slur-guidelines/assets/global.css`. 데모·작업 메모는 레포의 `system/`(`demo.html`, `README.md`).
+공통 레이어는 `../slur-guidelines/assets/global.css`, **동작 층은 `../slur-guidelines/assets/slur.js`**(탭·메뉴·툴팁·토스트·드로어·테마 — 룩 무관이라 guidelines가 동봉). 데모·작업 메모는 레포의 `system/`(`demo.html` 컴포넌트 전체, `demo-dashboard.html` 앱 셸 한 장, `README.md`).
+
+## 동작은 어디서 오나 — 3단 우선순위
+
+컴포넌트의 "동작"(키보드·포커스·열고 닫기·알림)은 이 순서로 가져온다. 이 시스템은 어떤 JS 라이브러리에도 의존하지 않는다.
+
+| 순위 | 담당 | 예 |
+|---|---|---|
+| 1 | **브라우저 네이티브** | 모달 `<dialog>`·`showModal()`, 드롭다운 열고 닫기 `popover="auto"`, 아코디언 `<details>`, 셀렉트 `<select>`, 날짜 `<input type="date">` |
+| 2 | **slur.js** (슬러 자체, 바닐라) | 탭 방향키, 메뉴 방향키·위치, 툴팁 호버/포커스/Esc, 토스트 큐, 드로어 inert·포커스 복귀, 테마 전환 |
+| 3 | **위임** (검증된 헤드리스 라이브러리) | 콤보박스(검색되는 셀렉트), 메뉴바, 범위 달력 같은 복잡 위젯 — 동작만 빌리고 모양은 이 시스템의 클래스·토큰, 상태는 `data-state` |
+
+위임 예시·React에서의 취급은 `references/recipes.md`.
 
 ## 모드 — tokens-only / full
 
@@ -31,15 +46,15 @@ slur-design/
 
 ## 프로젝트에 넣는 법
 
-1. 이 스킬 폴더의 `assets/tokens/`·`assets/components/`(full) 또는 `assets/tokens/`(tokens-only)를 프로젝트 CSS 폴더로 **복사**한다. `slur-guidelines/assets/global.css`도 함께. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
-2. **로드 순서**: `global.css` → `tokens/*.css` → `components/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 런타임 `@import` 금지(순차 폭포). 번들러를 쓰면 같은 순서로 import.
+1. 이 스킬 폴더의 `assets/tokens/`·`assets/components/`(full) 또는 `assets/tokens/`(tokens-only)를 프로젝트 CSS 폴더로 **복사**한다. `slur-guidelines/assets/global.css`와 `slur.js`도 함께. 대시보드면 `assets/patterns/app-shell.css`까지. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
+2. **로드 순서**: `global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 런타임 `@import` 금지(순차 폭포). 번들러를 쓰면 같은 순서로 import. `slur.js`는 `<script src="slur.js" defer>` 한 줄(또는 `import 'slur.js'`).
 3. 웹폰트는 시스템이 로드하지 않는다 — `--font-sans` 선두가 **Noto Sans KR**이므로 소비자 페이지가 Google Fonts `<link>`(400/500/600/700)를 직접 넣는다. 없으면 시스템 폰트로 폴백.
-4. 다크 모드는 `<html data-theme="dark">` 하나로 끝난다. 토글 스크립트는 프로젝트가 둔다(`localStorage` 저장 + `<head>` 초반에 복원해 깜빡임 방지).
+4. 다크 모드는 `<html data-theme="dark">` 하나로 끝난다. 전환·저장은 `slur.js`의 `theme`(`data-action="theme_toggle"` 버튼), 첫 페인트 깜빡임 방지는 `<head>` 인라인 한 줄 — `references/recipes.md` 「다크 토글」.
 5. 필요한 컴포넌트가 여기 없으면 **토큰만으로 새로 조립**한다 — 이름은 slur-guidelines 네이밍, 위치는 프로젝트의 컴포넌트 CSS, 새 토큰·새 hex는 만들지 않는다. 같은 부품이 두 곳 이상에서 반복되면 그때 이 시스템으로 승격을 제안한다.
 
 ## 하지 말 것
 
-- **Tailwind·shadcn 등 다른 유틸리티/컴포넌트 클래스와 섞지 않는다.** 동작이 필요하면 헤드리스 라이브러리(Radix 등)를 쓰되 모양은 이 시스템의 클래스와 토큰으로만.
+- **Tailwind·shadcn 등 다른 유틸리티/컴포넌트 클래스와 섞지 않는다.** 동작은 위 3단 우선순위(네이티브 → slur.js → 위임)로 — Radix 같은 헤드리스 라이브러리는 3순위 위임에서만, 그때도 모양은 이 시스템의 클래스와 토큰으로만.
 - **새 색상값(hex/rgb)을 만들지 않는다.** 시맨틱 토큰만 쓴다. 번호 프리미티브(`--color-neutral-400` 등) 직접 사용 금지 — 프리미티브는 시맨틱 레이어의 내부 구현이다.
 - **인라인 `style=`로 모양을 쓰지 않는다.** 페이지 고유 배치는 `page_*` 블록 하위 `p_*` 클래스로.
 - **컴포넌트 CSS 안에서 토큰 값을 재정의하지 않는다.** 값이 바뀌어야 하면 토큰 파일에서.
@@ -64,13 +79,19 @@ slur-design/
 | `select` | `components/select.css` |
 | `check`, `radio`, `switch` | `components/selection.css` |
 | `badge`(+ `m_brand` `m_success` `m_warning` `m_danger` `m_count`), `chip` | `components/badge.css` |
-| `card`(+ `m_link` `m_list`) | `components/card.css` |
+| `card`(+ `m_link` `m_list` `m_stat`) | `components/card.css` |
 | `alert`(+ `m_inline` `m_banner`, 상태 변형) | `components/alert.css` |
-| 4상태 안내문 `i_status` > `i_loading`/`i_empty`/`i_error`(모양·스피너), `.btn[data-state="loading"]` 스피너 — 노출 전환은 `global.css` | `components/state.css` |
-| `toast_message`(+ `m_success` `m_warning` `m_danger`; `role="status"`/`"alert"` 컨테이너 별도, 모달 중 금지) | `components/toast.css` |
-| `modal_dialog` — 네이티브 `<dialog>`, 상태 정본 `[open]`, 딤은 `::backdrop` | `components/modal.css` |
-| `tab_menu`, `nav_side`, `breadcrumb` | `components/navigation.css` |
-| `table_wrap`, `table_data` | `components/table.css` |
+| `modal_dialog` — `<dialog>` 1순위(`[open]` 정본, `i_wrap` 없이 `i_head`/`i_body`/`i_foot` 직접), `div` 대안은 `data-state` + `i_wrap` | `components/modal.css` |
+| `tab_menu`(`i_list[role=tablist]` > `i_tab` + `i_panel`), `nav_side`, `breadcrumb` | `components/navigation.css` |
+| `table_wrap`, `table_data`(정렬 `th.m_sort` > `i_sort`, 정본 `aria-sort`) | `components/table.css` |
+| `pagination`(현재 페이지 정본 `aria-current="page"`) | `components/pagination.css` |
+| `toast_message`(`role="status|alert"` 컨테이너 별도·**같은 자리**, `data-state="show|close"`, + `m_success` `m_warning` `m_danger`; `m_top`은 하단이 막힐 때만 둘 다 함께; 모달 열린 동안 금지) | `components/toast.css` |
+| 4상태 슬롯 기본형(`i_status` > `i_loading`/`i_empty`/`i_error` 문장 모양), `empty_state`(+ `m_error` `m_compact`), `skeleton`(+ `m_title` `m_circle` `m_rect` `m_inline`), `spinner`(+ `m_large`) | `components/state.css` |
+| `menu_action`(`popover` + `role="menu"`, 정본 `:popover-open`) | `components/menu.css` |
+| `tooltip_help`(`popover="manual"` + `role="tooltip"`) | `components/tooltip.css` |
+| `layout_app`(`l_side`/`l_panel`/`l_dim` · `l_head` · `l_main` …) | `patterns/app-shell.css` |
+
+4상태 슬롯(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)의 **노출 스위치는 `global.css`**(slur-guidelines)가 하고, 이 시스템은 슬롯 기본형과 그 안에 넣는 `empty_state`·`skeleton`·`spinner`의 룩만 준다. 상태 값은 `loading|empty|error|success`.
 
 ## 토큰 빠른 참조 (실제 이름 — 추측 금지)
 
@@ -79,8 +100,10 @@ slur-design/
 - **텍스트**: `--color-text-primary` `-secondary` `-muted` `-inverse` `-brand`
 - **면**: `--color-surface-page` `-card` `-sunken` `-hover` `-inverse`
 - **보더**: `--color-border-subtle` `-default` `-strong` `-focus`
-- **브랜드**: `--color-brand` `-hover` `-active` `-soft`, `--color-on-brand`, `--color-focus-ring`, `--color-overlay`(모달 딤)
+- **브랜드**: `--color-brand` `-hover` `-active` `-soft`, `--color-on-brand`, `--color-focus-ring`
 - **상태**: `--color-success` `-warning` `-danger` (+ 각 `-soft`), `--color-on-danger` `-on-success` `-on-warning`
+- **오버레이**: `--color-surface-overlay` (모달 `::backdrop`·드로어 딤)
+- **차트**: `--color-chart-1` ~ `-5` (범주형 계열, 순서 고정·5개 초과 금지·상태색 재사용 금지. 라이트에서 3·4·5는 대비 3:1 미만이라 직접 라벨·범례·표 필수). 차트 라이브러리(Recharts·Chart.js 등)에는 `getComputedStyle(document.documentElement).getPropertyValue('--color-chart-1')`로 읽어 주입
 - **타이포**: `--font-sans`, `--text-xs`(12) `-sm`(14) `-base`(16) `-lg`(18) `-2xl`(24) `-3xl`(30) `-4xl`(36), `--weight-medium`(500) `-semibold`(600) `-bold`(700), `--leading-normal`(1.5) `-relaxed`(1.7, 장문), `--tracking-tight` `-snug` `-wide`
 - **간격**: `--space-4` `-8` `-12` `-16` `-20` `-24` (rem, 이름 = px 환산값). **레이아웃 구조 간격(섹션 여백·그리드 갭)은 토큰이 아니라 px 직접** — `--space-32` 같은 토큰은 없다
 - **라디우스**: `--radius-4` `-8` `-12` `-full` (px)
@@ -96,7 +119,9 @@ slur-design/
 - [ ] 컴포넌트에 포커스 링 재선언이 없는가
 - [ ] `data-theme="dark"`로 바꿔도 깨지는 곳이 없는가(양쪽 확인)
 - [ ] 인라인 `style=` 0개, CSS `id` 선택자 0개
-- [ ] 로드 순서가 `global → tokens → components → 프로젝트`인가
+- [ ] 로드 순서가 `global → tokens → components → patterns → 프로젝트`인가, `slur.js`가 로드되는가
+- [ ] 네이티브가 상태를 갖는 요소(`dialog[open]`·`details[open]`·`:popover-open`·`aria-sort`·`aria-current`)에 `data-state`를 중복해 붙이지 않았는가
+- [ ] 토스트 컨테이너(`.toast_message[role=status]`)가 미리 DOM에 있는가, 4상태 블록에 `data-state`가 선언돼 있는가
 
 ## 원본과의 관계
 

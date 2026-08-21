@@ -4,14 +4,15 @@
 
 - 모든 화면은 **빈 / 로딩 / 에러 / 정상** 4상태를 설계한다. 정상만 만들면 나머지 순간은 방치된다.
 - 정상 상태를 만들기 전에 **어떤 상태가 존재하는지 먼저 정의**한다.
-- 상태는 클래스 조합이 아니라 `data-state` 값으로 표현한다. 값은 넷 — `loading` / `empty` / `error` / `success`(정상). 구조는 그대로 두고 상태만 전환한다.
-- 안내문 셋(`i_loading`/`i_empty`/`i_error`)은 **항상 렌더되는 `i_status`(`role="status"`) 상자 안에** 둔다. 상자가 미리 있어야 상태 전환이 보조 기술에 읽힌다(`accessibility.md` 5-C). 정상 내용은 `i_body`.
-- CSS가 `data-state`를 해석해 해당 영역만 노출한다 — 이 스위치는 `global.css`가 동봉하므로 블록마다 다시 쓰지 않는다. 지금 상태가 아닌 안내문은 `display:none`으로 숨긴다(접근성 트리에서도 빠지는 것이 맞다 — 읽히면 안 되는 문장이다).
+- 상태는 클래스 조합이 아니라 `data-state` 값으로 표현한다. 값은 넷 — `loading` / `empty` / `error` / `success`(정상). 블록에 **반드시 선언**한다. 구조는 그대로 두고 상태만 전환한다.
+- 안내 슬롯 셋(`i_loading`/`i_empty`/`i_error`)은 **항상 렌더되는 `i_status`(`role="status"`) 상자 안에**, 상자는 블록의 직계 자식으로 둔다. 상자가 미리 있어야 상태 전환이 보조 기술에 읽힌다(`accessibility.md` 5-C). 정상 내용은 `i_body`.
+- 슬롯 안에는 문장만 둬도 되고 스켈레톤·빈 상태 패널을 넣어도 된다. 단 `i_loading`에는 **읽힐 문장을 하나 둔다**(스켈레톤만이면 보조 기술에 읽히지 않음 — `a11y_hidden` 가능). 룩은 슬러 디자인의 `empty_state`·`skeleton`·`spinner`(규칙만 적용하는 프로젝트는 자기 디자인으로).
+- CSS가 `data-state`를 해석해 해당 슬롯만 노출한다 — 이 스위치는 `global.css`가 동봉하므로 **블록마다 다시 쓰지 않는다**. 지금 상태가 아닌 슬롯은 `display:none`으로 숨긴다(접근성 트리에서도 빠지는 것이 맞다 — 읽히면 안 되는 문장이다).
 
 ```html
 <section class="list_program" data-state="loading">
   <div class="i_status" role="status">
-    <p class="i_loading">불러오는 중…</p>
+    <p class="i_loading"><span class="spinner" aria-hidden="true"></span> 불러오는 중…</p>
     <p class="i_empty">등록된 프로그램이 없습니다.</p>
     <p class="i_error">불러오지 못했습니다. 다시 시도해 주세요.</p>
   </div>
@@ -19,6 +20,16 @@
 </section>
 ```
 
+```css
+/* global.css 동봉 — 블록 이름을 모르므로 블록의 data-state로 스코프한다(내부 요소 단독 선택자 금지의 유일한 예외) */
+[data-state] > .i_status > .i_loading, [data-state] > .i_status > .i_empty, [data-state] > .i_status > .i_error { display: none; }
+[data-state="loading"] > .i_status > .i_loading { display: block; }
+[data-state="empty"] > .i_status > .i_empty { display: block; }
+[data-state="error"] > .i_status > .i_error { display: block; }
+[data-state="loading"] > .i_body, [data-state="empty"] > .i_body, [data-state="error"] > .i_body { display: none; }
+```
+
+- JS는 `block.dataset.state = 'loading'` 한 줄(React면 `data-state={status}`). 로딩은 스켈레톤(콘텐츠 형태를 흉내)이 기본, 빈·에러는 안내 + 다음 행동(다시 시도·만들기).
 - 로딩 없음 → 멈춘 화면 / 빈 상태 없음 → 실패로 오해 / 에러 없음 → 다음 행동 불명.
 - 목록 로드 실패는 끼어들 일이 아니므로 `i_error`도 `status` 상자 안에 둔다. 세션 만료처럼 즉시 알려야 하는 것만 별도 `role="alert"`(토스트 절).
 
@@ -36,14 +47,17 @@
 
 `toast_message` 컴포넌트, 노출은 `data-state`로 제어. 닫기는 모달과 스타일이 달라 `i_close`.
 
-알림 강도는 둘뿐이다 — 기본은 `role="status"`(조용히 읽힘, 자동 소멸 허용), 끼어들어야 하는 실패·세션 만료만 `role="alert"`(즉시 읽힘, 자동 소멸 금지). 알림은 포커스를 옮기지 않고, 컨테이너는 미리 DOM에 있어야 읽힌다 (`accessibility.md` 5-C).
+알림 강도는 둘뿐이다 — 기본은 `role="status"`(조용히 읽힘, 자동 소멸 허용), 끼어들어야 하는 실패·세션 만료만 `role="alert"`(즉시 읽힘, 자동 소멸 금지). 알림은 포커스를 옮기지 않고, 컨테이너는 미리 DOM에 있어야 읽힌다 (`accessibility.md` 5-C). **위치는 한 곳** — 강도에 따라 자리를 바꾸지 않는다(알림 자리가 일정해야 찾는다, WCAG 3.2.4). 크게 오래 보여야 하는 메시지는 토스트가 아니라 배너(`alert.m_banner`)다.
 
 ```html
-<div class="toast_message" data-state="show" role="status">
+<!-- 컨테이너는 페이지 블록 밖, 미리 DOM에. 텍스트만 바뀐다 -->
+<div class="toast_message" data-state="show" role="status">   <!-- 숨김은 data-state="close" -->
   <p class="i_text">저장되었습니다.</p>
   <button class="i_close" type="button" aria-label="닫기"></button>
 </div>
 ```
+
+큐·자동 소멸·닫기는 동봉 `slur.js`가 맡는다 — `slur.toast('저장되었습니다.')`, 긴급은 `slur.toast('…', { level: 'alert' })`(`role="alert"` 컨테이너, 자동 소멸 없음). 직접 구현하더라도 같은 규칙: 한 번에 하나, 텍스트 교체 → `data-state="show"`, 닫힌 뒤 텍스트 비움(같은 문장이 다시 읽히도록).
 
 **모달이 열려 있는 동안에는 토스트를 띄우지 않는다.** 모달 안에서 생긴 상태 변화는 모달 안에서 알린다 — 버튼의 글자·아이콘 변화("복사" → "복사됨"; 아이콘만 바꾸면 보조 기술이 모르므로 글자나 `aria-label`도 함께), `alert.m_inline`, 인라인 오류. 모달과 무관한 알림은 모달이 닫힌 뒤에 띄우고, 끼어들어야 하는 알림(세션 만료)은 토스트가 아니라 모달을 닫고 경고 모달로 대체한다.
 

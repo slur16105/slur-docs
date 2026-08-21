@@ -9,8 +9,9 @@
 | **guidelines** (규칙) + 동봉 `global.css`(공통 레이어) | `skill/slur-guidelines/` · `skill/slur-guidelines/assets/global.css` | `slur-guidelines` |
 | **tokens** (디자인 토큰) | `skill/slur-design/assets/tokens/` | `slur-design` |
 | **components** (컴포넌트 CSS) | `skill/slur-design/assets/components/` | `slur-design` |
-| **patterns** (조합 레시피, 후순위) | `skill/slur-design/assets/patterns/` | `slur-design` |
-| 데모·메모 | `system/demo.html` · `system/README.md` | — |
+| **patterns** (조합 레시피) | `skill/slur-design/assets/patterns/`(`app-shell.css`) · `skill/slur-design/references/recipes.md` | `slur-design` |
+| **동작 층** (slur.js — 탭·메뉴·툴팁·토스트·드로어·테마) | `skill/slur-guidelines/assets/slur.js` | `slur-guidelines` |
+| 데모·메모 | `system/demo.html`(컴포넌트 전체) · `system/demo-dashboard.html`(앱 셸 한 장) · `system/README.md` | — |
 
 - **디자인시스템(어휘)**: 색·타이포·간격 등 토큰과 컴포넌트 생김새 — 클로드디자인이 원본(source of truth)
 - **slur-guidelines(문법)**: 클래스 네이밍(`i_`/`m_`), 상태(`data-state`), CSS 한 줄 작성 규칙 — 이 레포의 `skill/slur-guidelines/`가 원본
@@ -27,7 +28,11 @@
 
 ## 로드 순서
 
-`global.css` → `tokens/*.css` → `components/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`·4상태 스위치는 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`이 이 순서의 실례다(`../skill/...` 상대경로).
+`global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형), 그리고 `<script src="slur.js" defer>`. 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`·4상태 슬롯 토글은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`·`demo-dashboard.html`이 이 순서의 실례다(`../skill/...` 상대경로). 로컬 확인: 레포 루트에서 `python3 -m http.server 4173` → `http://localhost:4173/system/demo.html`.
+
+## 동작 — 네이티브 → slur.js → 위임
+
+모달은 `<dialog>`(`[open]` 정본), 드롭다운 열고 닫기는 `popover="auto"`(`:popover-open` 정본), 아코디언은 `<details>`. 남는 동작(탭 방향키·메뉴 방향키와 위치·툴팁·토스트 큐·드로어 inert·테마)은 `slur.js`. 콤보박스처럼 복잡한 위젯만 검증된 헤드리스 라이브러리에 위임하되 모양·네이밍·`data-state`는 슬러. 어떤 JS 라이브러리에도 의존하지 않는다. 위치 계산은 slur.js가 한다 — CSS anchor positioning은 Safari 26에서 지원되나 popover 트리거의 암묵적 앵커 지원이 확인되지 않아 보류(확인되면 CSS로 이전).
 
 ## 파일 분할과 로드
 
@@ -53,9 +58,13 @@
 - [x] Card
 - [x] Alert
 - [x] Modal
-- [x] Navigation
-- [x] Table
-- [ ] Toast, 4상태(loading/empty/error) — 1.6.0 예정(slur-guidelines가 이름을 요구하는 어휘)
+- [x] Navigation (탭은 `i_list`/`i_panel` 구조로, 1.7.0)
+- [x] Table (+ 정렬 `aria-sort`, 1.7.0) · Pagination (1.7.0)
+- [x] Modal — `<dialog>` 1순위로 재작성, div 대안 유지 (1.7.0)
+- [x] Toast · State(empty_state/skeleton/spinner) · Menu · Tooltip (1.7.0)
+- [x] Card `m_stat`, 차트 토큰 `--color-chart-1~5`, `--color-surface-overlay` (1.7.0)
+- [x] patterns/app-shell (`layout_app`) (1.7.0)
+- [ ] 다음 후보: 콤보박스 위임 예시(실제 프로젝트에서 요구가 생기면), 앵커 포지셔닝 전환(Safari 확인 후)
 
 주의: 내부 요소(`i_`/`p_`/`l_`) 선택자는 반드시 블록 하위로 스코프한다(`.page_demo .p_head` ✅, `.p_head` 단독 ❌ — `css/internal-elements.md` 참고). 데모도 같은 규칙을 따른다 — 인라인 `style=`·CSS `id` 선택자 없음.
 

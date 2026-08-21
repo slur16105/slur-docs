@@ -60,11 +60,9 @@
 
 ```html
 <!-- 토스트 닫기: 이 컴포넌트 전용 스타일 → i_close -->
-<div class="toast_message" data-state="close">
-  <div class="i_wrap">
-    <p class="i_text">저장되었습니다.</p>
-    <button class="i_close" type="button" aria-label="닫기"></button>
-  </div>
+<div class="toast_message" data-state="close" role="status">
+  <p class="i_text">저장되었습니다.</p>
+  <button class="i_close" type="button" aria-label="닫기"></button>
 </div>
 ```
 
@@ -124,22 +122,20 @@
 
 ### 탭
 
-Tab은 위젯 사이를, 방향키는 위젯 안을 움직인다(roving tabindex — 현재 항목만 `tabindex="0"`). 패널까지가 한 세트다. 규칙은 `accessibility.md` 5-B.
+Tab은 위젯 사이를, 방향키는 위젯 안을 움직인다(roving tabindex — 현재 항목만 `tabindex="0"`). 패널까지가 한 세트다(`i_list[role=tablist]` > `i_tab[role=tab]` + `i_panel[role=tabpanel]`). 내부 요소 이름은 역할로 — `i_tab`이지 `i_btn`이 아니다. 규칙은 `accessibility.md` 5-B.
 
 ```html
 <div class="tab_menu">
-  <ul class="i_list" role="tablist">
-    <li class="i_item" role="none">
-      <button class="i_btn" type="button" role="tab" id="tab_all" aria-controls="panel_all" aria-selected="true" tabindex="0" data-state="active">전체</button>
-    </li>
-    <li class="i_item" role="none">
-      <button class="i_btn" type="button" role="tab" id="tab_popular" aria-controls="panel_popular" aria-selected="false" tabindex="-1" data-state="">인기</button>
-    </li>
-  </ul>
-  <div class="i_panel" id="panel_all" role="tabpanel" aria-labelledby="tab_all" data-state="active"><!-- 전체 목록 --></div>
-  <div class="i_panel" id="panel_popular" role="tabpanel" aria-labelledby="tab_popular" data-state=""><!-- 인기 목록 --></div>
+  <div class="i_list" role="tablist" aria-label="목록 보기">
+    <button class="i_tab" type="button" role="tab" id="tab_all" aria-controls="panel_all" aria-selected="true" tabindex="0" data-state="active">전체</button>
+    <button class="i_tab" type="button" role="tab" id="tab_popular" aria-controls="panel_popular" aria-selected="false" tabindex="-1" data-state="">인기</button>
+  </div>
+  <div class="i_panel" id="panel_all" role="tabpanel" aria-labelledby="tab_all" tabindex="0" data-state="active"><!-- 전체 목록 --></div>
+  <div class="i_panel" id="panel_popular" role="tabpanel" aria-labelledby="tab_popular" tabindex="0" data-state=""><!-- 인기 목록 --></div>
 </div>
 ```
+
+방향키·Home/End·활성화는 동봉 `slur.js`(`tabs`)가 `[role="tablist"]`를 보고 처리하므로 프로젝트 JS가 필요 없다. 아래는 그 참조 구현(프레임워크가 상태를 들고 있어 직접 옮겨야 할 때):
 
 ```js
 // 방향키 이동: tabindex·aria-selected·data-state를 함께 갱신. 활성화 기본값 = 자동(포커스가 가면 패널 전환)
@@ -165,14 +161,12 @@ tablist.addEventListener('keydown', (e) => {
 
 ### 토스트
 
-기본은 `role="status"`(조용한 알림, 자동 소멸 허용). 끼어들어야 하는 실패·세션 만료만 `role="alert"`(자동 소멸 금지). 컨테이너는 미리 DOM에 있어야 읽힌다. 규칙은 `accessibility.md` 5-C.
+기본은 `role="status"`(조용한 알림, 자동 소멸 허용). 끼어들어야 하는 실패·세션 만료만 `role="alert"`(자동 소멸 금지). 컨테이너는 미리 DOM에 있어야 읽힌다 — 동봉 `slur.js`의 `slur.toast(text, { level })`가 이 컨테이너의 텍스트를 바꾸고 `data-state`를 토글한다. 규칙은 `accessibility.md` 5-C.
 
 ```html
 <div class="toast_message" data-state="close" role="status">
-  <div class="i_wrap">
-    <p class="i_text">저장되었습니다.</p>
-    <button class="i_close" type="button" aria-label="닫기"></button>
-  </div>
+  <p class="i_text">저장되었습니다.</p>
+  <button class="i_close" type="button" aria-label="닫기"></button>
 </div>
 ```
 
@@ -196,7 +190,7 @@ tablist.addEventListener('keydown', (e) => {
 </div>
 ```
 
-드로어도 모달과 같은 포커스 관리 대상이다(`accessibility.md` 5-A) — 열린 동안 배경 `inert`, Tab 순환, 닫으면 연 버튼으로 복귀.
+드로어도 모달과 같은 포커스 관리 대상이다(`accessibility.md` 5-A) — 열린 동안 배경 `inert`, 닫으면 연 버튼으로 복귀. 트리거에 `data-action="drawer_open" aria-controls="드로어id"`, 안의 닫기·딤에 `data-action="drawer_close"`를 두면 동봉 `slur.js`(`drawer`)가 이 전부를 처리한다.
 
 ---
 

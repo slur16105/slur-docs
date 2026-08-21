@@ -109,6 +109,7 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: "상태 기반 UI", slug: "js/state-driven-ui" },
+						{ label: "동작 층 (slur.js)", slug: "js/behaviors" },
 						{ label: "외부 라이브러리 연동", slug: "js/external-libraries" },
 					],
 				},

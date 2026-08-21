@@ -9,6 +9,47 @@ SLUR UX/UI System의
 
 ---
 
+## v1.8.0 — 2026.08
+
+### 동작 층 신설 + 대시보드 어휘
+
+> v1.7.0(어휘 보충)과 같은 날 별도 작업선에서 만든 것을 합쳤다. 겹친 결정은 접근성 근거가 있는 v1.7.0 것(`i_status` 상자·`success` 값·모달 중 토스트 금지)을 따르고, 룩·토큰명·`<dialog>` 안 `i_wrap` 생략은 이쪽을 따랐다.
+
+슬러가 "규칙 + 모양"에서 **동작까지** 갖춘다. 동작의 출처는 **네이티브 → slur.js → 위임** 3단 우선순위로 고정하고, 어떤 JS 라이브러리에도 의존하지 않는다. 대시보드 한 장을 슬러만으로 끝까지 만들 수 있도록 빠진 어휘를 채웠다(shadcn/ui 대비 분석의 결론 — 엔진을 빌리는 대신 빈칸만 채운다).
+
+#### 방법론 확장
+
+- 「동작 층 (slur.js)」 페이지 신설(JavaScript 및 상태 관리) — 동작의 출처를 **네이티브(`<dialog>`·`popover`·`<details>`·네이티브 input) → 동봉 `slur.js` → 위임(복잡 위젯만)** 으로 정의. 브라우저가 해 주면 만들지 않고, 작으면 직접 만들고, 크면 빌린다
+- **네이티브 상태 속성 규칙 확장** — `:popover-open`과 표준 ARIA 상태(`aria-sort`·`aria-current`·`aria-selected`)도 정본으로 인정, `data-state` 중복 금지
+- **4상태 스위치(global.css)와 슬롯 룩의 결합** — v1.7.0의 `i_status`(`role="status"`) 상자·`success` 값 위에 슬롯 룩(`empty_state`·`skeleton`·`spinner`)을 얹는다. `i_loading`에는 읽힐 문장을 하나 둔다(스켈레톤만이면 보조 기술에 읽히지 않음). 화면 상태 설계·공통 레이어 페이지에 반영
+- 팝업/모달 패턴에 「비모달 레이어 — 드롭다운·팝오버·툴팁」 절 추가(`popover="auto"`, `role="menu"`는 앱 동작 메뉴에만), 피드백 원칙에 토스트 컨테이너 선존재 + `slur.toast`, 키보드 내비게이션·외부 라이브러리 연동에 동작 층 연결
+
+#### 공통 레이어 (`global.css`) · 동작 층 (`slur.js`) — `slur-guidelines`
+
+- **`slur.js` 신설**(바닐라, 의존성 0, ~250줄) — `tabs`(방향키·Home/End·roving tabindex·자동 활성화), `menu`(popover 메뉴의 트리거 기준 위치·첫 항목 포커스·방향키·Tab 닫기), `tooltip`(호버+포커스·Esc·툴팁 위 유지), `toast`(선존재 컨테이너에 큐·자동 소멸·닫기, `slur.toast(text, { level })` — 모달이 열려 있으면 큐에 두었다가 닫힌 뒤 표시), `drawer`(열린 동안 형제 `inert`·첫 포커스·Esc·포커스 복귀), `theme`(`data-theme` 전환·저장). 클래스가 아니라 역할·속성(`role`·`popover`·`data-action`)에 `document` 위임 바인딩, 후처리는 `slur:*` 커스텀 이벤트
+- SKILL.md에 「동봉 파일 — slur.js」 절과 모듈 표, js.md에 「동작은 어디서 오나」(3단 표 + API), accessibility.md 5장에 구현 순서·F(위임) 문장 갱신·ARIA 정본 확장, component.md 탭 예시를 `i_list`/`i_tab`/`i_panel` 구조로(+slur.js 안내), ux-states.md에 토글 CSS·토스트 API, checklist에 동작 순서·4상태·토스트 항목
+
+#### 디자인시스템 (`slur-design`)
+
+- **새 컴포넌트** — `toast_message`(`toast.css`: 어두운 필, 하단 중앙, `m_top`, `status`/`alert` 컨테이너 분리, 숨김은 opacity·visibility로 라이브 영역 선존재 유지), `empty_state`·`skeleton`·`spinner`(`state.css`, 4상태 슬롯 기본형 포함), `menu_action`(`menu.css`, 네이티브 popover), `tooltip_help`(`tooltip.css`, `popover="manual"`), `pagination`(`pagination.css`, `aria-current="page"` 정본)
+- **확장** — `card.m_stat`(통계 카드, 증감은 badge 조합), `table_data` 정렬 헤더(`th.m_sort > .i_sort`, `aria-sort` 정본), `nav_side .i_item[aria-current="page"]` 인정
+- **모달 CSS를 `<dialog>` 1순위로 재작성** — `dialog.modal_dialog`(`[open]` 정본, `::backdrop`, `@starting-style` 모션), 커스텀 오버레이는 `div.modal_dialog` + `data-state`로 유지(1.6.0 규칙의 CSS 반영). **마크업 변경**: 기존 `div.modal_dialog > .i_wrap` 구조는 그대로 동작하고, `<dialog>`로 옮기면 `.i_wrap` 없이 `i_head`/`i_body`/`i_foot`을 직접 둔다
+- **탭 마크업 변경** — `tab_menu`가 `i_list[role=tablist]` > `i_tab[role=tab]` + `i_panel[role=tabpanel]`을 감싸는 구조로(가이드라인 정본과 일치, 패널까지 한 세트). 기존 `tab_menu > .i_tab` 직계 마크업은 `i_list`로 한 번 감싸야 한다
+- **토큰** — 차트 범주형 5슬롯 `--color-chart-1~5`(라이트·다크 각각 dataviz 6항목 검증 통과, 순서 고정·상태색 재사용 금지, 라이트 3·4·5는 직접 라벨 필요), `--color-surface-overlay`(모달 backdrop·드로어 딤, 라이트·다크 — v1.7.0의 `--color-overlay`를 이 이름으로 통일)
+- **patterns 층 첫 파일** — `patterns/app-shell.css`(`layout_app`: `l_side`/`l_panel`/`l_dim` · `l_head` · `l_main`, 데스크톱 2열·1024 미만 드로어, 내부는 `l_` 자족, 현재 페이지 `aria-current`)
+- **`references/recipes.md` 신설** — 대시보드 레시피 14절(앱 셸·페이지 뼈대·통계 카드·4상태·토스트·행 메뉴·툴팁·표 정렬/페이지·차트 색 주입·다크 토글·모달·필터·위임·React에서 slur.js)
+- SKILL.md에 「동작은 어디서 오나 — 3단 우선순위」, 블록→파일 색인 확장, 로드 순서에 patterns·slur.js, 점검표 3항목 추가. "하지 말 것"의 Radix 문장을 3순위 위임으로 정정
+- 토스트 **위치는 한 곳**(하단 중앙) — status/alert 같은 자리, 강도는 `role`과 자동 소멸로만 구분. `m_top`은 하단이 탭바·푸터·FAB로 막힐 때 두 컨테이너를 함께 옮기는 레이아웃 변형으로 한정(데모·레시피에서 alert의 `m_top` 제거)
+- `global.css`에 `dialog { margin: auto }` — 전체 리셋(`* { margin: 0 }`)이 지운 UA 기본값 복원(`showModal()` 가운데 정렬)
+- 데모 — `demo.html`에 State(`i_status` 상자·`success`)·Toast·Tooltip·통계 카드·차트 토큰·정렬/메뉴/페이지네이션·`<dialog>` 모달 추가(위젯 동작은 전부 slur.js 위임, 페이지 스크립트는 데이터 흐름만), `demo-dashboard.html` 신설(앱 셸 한 장). Chrome에서 탭 키보드·메뉴·툴팁·토스트·드로어 inert·다크 전환 검증
+
+#### 보류
+
+- CSS anchor positioning(Safari 26 지원)으로 메뉴·툴팁 위치를 CSS로 옮기는 것 — popover 트리거의 암묵적 앵커 지원이 Safari에서 확인되면 재평가. 그때까지 위치는 slur.js
+- 콤보박스·범위 달력 위임 예시는 실제 프로젝트에서 요구가 생길 때 추가
+
+---
+
 ## v1.7.0 — 2026.08
 
 ### 문법이 요구하는 어휘 보충 (검토 피드백 P0-4)

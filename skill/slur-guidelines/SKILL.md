@@ -15,17 +15,32 @@ SLUR은 네 층으로 나뉜다. 이 스킬은 **guidelines** 층이고, 나머�
 
 | 층 | 내용 | 스킬 |
 |---|---|---|
-| **guidelines** | 규칙 문서(이 파일 + `references/`) + 동봉 파일 **`assets/global.css`** | `slur-guidelines` |
+| **guidelines** | 규칙 문서(이 파일 + `references/`) + 동봉 파일 **`assets/global.css`**(공통 레이어) · **`assets/slur.js`**(동작 층) | `slur-guidelines` |
 | tokens | 디자인 토큰 CSS | `slur-design` |
 | components | 컴포넌트 CSS | `slur-design` |
 | patterns | 조합 레시피(후순위) | `slur-design` |
 
 ### 동봉 파일 — `assets/global.css` (공통 레이어)
 
-규칙이 전제하는 최소 CSS를 이 스킬이 직접 동봉한다: 리셋, 폼 컨트롤 상속, **포커스 링 한 쌍**(`outline:none` + 대체 링, 링크·`[tabindex]`·`summary` 포함), `.a11y_hidden`, **4상태 스위치**(`[data-state]` → `i_status` 안 `i_loading/i_empty/i_error`·`i_body` 노출 전환), `prefers-reduced-motion`. 색·크기는 토큰을 `var(--x, 폴백)`으로 **참조만** 하므로 토큰이 없는 프로젝트(규칙만 적용)에서도 그대로 쓸 수 있다. 룩은 바꾸지 않는다.
+규칙이 전제하는 최소 CSS를 이 스킬이 직접 동봉한다: 리셋, 폼 컨트롤 상속, **포커스 링 한 쌍**(`outline:none` + 대체 링, 링크·`[tabindex]`·`summary` 포함), `.a11y_hidden`, **4상태 스위치**(블록의 `data-state`가 `loading|empty|error`일 때만 `i_status` 상자 안의 해당 슬롯 `i_loading`/`i_empty`/`i_error`를 보이고 `i_body`를 숨김), `prefers-reduced-motion`. 색·크기는 토큰을 `var(--x, 폴백)`으로 **참조만** 하므로 토큰이 없는 프로젝트(규칙만 적용)에서도 그대로 쓸 수 있다. 룩은 바꾸지 않는다.
 
-- 프로젝트에 넣을 때: 이 스킬 폴더의 `assets/global.css`를 프로젝트 CSS 폴더로 복사해 **가장 먼저** `<link>`한다. 로드 순서 `global.css → (tokens → components) → 레이아웃 → 컴포넌트 → 페이지 → 반응형`.
-- 프로젝트에 이미 리셋 파일이 있으면 두 개를 두지 않고 **합친다**(포커스 링·`a11y_hidden`·reduced-motion 세 가지는 반드시 남긴다). 파일명 관례는 `global.css`. `common.css` 같은 "공통 통"은 만들지 않는다 — 공통처럼 보이는 스타일은 `layout_*` 또는 컴포넌트로 간다.
+- 프로젝트에 넣을 때: 이 스킬 폴더의 `assets/global.css`를 프로젝트 CSS 폴더로 복사해 **가장 먼저** `<link>`한다. 로드 순서 `global.css → (tokens → components → patterns) → 레이아웃 → 컴포넌트 → 페이지 → 반응형`.
+- 프로젝트에 이미 리셋 파일이 있으면 두 개를 두지 않고 **합친다**(포커스 링·`a11y_hidden`·4상태 토글·reduced-motion은 반드시 남긴다). 파일명 관례는 `global.css`. `common.css` 같은 "공통 통"은 만들지 않는다 — 공통처럼 보이는 스타일은 `layout_*` 또는 컴포넌트로 간다.
+
+### 동봉 파일 — `assets/slur.js` (동작 층)
+
+네이티브가 해 주지 않는 동작만 담은 바닐라 JS(의존성 0, 프레임워크 무관, ~250줄). `references/accessibility.md` 5장의 규칙을 그대로 구현한 **참조 구현**이며, 클래스가 아니라 역할·속성(`role`, `popover`, `data-action`)에 위임 바인딩한다.
+
+| 모듈 | 바인딩 | 하는 일 |
+|---|---|---|
+| `tabs` | `[role="tablist"]` | ←→(또는 ↑↓)·Home/End, roving tabindex, 자동 활성화(`data-activation="manual"`로 끔) |
+| `menu` | `[popover][role="menu"]` | 트리거 기준 위치, 열리면 첫 항목 포커스, ↑↓·Home/End, Tab·항목 선택 시 닫기 |
+| `tooltip` | `[role="tooltip"][popover="manual"]` + 트리거 `aria-describedby` | 호버+포커스로 열림, Esc 닫힘, 툴팁 위 유지 |
+| `toast` | `.toast_message[role="status|alert"]` 선존재 컨테이너 | `slur.toast(text, { level, duration })` — 큐·자동 소멸·닫기 |
+| `drawer` | `[data-action="drawer_open"][aria-controls]` | 열린 동안 형제 `inert`, 첫 포커스, Esc·`drawer_close`로 닫고 연 버튼 복귀 |
+| `theme` | `[data-action="theme_toggle"]` | `<html data-theme>` 전환 + `localStorage` 저장 |
+
+동작의 우선순위는 **네이티브 → slur.js → 위임**이다: 모달은 `<dialog>`, 드롭다운 열고 닫기는 `popover="auto"`, 아코디언은 `<details>`, 셀렉트·날짜는 네이티브 input이 먼저고, slur.js는 그 다음, 콤보박스처럼 복잡한 위젯만 검증된 헤드리스 라이브러리에 위임한다(`references/js.md`·`accessibility.md` 5-F). 프로젝트에 넣을 때는 `<script src="slur.js" defer>` 한 줄(또는 `import`).
 
 ## 핵심 철학
 
@@ -126,7 +141,7 @@ display → width/height → margin → padding → border → border-radius
 - **네이밍 상세** → `references/naming.md`
 - **HTML 규칙** → `references/html.md`
 - **CSS 규칙** → `references/css.md`
-- **JavaScript 규칙** → `references/js.md`
+- **JavaScript 규칙** (동작 우선순위 · slur.js) → `references/js.md`
 - **컴포넌트 설계 + 재사용 판단** → `references/component.md`
 - **접근성** (alt·ARIA·키보드·복합 위젯 동작) → `references/accessibility.md`
 - **이미지·성능** (포맷·반응형·로딩) → `references/media.md`

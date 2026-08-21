@@ -1,7 +1,10 @@
 /* ─────────────────────────────────────────────
    TABLE — SLUR Design System × slur-guidelines
    table_wrap(카드형 래퍼) + table_data(테이블).
-   숫자 열은 m_num(tabular-nums), 정렬 헤더는 m_sort.
+   숫자 열은 m_num(tabular-nums), 정렬 헤더는 m_sort(안에 i_sort 버튼).
+   정렬 상태의 정본은 th의 aria-sort="ascending|descending"(표준 속성) —
+   data-state를 붙이지 않는다. 정렬 로직은 프로젝트(또는 TanStack Table 등)가
+   하고, 표현은 aria-sort를 읽는 CSS가 한다. 페이지네이션은 pagination.css.
    셀 여백은 rem 토큰(텍스트와 함께 확대).
    ───────────────────────────────────────────── */
 
@@ -20,8 +23,17 @@
 
 /* 열 변형 */
 .table_data .m_num { font-variant-numeric: tabular-nums; text-align: right; }
-.table_data th.m_sort { cursor: pointer; user-select: none; }
 .table_data td.m_muted { color: var(--color-text-muted); }
+
+/* 정렬 헤더 — th 여백을 버튼이 대신 채워 헤더 전체가 클릭 영역 */
+.table_data th.m_sort { padding: 0; }
+.table_data .i_sort { display: inline-flex; align-items: center; gap: var(--space-4); width: 100%; padding: var(--space-12) var(--space-16); border: none; background: transparent; font: inherit; color: inherit; text-align: inherit; cursor: pointer; user-select: none; transition: color var(--duration-fast) var(--ease-standard); }
+.table_data .i_sort:hover { color: var(--color-text-primary); }
+.table_data .i_sort svg { width: 1em; height: 1em; flex: none; opacity: 0.4; transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); }
+.table_data th[aria-sort] .i_sort { color: var(--color-text-primary); }
+.table_data th[aria-sort] .i_sort svg { opacity: 1; }
+.table_data th[aria-sort="descending"] .i_sort svg { transform: rotate(180deg); }
+.table_data th.m_num .i_sort { justify-content: flex-end; }
 
 /* 셀 내부 요소 */
 .table_data .i_user { display: flex; align-items: center; gap: var(--space-8); font-weight: var(--weight-medium); color: var(--color-text-primary); }

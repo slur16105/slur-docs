@@ -29,6 +29,7 @@
 - [ ] 이벤트를 JavaScript에서 등록했는가? (인라인 이벤트 금지)
 - [ ] 상태를 `data-state`로 관리하는가?
 - [ ] 컴포넌트 단위로 구조화되었는가?
+- [ ] 동작을 **네이티브 → slur.js → 위임** 순서로 가져왔는가? (네이티브로 되는 것을 JS로 다시 만들지 않았는가, 위임했다면 모양·네이밍·`data-state`는 슬러인가)
 
 ## 컴포넌트
 
@@ -54,7 +55,9 @@
 - [ ] 탭·메뉴 그룹 안은 방향키로, 그룹 사이는 Tab으로 이동하는가? (WCAG 2.1.1 / KWCAG 6.1.1)
 - [ ] 토스트·상태 메시지가 라이브 영역(`role="status|alert"`)으로 전달되고 포커스를 옮기지 않는가? (WCAG 4.1.3 / KWCAG 8.2.1)
 - [ ] 떠 있는 레이어가 Esc로 닫히는가? 비모달 레이어는 바깥 클릭으로도 닫히는가? (WCAG 1.4.13 / KWCAG 6.1.2)
-- [ ] `<dialog>`·`<details>`에 `data-state`를 중복으로 붙이지 않았는가? (`[open]`이 정본)
+- [ ] `<dialog>`·`<details>`·`popover`에 `data-state`를 중복으로 붙이지 않았는가? (`[open]`·`:popover-open`이 정본. `aria-sort`·`aria-current`도 마찬가지)
+- [ ] 4상태 블록에 `data-state`(`loading|empty|error|success`)가 선언돼 있고, 슬롯(`i_loading`/`i_empty`/`i_error`)은 항상 렌더되는 `i_status`(`role="status"`) 상자 안에, `i_status`와 `i_body`는 직계 자식인가? `i_loading`에 읽힐 문장이 있는가? (스위치는 global.css)
+- [ ] 토스트 컨테이너가 미리 DOM에 있고, 긴급(`alert`)과 일반(`status`)을 구분했는가? 모달이 열려 있는 동안 토스트를 띄우지 않는가?
 
 ## 리팩토링 (기존 코드 이관)
 
