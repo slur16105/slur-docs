@@ -1,0 +1,22 @@
+/* ─────────────────────────────────────────────
+   MENU — SLUR Design System × slur-guidelines
+   menu_action: 행 액션(⋯)·더보기 같은 앱 동작 메뉴(role="menu").
+   열고 닫기·Esc·바깥 클릭·최상위 레이어는 네이티브 popover="auto"가
+   담당하므로 JS가 없다. 상태 정본은 :popover-open(네이티브) —
+   data-state를 붙이지 않는다. 트리거 기준 위치 계산과 방향키 이동은
+   slur.js(menu). 사이트 내비게이션에는 쓰지 않는다(role="menu" 금지).
+   ───────────────────────────────────────────── */
+
+.menu_action { display: flex; min-width: 180px; margin: 0; padding: var(--space-4); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-8); background: var(--color-surface-card); position: fixed; inset: auto; flex-direction: column; box-shadow: var(--shadow-md); opacity: 0; transform: translateY(-4px); transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), display var(--duration-fast) allow-discrete, overlay var(--duration-fast) allow-discrete; }
+.menu_action:popover-open { opacity: 1; transform: none; }
+@starting-style { .menu_action:popover-open { opacity: 0; transform: translateY(-4px); } }
+
+.menu_action .i_item { display: flex; align-items: center; gap: var(--space-8); width: 100%; padding: var(--space-8) var(--space-12); border: none; border-radius: var(--radius-4); background: transparent; font-size: var(--text-sm); font-weight: normal; line-height: var(--leading-normal); color: var(--color-text-primary); text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard); }
+.menu_action .i_item:hover, .menu_action .i_item:focus-visible { background: var(--color-surface-hover); }
+.menu_action .i_item:disabled, .menu_action .i_item[aria-disabled="true"] { color: var(--color-text-muted); cursor: not-allowed; }
+.menu_action .i_item svg { width: 1.125em; height: 1.125em; color: var(--color-text-muted); flex: none; }
+.menu_action .i_item.m_danger { color: var(--color-danger); }
+.menu_action .i_item.m_danger svg { color: inherit; }
+.menu_action .i_shortcut { margin-left: auto; padding-left: var(--space-12); font-size: var(--text-xs); color: var(--color-text-muted); }
+.menu_action .i_group { padding: var(--space-8) var(--space-12) var(--space-4); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--color-text-muted); }
+.menu_action .i_divider { height: 1px; margin: var(--space-4) 0; background: var(--color-border-subtle); }

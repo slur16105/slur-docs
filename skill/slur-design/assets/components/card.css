@@ -22,6 +22,16 @@
 .card.m_link:hover { border-color: var(--color-border-default); box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .card.m_link:focus-visible { outline: none; box-shadow: var(--color-focus-ring); }
 
+/* 통계(KPI) 카드 — 대시보드 숫자 한 개. i_head(라벨+아이콘) / i_value / i_delta.
+   증감 표시는 새 규칙 대신 badge(m_success/m_danger)를 i_delta 안에 조합한다 */
+.card.m_stat { padding: var(--space-20); gap: var(--space-8); }
+.card.m_stat .i_head { padding: 0; }
+.card.m_stat .i_label { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-secondary); }
+.card.m_stat .i_icon { display: inline-flex; color: var(--color-text-muted); }
+.card.m_stat .i_icon svg { width: 1.125em; height: 1.125em; }
+.card.m_stat .i_value { font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1.1; letter-spacing: var(--tracking-tight); font-variant-numeric: tabular-nums; }
+.card.m_stat .i_delta { display: flex; align-items: center; gap: var(--space-8); font-size: var(--text-xs); color: var(--color-text-muted); }
+
 /* 리스트 카드 — 행 단위 hover */
 .card.m_list { padding: var(--space-4); }
 .card .i_row { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-8) var(--space-12); border-radius: var(--radius-8); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard); }

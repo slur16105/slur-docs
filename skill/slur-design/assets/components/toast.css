@@ -1,0 +1,26 @@
+/* ─────────────────────────────────────────────
+   TOAST — SLUR Design System × slur-guidelines
+   블록은 toast_message, 노출은 data-state="show|close".
+   컨테이너는 미리 DOM에 두고(라이브 영역) 텍스트만 바꾼다 —
+   role="status"(기본, 자동 소멸) / role="alert"(긴급, 수동 닫기).
+   위치는 화면 하단 중앙 고정(m_top은 상단), z-index는 토큰(toast 600).
+   큐·자동 소멸·닫기 동작은 slur.js(toast)가 담당한다.
+   ───────────────────────────────────────────── */
+
+.toast_message { display: flex; align-items: center; gap: var(--space-12); width: max-content; max-width: min(420px, calc(100vw - 32px)); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--color-surface-inverse); font-size: var(--text-sm); color: var(--color-text-inverse); position: fixed; bottom: 24px; left: 50%; z-index: var(--z-toast); box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transform: translate(-50%, 8px); transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
+.toast_message[data-state="show"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.toast_message .i_icon { display: inline-flex; flex: none; }
+.toast_message .i_icon svg { width: 1.125em; height: 1.125em; }
+.toast_message .i_text { flex: 1; line-height: var(--leading-normal); }
+.toast_message .i_close { display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; margin: -0.25rem -0.5rem -0.25rem 0; border: none; border-radius: var(--radius-4); background: transparent; color: inherit; cursor: pointer; flex: none; opacity: 0.7; transition: opacity var(--duration-fast) var(--ease-standard); }
+.toast_message .i_close:hover { opacity: 1; }
+.toast_message .i_close svg { width: 1em; height: 1em; }
+
+/* 강도·의미 — 긴급(alert) 컨테이너는 위험색 아이콘, 정적 변형은 m_ */
+.toast_message[role="alert"] .i_icon { color: var(--color-danger); }
+.toast_message.m_success .i_icon { color: var(--color-success); }
+.toast_message.m_danger .i_icon { color: var(--color-danger); }
+
+/* 위치 변형 — 상단 */
+.toast_message.m_top { top: 24px; bottom: auto; transform: translate(-50%, -8px); }
+.toast_message.m_top[data-state="show"] { transform: translate(-50%, 0); }

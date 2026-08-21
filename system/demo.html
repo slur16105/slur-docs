@@ -26,6 +26,12 @@
 <link rel="stylesheet" href="../skill/slur-design/assets/components/navigation.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/components/table.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/components/modal.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/toast.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/state.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/menu.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/tooltip.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/pagination.css">
+<script src="../skill/slur-guidelines/assets/slur.js" defer></script>
 <style>
 /* 페이지 레이아웃 간격은 정책상 토큰 대신 px 직접 사용 */
 body { padding: 48px 40px; background: var(--color-surface-sunken); transition: background-color var(--duration-base) var(--ease-standard); }
@@ -54,7 +60,23 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
 .page_demo .card.m_list .i_label { flex: 1; font-size: var(--text-sm); font-weight: var(--weight-medium); }
 .page_demo .card.m_list .i_meta { font-size: var(--text-xs); color: var(--color-text-secondary); }
 .page_demo .card .breadcrumb { margin-bottom: var(--space-12); }
+.page_demo .p_grid_4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.page_demo .p_state { min-height: 200px; border: 1px dashed var(--color-border-default); border-radius: var(--radius-12); background: var(--color-surface-card); }
+.page_demo .p_state .i_loading, .page_demo .p_state .i_body { padding: 16px; list-style: none; }
+.page_demo .p_state .i_body li + li { margin-top: 12px; }   /* display는 건드리지 않는다 — 4상태 토글(global)이 display로 슬롯을 고르므로 */
+.page_demo .p_skel_row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.page_demo .p_skel_row .p_skel_lines { display: flex; flex: 1; flex-direction: column; gap: 8px; }
+.page_demo .p_skel_row .skeleton:last-child { width: 60%; }
+.page_demo .p_chart { display: flex; align-items: flex-end; gap: 12px; height: 120px; padding: 16px; border-radius: var(--radius-12); background: var(--color-surface-card); }
+.page_demo .p_bar { flex: 1; border-radius: 4px 4px 0 0; }
+.page_demo .p_bar:nth-child(1) { height: 80%; background: var(--color-chart-1); }
+.page_demo .p_bar:nth-child(2) { height: 55%; background: var(--color-chart-2); }
+.page_demo .p_bar:nth-child(3) { height: 70%; background: var(--color-chart-3); }
+.page_demo .p_bar:nth-child(4) { height: 35%; background: var(--color-chart-4); }
+.page_demo .p_bar:nth-child(5) { height: 60%; background: var(--color-chart-5); }
+.page_demo .p_th_action { width: 56px; }
 @media (max-width: 768px) {
+  .page_demo .p_grid_4 { grid-template-columns: 1fr 1fr; }
   .page_demo .p_grid { grid-template-columns: 1fr; }
   .page_demo .p_grid_3 { grid-template-columns: 1fr; }
   .page_demo .p_grid_side { grid-template-columns: 1fr; }
@@ -70,7 +92,7 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
       <h1 class="p_title">컴포넌트 데모</h1>
       <p class="p_desc">SLUR Design System을 slur-guidelines 문법(블록 스코프 + i_/m_ + data-state)으로 구현한 전체 컴포넌트. 값은 전부 시맨틱 토큰만 사용한다.</p>
     </div>
-    <button type="button" class="btn m_icon" id="themeToggle" aria-label="다크 모드로 전환" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
+    <button type="button" class="btn m_icon" data-action="theme_toggle" aria-label="다크 모드 전환" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
   </header>
 
   <!-- BUTTON -->
@@ -239,6 +261,34 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
       </div>
     </div>
     <div class="p_section">
+      <h3 class="p_section_title">통계 카드 (m_stat) · 차트 토큰</h3>
+      <div class="p_grid_4">
+        <div class="card m_stat">
+          <div class="i_head"><span class="i_label">월 매출</span><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span></div>
+          <strong class="i_value">₩12.4M</strong>
+          <div class="i_delta"><span class="badge m_success">▲ 12.5%</span>지난달 대비</div>
+        </div>
+        <div class="card m_stat">
+          <div class="i_head"><span class="i_label">신규 고객</span><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span></div>
+          <strong class="i_value">1,284</strong>
+          <div class="i_delta"><span class="badge m_danger">▼ 3.1%</span>지난달 대비</div>
+        </div>
+        <div class="card m_stat">
+          <div class="i_head"><span class="i_label">활성 구독</span></div>
+          <strong class="i_value">642</strong>
+          <div class="i_delta"><span class="badge">—</span>변동 없음</div>
+        </div>
+        <div class="card m_stat">
+          <div class="i_head"><span class="i_label">전환율</span></div>
+          <strong class="i_value">3.8%</strong>
+          <div class="i_delta"><span class="badge m_success">▲ 0.4%p</span>지난주 대비</div>
+        </div>
+      </div>
+      <div class="p_chart" role="img" aria-label="계열 색 토큰 예시: chart-1부터 chart-5까지 막대 5개">
+        <div class="p_bar"></div><div class="p_bar"></div><div class="p_bar"></div><div class="p_bar"></div><div class="p_bar"></div>
+      </div>
+    </div>
+    <div class="p_section">
       <h3 class="p_section_title">구조 · 인터랙티브 · 리스트</h3>
       <div class="p_grid">
         <div class="card">
@@ -300,17 +350,25 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
   <section class="p_component">
     <h2 class="p_component_title">Navigation</h2>
     <div class="p_section">
-      <h3 class="p_section_title">탭 · 밑줄 / 필</h3>
+      <h3 class="p_section_title">탭 · 밑줄 / 필 — 방향키·Home/End로 이동(slur.js)</h3>
       <div class="tab_menu">
-        <button type="button" class="i_tab" data-state="active">개요</button>
-        <button type="button" class="i_tab">활동</button>
-        <button type="button" class="i_tab">설정</button>
-        <button type="button" class="i_tab">멤버</button>
+        <div class="i_list" role="tablist" aria-label="프로젝트 보기">
+          <button type="button" class="i_tab" role="tab" id="tab_overview" aria-controls="panel_overview" aria-selected="true" tabindex="0" data-state="active">개요</button>
+          <button type="button" class="i_tab" role="tab" id="tab_activity" aria-controls="panel_activity" aria-selected="false" tabindex="-1" data-state="">활동</button>
+          <button type="button" class="i_tab" role="tab" id="tab_settings" aria-controls="panel_settings" aria-selected="false" tabindex="-1" data-state="">설정</button>
+          <button type="button" class="i_tab" role="tab" id="tab_members" aria-controls="panel_members" aria-selected="false" tabindex="-1" data-state="">멤버</button>
+        </div>
+        <div class="i_panel" id="panel_overview" role="tabpanel" aria-labelledby="tab_overview" tabindex="0" data-state="active">개요 패널 — 탭에 포커스를 두고 ←/→를 눌러 보세요.</div>
+        <div class="i_panel" id="panel_activity" role="tabpanel" aria-labelledby="tab_activity" tabindex="0" data-state="">활동 패널</div>
+        <div class="i_panel" id="panel_settings" role="tabpanel" aria-labelledby="tab_settings" tabindex="0" data-state="">설정 패널</div>
+        <div class="i_panel" id="panel_members" role="tabpanel" aria-labelledby="tab_members" tabindex="0" data-state="">멤버 패널</div>
       </div>
       <div class="tab_menu m_pill">
-        <button type="button" class="i_tab" data-state="active">일</button>
-        <button type="button" class="i_tab">주</button>
-        <button type="button" class="i_tab">월</button>
+        <div class="i_list" role="tablist" aria-label="기간">
+          <button type="button" class="i_tab" role="tab" aria-selected="true" tabindex="0" data-state="active">일</button>
+          <button type="button" class="i_tab" role="tab" aria-selected="false" tabindex="-1" data-state="">주</button>
+          <button type="button" class="i_tab" role="tab" aria-selected="false" tabindex="-1" data-state="">월</button>
+        </div>
       </div>
     </div>
     <div class="p_section">
@@ -343,49 +401,150 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
   <section class="p_component">
     <h2 class="p_component_title">Table</h2>
     <div class="p_section">
-      <h3 class="p_section_title">청구서</h3>
+      <h3 class="p_section_title">청구서 — 정렬 헤더(aria-sort) · 행 액션 메뉴 · 페이지네이션</h3>
       <div class="table_wrap">
         <table class="table_data">
           <thead>
             <tr>
-              <th class="p_th_check"><label class="check"><input class="i_input" type="checkbox" checked></label></th>
-              <th>고객</th>
+              <th class="p_th_check"><label class="check"><input class="i_input" type="checkbox" checked aria-label="전체 선택"></label></th>
+              <th class="m_sort"><button type="button" class="i_sort" data-action="sort">고객<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"></path></svg></button></th>
               <th>상태</th>
-              <th class="m_num m_sort">금액 ↓</th>
-              <th class="m_num">날짜</th>
+              <th class="m_num m_sort" aria-sort="descending"><button type="button" class="i_sort" data-action="sort">금액<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"></path></svg></button></th>
+              <th class="m_num m_sort"><button type="button" class="i_sort" data-action="sort">날짜<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"></path></svg></button></th>
+              <th class="p_th_action"><span class="a11y_hidden">행 동작</span></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><label class="check"><input class="i_input" type="checkbox"></label></td>
+              <td><label class="check"><input class="i_input" type="checkbox" aria-label="Initech 선택"></label></td>
               <td><span class="i_user"><span class="i_avatar">IN</span>Initech</span></td>
               <td><span class="badge m_danger"><span class="i_dot"></span>연체</span></td>
               <td class="m_num">$12,750.00</td>
               <td class="m_num m_muted">6/03</td>
+              <td><button type="button" class="btn m_ghost m_icon m_small" popovertarget="row_menu_1" aria-haspopup="menu" aria-label="Initech 더보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+                <div class="menu_action" id="row_menu_1" popover role="menu" aria-label="Initech 동작" data-align="end">
+                  <button type="button" class="i_item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>편집</button>
+                  <button type="button" class="i_item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>복제<span class="i_shortcut">⌘D</span></button>
+                  <div class="i_divider" role="separator"></div>
+                  <button type="button" class="i_item m_danger" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"></path></svg>삭제</button>
+                </div>
+              </td>
             </tr>
             <tr>
-              <td><label class="check"><input class="i_input" type="checkbox"></label></td>
+              <td><label class="check"><input class="i_input" type="checkbox" aria-label="Stark Industries 선택"></label></td>
               <td><span class="i_user"><span class="i_avatar">SI</span>Stark Industries</span></td>
               <td><span class="badge m_warning"><span class="i_dot"></span>대기</span></td>
               <td class="m_num">$5,600.00</td>
               <td class="m_num m_muted">5/21</td>
+              <td><button type="button" class="btn m_ghost m_icon m_small" popovertarget="row_menu_2" aria-haspopup="menu" aria-label="Stark Industries 더보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+                <div class="menu_action" id="row_menu_2" popover role="menu" aria-label="Stark Industries 동작" data-align="end">
+                  <button type="button" class="i_item" role="menuitem">편집</button>
+                  <button type="button" class="i_item" role="menuitem">복제<span class="i_shortcut">⌘D</span></button>
+                  <div class="i_divider" role="separator"></div>
+                  <button type="button" class="i_item m_danger" role="menuitem">삭제</button>
+                </div>
+              </td>
             </tr>
             <tr>
-              <td><label class="check"><input class="i_input" type="checkbox"></label></td>
+              <td><label class="check"><input class="i_input" type="checkbox" aria-label="Acme Corp 선택"></label></td>
               <td><span class="i_user"><span class="i_avatar">AC</span>Acme Corp</span></td>
               <td><span class="badge m_success"><span class="i_dot"></span>완료</span></td>
               <td class="m_num">$2,400.00</td>
               <td class="m_num m_muted">6/12</td>
+              <td><button type="button" class="btn m_ghost m_icon m_small" popovertarget="row_menu_3" aria-haspopup="menu" aria-label="Acme Corp 더보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+                <div class="menu_action" id="row_menu_3" popover role="menu" aria-label="Acme Corp 동작" data-align="end">
+                  <button type="button" class="i_item" role="menuitem">편집</button>
+                  <button type="button" class="i_item" role="menuitem">복제<span class="i_shortcut">⌘D</span></button>
+                  <div class="i_divider" role="separator"></div>
+                  <button type="button" class="i_item m_danger" role="menuitem">삭제</button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
         <div class="i_foot">
-          <span class="i_count">24건 중 3건</span>
-          <div class="i_btn_wrap">
-            <button type="button" class="btn m_small">이전</button>
-            <button type="button" class="btn m_small">다음</button>
+          <span class="i_count">24건 중 1–3</span>
+          <nav class="pagination" aria-label="페이지">
+            <button type="button" class="i_prev" aria-label="이전 페이지" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg></button>
+            <ul class="i_list">
+              <li><a class="i_page" href="#" aria-current="page">1</a></li>
+              <li><a class="i_page" href="#">2</a></li>
+              <li><a class="i_page" href="#">3</a></li>
+              <li><span class="i_ellipsis">…</span></li>
+              <li><a class="i_page" href="#">8</a></li>
+            </ul>
+            <button type="button" class="i_next" aria-label="다음 페이지"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></button>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATE -->
+  <section class="p_component">
+    <h2 class="p_component_title">State</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">4상태 — 블록의 data-state만 바꾸면 global.css가 슬롯을 고른다</h3>
+      <div class="p_row">
+        <button type="button" class="btn m_small" data-action="state" data-value="loading">loading</button>
+        <button type="button" class="btn m_small" data-action="state" data-value="empty">empty</button>
+        <button type="button" class="btn m_small" data-action="state" data-value="error">error</button>
+        <button type="button" class="btn m_small m_primary" data-action="state" data-value="">정상</button>
+      </div>
+      <section class="p_state" id="demoState" data-state="loading" aria-label="프로그램 목록">
+        <div class="i_loading" aria-busy="true">
+          <div class="p_skel_row"><span class="skeleton m_circle"></span><div class="p_skel_lines"><span class="skeleton"></span><span class="skeleton"></span></div></div>
+          <div class="p_skel_row"><span class="skeleton m_circle"></span><div class="p_skel_lines"><span class="skeleton"></span><span class="skeleton"></span></div></div>
+        </div>
+        <div class="i_empty">
+          <div class="empty_state">
+            <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path></svg></span>
+            <span class="i_title">등록된 프로그램이 없습니다</span>
+            <span class="i_text">첫 프로그램을 만들면 여기에 표시됩니다.</span>
+            <div class="i_action"><button type="button" class="btn m_primary m_small">프로그램 만들기</button></div>
           </div>
         </div>
+        <div class="i_error">
+          <div class="empty_state m_error">
+            <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg></span>
+            <span class="i_title">불러오지 못했습니다</span>
+            <span class="i_text">네트워크 상태를 확인하고 다시 시도해 주세요.</span>
+            <div class="i_action"><button type="button" class="btn m_small" data-action="state" data-value="loading">다시 시도</button></div>
+          </div>
+        </div>
+        <ul class="i_body">
+          <li class="card m_list"><div class="i_row"><span class="badge m_success"><span class="i_dot"></span></span><span class="i_label">온보딩 프로그램</span><span class="i_meta">진행 중</span></div></li>
+          <li class="card m_list"><div class="i_row"><span class="badge"><span class="i_dot"></span></span><span class="i_label">리더십 워크숍</span><span class="i_meta">예정</span></div></li>
+        </ul>
+      </section>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">스피너</h3>
+      <div class="p_row">
+        <span class="spinner" role="status" aria-label="불러오는 중"></span>
+        <span class="spinner m_large" role="status" aria-label="불러오는 중"></span>
+        <button type="button" class="btn m_primary" data-state="loading"><span class="spinner" aria-hidden="true"></span>저장 중…</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOAST · TOOLTIP -->
+  <section class="p_component">
+    <h2 class="p_component_title">Toast · Tooltip</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">토스트 — slur.toast(text, { level })</h3>
+      <div class="p_row">
+        <button type="button" class="btn" data-action="toast" data-value="status">저장됨 (status · 4초 뒤 사라짐)</button>
+        <button type="button" class="btn m_danger" data-action="toast" data-value="alert">실패 (alert · 직접 닫기)</button>
+      </div>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">툴팁 — 호버·포커스 모두, Esc로 닫힘</h3>
+      <div class="p_row">
+        <button type="button" class="btn m_icon" aria-label="복사" aria-describedby="tip_copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        <span class="tooltip_help" id="tip_copy" role="tooltip" popover="manual">클립보드에 복사 (⌘C)</span>
+        <button type="button" class="btn" aria-describedby="tip_export">내보내기</button>
+        <span class="tooltip_help" id="tip_export" role="tooltip" popover="manual">현재 필터가 적용된 목록을 CSV로 받습니다</span>
       </div>
     </div>
   </section>
@@ -394,92 +553,91 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
   <section class="p_component">
     <h2 class="p_component_title">Modal</h2>
     <div class="p_section">
-      <h3 class="p_section_title">트리거</h3>
+      <h3 class="p_section_title">네이티브 dialog — showModal(), 상태 정본은 [open]</h3>
       <div class="p_row">
-        <button type="button" class="btn m_primary" data-modal-open="default">다이얼로그 열기</button>
-        <button type="button" class="btn m_danger" data-modal-open="confirm">계정 삭제…</button>
+        <button type="button" class="btn m_primary" data-action="modal_open" data-value="default">다이얼로그 열기</button>
+        <button type="button" class="btn m_danger" data-action="modal_open" data-value="confirm">계정 삭제…</button>
       </div>
     </div>
   </section>
 
 </div>
 
-<!-- 모달 블록 — 페이지 블록 밖 -->
-<div class="modal_dialog" id="demoModal" data-state="close">
-  <div class="i_wrap">
-    <div class="i_head">
-      <div>
-        <div class="i_title" id="modalTitle">프로젝트 이름 변경</div>
-        <div class="i_text" id="modalText">팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.</div>
-      </div>
-      <button type="button" class="i_close" data-modal-close aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+<!-- 모달 블록 — 페이지 블록 밖. 네이티브 dialog: 배경 inert·Esc·포커스 복귀는 브라우저가 -->
+<dialog class="modal_dialog" id="demoModal" aria-labelledby="modalTitle" aria-describedby="modalText">
+  <div class="i_head">
+    <div>
+      <h2 class="i_title" id="modalTitle">프로젝트 이름 변경</h2>
+      <p class="i_text" id="modalText">팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.</p>
     </div>
-    <div class="i_foot">
-      <button type="button" class="btn" data-modal-close>취소</button>
-      <button type="button" class="btn m_primary" id="modalConfirm" data-modal-close>저장</button>
-    </div>
+    <button type="button" class="i_close" data-action="modal_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
   </div>
+  <div class="i_foot">
+    <button type="button" class="btn" data-action="modal_close">취소</button>
+    <button type="button" class="btn m_primary" id="modalConfirm" data-action="modal_close">저장</button>
+  </div>
+</dialog>
+
+<!-- 토스트 컨테이너 — 라이브 영역은 미리 DOM에. status(기본) / alert(긴급) 둘 -->
+<div class="toast_message" role="status" data-state="close">
+  <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+  <p class="i_text"></p>
+  <button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</div>
+<div class="toast_message m_top" role="alert" data-state="close">
+  <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg></span>
+  <p class="i_text"></p>
+  <button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
 </div>
 
 <script>
-const themeToggle = document.getElementById("themeToggle");
-const ICON_MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-const ICON_SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>';
-themeToggle.addEventListener("click", () => {
-  const root = document.documentElement;
-  const dark = root.getAttribute("data-theme") === "dark";
-  if (dark) { root.removeAttribute("data-theme"); } else { root.setAttribute("data-theme", "dark"); }
-  // 전환 후 상태 기준: 다크면 해(라이트로 전환), 라이트면 달(다크로 전환)
-  const nowDark = !dark;
-  themeToggle.innerHTML = nowDark ? ICON_SUN : ICON_MOON;
-  themeToggle.setAttribute("aria-label", nowDark ? "라이트 모드로 전환" : "다크 모드로 전환");
-  themeToggle.setAttribute("aria-pressed", String(nowDark));
-});
-
+// 데모 전용 스크립트 — 탭·메뉴·툴팁·토스트·테마 동작은 slur.js가 위임으로 처리한다(별도 코드 없음)
 document.getElementById("demoIndet").indeterminate = true;
 
-document.querySelectorAll(".switch").forEach((sw) => {
-  sw.addEventListener("click", () => {
-    sw.setAttribute("data-state", sw.getAttribute("data-state") === "on" ? "off" : "on");
-  });
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-action]");
+  if (!el) return;
+  const action = el.dataset.action, value = el.dataset.value;
+
+  if (action === "state") document.getElementById("demoState").dataset.state = value;
+
+  if (action === "toast") {
+    if (value === "alert") slur.toast("저장에 실패했습니다. 잠시 후 다시 시도해 주세요.", { level: "alert" });
+    else slur.toast("저장되었습니다.");
+  }
+
+  // 정렬 — 상태 정본은 aria-sort. 실제 정렬은 프로젝트(또는 TanStack Table)가 한다
+  if (action === "sort") {
+    const th = el.closest("th"), next = th.getAttribute("aria-sort") === "ascending" ? "descending" : "ascending";
+    th.closest("tr").querySelectorAll("th[aria-sort]").forEach((t) => t.removeAttribute("aria-sort"));
+    th.setAttribute("aria-sort", next);
+  }
+
+  if (action === "modal_open") {
+    const confirm = value === "confirm";
+    document.getElementById("modalTitle").textContent = confirm ? "계정을 삭제할까요?" : "프로젝트 이름 변경";
+    document.getElementById("modalText").textContent = confirm ? "계정과 모든 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : "팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.";
+    const ok = document.getElementById("modalConfirm");
+    ok.textContent = confirm ? "삭제" : "저장";
+    ok.className = confirm ? "btn m_danger" : "btn m_primary";
+    const modal = document.getElementById("demoModal");
+    modal.showModal();
+    if (confirm) modal.querySelector('[data-action="modal_close"].btn:not(.m_danger)').focus();   // 파괴적 확인: 초기 포커스는 취소에
+  }
+  if (action === "modal_close") document.getElementById("demoModal").close();
 });
 
-document.querySelectorAll(".tab_menu").forEach((menu) => {
-  menu.querySelectorAll(".i_tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      menu.querySelectorAll(".i_tab").forEach((t) => t.removeAttribute("data-state"));
-      tab.setAttribute("data-state", "active");
-    });
-  });
+document.querySelectorAll(".switch").forEach((sw) => {
+  sw.addEventListener("click", () => { sw.dataset.state = sw.dataset.state === "on" ? "off" : "on"; });
 });
 
 document.querySelectorAll(".nav_side .i_item").forEach((item) => {
   item.addEventListener("click", (e) => {
     e.preventDefault();
-    document.querySelectorAll(".nav_side .i_item").forEach((i) => i.removeAttribute("data-state"));
-    item.setAttribute("data-state", "active");
+    document.querySelectorAll(".nav_side .i_item").forEach((i) => { i.dataset.state = ""; });
+    item.dataset.state = "active";
   });
 });
-
-const modal = document.getElementById("demoModal");
-const modalTitle = document.getElementById("modalTitle");
-const modalText = document.getElementById("modalText");
-const modalConfirm = document.getElementById("modalConfirm");
-document.querySelectorAll("[data-modal-open]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const confirm = btn.getAttribute("data-modal-open") === "confirm";
-    modalTitle.textContent = confirm ? "계정을 삭제할까요?" : "프로젝트 이름 변경";
-    modalText.textContent = confirm ? "계정과 모든 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : "팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.";
-    modalConfirm.textContent = confirm ? "삭제" : "저장";
-    modalConfirm.className = confirm ? "btn m_danger" : "btn m_primary";
-    modal.setAttribute("data-state", "open");
-  });
-});
-document.querySelectorAll("[data-modal-close]").forEach((btn) => {
-  btn.addEventListener("click", () => modal.setAttribute("data-state", "close"));
-});
-modal.addEventListener("click", (e) => { if (e.target === modal) modal.setAttribute("data-state", "close"); });
-window.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.setAttribute("data-state", "close"); });
 </script>
 </body>
 </html>

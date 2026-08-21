@@ -18,6 +18,18 @@
 
 - 로딩 없음 → 멈춘 화면 / 빈 상태 없음 → 실패로 오해 / 에러 없음 → 다음 행동 불명.
 
+슬롯의 노출 토글은 `global.css`가 담당한다 — 블록의 `data-state`가 그 값일 때만 **직계 자식** 슬롯을 보이고, 세 상태에서는 `i_body`를 숨긴다. 블록마다 토글 CSS를 다시 쓰지 않는다(블록 이름을 모르므로 `data-state`로 스코프하는 것이 내부 요소 단독 선택자 금지의 유일한 예외).
+
+```css
+/* global.css 동봉 — 블록마다 반복하지 않는다 */
+[data-state] > .i_loading, [data-state] > .i_empty, [data-state] > .i_error { display: none; }
+[data-state="loading"] > .i_loading, [data-state="empty"] > .i_empty, [data-state="error"] > .i_error { display: block; }
+[data-state="loading"] > .i_body, [data-state="empty"] > .i_body, [data-state="error"] > .i_body { display: none; }
+```
+
+- 블록에 `data-state`를 **반드시 선언**한다(정상은 `""`). 슬롯은 블록의 직계 자식에 둔다.
+- JS는 `block.dataset.state = 'loading'` 한 줄. 로딩은 스켈레톤(콘텐츠 형태를 흉내)이 기본, 빈·에러는 안내 + 다음 행동(다시 시도·만들기). 룩은 슬러 디자인의 `empty_state`·`skeleton`·`spinner`(tokens-only·규칙만 적용 프로젝트는 자기 디자인으로).
+
 ## 피드백 방식 선택
 
 기준: **흐름을 멈춰야 하는가.**
@@ -35,11 +47,14 @@
 알림 강도는 둘뿐이다 — 기본은 `role="status"`(조용히 읽힘, 자동 소멸 허용), 끼어들어야 하는 실패·세션 만료만 `role="alert"`(즉시 읽힘, 자동 소멸 금지). 알림은 포커스를 옮기지 않고, 컨테이너는 미리 DOM에 있어야 읽힌다 (`accessibility.md` 5-C).
 
 ```html
+<!-- 컨테이너는 페이지 블록 밖, 미리 DOM에. 텍스트만 바뀐다 -->
 <div class="toast_message" data-state="show" role="status">
   <p class="i_text">저장되었습니다.</p>
   <button class="i_close" type="button" aria-label="닫기"></button>
 </div>
 ```
+
+큐·자동 소멸·닫기는 동봉 `slur.js`가 맡는다 — `slur.toast('저장되었습니다.')`, 긴급은 `slur.toast('…', { level: 'alert' })`(`role="alert"` 컨테이너, 자동 소멸 없음). 직접 구현하더라도 같은 규칙: 한 번에 하나, 텍스트 교체 → `data-state="show"`, 닫힌 뒤 텍스트 비움(같은 문장이 다시 읽히도록).
 
 ### 인라인 오류
 

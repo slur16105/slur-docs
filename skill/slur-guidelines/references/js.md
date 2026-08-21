@@ -19,6 +19,37 @@ JavaScript는 HTML과 CSS를 존중한다. 동작만 담당하고 구조나 표�
 
 ---
 
+## 동작은 어디서 오나 — 네이티브 → slur.js → 위임
+
+위젯의 "동작"(키보드·포커스·열고 닫기·알림)은 이 순서로 가져온다. 직접 쓰는 JS는 그만큼 줄고, 슬러는 어떤 라이브러리에도 묶이지 않는다.
+
+| 순위 | 담당 | 예 | 상태 정본 |
+|---|---|---|---|
+| 1 | **브라우저 네이티브** | 모달 `<dialog>`·`showModal()`, 드롭다운 열고 닫기 `popover="auto"`(Esc·바깥 클릭·최상위 레이어·포커스 복귀 포함), 아코디언 `<details>`, 셀렉트 `<select>`, 날짜 `<input type="date">` | 네이티브 속성 — `[open]`, `:popover-open` (data-state 중복 금지) |
+| 2 | **slur.js** (동봉, 바닐라) | 탭 방향키, 메뉴 방향키·위치, 툴팁 호버/포커스/Esc, 토스트 큐, 드로어 inert·포커스 복귀, 테마 전환 | `data-state` (+ 표준 ARIA: `aria-selected`, `aria-expanded`) |
+| 3 | **위임** (검증된 헤드리스 라이브러리) | 콤보박스(검색되는 셀렉트)·메뉴바·범위 달력 같은 복잡 위젯 | 라이브러리가 내보내는 `data-state`(대부분 호환) — 표현은 CSS |
+
+- 네이티브가 상태를 속성으로 갖는 요소(`dialog[open]`·`details[open]`·`:popover-open`)와 표준 ARIA 상태(`aria-sort`·`aria-current`·`aria-selected`)는 **그 속성이 정본**이다. `data-state`는 네이티브가 상태를 갖지 않는 일반 블록에 쓴다.
+- `slur.js`는 `document`에 위임 바인딩하므로 `<script src="slur.js" defer>` 한 줄이면 나중에 추가된 요소에도 동작한다. 모듈별 바인딩과 API는 SKILL.md 「동봉 파일 — slur.js」, 조립 예시는 `slur-design/references/recipes.md`.
+
+```js
+// 토스트 — 컨테이너(.toast_message[role="status"])는 미리 DOM에. 알림은 포커스를 옮기지 않는다
+slur.toast('저장되었습니다.');                          // 4초 뒤 자동 소멸
+slur.toast('저장에 실패했습니다.', { level: 'alert' });   // role="alert" 컨테이너, 수동 닫기
+
+// 드로어·테마는 마크업의 data-action만으로 동작 — JS 호출 없음
+// <button data-action="drawer_open" aria-controls="app_side" aria-expanded="false">
+// <button data-action="theme_toggle" aria-pressed="false">
+
+// 바뀐 뒤 후처리가 필요하면 커스텀 이벤트를 듣는다(버블링)
+document.addEventListener('slur:tabchange', (e) => { /* e.detail.tab */ });
+document.documentElement.addEventListener('slur:themechange', (e) => { /* e.detail.mode → 차트 색 다시 읽기 등 */ });
+```
+
+React처럼 프레임워크가 상태를 들고 있는 위젯(탭 선택 등)은 `data-state`·ARIA를 프레임워크가 렌더하고, 키 규칙은 `slur.js`의 해당 모듈을 참조 구현 삼아 컴포넌트 안에 옮긴다 — 둘이 같은 속성을 동시에 쓰지 않게 한다. 메뉴·툴팁·토스트·드로어·테마는 프레임워크 상태와 겹치지 않으므로 그대로 쓴다.
+
+---
+
 ## 이벤트 등록 방식
 
 ```js

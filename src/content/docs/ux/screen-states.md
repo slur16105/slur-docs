@@ -70,6 +70,20 @@ description: SLUR UX/UI System에서 모든 화면이 가져야 할 사용자 �
 - CSS는 상태 값을 해석해 해당 영역만 노출합니다.
 - 하나의 구조 안에서 상태만 전환되며, 구조는 바뀌지 않습니다.
 
+노출 토글은 블록마다 쓰지 않고 [공통 레이어(global.css)](/css/global-layer/)가 한 번에 담당합니다.
+블록의 `data-state`가 그 값일 때만 **직계 자식** 슬롯을 보이고, 세 상태에서는 `i_body`를 숨깁니다.
+
+```css
+/* global.css — 블록 이름을 모르므로 블록의 data-state로 스코프한다 */
+[data-state] > .i_loading, [data-state] > .i_empty, [data-state] > .i_error { display: none; }
+[data-state="loading"] > .i_loading, [data-state="empty"] > .i_empty, [data-state="error"] > .i_error { display: block; }
+[data-state="loading"] > .i_body, [data-state="empty"] > .i_body, [data-state="error"] > .i_body { display: none; }
+```
+
+그래서 블록에는 `data-state`를 **반드시 선언**하고(정상은 `""`), 슬롯은 직계 자식에 둡니다.
+JavaScript는 `block.dataset.state = 'loading'` 한 줄입니다.
+로딩은 콘텐츠 형태를 흉내 낸 스켈레톤이 기본이고, 빈·에러 상태는 안내 문구와 **다음 행동**(다시 시도, 만들기)을 함께 둡니다.
+
 ---
 
 ## 상태 기반 UI와의 관계

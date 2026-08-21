@@ -1,0 +1,37 @@
+/* ─────────────────────────────────────────────
+   STATE — SLUR Design System × slur-guidelines
+   4상태(로딩/빈/에러/정상)의 "룩"을 담당하는 세 블록.
+   노출 토글(어느 슬롯을 보일지)은 global.css의 4상태 슬롯 규칙이
+   블록의 data-state를 읽어 처리한다 — 여기서는 모양만.
+   · empty_state — 빈/에러 안내 패널(i_empty·i_error 슬롯 안에)
+   · skeleton    — 로딩 자리표시(i_loading 슬롯 안에, 실제 콘텐츠 형태를 흉내)
+   · spinner     — 진행 중 표시(버튼 안·단독)
+   치수는 rem/em(텍스트와 함께 확대), 값은 시맨틱 토큰만.
+   ───────────────────────────────────────────── */
+
+/* 빈 상태 패널 — 아이콘 + 제목 + 설명 + 행동(선택). 에러는 m_error */
+.empty_state { display: flex; max-width: 360px; margin: 0 auto; padding: var(--space-24) var(--space-16); flex-direction: column; align-items: center; gap: var(--space-8); text-align: center; }
+.empty_state .i_icon { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; margin-bottom: var(--space-8); border-radius: var(--radius-full); background: var(--color-surface-sunken); color: var(--color-text-muted); }
+.empty_state .i_icon svg { width: 1.5rem; height: 1.5rem; }
+.empty_state .i_title { font-size: var(--text-base); font-weight: var(--weight-semibold); color: var(--color-text-primary); }
+.empty_state .i_text { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.empty_state .i_action { display: flex; gap: var(--space-8); margin-top: var(--space-12); flex-wrap: wrap; justify-content: center; }
+.empty_state.m_error .i_icon { background: var(--color-danger-soft); color: var(--color-danger); }
+.empty_state.m_compact { padding: var(--space-16); }
+.empty_state.m_compact .i_icon { width: 2.5rem; height: 2.5rem; margin-bottom: 0; }
+
+/* 스켈레톤 — 한 줄이 기본(텍스트 한 줄 높이). 형태는 m_, 너비는 자리에 맞춰 페이지가 정한다 */
+.skeleton { display: block; width: 100%; height: 1em; border-radius: var(--radius-4); background: linear-gradient(90deg, var(--color-surface-hover) 25%, var(--color-border-subtle) 50%, var(--color-surface-hover) 75%) 0 0 / 200% 100%; animation: skeleton_shimmer 1.4s var(--ease-standard) infinite; }
+.skeleton.m_title { height: 1.5em; }
+.skeleton.m_circle { width: 2.5rem; height: 2.5rem; border-radius: 50%; flex: none; }
+.skeleton.m_rect { height: 8rem; border-radius: var(--radius-8); }
+.skeleton.m_inline { display: inline-block; width: 6em; vertical-align: middle; }
+@keyframes skeleton_shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* 스피너 — 텍스트 옆이면 em(글자 크기 따라감), 단독 큰 표시는 m_large */
+.spinner { display: inline-block; width: 1.25em; height: 1.25em; border: 2px solid var(--color-border-subtle); border-top-color: var(--color-brand); border-radius: 50%; flex: none; animation: spinner_spin 0.8s linear infinite; }
+.spinner.m_large { width: 2.5rem; height: 2.5rem; border-width: 3px; }
+@keyframes spinner_spin { to { transform: rotate(360deg); } }
+
+/* 조합 — 버튼 로딩 중에는 현재 글자색으로 도는 작은 스피너 */
+.btn .spinner { width: 1em; height: 1em; border-color: transparent; border-top-color: currentColor; }

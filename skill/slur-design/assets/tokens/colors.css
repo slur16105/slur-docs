@@ -41,6 +41,16 @@
   --color-amber-50:  #fff7ed;
   --color-red-500:   #dc2626;
   --color-red-50:    #fef2f2;
+
+  /* Chart hues — 범주형 계열 전용(상태색과 분리). 500은 라이트 면, 600은 다크 면용 단계 */
+  --color-orange-500: #eb6834;
+  --color-orange-600: #d95926;
+  --color-teal-500:   #1baf7a;
+  --color-teal-600:   #199e70;
+  --color-yellow-500: #eda100;
+  --color-yellow-600: #c98500;
+  --color-pink-400:   #e87ba4;
+  --color-pink-500:   #d55181;
 }
 
 /* ── LAYER 2 · SEMANTIC — light (default) ─────── */
@@ -89,6 +99,19 @@
   --color-on-danger:  var(--color-neutral-0);
   --color-on-success: var(--color-neutral-0);
   --color-on-warning: var(--color-neutral-900);
+
+  /* Overlay — 모달·드로어 뒤 배경 딤. 테마와 무관하게 어두운 반투명 고정 */
+  --color-surface-overlay: rgba(11, 13, 15, 0.45);
+
+  /* Chart — 범주형 계열 5슬롯. 순서 고정(1→5), 계열이 5를 넘으면 "기타"로 묶거나 화면을 나눈다.
+     상태색(success/warning/danger)을 계열색으로 재사용하지 않는다.
+     검증(dataviz 6항목, 라이트 #fff·다크 #23272b 면): 인접 쌍 CVD ΔE ≥ 8.4, 정상 시력 ≥ 19 통과.
+     라이트 면에서 3·4·5는 3:1 미만 — 색만으로 계열을 구분시키지 말고 직접 라벨·범례·표를 함께 둔다. */
+  --color-chart-1: var(--color-brand-500);
+  --color-chart-2: var(--color-orange-500);
+  --color-chart-3: var(--color-teal-500);
+  --color-chart-4: var(--color-yellow-500);
+  --color-chart-5: var(--color-pink-400);
 }
 
 /* ── LAYER 2 · SEMANTIC — dark ──────────────────
@@ -123,4 +146,11 @@
   --color-success-soft: rgba(22, 163, 74, 0.16);
   --color-warning-soft: rgba(217, 119, 6, 0.16);
   --color-danger-soft:  rgba(220, 38, 38, 0.16);
+
+  /* 다크 면용 계열 단계 — 같은 색상을 어두운 면에 맞춰 한 단계 조정(자동 반전 아님) */
+  --color-chart-1: var(--color-brand-400);
+  --color-chart-2: var(--color-orange-600);
+  --color-chart-3: var(--color-teal-600);
+  --color-chart-4: var(--color-yellow-600);
+  --color-chart-5: var(--color-pink-500);
 }

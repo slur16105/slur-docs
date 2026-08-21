@@ -144,6 +144,35 @@ UI 복잡도의 가장 큰 원인입니다.
 
 ---
 
+## 비모달 레이어 — 드롭다운·팝오버·툴팁
+
+흐름을 멈추지 않고 잠깐 떠 있는 레이어(행 액션 메뉴, 필터 팝오버, 툴팁)는
+모달이 아니라 **네이티브 `popover`** 로 만듭니다.
+
+- 열고 닫기, Esc, 바깥 클릭, 최상위 레이어, 포커스 복귀 — `popover="auto"`가 전부 제공합니다. JavaScript 0줄.
+- 상태의 정본은 `:popover-open`(네이티브) — `<dialog>`의 `[open]`과 같은 이유로 `data-state`를 붙이지 않습니다.
+- 트리거 기준 위치와 방향키 이동은 [동작 층(slur.js)](/js/behaviors/)의 `menu`가, 툴팁의 호버·포커스·Esc는 `tooltip`이 담당합니다.
+
+```html
+<button class="btn m_icon" type="button" popovertarget="row_menu_1" aria-haspopup="menu" aria-label="더보기">⋯</button>
+<div class="menu_action" id="row_menu_1" popover role="menu" aria-label="행 동작">
+  <button class="i_item" type="button" role="menuitem">편집</button>
+  <button class="i_item m_danger" type="button" role="menuitem">삭제</button>
+</div>
+```
+
+```css
+.menu_action { display: flex; min-width: 180px; margin: 0; padding: 4px; border: 1px solid #e2e5e7; border-radius: 8px; background: #fff; position: fixed; inset: auto; flex-direction: column; opacity: 0; transition: opacity 120ms, display 120ms allow-discrete, overlay 120ms allow-discrete; }
+.menu_action:popover-open { opacity: 1; }
+@starting-style { .menu_action:popover-open { opacity: 0; } }
+```
+
+`role="menu"`는 앱의 동작 메뉴(편집·삭제·공유)에만 씁니다.
+사이트 내비게이션은 방향키 위젯이 아니므로 `nav > ul > li > a`로 두고 Tab으로 이동합니다.
+툴팁은 `role="tooltip"` + `popover="manual"`에 `aria-describedby`로 연결하고, 안에 버튼·링크를 넣지 않습니다.
+
+---
+
 ## 팝업 / 모달 패턴의 목적
 
 팝업 / 모달 패턴은

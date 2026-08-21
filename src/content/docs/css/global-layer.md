@@ -20,6 +20,8 @@ global 레이어는 다음을 담당합니다.
 - 본문 타이포그래피의 기준값 (글꼴, 크기, 행간, 색)
 - 폼 컨트롤의 상속 개방과 기본 타이포
 - 포커스 스타일의 단일 선언
+- 시각 숨김(`a11y_hidden`), 움직임 줄이기(`prefers-reduced-motion`)
+- [4상태](/ux/screen-states/) 슬롯의 노출 토글 (`i_loading` / `i_empty` / `i_error` / `i_body`)
 
 컴포넌트가 이 값들을 반복 선언하면
 수정 지점이 흩어지고 드리프트가 생깁니다.
@@ -81,6 +83,24 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 
 대체 링 없이 outline만 제거하는 것은
 접근성을 해치므로 허용하지 않습니다.
+
+---
+
+## 4상태 슬롯 토글
+
+[화면 상태 설계](/ux/screen-states/)의 로딩·빈·에러 슬롯은 어느 블록에나 등장하므로
+블록마다 토글 CSS를 반복하지 않고 global이 한 번에 담당합니다.
+블록 이름을 모르니 **블록의 `data-state`로 스코프**합니다 —
+내부 요소를 블록 클래스 없이 선택하는 유일한 예외입니다.
+
+```css
+[data-state] > .i_loading, [data-state] > .i_empty, [data-state] > .i_error { display: none; }
+[data-state="loading"] > .i_loading, [data-state="empty"] > .i_empty, [data-state="error"] > .i_error { display: block; }
+[data-state="loading"] > .i_body, [data-state="empty"] > .i_body, [data-state="error"] > .i_body { display: none; }
+```
+
+슬롯은 블록의 **직계 자식**이어야 하고, 블록에는 `data-state`가 선언되어 있어야 합니다.
+슬롯 안의 룩(스켈레톤·빈 상태 패널)은 디자인 층의 일이며 global은 노출만 정합니다.
 
 ---
 

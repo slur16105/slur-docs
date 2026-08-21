@@ -27,6 +27,14 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
    display:none/visibility:hidden은 접근성 트리에서도 제거되므로 쓰지 않는다. */
 .a11y_hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
+/* 4상태 슬롯 — 블록(data-state를 가진 요소)의 직계 자식 i_loading / i_empty / i_error는
+   블록의 상태가 그 값일 때만 보이고, 정상 콘텐츠(i_body)는 세 상태에서 숨는다.
+   블록 이름을 모르므로 블록의 data-state로 스코프한다(내부 요소 단독 선택자 금지의 유일한 예외).
+   룩(빈 상태 패널·스켈레톤·스피너)은 여기 없다 — slur-design components/state.css. */
+[data-state] > .i_loading, [data-state] > .i_empty, [data-state] > .i_error { display: none; }
+[data-state="loading"] > .i_loading, [data-state="empty"] > .i_empty, [data-state="error"] > .i_error { display: block; }
+[data-state="loading"] > .i_body, [data-state="empty"] > .i_body, [data-state="error"] > .i_body { display: none; }
+
 /* 움직임 줄이기 — OS 설정을 존중한다. 애니메이션·트랜지션을 사실상 끈다. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
