@@ -35,3 +35,9 @@
 .input_wrap .i_icon { display: inline-flex; color: var(--color-text-muted); position: absolute; left: var(--space-12); pointer-events: none; }
 .input_wrap .i_icon svg { width: 1.125em; height: 1.125em; }
 .input_wrap .input_text.m_icon_left { padding-left: 2.25rem; }
+
+/* 오른쪽 액션 — 비밀번호 보기·지우기 같은 버튼을 컨트롤 안에. 버튼은 i_action(아이콘 전용, aria-label·aria-pressed 필수) */
+.input_wrap .input_text.m_icon_right { padding-right: 2.5rem; }
+.input_wrap .i_action { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: none; border-radius: var(--radius-4); background: transparent; color: var(--color-text-muted); position: absolute; right: var(--space-4); cursor: pointer; transition: color var(--duration-fast) var(--ease-standard); }
+.input_wrap .i_action:hover { color: var(--color-text-primary); }
+.input_wrap .i_action svg { width: 1.125em; height: 1.125em; }

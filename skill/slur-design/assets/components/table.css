@@ -9,6 +9,8 @@
    ───────────────────────────────────────────── */
 
 .table_wrap { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); overflow: hidden; box-shadow: var(--shadow-sm); }
+/* 좁은 화면 — 표 자체를 줄이지 않고 가로 스크롤. 열을 숨기는 선택은 페이지가 한다 */
+.table_wrap .i_scroll, .table_wrap .i_body { overflow-x: auto; }
 .table_wrap .i_foot { display: flex; align-items: center; justify-content: space-between; padding: var(--space-12) var(--space-16); border-top: 1px solid var(--color-border-subtle); }
 .table_wrap .i_count { font-size: var(--text-xs); color: var(--color-text-muted); }
 .table_wrap .i_btn_wrap { display: flex; gap: var(--space-4); }

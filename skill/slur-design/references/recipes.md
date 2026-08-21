@@ -1,4 +1,4 @@
-# 대시보드 레시피 — 앱 셸부터 위임까지
+# 대시보드 레시피 — 앱 셸부터 화면 조립본까지
 
 대시보드 한 장을 슬러 디자인(tokens + components + patterns)과 `slur.js`만으로 끝까지 만드는 조립법. Tailwind·shadcn 없이, 어떤 JS 라이브러리에도 의존하지 않는다. 동작은 **네이티브 → slur.js → 위임** 순서(SKILL.md 「동작은 어디서 오나」). 완성 예시는 레포 `system/demo-dashboard.html`.
 
@@ -190,3 +190,24 @@ const series = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--color-chart-${
 - **그대로 쓰는 것**: 메뉴·툴팁·토스트·드로어·테마 — React 상태와 겹치지 않는 DOM 속성(popover 열림, 포커스, 라이브 영역)만 만진다.
 - **React가 정본인 것**: 탭처럼 선택 상태를 React가 들고 있으면 `data-state`·`aria-selected`를 React가 렌더하고, 키 규칙(←→·Home/End, roving tabindex)은 같은 규칙으로 컴포넌트 안에서 구현한다. `slur.js`의 `tabs` 코드가 그 참조 구현이다. 둘이 동시에 같은 속성을 쓰지 않게 한다.
 - 프로젝트 `CLAUDE.md`/`AGENTS.md` 한 줄: "이 프로젝트는 **슬러 디자인**으로 만든다. Tailwind·shadcn 클래스를 쓰지 않는다. 동작은 네이티브 → slur.js → 위임, 모양은 슬러 클래스와 토큰, 상태는 `data-state`."
+
+## 15. 화면 조립본 — `assets/patterns/screens/`
+
+처음부터 짜지 말고 **조립본을 복사해 시작**한다. 네 장 모두 그대로 열리는 HTML(마크업 + 페이지 CSS + 페이지 JS)이고, 위젯 동작은 전부 `slur.js`에 위임돼 있어 페이지 스크립트는 그 화면의 데이터 흐름만 담는다.
+
+| 파일 | 틀 | 들어 있는 것 |
+|---|---|---|
+| `dashboard.html` | `layout_app` | 기간 탭·필터 툴바, `card.m_stat` 4개, 차트 색 토큰, 4상태 표(`i_status`), 행 메뉴, 페이지네이션, 새 청구서 `<dialog>`, 토스트 |
+| `login.html` | `layout_auth` | 이메일·비밀번호(보기 토글 `input_wrap .i_action`), 인라인 오류(`field[data-state=error]` + `i_help` + `aria-invalid`), 폼 상단 실패 `alert.m_inline`, 로딩 버튼(스피너), 소셜 버튼, 하단 링크 |
+| `list.html` | `layout_app` | 제목+카운트 배지, 상태 탭(필터 → 4상태 전환), 검색·플랜 셀렉트, **선택 바**(`page_list[data-state="selected"]`), 전체 선택 `indeterminate`, 정렬(`aria-sort`), 행 메뉴 → **삭제 확인 `<dialog>`**(초기 포커스 취소) → 토스트, 빈/에러 상태, 좁은 화면 가로 스크롤 |
+| `settings.html` | `layout_app` | 구역 내비(`aria-current`, `scroll-margin-top`), 카드 섹션(프로필·알림·보안·위험 구역), 라벨/컨트롤 2열 행(`p_row`), `role="switch"` + `aria-checked`, **변경 추적 저장 바**(`p_savebar[data-state="open"]`, 취소=초기값 복원), 비밀번호 규칙 인라인 오류, 위험 구역(`card.p_danger`) → 이름 입력 게이트 삭제 확인 |
+
+조립본에서 지키는 공통 규칙(새 화면도 같게):
+
+- 페이지 블록 하나(`page_*`)가 컴포넌트를 조합하고, 틀(`layout_app`/`layout_auth`)은 `l_`로 자족한다. 페이지 CSS는 `<style>`에 `.page_x .p_*`로만 — 컴포넌트 내부를 덮을 땐 페이지 스코프에서(`.page_list .table_data { min-width: 760px; }`).
+- 상태는 `data-state`(선택 바·저장 바·4상태), 네이티브·ARIA 상태가 있으면 그 속성이 정본(`[open]`·`:popover-open`·`aria-sort`·`aria-current`·`aria-checked`·`aria-invalid`).
+- 파괴적 확인은 `<dialog>` + 초기 포커스 취소(또는 이름 입력 게이트), 성공 알림은 **모달이 닫힌 뒤** 토스트 — `slur.toast()`가 순서를 보장한다.
+- 인라인 오류는 그 자리(`field` + `i_help` + `aria-invalid`), 폼 전체 실패는 폼 상단 `alert.m_inline`(`role="alert"`), 포커스는 첫 오류 필드로.
+- 컨트롤 이름 규칙: 아이콘만 있는 버튼은 `aria-label`, 스위치는 `aria-labelledby`로 행 라벨과 연결, 검색·셀렉트의 숨은 라벨은 `a11y_hidden`.
+
+React/Next로 옮길 때는 페이지 CSS를 CSS Module(같은 클래스명)로, 페이지 JS의 `data-action` 분기를 핸들러로 옮기고, `slur.js`는 `<Script>`로 그대로 로드한다(14절).

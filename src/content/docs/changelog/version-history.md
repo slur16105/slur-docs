@@ -9,6 +9,27 @@ SLUR UX/UI System의
 
 ---
 
+## v1.9.0 — 2026.08
+
+### 화면 조립본 — 로그인 · 목록 · 설정
+
+대시보드 한 장(v1.8.0)에 이어, 바이브 코딩으로 앱을 만들 때 바로 복사해 시작할 수 있는 **화면 조립본** 세 장을 추가했다. 전부 슬러 디자인 + `slur.js`만으로 동작하며(Tailwind·shadcn·헤드리스 라이브러리 없음), 위젯 동작은 `slur.js`에 위임돼 페이지 스크립트는 그 화면의 데이터 흐름만 담는다.
+
+#### 디자인시스템 (`slur-design`)
+
+- **`patterns/screens/` 신설** — `dashboard.html`(기존 `system/demo-dashboard.html`을 이동), `login.html`, `list.html`, `settings.html`. 그대로 열리는 HTML(마크업 + 페이지 CSS + JS, 상대경로)
+  - **로그인** — `layout_auth` 틀, 이메일·비밀번호(보기 토글), 인라인 오류(`field[data-state=error]` + `i_help` + `aria-invalid`, 포커스는 첫 오류 필드), 폼 상단 실패 `alert.m_inline`(`role=alert`), 로딩 버튼(스피너), 소셜 로그인·가입 링크
+  - **목록(고객)** — 제목+카운트, 상태 탭이 4상태(로딩→정상/빈)를 전환, 검색·셀렉트, **선택 바**(`page_list[data-state="selected"]`, 전체 선택 `indeterminate`), 정렬(`aria-sort`), 행 메뉴 → 삭제 확인 `<dialog>`(초기 포커스 취소) → 모달 닫힌 뒤 토스트, 좁은 화면 가로 스크롤
+  - **설정** — 구역 내비(`aria-current` + `scroll-margin-top`), 카드 섹션(프로필·알림·보안·위험 구역), 라벨/컨트롤 2열 행, `role="switch"` + `aria-checked`, **변경 추적 저장 바**(취소 = 초기값 복원), 비밀번호 규칙 오류, 위험 구역은 이름 입력 게이트로 삭제 확인
+- **`patterns/auth-shell.css` 신설** — `layout_auth`(`l_brand` · `l_main` > `l_card` · `l_foot`): 로그인·가입·재설정 같은 단일 과업 화면의 틀
+- **컴포넌트 소폭 확장** — `input_wrap .i_action`(컨트롤 안 오른쪽 액션 버튼: 비밀번호 보기·지우기) + `input_text.m_icon_right`; `table_wrap .i_body/.i_scroll`에 `overflow-x: auto`(좁은 화면 가로 스크롤); `switch`는 `role="switch"` + **`aria-checked="true"`를 정본**으로 인정(표준 ARIA 상태 규칙, 기존 `data-state="on"`도 유지)
+- `references/recipes.md`에 「15. 화면 조립본」 — 네 장의 내용 표 + 새 화면도 같게 지키는 공통 규칙(페이지 블록 조합·상태 정본·파괴적 확인·인라인 오류·컨트롤 이름) + React 이관 메모
+- SKILL.md 트리·색인·「프로젝트에 넣는 법」에 `auth-shell`·`screens/` 반영("화면을 새로 짤 때는 조립본을 복사해 시작"), `system/README.md` 갱신, `slur.js` 버전 1.9.0
+
+#### 검증
+
+- Chrome(1280·375)에서 네 장 모두 콘솔 오류 0. 로그인 유효성·실패·성공 흐름, 목록 선택 바·4상태 전환·행 메뉴→삭제 확인→토스트, 설정 변경 추적·취소 복원·저장·삭제 게이트 동작 확인. Safari는 Slur 수동 확인 대상
+
 ## v1.8.0 — 2026.08
 
 ### 동작 층 신설 + 대시보드 어휘

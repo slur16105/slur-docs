@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>설정 — SLUR 화면 조립본</title>
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
+<link rel="stylesheet" href="../../tokens/colors.css">
+<link rel="stylesheet" href="../../tokens/typography.css">
+<link rel="stylesheet" href="../../tokens/spacing.css">
+<link rel="stylesheet" href="../../tokens/radius.css">
+<link rel="stylesheet" href="../../tokens/shadows.css">
+<link rel="stylesheet" href="../../tokens/motion.css">
+<link rel="stylesheet" href="../../tokens/breakpoints.css">
+<link rel="stylesheet" href="../../tokens/z-index.css">
+<link rel="stylesheet" href="../../components/button.css">
+<link rel="stylesheet" href="../../components/input.css">
+<link rel="stylesheet" href="../../components/select.css">
+<link rel="stylesheet" href="../../components/selection.css">
+<link rel="stylesheet" href="../../components/badge.css">
+<link rel="stylesheet" href="../../components/card.css">
+<link rel="stylesheet" href="../../components/alert.css">
+<link rel="stylesheet" href="../../components/navigation.css">
+<link rel="stylesheet" href="../../components/modal.css">
+<link rel="stylesheet" href="../../components/toast.css">
+<link rel="stylesheet" href="../../components/state.css">
+<link rel="stylesheet" href="../../components/tooltip.css">
+<link rel="stylesheet" href="../app-shell.css">
+<script src="../../../../slur-guidelines/assets/slur.js" defer></script>
+<style>
+/* 페이지 CSS — 설정 화면 조합: 왼쪽 구역 내비 + 카드 섹션 + 저장 바 */
+.page_settings { display: flex; flex-direction: column; gap: 20px; max-width: 1040px; }
+.page_settings .p_head .p_title { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); }
+.page_settings .p_head .p_desc { margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_settings .p_layout { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; }
+.page_settings .p_nav { position: sticky; top: 72px; }
+.page_settings .p_nav ul { display: flex; flex-direction: column; gap: 2px; list-style: none; }
+.page_settings .p_nav a { display: block; padding: var(--space-8) var(--space-12); border-radius: var(--radius-8); font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-secondary); text-decoration: none; }
+.page_settings .p_nav a:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
+.page_settings .p_nav a[aria-current="true"] { background: var(--color-brand-soft); color: var(--color-text-brand); }
+.page_settings .p_content { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.page_settings .p_content .card { scroll-margin-top: 72px; }
+.page_settings .card .i_body { display: flex; flex-direction: column; gap: 0; padding: 0 var(--space-20); }
+.page_settings .p_row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 20px 0; border-top: 1px solid var(--color-border-subtle); }
+.page_settings .p_row:first-child { border-top: none; }
+.page_settings .p_row_label { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-primary); }
+.page_settings .p_row_label small { display: block; margin-top: 2px; font-size: var(--text-xs); font-weight: normal; color: var(--color-text-muted); }
+.page_settings .p_row_control { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.page_settings .p_row_control .input_text { width: 100%; max-width: 360px; }
+.page_settings .p_row_control .field { width: 100%; max-width: 360px; }
+.page_settings .p_row.m_switch { align-items: center; }
+.page_settings .p_row.m_switch .p_row_control { justify-content: flex-end; }
+.page_settings .p_avatar { display: inline-flex; align-items: center; justify-content: center; width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--color-brand-soft); font-size: var(--text-lg); font-weight: var(--weight-semibold); color: var(--color-text-brand); flex: none; }
+.page_settings .p_danger { border-color: var(--color-danger); }
+.page_settings .p_danger .i_title { color: var(--color-danger); }
+.page_settings .p_savebar { display: none; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--color-border-default); border-radius: var(--radius-12); background: var(--color-surface-card); font-size: var(--text-sm); position: sticky; bottom: 16px; z-index: var(--z-sticky); box-shadow: var(--shadow-lg); }
+.page_settings .p_savebar[data-state="open"] { display: flex; }
+.page_settings .p_savebar .p_spacer { flex: 1; }
+@media (max-width: 1023px) {
+  .page_settings .p_layout { grid-template-columns: 1fr; }
+  .page_settings .p_nav { position: static; }
+  .page_settings .p_nav ul { flex-direction: row; flex-wrap: wrap; }
+}
+@media (max-width: 639px) {
+  .page_settings .p_row { grid-template-columns: 1fr; gap: 8px; padding: 16px 0; }
+  .page_settings .p_row.m_switch { grid-template-columns: 1fr auto; }
+  .page_settings .p_savebar { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout_app">
+
+  <div class="l_side" id="app_side" data-state="close">
+    <div class="l_panel">
+      <a class="l_brand" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>SLUR Admin</a>
+      <button type="button" class="l_close" data-action="drawer_close" aria-label="메뉴 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+      <span class="l_group">워크스페이스</span>
+      <nav aria-label="주 메뉴">
+        <ul class="l_nav">
+          <li><a class="l_item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>대시보드</a></li>
+          <li><a class="l_item" href="list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>고객<span class="l_count">12</span></a></li>
+          <li><a class="l_item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>청구서</a></li>
+          <li><a class="l_item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>리포트</a></li>
+        </ul>
+      </nav>
+      <div class="l_divider" role="separator"></div>
+      <span class="l_group">계정</span>
+      <nav aria-label="계정 메뉴"><ul class="l_nav"><li><a class="l_item" href="settings.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>설정</a></li></ul></nav>
+      <div class="l_foot"><a class="l_user" href="settings.html"><span class="l_avatar">SL</span><span class="l_user_meta">슬러<small>admin@slur.co.kr</small></span></a></div>
+    </div>
+    <div class="l_dim" data-action="drawer_close" aria-hidden="true"></div>
+  </div>
+
+  <header class="l_head">
+    <button type="button" class="l_menu" data-action="drawer_open" aria-controls="app_side" aria-expanded="false" aria-label="메뉴 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button>
+    <nav class="breadcrumb" aria-label="현재 위치"><a href="dashboard.html" class="i_link">계정</a><span class="i_sep">/</span><span class="i_current">설정</span></nav>
+    <div class="l_actions">
+      <button type="button" class="btn m_ghost m_icon" data-action="theme_toggle" aria-pressed="false" aria-label="다크 모드 전환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
+    </div>
+  </header>
+
+  <main class="l_main">
+    <div class="page_settings">
+      <div class="p_head"><h1 class="p_title">설정</h1><p class="p_desc">프로필·알림·보안을 관리합니다. 변경 사항은 저장 버튼을 눌러야 반영됩니다.</p></div>
+
+      <div class="p_layout">
+        <nav class="p_nav" aria-label="설정 구역">
+          <ul>
+            <li><a href="#profile" aria-current="true">프로필</a></li>
+            <li><a href="#notify">알림</a></li>
+            <li><a href="#security">보안</a></li>
+            <li><a href="#danger">위험 구역</a></li>
+          </ul>
+        </nav>
+
+        <form class="p_content" novalidate>
+          <section class="card" id="profile" aria-labelledby="profile_title">
+            <div class="i_head"><div><h2 class="i_title" id="profile_title">프로필</h2><p class="i_desc">팀원에게 보이는 정보입니다.</p></div></div>
+            <div class="i_body">
+              <div class="p_row">
+                <div class="p_row_label">사진<small>PNG·JPG, 1MB 이하</small></div>
+                <div class="p_row_control"><span class="p_avatar" aria-hidden="true">SL</span><button type="button" class="btn m_small">변경</button><button type="button" class="btn m_ghost m_small">삭제</button></div>
+              </div>
+              <div class="p_row">
+                <div class="p_row_label"><label for="s_name">이름</label></div>
+                <div class="p_row_control"><input class="input_text" id="s_name" name="name" value="슬러" autocomplete="name"></div>
+              </div>
+              <div class="p_row">
+                <div class="p_row_label"><label for="s_email">이메일</label><small>로그인 아이디 — 변경은 고객지원으로</small></div>
+                <div class="p_row_control"><input class="input_text" id="s_email" value="admin@slur.co.kr" readonly></div>
+              </div>
+              <div class="p_row">
+                <div class="p_row_label"><label for="s_bio">소개</label><small>최대 160자</small></div>
+                <div class="p_row_control"><div class="field"><textarea class="input_text m_textarea" id="s_bio" name="bio" rows="3" maxlength="160" aria-describedby="s_bio_help">UX/UI 시스템을 만듭니다.</textarea><span class="i_help" id="s_bio_help"><span class="p_bio_count">16</span>/160</span></div></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" id="notify" aria-labelledby="notify_title">
+            <div class="i_head"><div><h2 class="i_title" id="notify_title">알림</h2><p class="i_desc">어떤 일이 생기면 어디로 알릴지 정합니다.</p></div></div>
+            <div class="i_body">
+              <div class="p_row m_switch"><div class="p_row_label" id="n_invoice_label">청구서 이메일<small>새 청구서·연체 알림을 이메일로 받습니다</small></div><div class="p_row_control"><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="n_invoice_label" name="n_invoice"><span class="i_knob"></span></button></div></div>
+              <div class="p_row m_switch"><div class="p_row_label" id="n_weekly_label">주간 리포트<small>매주 월요일 아침 요약</small></div><div class="p_row_control"><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="n_weekly_label" name="n_weekly"><span class="i_knob"></span></button></div></div>
+              <div class="p_row m_switch"><div class="p_row_label" id="n_marketing_label">제품 소식<small>새 기능·이벤트 안내</small></div><div class="p_row_control"><button type="button" class="switch" role="switch" aria-checked="false" aria-labelledby="n_marketing_label" name="n_marketing"><span class="i_knob"></span></button></div></div>
+            </div>
+          </section>
+
+          <section class="card" id="security" aria-labelledby="security_title">
+            <div class="i_head"><div><h2 class="i_title" id="security_title">보안</h2><p class="i_desc">비밀번호와 2단계 인증.</p></div></div>
+            <div class="i_body">
+              <div class="p_row">
+                <div class="p_row_label"><label for="s_pw_now">현재 비밀번호</label></div>
+                <div class="p_row_control"><input class="input_text" type="password" id="s_pw_now" name="pw_now" autocomplete="current-password"></div>
+              </div>
+              <div class="p_row">
+                <div class="p_row_label"><label for="s_pw_new">새 비밀번호</label><small>8자 이상</small></div>
+                <div class="p_row_control"><div class="field"><input class="input_text" type="password" id="s_pw_new" name="pw_new" autocomplete="new-password" aria-describedby="s_pw_new_help"><span class="i_help" id="s_pw_new_help"></span></div></div>
+              </div>
+              <div class="p_row m_switch"><div class="p_row_label" id="s_2fa_label">2단계 인증<small>로그인할 때 인증 앱 코드를 추가로 요구합니다</small></div><div class="p_row_control"><span class="badge m_success"><span class="i_dot"></span>켜짐</span><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="s_2fa_label" name="s_2fa"><span class="i_knob"></span></button></div></div>
+            </div>
+          </section>
+
+          <section class="card m_flat p_danger" id="danger" aria-labelledby="danger_title">
+            <div class="i_head"><div><h2 class="i_title" id="danger_title">위험 구역</h2><p class="i_desc">되돌릴 수 없는 작업입니다.</p></div></div>
+            <div class="i_body">
+              <div class="p_row">
+                <div class="p_row_label">워크스페이스 삭제<small>모든 고객·청구서·리포트가 영구 삭제됩니다</small></div>
+                <div class="p_row_control"><button type="button" class="btn m_danger" data-action="delete_open">워크스페이스 삭제…</button></div>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+
+      <!-- 저장 바 — 변경이 생기면 data-state="open". 저장 결과는 토스트 -->
+      <div class="p_savebar" data-state="close" role="status"><span>저장하지 않은 변경 <strong class="p_dirty">0</strong>개</span><span class="p_spacer"></span><button type="button" class="btn" data-action="discard">취소</button><button type="button" class="btn m_primary" data-action="save">변경 사항 저장</button></div>
+    </div>
+  </main>
+</div>
+
+<!-- 삭제 확인 — 파괴적: 이름을 입력해야 버튼이 켜짐, 초기 포커스는 입력(취소 경로가 분명하므로) -->
+<dialog class="modal_dialog" id="modal_delete" aria-labelledby="modal_delete_title" aria-describedby="modal_delete_text">
+  <div class="i_head"><div><h2 class="i_title" id="modal_delete_title">워크스페이스를 삭제할까요?</h2><p class="i_text" id="modal_delete_text">복구할 수 없습니다. 계속하려면 워크스페이스 이름 <strong>slur</strong>를 입력하세요.</p></div><button type="button" class="i_close" data-action="modal_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+  <div class="i_body"><div class="field"><label class="i_label" for="d_confirm">워크스페이스 이름</label><input class="input_text" id="d_confirm" autocomplete="off" placeholder="slur"></div></div>
+  <div class="i_foot"><button type="button" class="btn" data-action="modal_close">취소</button><button type="button" class="btn m_danger" data-action="delete_confirm" disabled>영구 삭제</button></div>
+</dialog>
+
+<div class="toast_message" role="status" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+<div class="toast_message" role="alert" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+
+<script>
+// 페이지 스크립트 — 변경 추적·저장·삭제 확인 흐름만. 위젯 동작(드로어·툴팁·토스트·테마)은 slur.js
+const form = document.querySelector('.page_settings .p_content');
+const savebar = document.querySelector('.page_settings .p_savebar');
+const dirty = new Set();
+const initial = new Map();   // 취소(되돌리기)용 초기값
+
+form.querySelectorAll('input, textarea').forEach((el) => initial.set(el, el.value));
+form.querySelectorAll('[role="switch"]').forEach((el) => initial.set(el, el.getAttribute('aria-checked')));
+
+function syncSavebar() { savebar.dataset.state = dirty.size ? 'open' : 'close'; savebar.querySelector('.p_dirty').textContent = dirty.size; }
+function markDirty(el) { if (initial.get(el) === (el.getAttribute('role') === 'switch' ? el.getAttribute('aria-checked') : el.value)) dirty.delete(el); else dirty.add(el); syncSavebar(); }
+
+form.addEventListener('input', (e) => {
+  if (e.target.id === 's_bio') document.querySelector('.page_settings .p_bio_count').textContent = e.target.value.length;
+  markDirty(e.target);
+});
+
+// 스위치 — 정본은 aria-checked(표준 ARIA 상태). 클릭으로 토글, Space/Enter는 button 기본 동작이 click을 낸다
+document.addEventListener('click', (e) => {
+  const sw = e.target.closest('[role="switch"]');
+  if (!sw || sw.disabled) return;
+  sw.setAttribute('aria-checked', sw.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
+  if (form.contains(sw)) markDirty(sw);
+});
+
+// 구역 내비 — 클릭한 곳이 현재(aria-current), 스크롤은 브라우저 앵커 이동(scroll-margin-top이 헤더 높이만큼 띄움)
+document.querySelector('.page_settings .p_nav').addEventListener('click', (e) => {
+  const a = e.target.closest('a'); if (!a) return;
+  document.querySelectorAll('.page_settings .p_nav a').forEach((x) => x.removeAttribute('aria-current'));
+  a.setAttribute('aria-current', 'true');
+});
+
+document.addEventListener('click', async (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const { action } = el.dataset;
+  if (action === 'discard') {
+    initial.forEach((value, node) => { if (node.getAttribute('role') === 'switch') node.setAttribute('aria-checked', value); else node.value = value; });
+    document.querySelector('.page_settings .p_bio_count').textContent = document.getElementById('s_bio').value.length;
+    dirty.clear(); syncSavebar();
+  }
+  if (action === 'save') {
+    const pwNew = document.getElementById('s_pw_new'), help = document.getElementById('s_pw_new_help');
+    if (pwNew.value && pwNew.value.length < 8) { pwNew.closest('.field').dataset.state = 'error'; pwNew.setAttribute('aria-invalid', 'true'); help.textContent = '비밀번호는 8자 이상입니다.'; pwNew.focus(); return; }
+    pwNew.closest('.field').dataset.state = ''; pwNew.removeAttribute('aria-invalid'); help.textContent = '';
+    el.dataset.state = 'loading'; el.disabled = true; el.innerHTML = '<span class="spinner" aria-hidden="true"></span>저장 중…';
+    await new Promise((r) => setTimeout(r, 800));   // 데모 — 실제로는 fetch
+    el.dataset.state = ''; el.disabled = false; el.textContent = '변경 사항 저장';
+    form.querySelectorAll('input, textarea').forEach((n) => initial.set(n, n.value));
+    form.querySelectorAll('[role="switch"]').forEach((n) => initial.set(n, n.getAttribute('aria-checked')));
+    dirty.clear(); syncSavebar();
+    slur.toast('설정을 저장했습니다.');
+  }
+  if (action === 'delete_open') { const dlg = document.getElementById('modal_delete'); document.getElementById('d_confirm').value = ''; dlg.querySelector('[data-action="delete_confirm"]').disabled = true; dlg.showModal(); document.getElementById('d_confirm').focus(); }
+  if (action === 'modal_close') el.closest('dialog').close();
+  if (action === 'delete_confirm') { document.getElementById('modal_delete').close(); slur.toast('워크스페이스 삭제를 요청했습니다. (데모)', { level: 'alert' }); }
+});
+
+document.getElementById('d_confirm').addEventListener('input', (e) => {
+  document.querySelector('#modal_delete [data-action="delete_confirm"]').disabled = e.target.value.trim() !== 'slur';
+});
+</script>
+</body>
+</html>

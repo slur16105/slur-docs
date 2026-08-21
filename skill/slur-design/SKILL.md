@@ -12,12 +12,13 @@ description: SLUR Design System — 시각 어휘(디자인 토큰과 컴포넌�
 ```
 slur-design/
 ├── references/
-│   └── recipes.md     # 대시보드 레시피 — 앱 셸·4상태·토스트·메뉴·툴팁·표 정렬/페이지·차트 토큰·다크 토글·위임
+│   └── recipes.md     # 대시보드 레시피 — 앱 셸·4상태·토스트·메뉴·툴팁·표 정렬/페이지·차트 토큰·다크 토글·위임·화면 조립본
 └── assets/
     ├── tokens/        # tokens 층 — colors(차트 5슬롯·overlay 포함), typography, spacing, radius, shadows, motion, breakpoints, z-index
     ├── components/    # components 층 — button, input, select, selection, badge, card, alert, modal, navigation, table,
     │                  #                 toast, state, menu, tooltip, pagination
-    └── patterns/      # patterns 층 — app-shell(대시보드 앱 셸 layout_app)
+    └── patterns/      # patterns 층 — app-shell(앱 셸 layout_app) · auth-shell(로그인류 틀 layout_auth)
+        └── screens/   #   화면 조립본(마크업+페이지 CSS+JS, 그대로 열리는 HTML) — dashboard · login · list · settings
 ```
 
 공통 레이어는 `../slur-guidelines/assets/global.css`, **동작 층은 `../slur-guidelines/assets/slur.js`**(탭·메뉴·툴팁·토스트·드로어·테마 — 룩 무관이라 guidelines가 동봉). 데모·작업 메모는 레포의 `system/`(`demo.html` 컴포넌트 전체, `demo-dashboard.html` 앱 셸 한 장, `README.md`).
@@ -46,7 +47,7 @@ slur-design/
 
 ## 프로젝트에 넣는 법
 
-1. 이 스킬 폴더의 `assets/tokens/`·`assets/components/`(full) 또는 `assets/tokens/`(tokens-only)를 프로젝트 CSS 폴더로 **복사**한다. `slur-guidelines/assets/global.css`와 `slur.js`도 함께. 대시보드면 `assets/patterns/app-shell.css`까지. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
+1. 이 스킬 폴더의 `assets/tokens/`·`assets/components/`(full) 또는 `assets/tokens/`(tokens-only)를 프로젝트 CSS 폴더로 **복사**한다. `slur-guidelines/assets/global.css`와 `slur.js`도 함께. 대시보드면 `assets/patterns/app-shell.css`, 로그인류면 `auth-shell.css`까지. **화면을 새로 짤 때는 `assets/patterns/screens/`의 조립본(dashboard·login·list·settings)을 복사해 시작한다** — 사이드바·4상태·토스트·모달·삭제 확인 흐름이 규칙대로 들어 있다. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
 2. **로드 순서**: `global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 런타임 `@import` 금지(순차 폭포). 번들러를 쓰면 같은 순서로 import. `slur.js`는 `<script src="slur.js" defer>` 한 줄(또는 `import 'slur.js'`).
 3. 웹폰트는 시스템이 로드하지 않는다 — `--font-sans` 선두가 **Noto Sans KR**이므로 소비자 페이지가 Google Fonts `<link>`(400/500/600/700)를 직접 넣는다. 없으면 시스템 폰트로 폴백.
 4. 다크 모드는 `<html data-theme="dark">` 하나로 끝난다. 전환·저장은 `slur.js`의 `theme`(`data-action="theme_toggle"` 버튼), 첫 페인트 깜빡임 방지는 `<head>` 인라인 한 줄 — `references/recipes.md` 「다크 토글」.
@@ -90,6 +91,8 @@ slur-design/
 | `menu_action`(`popover` + `role="menu"`, 정본 `:popover-open`) | `components/menu.css` |
 | `tooltip_help`(`popover="manual"` + `role="tooltip"`) | `components/tooltip.css` |
 | `layout_app`(`l_side`/`l_panel`/`l_dim` · `l_head` · `l_main` …) | `patterns/app-shell.css` |
+| `layout_auth`(`l_brand` · `l_main` > `l_card` · `l_foot`) — 로그인·가입·재설정 틀 | `patterns/auth-shell.css` |
+| 화면 조립본 — 대시보드 · 로그인 · 목록(선택 바·4상태·행 메뉴·삭제 확인) · 설정(구역 내비·스위치·저장 바·위험 구역) | `patterns/screens/*.html` |
 
 4상태 슬롯(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)의 **노출 스위치는 `global.css`**(slur-guidelines)가 하고, 이 시스템은 슬롯 기본형과 그 안에 넣는 `empty_state`·`skeleton`·`spinner`의 룩만 준다. 상태 값은 `loading|empty|error|success`.
 

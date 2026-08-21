@@ -20,9 +20,9 @@
 .radio .i_input:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); cursor: not-allowed; }
 .radio:has(.i_input:disabled) { color: var(--color-text-muted); cursor: not-allowed; }
 
-/* 토글 스위치 — JS 상태이므로 data-state */
+/* 토글 스위치 — button[role="switch"]. 켜짐의 정본은 표준 ARIA 상태 aria-checked="true"(data-state="on"도 인정) */
 .switch { display: inline-flex; width: 2.5rem; height: 1.5rem; border: none; border-radius: var(--radius-full); background: var(--color-border-strong); cursor: pointer; position: relative; flex: none; transition: background-color var(--duration-base) var(--ease-standard); }
 .switch .i_knob { width: 1.25rem; height: 1.25rem; border-radius: 50%; background: var(--color-on-brand); box-shadow: var(--shadow-sm); position: absolute; top: 0.125rem; left: 0.125rem; transition: left var(--duration-base) var(--ease-standard); }
-.switch[data-state="on"] { background: var(--color-brand); }
-.switch[data-state="on"] .i_knob { left: 1.125rem; }
+.switch[data-state="on"], .switch[aria-checked="true"] { background: var(--color-brand); }
+.switch[data-state="on"] .i_knob, .switch[aria-checked="true"] .i_knob { left: 1.125rem; }
 .switch:disabled { opacity: 0.45; cursor: not-allowed; }
