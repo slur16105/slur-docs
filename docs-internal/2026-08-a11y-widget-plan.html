@@ -1,0 +1,511 @@
+    <section class="panel_doc" id="doc3" role="tabpanel" aria-labelledby="tab_doc3" tabindex="0" data-state="">
+<h1>슬러 시스템 「복합 위젯 접근성 기준」 수립 계획</h1>
+<p>작성일: 2026-08-21 · 상태: <strong>검토 대기 (레포는 아직 아무것도 수정하지 않음)</strong>
+성격: <strong>내부 결정 기록.</strong> 공개 문서(docs/스킬)에는 이 문서의 5장(타사 비교)을 옮기지 않는다.</p>
+<hr>
+<h2>0. 한 줄 결론과 원칙</h2>
+<p><strong>웹 접근성 공식 표준(W3C APG · WCAG 2.2 · KWCAG 2.2)을 근거로, 슬러 방식(구조 우선 · <code>data-state</code> · 최소 ARIA · 네이티브 우선)으로 "복합 위젯이 어떻게 움직여야 하는가"의 우리 기준을 세운다.</strong></p>
+<p>지키는 원칙 4가지:</p>
+<ol>
+<li><strong>근거는 표준으로만 댄다.</strong> 규칙마다 APG 패턴 + WCAG 기준 번호 + KWCAG 항목을 붙인다.</li>
+<li><strong>네이티브 우선.</strong> 브라우저가 기본 제공하는 것(<code>&#x3C;dialog></code>, <code>popover</code>, <code>inert</code>)을 1순위로, JS 구현은 그게 안 될 때의 대안으로 둔다. 이게 "구조가 명확하면 접근성은 따라온다"는 슬러 철학과 같은 방향이다.</li>
+<li><strong>남과 비교하지 않는다.</strong> 라이브러리(Radix·React Aria·Ark 등)는 "표준을 구현한 사례"로 내부 기록에서만 참고한다. 공개 문서에는 "~보다 낫다/~는 못한다" 문장을 0건으로 하고, 라이브러리 이름은 독자에게 실익이 있는 중립 정보(예: <code>data-state</code> 호환)일 때만 쓴다.</li>
+<li><strong>복잡한 위젯은 규칙화하지 않고 위임한다.</strong> 셀렉트·콤보박스·날짜선택기는 네이티브 → 헤드리스 라이브러리 순으로 맡기고, 슬러는 구조·네이밍·<code>data-state</code>만 얹는다.</li>
+</ol>
+<hr>
+<h2>1. 근거로 삼는 공식 문서와 각각의 역할</h2>
+<table>
+<thead>
+<tr>
+<th>문서</th>
+<th>발행</th>
+<th>역할</th>
+<th>우리가 가져오는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>WAI-ARIA APG</strong> (Authoring Practices Guide)</td>
+<td>W3C (Note, 권장 관행)</td>
+<td><strong>"어떻게 움직여야 하나"</strong> — 위젯별 키보드·포커스·ARIA 패턴</td>
+<td>다이얼로그·탭·메뉴·알림 패턴의 키 동작, roving tabindex 알고리즘, 초기 포커스 규칙</td>
+</tr>
+<tr>
+<td><strong>WCAG 2.2</strong></td>
+<td>W3C (정식 표준)</td>
+<td><strong>"무엇을 만족해야 하나"</strong> — 성공 기준(번호)</td>
+<td>2.1.1 키보드, 2.1.2 키보드 함정 없음, 2.4.3 포커스 순서, 2.4.7 포커스 표시, 2.4.11 포커스 가림 없음, 1.4.13 호버·포커스 콘텐츠, 4.1.3 상태 메시지, 2.2.1 시간 조절</td>
+</tr>
+<tr>
+<td><strong>KWCAG 2.2</strong> (한국형 웹 콘텐츠 접근성 지침, KS X OT0003:2022)</td>
+<td>한국 (국내 법적 준거·인증 기준)</td>
+<td>WCAG를 한국 상황에 맞게 정리한 33개 검사항목</td>
+<td>6.1.1 키보드 사용 보장, 6.1.2 초점 이동과 표시, 6.1.3 조작 가능, 6.5.3 레이블과 네임, 8.2.1 웹 애플리케이션 접근성 준수 등 — 규칙마다 <strong>대응 항목 병기</strong></td>
+</tr>
+<tr>
+<td><strong>NIA 「웹 접근성을 고려한 콘텐츠 제작기법 2.2」</strong> (2025.03)</td>
+<td>한국지능정보사회진흥원</td>
+<td>KWCAG 항목별 구현 기법</td>
+<td>"모달 열릴 때 첫 상호작용 요소로, 닫힐 때 연 버튼으로" 같은 국내 심사 관점의 문장</td>
+</tr>
+<tr>
+<td><strong>MDN</strong> + web-features/caniuse</td>
+<td>Mozilla / 커뮤니티</td>
+<td><strong>플랫폼 사실</strong> — 속성·API 동작과 브라우저 지원</td>
+<td><code>&#x3C;dialog></code>, <code>popover</code>, <code>inert</code>, <code>command/commandfor</code>, live region 동작</td>
+</tr>
+</tbody>
+</table>
+<p>역할이 다르므로 인용도 나눈다: 동작은 APG, 기준은 WCAG/KWCAG, 사실은 MDN.</p>
+<h3>나라별 차이는 어디까지인가</h3>
+<ul>
+<li><strong>위젯 동작 규칙(이번에 정하는 것)은 국제 공통.</strong> 스크린리더·브라우저가 같으므로 나라별로 달라질 이유가 없고, 모두 APG 하나를 본다.</li>
+<li><strong>성공 기준도 거의 같다.</strong> 대부분 나라가 WCAG를 채택·번역하며, KWCAG 2.2도 WCAG 2.1/2.2 대응이다.</li>
+<li><strong>다른 것은 법적 범위·버전·레벨·인증 제도</strong>뿐이다 (미국 Section 508/ADA, EU EN 301 549/EAA, 영국 공공부문 규정, 일본 JIS X 8341-3, 한국 KWCAG + 품질인증 등).</li>
+<li><strong>슬러의 입장</strong>: 방법론이 법규를 다룰 일은 아니므로 공개 문서에는 "<strong>WCAG 2.2 AA · KWCAG 2.2를 목표 기준으로 한다</strong>" 한 줄만 선언하고, 규칙마다 WCAG 번호 + KWCAG 항목을 병기해 국내 인증·감리 때 바로 매핑되게 한다. 나라별 법규 표는 넣지 않는다.</li>
+</ul>
+<hr>
+<h2>2. 슬러 시스템의 현재 상태</h2>
+<p><code>skill/slur-ux/references/</code>와 <code>src/content/docs/a11y/</code>를 읽어 확인했다.</p>
+<p><strong>이미 있는 것</strong>: alt 역할별 작성 · 시맨틱 우선·role 중복 금지 · <code>div[role=button]</code> 금지 · DOM 순서 = 포커스 순서 · 양수 <code>tabindex</code> 금지 · <code>:focus-visible</code> · Enter/Space/Esc 기본 동작 · 제목 구조 · <code>a11y_hidden</code> 표준 구현 · 로고 마크업 · 아코디언 <code>aria-expanded</code> 예시 · 모달 <code>role="dialog" aria-modal aria-labelledby</code> 예시 + 열릴 때 <code>i_close</code>로 포커스 + Esc · 탭 <code>role="tab"</code>/<code>aria-selected</code> 마크업 · 토스트 <code>aria-live</code> 예시 · 외부 라이브러리는 상태 트리거만 맡는다는 원칙.</p>
+<p><strong>없는 것</strong>: 위젯의 <strong>동작 규칙</strong> — 포커스 트랩/복귀, 방향키 이동(roving tabindex), 알림을 읽어주는 기준(status/alert), 닫기 규칙(바깥 클릭·겹침), 툴팁, 복잡 위젯 위임 원칙, 네이티브 <code>&#x3C;dialog></code>/<code>popover</code>/<code>inert</code> 활용 지침.</p>
+<p><strong>발견된 불일치</strong>: 토스트 마크업이 <code>component.md</code>는 <code>role="alert" aria-live="polite"</code>(모순), <code>ux-states.md</code>는 <code>role="status"</code> → 통일 필요.</p>
+<hr>
+<h2>3. 플랫폼 현황 (2026-08 검증) — "네이티브 우선"이 가능한가</h2>
+<table>
+<thead>
+<tr>
+<th>기능</th>
+<th>하는 일</th>
+<th>지원 (2026-08)</th>
+<th>슬러 판단</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&#x3C;dialog></code> + <code>showModal()</code></td>
+<td>최상위 레이어 표시, <strong>배경 전체 자동 inert</strong>, Esc로 닫힘, 닫힐 때 이전 포커스로 복귀(스펙), 초기 포커스 = 첫 포커스 가능 요소(<code>autofocus</code> 우선)</td>
+<td>Chrome 37 / Firefox 98 / Safari 15.4, 전역 96% (Baseline 2022)</td>
+<td><strong>채택 — 모달의 1순위</strong></td>
+</tr>
+<tr>
+<td><code>inert</code> 속성</td>
+<td>붙은 요소 안의 포커스·클릭·선택·보조기술 읽기를 모두 차단</td>
+<td>Chrome 102 / Firefox 112 / Safari 15.5, 전역 95% (Baseline 2023)</td>
+<td><strong>채택 — 커스텀 오버레이의 배경 차단</strong></td>
+</tr>
+<tr>
+<td><code>popover="auto"</code></td>
+<td>최상위 레이어, <strong>Esc + 바깥 클릭 light-dismiss</strong>, 키보드로 닫으면 호출 버튼으로 복귀, 포커스는 가두지 않음</td>
+<td>Chrome 114 / Firefox 125 / Safari 17, 전역 91% (Baseline 2024)</td>
+<td><strong>채택 — 드롭다운·팝오버·비모달 레이어</strong></td>
+</tr>
+<tr>
+<td><code>command="show-modal"</code> + <code>commandfor</code></td>
+<td>JS 없이 버튼으로 dialog/popover 열고 닫기</td>
+<td>Chrome 135 / Firefox 144 / Safari 26.2, 전역 ~83%</td>
+<td>채택 가능 — 단 JS 폴백 설명 필요</td>
+</tr>
+<tr>
+<td><code>&#x3C;dialog closedby="any"></code></td>
+<td>dialog에도 바깥 클릭 닫기</td>
+<td>Chrome 134 / Firefox 141 / <strong>Safari 미지원</strong></td>
+<td>향상 전용(있으면 좋고 없어도 됨)</td>
+</tr>
+<tr>
+<td><code>popover="hint"</code></td>
+<td>툴팁용 팝오버</td>
+<td><strong>Safari 미지원</strong>(미지원 시 <code>manual</code>로 폴백되어 light-dismiss 사라짐)</td>
+<td>아직 쓰지 않음</td>
+</tr>
+<tr>
+<td><code>appearance: base-select</code></td>
+<td>네이티브 <code>&#x3C;select></code>를 CSS로 스타일링</td>
+<td>Chrome 135 / Safari 27 예정 / <strong>Firefox 미지원</strong></td>
+<td>향상 전용</td>
+</tr>
+</tbody>
+</table>
+<p><strong>중요한 정정 하나</strong>: <code>&#x3C;dialog></code>는 포커스를 "가두지" 않는다. 배경이 inert라 Tab이 페이지로 새지 않을 뿐, 브라우저 주소창으로는 나갈 수 있고 W3C APA WG는 이를 정상으로 결론냈다. 그러므로 슬러 규칙은 "포커스를 가둔다"가 아니라 <strong>"모달이 열린 동안 페이지 콘텐츠로 포커스가 새지 않는다"</strong> 로 쓴다. 네이티브는 자동으로 만족하고, 커스텀 <code>div[role=dialog]</code>는 <code>inert</code> + Tab 순환으로 만족시킨다.</p>
+<hr>
+<h2>4. 슬러가 세우는 기준 (이 문장들이 스킬·문서에 들어간다)</h2>
+<h3>4-0. 복합 위젯 판정</h3>
+<blockquote>
+<p>다음 중 하나라도 해당하면 복합 위젯이다.</p>
+<ol>
+<li>열린 동안 <strong>페이지로 포커스가 새면 안 된다</strong> (모달·드로어) → <strong>A</strong></li>
+<li>그룹 안을 <strong>방향키로</strong> 움직인다 (탭·메뉴·라디오 그룹) → <strong>B</strong></li>
+<li>화면 변화를 <strong>보조 기술에 알려야</strong> 한다 (토스트·로딩/에러 전환) → <strong>C</strong></li>
+</ol>
+<p>떠 있는 레이어는 닫기 규칙(<strong>D</strong>), 툴팁은 <strong>E</strong>, 셀렉트·콤보박스처럼 복잡하면 위임(<strong>F</strong>).</p>
+</blockquote>
+<h3>A. 모달·드로어 — 포커스 관리</h3>
+<p><strong>규칙</strong></p>
+<ol>
+<li><strong>네이티브 <code>&#x3C;dialog></code> + <code>showModal()</code>을 1순위</strong>로 쓴다. 배경 inert·Esc·포커스 복귀가 기본 제공된다.</li>
+<li>커스텀 오버레이(<code>div[role=dialog] aria-modal</code>)를 써야 하면 (a) 열린 동안 <strong>배경에 <code>inert</code></strong> 를 붙이고 (b) Tab/Shift+Tab이 <strong>오버레이 안에서 순환</strong>하게 한다.</li>
+<li><strong>초기 포커스 = 오버레이 안 첫 포커스 가능 요소.</strong> 예외 3가지: 긴 본문이면 시작부 제목(<code>tabindex="-1"</code>), 삭제·결제처럼 되돌릴 수 없는 확인이면 <strong>덜 파괴적인 버튼(취소)</strong>, 상호작용 요소가 없으면 오버레이 자체.</li>
+<li><strong>닫히면 포커스는 연 버튼으로 복귀</strong>한다. 연 버튼이 사라졌으면 문맥상 다음 위치로.</li>
+<li>스크롤 잠금은 기존대로 <code>body[data-state="modal_open"]</code>.</li>
+</ol>
+<p><strong>근거</strong>: APG Dialog(Modal) 패턴 · WCAG 2.1.2(키보드 함정 없음) 2.4.3(포커스 순서) 2.4.7(포커스 표시) 1.3.1(정보와 관계) · KWCAG 6.1.1 키보드 사용 보장, 6.1.2 초점 이동과 표시 · NIA 제작기법 2.1.2("첫 상호작용 요소로, 닫힐 땐 열었던 버튼으로").</p>
+<p><strong>슬러식 적용</strong>: 구조(<code>modal_*</code> + <code>i_wrap/i_head/i_close</code>)와 <code>data-state="open|close"</code>는 그대로. 네이티브 예시는 <code>&#x3C;dialog class="modal_login"></code>로 바꾸고 <code>open()</code>/<code>close()</code>가 <code>showModal()</code>/<code>close()</code>를 부르며 <code>data-state</code>를 동기화. 커스텀 예시는 트리거 기억 → 복귀, <code>inert</code> 토글, 순환 핸들러 ≈15줄.</p>
+<h3>B. 방향키로 움직이는 위젯 (탭 · 메뉴 · 라디오 그룹)</h3>
+<p><strong>규칙</strong></p>
+<ol>
+<li><strong>Tab은 위젯 사이를, 방향키는 위젯 안을</strong> 움직인다. 탭 5개면 Tab 한 번에 그룹을 통째로 지난다.</li>
+<li><strong>roving tabindex</strong>: 현재 항목만 <code>tabindex="0"</code>, 나머지 <code>-1</code>. 방향키로 이동하면 <code>tabindex</code>·<code>data-state="active"</code>·<code>aria-selected</code>를 함께 갱신한다. <strong>Home/End</strong> 는 처음/끝.</li>
+<li><strong>탭 활성화 기본값 = 자동</strong>(포커스가 가면 패널 전환). 단 패널이 비동기 로드라 느리면 <strong>수동</strong>(Enter/Space로 전환).</li>
+<li><strong>사이트 내비게이션은 방향키 위젯이 아니다.</strong> <code>nav > ul > li > a</code>는 <code>role="menu"</code>를 쓰지 않고 그냥 Tab으로 간다. <code>menu</code> 롤은 앱의 동작 메뉴(편집·공유 등)에만 쓴다 — 가장 흔한 남용이라 명시한다.</li>
+</ol>
+<p><strong>근거</strong>: APG Tabs 패턴("패널 지연이 없으면 자동 활성화 권장") · APG Keyboard Interface(roving tabindex 알고리즘) · APG Disclosure 예제(내비게이션에 menu 비권장) · WCAG 2.1.1, 2.4.3 · KWCAG 6.1.1, 6.1.2 · NIA 제작기법 2.1.1(탭은 리스트 안 화살표, Tab으로 패널).</p>
+<p><strong>슬러식 적용</strong>: <code>component.md</code> 탭 예시에 <code>tabindex</code> 추가, 방향키 핸들러 예시 ≈15줄(<code>data-state</code>만 토글). "그룹 안 하나만 선택되는가?" 판정 문장 한 줄.</p>
+<h3>C. 상태 변화를 보조 기술에 알리기 (라이브 영역)</h3>
+<p><strong>규칙</strong></p>
+<ol>
+<li>토스트·상태 메시지의 기본은 <strong><code>role="status"</code></strong> (+ 호환성 위해 <code>aria-live="polite"</code> 병기). 끼어들어야 하는 실패·세션 만료·시간 제한만 <strong><code>role="alert"</code></strong>.</li>
+<li>라이브 영역 컨테이너는 <strong>미리 DOM에 있어야</strong> 읽힌다. 슬러의 "4상태를 마크업에 미리 둔다" 원칙과 같다.</li>
+<li>알림은 <strong>포커스를 옮기지 않는다.</strong></li>
+<li><code>role="alert"</code> 메시지는 <strong>자동으로 사라지지 않는다.</strong> <code>status</code> 토스트는 자동 소멸을 허용하되, 같은 정보를 다른 곳에서 다시 확인할 수 있어야 한다.</li>
+</ol>
+<p><strong>근거</strong>: APG Alert 패턴(포커스 이동 금지·자동 소멸 금지) · MDN Live regions(status=polite, alert=assertive, 선존재) · WCAG 4.1.3(상태 메시지) 2.2.1(시간 조절) · KWCAG 8.2.1 웹 애플리케이션 접근성 준수, 6.2.2 정지 기능 제공 ※KWCAG 매핑은 작성 단계에서 원문 대조.</p>
+<p><strong>슬러식 적용</strong>: 토스트 마크업을 <code>role="status"</code>로 통일(현재 불일치 해소). <code>ux-states.md</code> 피드백 선택 표에 "알림 강도(status/alert)" 열 추가. <code>i_loading</code>/<code>i_error</code> 영역도 같은 방식으로 알릴 수 있음을 한 줄.</p>
+<h3>D. 떠 있는 레이어의 닫기 규칙</h3>
+<p><strong>규칙</strong></p>
+<ol>
+<li>모달·드로어·드롭다운·팝오버는 <strong>Esc</strong>로 닫힌다. 비모달 레이어(드롭다운·팝오버)는 <strong>바깥 클릭</strong>으로도 닫힌다 — <code>popover="auto"</code>를 쓰면 기본 제공.</li>
+<li><strong>파괴적 확인 모달은 바깥 클릭으로 닫지 않는다</strong>(실수 방지). Esc는 "취소"와 같은 의미로 허용.</li>
+<li>여러 레이어가 겹치면 Esc는 <strong>맨 위 하나만</strong> 닫는다.</li>
+<li>떠 있는 레이어가 <strong>포커스된 요소를 완전히 가리면 안 된다</strong>(스티키 토스트 주의).</li>
+</ol>
+<p><strong>근거</strong>: WCAG 1.4.13(호버·포커스 콘텐츠는 해제 가능) 2.4.11(포커스 가림 없음) · APG Dialog/Menu(Esc) · MDN Popover API(light-dismiss). 코드 예시 없이 규칙만.</p>
+<h3>E. 툴팁</h3>
+<p><strong>규칙</strong>: <strong>호버와 포커스 모두</strong>에서 뜨고, <strong>Esc로 포커스 이동 없이</strong> 닫히며, 마우스를 툴팁 위로 옮겨도 유지된다. 연결은 <code>aria-describedby</code>(설명) 또는 <code>aria-labelledby</code>(라벨). <strong>툴팁 안에 버튼·링크를 넣지 않는다</strong> — 그건 팝오버/다이얼로그다.</p>
+<p><strong>근거</strong>: WCAG 1.4.13 (APG 툴팁 패턴은 "합의 미완" 표기라 주 근거로 쓰지 않음). 한 문단, 예시 없음.</p>
+<h3>F. 복잡 위젯은 규칙화하지 않고 위임</h3>
+<p><strong>규칙</strong>: 셀렉트는 <strong>네이티브 <code>&#x3C;select></code></strong> 를 먼저 쓴다(스타일은 <code>appearance: base-select</code>로 점진 향상). 커스텀 콤보박스·날짜선택기·메뉴바가 꼭 필요하면 <strong>헤드리스 라이브러리</strong>(프레임워크 무관이면 Zag/Ark UI, React면 React Aria 등)에 동작을 맡기고, 슬러는 <strong>구조·네이밍·<code>data-state</code>만</strong> 얹는다. 이미 있는 「외부 라이브러리 연동」 원칙(라이브러리는 상태 트리거일 뿐)과 같은 선상이다.</p>
+<p><strong>근거(내부용)</strong>: 콤보박스의 <code>aria-activedescendant</code>는 스크린리더별 지원 편차가 커서 직접 구현 시 검증 부담이 크다(Adobe React Aria 콤보박스 구현기). 공개 문서에는 "검증된 라이브러리에 맡긴다"로만 쓴다.</p>
+<h3>G. 이번 범위 밖 (보류, 다음 후보)</h3>
+<p><code>prefers-reduced-motion</code>, 색 대비 비율(WCAG 1.4.3/1.4.11), 터치 타깃 24px(WCAG 2.5.8 / KWCAG 6.1.3), 문자 단축키(2.1.4 / KWCAG 6.1.4), 접근 가능한 인증(3.3.8 / KWCAG 7.3.3). 중요하지만 "위젯 동작"이 아니므로 섞지 않는다.</p>
+<hr>
+<h2>5. 남들은 어떻게 했나 — 내부 참고 (공개 문서에 옮기지 않음)</h2>
+<p>같은 표준을 보고도 구현체마다 해석이 갈리는 지점과, 우리가 고른 기본값·이유.</p>
+<table>
+<thead>
+<tr>
+<th>쟁점</th>
+<th>갈린 입장</th>
+<th><strong>슬러 기본값</strong></th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>다이얼로그 초기 포커스</td>
+<td>첫 포커스 가능 요소(APG·네이티브 <code>&#x3C;dialog></code>·NIA·Base UI) ↔ 다이얼로그 자체(Headless UI) ↔ 유형별 주 버튼/취소(Carbon)</td>
+<td><strong>첫 포커스 가능 요소 + APG 예외 3종</strong></td>
+<td>표준·네이티브·국내 기법이 일치. 파괴적 확인은 예외로 "취소"를 잡아 Carbon의 장점도 흡수</td>
+</tr>
+<tr>
+<td>포커스 "트랩"</td>
+<td>Tab 순환 트랩(APG·USWDS·React Aria) ↔ 배경 inert면 충분(네이티브 <code>showModal()</code>·W3C APA WG)</td>
+<td><strong>네이티브는 트랩 없음, 커스텀은 inert + 순환</strong></td>
+<td>두 갈래를 그대로 서술 — 플랫폼 사실에 맞춤</td>
+</tr>
+<tr>
+<td>탭 활성화</td>
+<td>자동(APG·React Aria·Headless UI·Zag) ↔ 수동 기본(Base UI)</td>
+<td><strong>자동, 비동기 패널은 수동</strong></td>
+<td>APG 원문 기준</td>
+</tr>
+<tr>
+<td>토스트 롤</td>
+<td><code>status</code> 기본(Inclusive Components·MDN) ↔ 시간 민감하면 <code>alert</code>·자동 소멸 금지(APG)</td>
+<td><strong><code>status</code> 기본 + <code>alert</code>는 긴급·비소멸</strong></td>
+<td>둘을 역할로 나누면 충돌 없음</td>
+</tr>
+<tr>
+<td>내비게이션에 <code>menu</code> 롤</td>
+<td>금지/비권장(Inclusive Components·APG Disclosure 예제) ↔ APG Menubar에 내비게이션 예제 존재</td>
+<td><strong>사이트 내비는 <code>nav</code>+리스트, <code>menu</code>는 앱 메뉴만</strong></td>
+<td>슬러의 시맨틱 우선·최소 ARIA와 일치</td>
+</tr>
+<tr>
+<td>문서 형식</td>
+<td>USWDS: 테스트 문장 + WCAG 번호 표 / GOV.UK: 수용 기준 / Carbon: 테스트 상태</td>
+<td><strong>체크리스트를 "테스트 문장 + WCAG·KWCAG 번호"로</strong></td>
+<td>형식 차용은 비교가 아니고 독자 실익</td>
+</tr>
+</tbody>
+</table>
+<p>참고한 구현체(상태 2026-08): React Aria Components 1.20(활발), Zag.js 1.43/Ark UI 5.38(활발, 프레임워크 무관), Base UI 1.7(2025-12 안정화), Headless UI(React 유지보수 위주·Vue 정체), Radix Primitives. 이들은 모두 "APG를 구현했다"고 선언하며, 상태를 <code>data-state</code>로 노출하는 경우가 많아 슬러 네이밍을 얹기 쉽다 — <strong>공개 문서에 쓸 수 있는 유일한 라이브러리 언급은 이 호환 정보뿐이다.</strong></p>
+<hr>
+<h2>6. 공개 문서의 톤 규칙</h2>
+<ul>
+<li>근거 표기: 규칙 끝에 <code>— APG Dialog · WCAG 2.1.2 · KWCAG 6.1.2</code> 식으로 한 줄. 링크는 W3C/MDN/NIA 공식만.</li>
+<li>"~보다 낫다", "~는 못한다", "~의 한계" 류 0건.</li>
+<li>라이브러리 언급은 F(위임)에서 예시 이름 + <code>data-state</code> 호환 정보까지만.</li>
+<li>기존 문서 톤(짧은 단문, "우리는 이렇게 한다 · 이유는 이것이다")을 유지.</li>
+</ul>
+<hr>
+<h2>7. 수정될 파일 (승인 후 진행)</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>파일</th>
+<th>변경</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>스킬</td>
+<td><code>skill/slur-ux/references/accessibility.md</code></td>
+<td>새 섹션 5「복합 위젯: 포커스·방향키·알림」 (4-0 판정 + A~F) + 근거 표기</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td><code>skill/slur-ux/references/component.md</code></td>
+<td>모달 예시 <code>&#x3C;dialog></code> 전환, 탭 예시 <code>tabindex</code> 추가, 토스트 <code>role="status"</code> 통일</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td><code>skill/slur-ux/references/ux-states.md</code></td>
+<td>피드백 표에 알림 강도(status/alert) 열, 토스트 예시 통일</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td><code>skill/slur-ux/references/js.md</code></td>
+<td>모달 예시: <code>showModal()</code>/<code>close()</code> + <code>data-state</code> 동기화, 커스텀 버전 포커스 복귀·<code>inert</code>·순환</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td><code>skill/slur-ux/references/html.md</code></td>
+<td>모달 예시 <code>&#x3C;dialog></code>로 교체</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td><code>skill/slur-ux/references/checklist.md</code></td>
+<td>접근성 항목 5개 추가(테스트 문장 + WCAG·KWCAG 번호 형식)</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td><code>skill/slur-ux/SKILL.md</code></td>
+<td>105행 접근성 한 줄에 "복합 위젯(포커스·방향키·알림)" 추가</td>
+</tr>
+<tr>
+<td>문서</td>
+<td><code>src/content/docs/a11y/keyboard.md</code></td>
+<td>포커스 관리(A), 방향키 위젯(B), 닫기 규칙(D) 섹션</td>
+</tr>
+<tr>
+<td>문서</td>
+<td><code>src/content/docs/a11y/aria-policy.md</code></td>
+<td>라이브 영역(C), 툴팁(E), 복잡 위젯 위임(F) 섹션</td>
+</tr>
+<tr>
+<td>문서</td>
+<td><code>src/content/docs/patterns/popup-modal.md</code></td>
+<td><code>&#x3C;dialog></code> 1순위, 초기 포커스·복귀, 커스텀 시 <code>inert</code>+순환</td>
+</tr>
+<tr>
+<td>문서</td>
+<td><code>src/content/docs/a11y/philosophy.md</code></td>
+<td>"목표 기준: WCAG 2.2 AA · KWCAG 2.2" 한 줄 선언</td>
+</tr>
+<tr>
+<td>문서</td>
+<td><code>src/content/docs/changelog/version-history.md</code></td>
+<td><strong>v1.5.0</strong> 항목(규칙 추가 = MINOR)</td>
+</tr>
+<tr>
+<td>메타</td>
+<td><code>package.json</code></td>
+<td><code>1.4.1</code> → <code>1.5.0</code></td>
+</tr>
+<tr>
+<td>사이드바</td>
+<td><code>astro.config.mjs</code></td>
+<td>새 페이지를 만들지 않으면 <strong>변경 없음</strong> (결정 ②)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. 결정이 필요한 것 (Slur 확인 요청)</h2>
+<ol>
+<li><strong>항목 판정</strong> — A·B·C는 규칙+예시, D·E는 규칙만, F는 위임 원칙, G는 보류. 바꿀 항목이 있는가?</li>
+<li><strong>문서 배치</strong> — (a) 기존 페이지(keyboard / aria-policy / popup-modal)에 나눠 넣기 <strong>← 추천</strong> / (b) <code>a11y/widgets.md</code> "복합 위젯 접근성" 새 페이지 + 사이드바 추가.</li>
+<li><strong>네이티브 <code>&#x3C;dialog></code>를 1순위로 두고 기존 <code>div[role=dialog]</code> 예시를 교체</strong>하는 데 동의하는가? (예시 수정 범위가 html.md·component.md·js.md·popup-modal.md로 넓어짐. 커스텀 버전은 "대안"으로 남김)</li>
+<li><strong>탭 기본값 = 자동 활성화</strong>, <strong>토스트 기본값 = <code>role="status"</code> + 자동 소멸 허용(alert는 비소멸)</strong> 에 동의하는가?</li>
+<li><strong>버전 1.5.0</strong> (MINOR) 동의하는가?</li>
+<li>이 계획 문서 자체를 레포에 남길지 — 남긴다면 공개 docs 밖(예: <code>docs-internal/</code> 또는 <code>.notes/</code>)으로. 남기지 않아도 무방.</li>
+</ol>
+<hr>
+<h2>9. 진행 순서 (승인 후)</h2>
+<ol>
+<li>스킬 수정 (<code>accessibility.md</code> → <code>component.md</code>/<code>ux-states.md</code>/<code>html.md</code>/<code>js.md</code> → <code>checklist.md</code>/<code>SKILL.md</code>)</li>
+<li>문서 수정 (스킬과 같은 문장·예시, 내부 링크 연결)</li>
+<li>KWCAG 항목 번호를 원문(KS X OT0003:2022)과 대조해 확정</li>
+<li>changelog v1.5.0 + package.json</li>
+<li><code>npm run build</code> 통과 확인 → 커밋(확인 후)</li>
+</ol>
+<hr>
+<h2>부록 A — 용어집</h2>
+<ul>
+<li><strong>포커스 트랩 / 순환</strong>: 오버레이가 열린 동안 Tab이 안에서만 도는 것. 슬러 문장은 "페이지로 포커스가 새지 않는다".</li>
+<li><strong>포커스 복귀</strong>: 닫았을 때 포커스가 연 버튼으로 돌아가는 것.</li>
+<li><strong>roving tabindex</strong>: 그룹 안에서 하나만 <code>tabindex="0"</code>, 나머지 <code>-1</code>로 두고 방향키로 <code>0</code>을 옮기는 기법. Tab 한 번에 그룹을 건너뛰게 해 준다.</li>
+<li><strong><code>inert</code></strong>: 붙은 요소 안의 클릭·포커스·스크린리더 읽기를 전부 막는 HTML 속성. <code>aria-hidden</code>은 읽기만 막고 포커스는 못 막는다.</li>
+<li><strong>라이브 영역</strong>: 내용이 바뀌면 스크린리더가 자동으로 읽는 영역. <code>status</code>(조용히, 읽던 것 끝나고) / <code>alert</code>(즉시 끼어듦).</li>
+<li><strong>light-dismiss</strong>: Esc나 바깥 클릭으로 닫히는 것. <code>popover="auto"</code>가 기본 제공.</li>
+<li><strong>헤드리스 라이브러리</strong>: 스타일 없이 동작(키보드·ARIA)만 주는 라이브러리. 슬러 네이밍을 그대로 얹을 수 있다.</li>
+<li><strong>APG / WCAG / KWCAG</strong>: 동작 관행(W3C Note) / 국제 표준(W3C Recommendation) / 한국 지침(KS 표준, 국내 인증 기준).</li>
+</ul>
+<h2>부록 B — 출처 (검증 2026-08)</h2>
+<ul>
+<li>APG 패턴: <a href="https://www.w3.org/WAI/ARIA/apg/patterns/">https://www.w3.org/WAI/ARIA/apg/patterns/</a> · Dialog: <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/</a> · Tabs: <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/">https://www.w3.org/WAI/ARIA/apg/patterns/tabs/</a> · 키보드 인터페이스: <a href="https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/">https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/</a></li>
+<li>WCAG 1.4.13: <a href="https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html">https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html</a> · 2.4.11: <a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html">https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html</a></li>
+<li>KWCAG 2.2: <a href="https://a11ykr.github.io/kwcag22/">https://a11ykr.github.io/kwcag22/</a> (비공식 HTML본) · NIA 제작기법 2.2: <a href="https://nia-a11y.github.io/kwcag22tech/">https://nia-a11y.github.io/kwcag22tech/</a> (2.1.1 키보드, 2.1.2 초점)</li>
+<li>MDN: <code>showModal()</code> <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal">https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal</a> · <code>inert</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert">https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert</a> · Popover <a href="https://developer.mozilla.org/en-US/docs/Web/API/Popover_API/Using">https://developer.mozilla.org/en-US/docs/Web/API/Popover_API/Using</a> · Live regions <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Guides/Live_regions">https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Guides/Live_regions</a> · 키보드 위젯 <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets">https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Keyboard-navigable_JavaScript_widgets</a></li>
+<li>지원 현황: <a href="https://caniuse.com/dialog">https://caniuse.com/dialog</a> · <a href="https://caniuse.com/mdn-api_htmlelement_popover">https://caniuse.com/mdn-api_htmlelement_popover</a> · <a href="https://caniuse.com/mdn-api_htmlelement_inert">https://caniuse.com/mdn-api_htmlelement_inert</a> · <a href="https://caniuse.com/wf-invoker-commands">https://caniuse.com/wf-invoker-commands</a> · <a href="https://web-platform-dx.github.io/web-features-explorer/features/dialog-closedby/">https://web-platform-dx.github.io/web-features-explorer/features/dialog-closedby/</a></li>
+<li><code>&#x3C;dialog></code>와 포커스(내부 참고): <a href="https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html">https://www.scottohara.me/blog/2023/01/26/use-the-dialog-element.html</a> · <a href="https://www.matuzo.at/blog/2023/focus-dialog/">https://www.matuzo.at/blog/2023/focus-dialog/</a> · <a href="https://css-tricks.com/there-is-no-need-to-trap-focus-on-a-dialog-element/">https://css-tricks.com/there-is-no-need-to-trap-focus-on-a-dialog-element/</a></li>
+<li>Open UI: <a href="https://open-ui.org/">https://open-ui.org/</a> · USWDS 모달 테스트: <a href="https://designsystem.digital.gov/components/modal/accessibility-tests/">https://designsystem.digital.gov/components/modal/accessibility-tests/</a> · Inclusive Components: <a href="https://inclusive-components.design/">https://inclusive-components.design/</a></li>
+</ul>
+
+    <section class="form_decision" data-doc="doc3" aria-label="결정 답변">
+      <div class="i_head"><h2 class="i_title" style="border:0;margin:0;padding:0">결정 답변 — 한 문항씩</h2><span class="i_progress"></span></div>
+      <div class="i_steps">
+      <div class="i_step" data-state="active" data-index="0">
+        <p class="i_q">Q1. A·B·C(포커스 관리·방향키 위젯·라이브 영역)를 '규칙 + 예시 코드'로 넣는 데 동의하는가?</p>
+        
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q0" value="동의"><span>동의<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q0" value="규칙만, 예시는 최소"><span>규칙만, 예시는 최소</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q0" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m0">보충 의견 (선택)</label>
+        <textarea id="doc3_m0" data-memo="0" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="1">
+        <p class="i_q">Q2. D·E(닫기 규칙·툴팁)는 어느 깊이로?</p>
+        
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q1" value="규칙 문장만 (코드 예시 없음)"><span>규칙 문장만 (코드 예시 없음)<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q1" value="예시 코드까지"><span>예시 코드까지</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q1" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m1">보충 의견 (선택)</label>
+        <textarea id="doc3_m1" data-memo="1" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="2">
+        <p class="i_q">Q3. F(셀렉트·콤보박스 등 복잡 위젯)는 위임 원칙으로 대체하는 데 동의하는가?</p>
+        <p class="i_hint">네이티브 → 헤드리스 라이브러리 순, 슬러는 구조·data-state만</p>
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q2" value="동의"><span>동의<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q2" value="일부(예: 셀렉트)는 규칙도 쓴다"><span>일부(예: 셀렉트)는 규칙도 쓴다</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q2" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m2">보충 의견 (선택)</label>
+        <textarea id="doc3_m2" data-memo="2" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="3">
+        <p class="i_q">Q4. G(reduced-motion·색 대비·터치 타깃 등 위젯 동작 외 항목)는?</p>
+        
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q3" value="이번엔 보류, 다음 후보로 기록만"><span>이번엔 보류, 다음 후보로 기록만<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q3" value="이번에 함께 포함"><span>이번에 함께 포함</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q3" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m3">보충 의견 (선택)</label>
+        <textarea id="doc3_m3" data-memo="3" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="4">
+        <p class="i_q">Q5. 문서 배치는?</p>
+        <p class="i_hint">(a)는 흐름이 자연스럽고 (b)는 한눈에 보이지만 기존 페이지와 중복 생김</p>
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q4" value="(a) 기존 페이지(keyboard / aria-policy / popup-modal)에 나눠 넣기"><span>(a) 기존 페이지(keyboard / aria-policy / popup-modal)에 나눠 넣기<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q4" value="(b) a11y/widgets.md 새 페이지 + 사이드바 추가"><span>(b) a11y/widgets.md 새 페이지 + 사이드바 추가</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q4" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m4">보충 의견 (선택)</label>
+        <textarea id="doc3_m4" data-memo="4" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="5">
+        <p class="i_q">Q6. 네이티브 &lt;dialog&gt;를 1순위로 두고 기존 div[role=dialog] 예시를 교체할까?</p>
+        <p class="i_hint">html.md·component.md·js.md·popup-modal.md 예시가 바뀜. 커스텀 버전은 '대안'으로 남김</p>
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q5" value="교체 — &lt;dialog&gt; 1순위, 커스텀은 대안"><span>교체 — &lt;dialog&gt; 1순위, 커스텀은 대안<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q5" value="기존 div 예시 유지, &lt;dialog&gt;는 추가 소개만"><span>기존 div 예시 유지, &lt;dialog&gt;는 추가 소개만</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q5" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m5">보충 의견 (선택)</label>
+        <textarea id="doc3_m5" data-memo="5" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="6">
+        <p class="i_q">Q7. 탭 활성화 기본값은?</p>
+        <p class="i_hint">APG: 패널 지연이 없으면 자동 권장. 비동기 패널은 수동</p>
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q6" value="자동 (포커스가 가면 전환), 비동기 패널만 수동"><span>자동 (포커스가 가면 전환), 비동기 패널만 수동<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q6" value="수동 (Enter/Space로 전환) 기본"><span>수동 (Enter/Space로 전환) 기본</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q6" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m6">보충 의견 (선택)</label>
+        <textarea id="doc3_m6" data-memo="6" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="7">
+        <p class="i_q">Q8. 토스트 기본값은?</p>
+        <p class="i_hint">status = 조용히 읽음, alert = 끼어듦. APG는 alert 자동 소멸 금지</p>
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q7" value="role=&quot;status&quot; 기본 + 자동 소멸 허용, alert는 긴급·비소멸"><span>role=&quot;status&quot; 기본 + 자동 소멸 허용, alert는 긴급·비소멸<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q7" value="status 기본이되 자동 소멸도 금지"><span>status 기본이되 자동 소멸도 금지</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q7" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m7">보충 의견 (선택)</label>
+        <textarea id="doc3_m7" data-memo="7" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="8">
+        <p class="i_q">Q9. 접근성 규칙 추가의 버전은?</p>
+        <p class="i_hint">층 분리 탭의 버전 문항과 연동</p>
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q8" value="정리 1.5.0 뒤에 1.6.0으로"><span>정리 1.5.0 뒤에 1.6.0으로<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q8" value="정리와 합쳐 1.5.0 한 번"><span>정리와 합쳐 1.5.0 한 번</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q8" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m8">보충 의견 (선택)</label>
+        <textarea id="doc3_m8" data-memo="8" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div>
+
+      <div class="i_step" data-state="" data-index="9">
+        <p class="i_q">Q10. 이 계획 문서 자체를 레포에 남길까?</p>
+        <p class="i_hint">남긴다면 공개 docs 밖(docs-internal/ 또는 .notes/)</p>
+        <ul class="i_options">
+          <li><label class="i_option"><input type="radio" name="doc3_q9" value="docs-internal/에 남김"><span>docs-internal/에 남김<span class="i_tag">권장</span></span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q9" value="남기지 않음 (대화·아티팩트로 충분)"><span>남기지 않음 (대화·아티팩트로 충분)</span></label></li>
+          <li><label class="i_option"><input type="radio" name="doc3_q9" value="기타 (아래에 적음)"><span>기타 (아래에 적음)</span></label></li>
+        </ul>
+        <label class="i_label" for="doc3_m9">보충 의견 (선택)</label>
+        <textarea id="doc3_m9" data-memo="9" placeholder="이유나 조건, '기타'를 고른 경우 내용을 적어 주세요"></textarea>
+      </div></div>
+      <div class="i_summary">
+        <p class="i_hint">아래 내용을 복사해서 대화에 붙여 주세요. 답변은 이 브라우저에 저장됩니다.</p>
+        <pre><code class="i_out"></code></pre>
+      </div>
+      <div class="i_foot">
+        <span class="i_status"></span>
+        <div class="i_nav">
+          <button class="btn" type="button" data-action="prev">이전</button>
+          <button class="btn m_primary" type="button" data-action="next">다음</button>
+          <button class="btn m_primary" type="button" data-action="copy" hidden>답변 복사</button>
+          <button class="btn" type="button" data-action="reset">처음부터</button>
+        </div>
+      </div>
+    </section>
+    </section>

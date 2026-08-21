@@ -100,6 +100,14 @@ display → width/height → margin → padding → border → border-radius
 
 ---
 
+## 브라우저 지원 기준
+
+- 검증은 **Chrome(크로미움 계열)과 Safari** 두 곳만 한다. **Firefox는 검증·판단 대상이 아니다**(차단이 아니라 표준 기반이라 대체로 동작한다는 전제).
+- 네이티브 웹 기능 채택의 리트머스는 **Safari 지원 여부** 하나다. Firefox 미지원·지연은 무시한다(예: `@starting-style`은 채택).
+- Safari 미지원 기능(2026-08 기준 `closedby="any"`, `popover="hint"`, `appearance: base-select` 등)은 **쓰지 않거나**, 없어도 동작이 성립할 때만 **향상 전용**으로 쓴다. Safari가 지원하면 재평가한다.
+
+---
+
 ## 컴포넌트 vs 내부 요소 판단 (자주 실수하는 지점)
 
 내부 요소인데 재사용될 것 같아서 성급하게 독립 컴포넌트로 빼지 않는다. **개념적 반복(닫기, 아이콘 등)은 실제 재사용이 아니다.**
@@ -120,7 +128,7 @@ display → width/height → margin → padding → border → border-radius
 - **CSS 규칙** → `references/css.md`
 - **JavaScript 규칙** → `references/js.md`
 - **컴포넌트 설계 + 재사용 판단** → `references/component.md`
-- **접근성** (alt·ARIA·키보드) → `references/accessibility.md`
+- **접근성** (alt·ARIA·키보드·복합 위젯 동작) → `references/accessibility.md`
 - **이미지·성능** (포맷·반응형·로딩) → `references/media.md`
 - **화면 상태·피드백** (빈/로딩/에러/정상, 토스트·모달) → `references/ux-states.md`
 - **기존 프로젝트 이관** (SLUR 도입 시 실패 지점과 검증법) → `references/migration.md`

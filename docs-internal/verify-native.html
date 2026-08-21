@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>네이티브 dialog · inert · popover 검증</title>
+<style>
+/* global (데모용 최소 리셋 + 포커스 링 한 쌍) */
+* { box-sizing: border-box; }
+body { margin: 0; background: #f5f6f8; font-family: "Pretendard", -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 15px; line-height: 1.7; color: #1a1f2b; word-break: keep-all; }
+button, input { font: inherit; }
+button:focus-visible, input:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.4); }
+
+/* layout */
+.layout_app { display: block; max-width: 760px; margin: 0 auto; padding: 32px 20px 120px; }
+.l_title { margin: 0 0 4px; font-size: 24px; }
+.l_desc { margin: 0 0 32px; color: #5b6575; }
+
+/* page section */
+.page_verify .p_section { display: block; margin: 0 0 24px; padding: 20px; border: 1px solid #dde2ea; border-radius: 10px; background: #fff; }
+.page_verify .p_section > h2 { margin: 0 0 8px; font-size: 18px; }
+.page_verify .p_section .p_desc { margin: 0 0 14px; color: #5b6575; font-size: 14px; }
+.page_verify .p_check { margin: 14px 0 0; padding: 12px 14px; border-radius: 8px; background: #f3f5f9; font-size: 14px; }
+.page_verify .p_check ul { margin: 6px 0 0; padding-left: 4px; list-style: none; }
+.page_verify .p_check li { margin: 4px 0; }
+.page_verify .p_check strong { font-weight: 700; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border: 1px solid #dde2ea; border-radius: 8px; background: #fff; color: #1a1f2b; cursor: pointer; }
+.btn.m_primary { border-color: #2f6bff; background: #2f6bff; color: #fff; }
+.btn.m_danger { border-color: #d64545; background: #d64545; color: #fff; }
+
+/* state inspector */
+.state_view { display: flex; gap: 16px; margin: 12px 0 0; padding: 10px 14px; border: 1px solid #dde2ea; border-radius: 8px; background: #0f1115; font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: #98a2b3; }
+.state_view .i_item b { color: #8fb4ff; font-weight: 400; }
+.state_view[data-state="mismatch"] { border-color: #d64545; background: #2b0f12; }
+.state_view[data-state="mismatch"] .i_item b { color: #ff8f8f; }
+.state_view .i_flag { display: none; color: #ff8f8f; font-weight: 700; }
+.state_view[data-state="mismatch"] .i_flag { display: inline; }
+
+/* event log */
+.log_view { display: block; margin: 24px 0 0; padding: 14px 16px; border: 1px solid #dde2ea; border-radius: 10px; background: #fff; }
+.log_view .i_title { margin: 0 0 8px; font-size: 15px; }
+.log_view .i_list { display: block; max-height: 180px; margin: 0; padding: 10px 12px; border-radius: 8px; background: #0f1115; font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #98a2b3; list-style: none; overflow-y: auto; }
+.log_view .i_list li { margin: 2px 0; }
+
+/* focus bar */
+.state_bar { display: flex; gap: 10px; width: 100%; padding: 10px 20px; background: #0f1115; font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: #98a2b3; position: fixed; left: 0; bottom: 0; }
+.state_bar b { color: #8fb4ff; font-weight: 400; }
+
+/* modal: 네이티브 dialog — 상태 정본은 [open] (A안) */
+.modal_native { width: 360px; padding: 0; border: 1px solid #dde2ea; border-radius: 12px; }
+.modal_native::backdrop { background: rgba(15, 17, 21, 0.55); }
+.modal_native .i_wrap { display: block; padding: 20px; }
+.modal_native .i_head { display: flex; justify-content: space-between; align-items: center; margin: 0 0 12px; }
+.modal_native .i_title { margin: 0; font-size: 17px; }
+.modal_native .i_body { display: flex; flex-direction: column; gap: 10px; }
+.modal_native .i_body input { height: 38px; padding: 0 12px; border: 1px solid #dde2ea; border-radius: 8px; }
+
+/* modal: dialog + data-state 병용 (B안, 어긋남 시연) — 일부러 data-state로 표시 제어 */
+.modal_sync { width: 360px; padding: 0; border: 1px solid #dde2ea; border-radius: 12px; }
+.modal_sync::backdrop { background: rgba(15, 17, 21, 0.55); }
+.modal_sync[data-state="open"] { display: block; }
+.modal_sync .i_wrap { display: block; padding: 20px; }
+.modal_sync .i_head { display: flex; justify-content: space-between; align-items: center; margin: 0 0 12px; }
+.modal_sync .i_title { margin: 0; font-size: 17px; }
+
+/* modal: 커스텀 div[role=dialog] + inert */
+.modal_custom { display: none; position: fixed; inset: 0; }
+.modal_custom[data-state="open"] { display: flex; }
+.modal_custom .i_dim { display: block; background: rgba(15, 17, 21, 0.55); position: absolute; inset: 0; }
+.modal_custom .i_wrap { display: block; width: 360px; margin: auto; padding: 20px; border-radius: 12px; background: #fff; position: relative; }
+.modal_custom .i_head { display: flex; justify-content: space-between; align-items: center; margin: 0 0 12px; }
+.modal_custom .i_title { margin: 0; font-size: 17px; }
+.modal_custom .i_body { display: flex; flex-direction: column; gap: 10px; }
+.modal_custom .i_body input { height: 38px; padding: 0 12px; border: 1px solid #dde2ea; border-radius: 8px; }
+
+/* dropdown: popover="auto" */
+.dropdown_menu { width: 220px; margin: 0; padding: 6px; border: 1px solid #dde2ea; border-radius: 10px; box-shadow: 0 8px 24px rgba(15, 17, 21, 0.12); }
+.dropdown_menu .i_list { margin: 0; padding: 0; list-style: none; }
+.dropdown_menu .i_btn { display: block; width: 100%; padding: 9px 12px; border: 0; border-radius: 6px; background: none; text-align: left; cursor: pointer; }
+.dropdown_menu .i_btn:hover { background: #f3f5f9; }
+
+/* ⑤ 스타일 동일성: 같은 룩을 div와 dialog로 */
+.modal_pair_dialog { width: 360px; margin: auto; padding: 20px; border: 0; border-radius: 12px; background: #fff; box-shadow: 0 20px 60px rgba(15, 17, 21, 0.25); }
+.modal_pair_dialog::backdrop { background: rgba(15, 17, 21, 0.55); }
+.modal_pair_div { display: none; position: fixed; inset: 0; }
+.modal_pair_div[data-state="open"] { display: flex; }
+.modal_pair_div .i_dim { display: block; background: rgba(15, 17, 21, 0.55); position: absolute; inset: 0; }
+.modal_pair_div .i_wrap { display: block; width: 360px; margin: auto; padding: 20px; border-radius: 12px; background: #fff; box-shadow: 0 20px 60px rgba(15, 17, 21, 0.25); position: relative; }
+.modal_pair_dialog .i_head, .modal_pair_div .i_head { display: flex; justify-content: space-between; align-items: center; margin: 0 0 12px; }
+.modal_pair_dialog .i_title, .modal_pair_div .i_title { margin: 0; font-size: 17px; }
+.modal_pair_dialog .i_tag, .modal_pair_div .i_tag { display: inline-block; padding: 2px 8px; border-radius: 6px; background: #eef4ff; font-size: 12px; color: #2f6bff; }
+
+/* ⑥ 애니메이션: @starting-style + allow-discrete (과거 dialog의 최대 난점) */
+.modal_anim { width: 360px; margin: auto; padding: 20px; border: 0; border-radius: 12px; background: #fff; box-shadow: 0 20px 60px rgba(15, 17, 21, 0.25); opacity: 0; transform: translateY(14px) scale(0.97); transition: opacity 0.22s, transform 0.22s, display 0.22s allow-discrete, overlay 0.22s allow-discrete; }
+.modal_anim[open] { opacity: 1; transform: none; }
+@starting-style { .modal_anim[open] { opacity: 0; transform: translateY(14px) scale(0.97); } }
+.modal_anim::backdrop { background: rgba(15, 17, 21, 0); transition: background 0.22s, display 0.22s allow-discrete, overlay 0.22s allow-discrete; }
+.modal_anim[open]::backdrop { background: rgba(15, 17, 21, 0.55); }
+@starting-style { .modal_anim[open]::backdrop { background: rgba(15, 17, 21, 0); } }
+</style>
+</head>
+<body>
+
+<div class="layout_app">
+<main class="page_verify">
+  <h1 class="l_title">네이티브 dialog · inert · popover 검증</h1>
+  <p class="l_desc">키보드로 확인하세요: <kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> 이동, <kbd>Esc</kbd> 닫기. 하단 바에 현재 포커스 위치가 실시간 표시됩니다.</p>
+
+  <section class="p_section">
+    <h2>① 네이티브 &lt;dialog&gt; + showModal() — 상태 정본은 [open]</h2>
+    <p class="p_desc">JS는 showModal()/close()만 부르고, 표시는 브라우저의 open 속성이 담당. 닫기 버튼은 JS 없이 <code>&lt;form method="dialog"&gt;</code>.</p>
+    <button class="btn m_primary" type="button" data-action="native_open">모달 열기</button>
+    <div class="state_view" data-target="native"><span class="i_item">open 속성: <b data-field="open">없음</b></span></div>
+    <div class="p_check"><strong>확인할 것</strong>
+      <ul>
+        <li>☐ 열린 동안 배경 버튼이 <b>클릭·Tab 모두 안 되는가</b> (자동 inert)</li>
+        <li>☐ <kbd>Esc</kbd>로 닫히는가</li>
+        <li>☐ 닫힌 뒤 포커스가 <b>연 버튼으로 돌아오는가</b> (하단 바 확인)</li>
+        <li>☐ Tab을 계속 누르면 브라우저 UI(주소창)로는 나간다 — <b>이건 정상</b>(W3C 결론)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="p_section">
+    <h2>② &lt;dialog&gt; + data-state 병용 — 어긋남 시연 (리스크의 실체)</h2>
+    <p class="p_desc">이 모달은 표시를 <code>data-state</code>로 제어하고, 여는 쪽은 둘 다 갱신한다. 그런데 <b>Esc는 브라우저가 처리</b>하므로 open 속성만 사라진다. <b>Esc로 닫아 보세요.</b></p>
+    <button class="btn m_primary" type="button" data-action="sync_open">모달 열기 (data-state 병용)</button>
+    <button class="btn" type="button" data-action="sync_fix">동기화 켜기 (close 이벤트 리스너 추가)</button>
+    <button class="btn" type="button" data-action="sync_reset">복구</button>
+    <div class="state_view" data-target="sync"><span class="i_item">open 속성: <b data-field="open">없음</b></span><span class="i_item">data-state: <b data-field="state">close</b></span><span class="i_flag">← 어긋남!</span></div>
+    <div class="p_check"><strong>예상 결과</strong>
+      <ul>
+        <li>☐ Esc를 누르면 open은 사라지는데 data-state는 "open"으로 남는다</li>
+        <li>☐ 최상위 레이어에서 내려온 모달이 <b>페이지 본문에 유령처럼 박혀 남는다</b> (CSS가 data-state만 믿으므로)</li>
+        <li>☐ 「동기화 켜기」 후에는 close 이벤트가 data-state를 되돌려 정상 동작 — 단 이 한 줄을 잊으면 곧바로 이 버그</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="p_section">
+    <h2>③ 커스텀 div[role=dialog] + inert — 지금 슬러 방식 + 배경 차단</h2>
+    <p class="p_desc">상태는 <code>data-state</code>, 열릴 때 배경(.layout_app)에 <code>inert</code>를 붙이고 Tab을 안에서 순환시키며, 닫을 때 연 버튼으로 포커스 복귀. 전부 JS ≈20줄.</p>
+    <button class="btn m_primary" type="button" data-action="custom_open">모달 열기</button>
+    <div class="state_view" data-target="custom"><span class="i_item">data-state: <b data-field="state">close</b></span><span class="i_item">배경 inert: <b data-field="inert">false</b></span></div>
+    <div class="p_check"><strong>확인할 것</strong>
+      <ul>
+        <li>☐ 열린 동안 배경이 클릭·Tab 모두 안 되는가 (inert 효과)</li>
+        <li>☐ Tab이 모달 안에서 순환하는가</li>
+        <li>☐ <kbd>Esc</kbd> 닫기 + 포커스 복귀가 되는가 (직접 구현한 것)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="p_section">
+    <h2>④ popover="auto" — 드롭다운 닫기 규칙</h2>
+    <p class="p_desc">JS 0줄. 버튼의 <code>popovertarget</code>만으로 열리고, Esc·바깥 클릭 닫기(light-dismiss)는 브라우저가 처리.</p>
+    <button class="btn" type="button" popovertarget="dropdown_actions" data-role="popover_trigger">동작 메뉴 열기 ▾</button>
+    <div class="state_view" data-target="pop"><span class="i_item">popover 상태: <b data-field="pop">closed</b></span></div>
+    <div class="p_check"><strong>확인할 것</strong>
+      <ul>
+        <li>☐ <b>바깥 아무 곳이나 클릭</b>하면 닫히는가</li>
+        <li>☐ <kbd>Esc</kbd>로 닫히고, 키보드로 닫으면 포커스가 버튼으로 돌아오는가</li>
+        <li>☐ 모달과 달리 배경은 그대로 조작 가능한가 (비모달)</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <section class="p_section">
+    <h2>⑤ 스타일 동일성 — 같은 룩을 div와 dialog로</h2>
+    <p class="p_desc">dialog의 브라우저 기본 스타일(테두리·패딩·크기·중앙 정렬)은 <b>명세에 적힌 값이라 전 브라우저 동일</b>하고, 전부 CSS로 재정의된다. 두 버전을 번갈아 열어 카드·딤·그림자·위치가 픽셀 단위로 같은지 확인.</p>
+    <button class="btn" type="button" data-action="pair_div_open">div 버전 열기</button>
+    <button class="btn m_primary" type="button" data-action="pair_dialog_open">dialog 버전 열기</button>
+    <div class="p_check"><strong>확인할 것</strong>
+      <ul>
+        <li>☐ 카드 크기·모서리·그림자·딤 색·중앙 위치가 두 버전에서 동일한가</li>
+        <li>☐ 이 페이지를 <b>Safari로도 열어</b> (<code>localhost:8931/verify-native.html</code>) 같은지 — 크로스브라우징 핵심 확인</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="p_section">
+    <h2>⑥ 열림·닫힘 애니메이션 — 과거 dialog를 못 쓰게 하던 문제</h2>
+    <p class="p_desc">display:none ↔ 표시 전환은 원래 transition이 불가능했다. 지금은 <code>@starting-style</code> + <code>allow-discrete</code>로 해결 (Chrome 117+ · Safari 17.4+). <b>미지원 브라우저에선 애니메이션만 생략되고 동작은 그대로</b> — 점진 향상.</p>
+    <button class="btn m_primary" type="button" data-action="anim_open">애니메이션 모달 열기</button>
+    <div class="p_check"><strong>확인할 것</strong>
+      <ul>
+        <li>☐ 열릴 때 페이드+슬라이드, 닫힐 때(Esc 포함) 역방향으로 부드럽게 사라지는가</li>
+        <li>☐ Safari에서도 같은 움직임인가</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="log_view"><h2 class="i_title">이벤트 로그</h2><ul class="i_list" data-role="log"></ul></div>
+</main>
+</div>
+
+<!-- ① 네이티브: 상태 정본 = [open], data-state 없음 -->
+<dialog class="modal_native" aria-labelledby="modal_native_title">
+  <div class="i_wrap">
+    <div class="i_head"><h2 class="i_title" id="modal_native_title">네이티브 모달</h2><form method="dialog"><button class="btn i_close" type="submit">닫기</button></form></div>
+    <div class="i_body"><input type="text" placeholder="첫 입력 (초기 포커스가 여기로)"><input type="text" placeholder="둘째 입력"><button class="btn m_primary" type="button">확인</button></div>
+  </div>
+</dialog>
+
+<!-- ② 병용: 표시를 data-state가 제어 (일부러) -->
+<dialog class="modal_sync" data-state="close" aria-labelledby="modal_sync_title">
+  <div class="i_wrap">
+    <div class="i_head"><h2 class="i_title" id="modal_sync_title">병용 모달</h2><button class="btn i_close" type="button" data-action="sync_close">닫기</button></div>
+    <p>이 모달은 Esc로 닫아야 어긋남이 보입니다.</p>
+  </div>
+</dialog>
+
+<!-- ③ 커스텀: 지금 슬러 방식 + inert -->
+<div class="modal_custom" data-state="close" role="dialog" aria-modal="true" aria-labelledby="modal_custom_title">
+  <div class="i_dim"></div>
+  <div class="i_wrap">
+    <div class="i_head"><h2 class="i_title" id="modal_custom_title">커스텀 모달</h2><button class="btn i_close" type="button" data-action="custom_close">닫기</button></div>
+    <div class="i_body"><input type="text" placeholder="첫 입력"><input type="text" placeholder="둘째 입력"><button class="btn m_primary" type="button">확인</button></div>
+  </div>
+</div>
+
+<!-- ④ popover -->
+<div class="dropdown_menu" id="dropdown_actions" popover="auto">
+  <ul class="i_list">
+    <li><button class="i_btn" type="button">이름 바꾸기</button></li>
+    <li><button class="i_btn" type="button">복제</button></li>
+    <li><button class="i_btn" type="button">삭제</button></li>
+  </ul>
+</div>
+
+
+<!-- ⑤ 스타일 동일성 페어 -->
+<div class="modal_pair_div" data-state="close" role="dialog" aria-modal="true" aria-labelledby="modal_pair_div_title">
+  <div class="i_dim"></div>
+  <div class="i_wrap">
+    <div class="i_head"><h2 class="i_title" id="modal_pair_div_title">같은 룩 <span class="i_tag">div 버전</span></h2><button class="btn i_close" type="button" data-action="pair_div_close">닫기</button></div>
+    <p>이 카드와 dialog 버전 카드가 똑같아 보여야 합니다.</p>
+  </div>
+</div>
+<dialog class="modal_pair_dialog" aria-labelledby="modal_pair_dialog_title">
+  <div class="i_head"><h2 class="i_title" id="modal_pair_dialog_title">같은 룩 <span class="i_tag">dialog 버전</span></h2><form method="dialog"><button class="btn i_close" type="submit">닫기</button></form></div>
+  <p>이 카드와 div 버전 카드가 똑같아 보여야 합니다.</p>
+</dialog>
+
+<!-- ⑥ 애니메이션 -->
+<dialog class="modal_anim" aria-labelledby="modal_anim_title">
+  <div class="i_head"><h2 class="i_title" id="modal_anim_title">애니메이션 모달</h2><form method="dialog"><button class="btn i_close" type="submit">닫기</button></form></div>
+  <p>Esc로도 닫아 보세요 — 닫힘 애니메이션이 그대로 나옵니다.</p>
+</dialog>
+
+<div class="state_bar"><span>포커스: <b data-role="focus_now">body</b></span></div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const logList = $('[data-role="log"]');
+const log = (msg) => { const li = document.createElement('li'); li.textContent = `${new Date().toLocaleTimeString('ko-KR', { hour12: false })} ${msg}`; logList.prepend(li); };
+const describe = (el) => { if (!el || el === document.body) return 'body'; const cls = el.classList[0] ? '.' + el.classList[0] : ''; const txt = (el.textContent || el.placeholder || '').trim().slice(0, 14); return `${el.tagName.toLowerCase()}${cls}${txt ? ` "${txt}"` : ''}`; };
+document.addEventListener('focusin', (e) => { $('[data-role="focus_now"]').textContent = describe(e.target); });
+
+/* ① 네이티브 */
+const modalNative = $('.modal_native');
+$('[data-action="native_open"]').addEventListener('click', () => { modalNative.showModal(); log('① showModal() — open 속성은 브라우저가 붙임'); });
+modalNative.addEventListener('cancel', () => log('① cancel — Esc를 브라우저가 처리'));
+modalNative.addEventListener('close', () => log('① close — 포커스 자동 복귀 (하단 바 확인)'));
+new MutationObserver(() => { $('[data-target="native"] [data-field="open"]').textContent = modalNative.hasAttribute('open') ? '있음' : '없음'; }).observe(modalNative, { attributes: true, attributeFilter: ['open'] });
+
+/* ② 병용 — 어긋남 시연 */
+const modalSync = $('.modal_sync');
+let syncFixed = false;
+const syncView = () => {
+  const hasOpen = modalSync.hasAttribute('open'), state = modalSync.dataset.state;
+  const view = $('[data-target="sync"]');
+  view.querySelector('[data-field="open"]').textContent = hasOpen ? '있음' : '없음';
+  view.querySelector('[data-field="state"]').textContent = state;
+  view.dataset.state = (hasOpen !== (state === 'open')) ? 'mismatch' : '';
+};
+$('[data-action="sync_open"]').addEventListener('click', () => { modalSync.showModal(); modalSync.dataset.state = 'open'; log('② showModal() + data-state="open" — 둘 다 갱신'); });
+$('[data-action="sync_close"]').addEventListener('click', () => { modalSync.close(); modalSync.dataset.state = 'close'; log('② 닫기 버튼 — 둘 다 갱신 (정상)'); });
+modalSync.addEventListener('cancel', () => log('② cancel — Esc: 브라우저는 open만 제거, data-state는 그대로!'));
+modalSync.addEventListener('close', () => { if (syncFixed) { modalSync.dataset.state = 'close'; log('② [동기화 ON] close 이벤트가 data-state를 되돌림'); } });
+$('[data-action="sync_fix"]').addEventListener('click', (e) => { syncFixed = true; e.target.textContent = '동기화 켜짐 ✓'; log('② close 이벤트 리스너 추가됨'); });
+$('[data-action="sync_reset"]').addEventListener('click', () => { modalSync.close(); modalSync.dataset.state = 'close'; log('② 복구'); });
+new MutationObserver(syncView).observe(modalSync, { attributes: true, attributeFilter: ['open', 'data-state'] });
+
+/* ③ 커스텀 + inert */
+const modalCustom = $('.modal_custom');
+const layoutApp = $('.layout_app');
+let customTrigger = null;
+const customView = () => { const v = $('[data-target="custom"]'); v.querySelector('[data-field="state"]').textContent = modalCustom.dataset.state; v.querySelector('[data-field="inert"]').textContent = String(layoutApp.inert); };
+const customOpen = () => { customTrigger = document.activeElement; layoutApp.inert = true; modalCustom.dataset.state = 'open'; modalCustom.querySelector('input').focus(); customView(); log('③ 열림 — 배경 inert=true, 첫 입력으로 포커스'); };
+const customClose = () => { modalCustom.dataset.state = 'close'; layoutApp.inert = false; customView(); customTrigger?.focus(); log('③ 닫힘 — inert 해제, 연 버튼으로 포커스 복귀'); };
+$('[data-action="custom_open"]').addEventListener('click', customOpen);
+$('[data-action="custom_close"]').addEventListener('click', customClose);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalCustom.dataset.state === 'open') customClose(); });
+modalCustom.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return;
+  const items = modalCustom.querySelectorAll('button, input, a[href], [tabindex="0"]');
+  const first = items[0], last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+
+/* ④ popover */
+const dropdown = $('#dropdown_actions');
+dropdown.addEventListener('toggle', (e) => { $('[data-target="pop"] [data-field="pop"]').textContent = e.newState; log(`④ popover ${e.newState === 'open' ? '열림' : '닫힘 (Esc 또는 바깥 클릭)'}`); });
+
+/* ⑤ 스타일 동일성 */
+const pairDiv = $('.modal_pair_div');
+$('[data-action="pair_div_open"]').addEventListener('click', () => { pairDiv.dataset.state = 'open'; log('⑤ div 버전 열림'); });
+$('[data-action="pair_div_close"]').addEventListener('click', () => { pairDiv.dataset.state = 'close'; log('⑤ div 버전 닫힘'); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && pairDiv.dataset.state === 'open') pairDiv.dataset.state = 'close'; });
+$('[data-action="pair_dialog_open"]').addEventListener('click', () => { $('.modal_pair_dialog').showModal(); log('⑤ dialog 버전 열림'); });
+
+/* ⑥ 애니메이션 */
+$('[data-action="anim_open"]').addEventListener('click', () => { $('.modal_anim').showModal(); log('⑥ 애니메이션 모달 열림 (@starting-style)'); });
+$('.modal_anim').addEventListener('close', () => log('⑥ 닫힘 — allow-discrete로 닫힘 전환도 재생'));
+</script>
+</body>
+</html>

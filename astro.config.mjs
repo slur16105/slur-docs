@@ -86,6 +86,7 @@ export default defineConfig({
 						{ label: "시맨틱 마크업", slug: "core/semantic-markup" },
 						{ label: "네이밍 시스템", slug: "core/naming-system" },
 						{ label: "역할 분리 원칙", slug: "core/separation-of-concerns" },
+						{ label: "브라우저 지원 기준", slug: "core/browser-support" },
 					],
 				},
 				{

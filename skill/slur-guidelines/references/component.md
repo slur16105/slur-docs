@@ -124,26 +124,51 @@
 
 ### 탭
 
+Tab은 위젯 사이를, 방향키는 위젯 안을 움직인다(roving tabindex — 현재 항목만 `tabindex="0"`). 패널까지가 한 세트다. 규칙은 `accessibility.md` 5-B.
+
 ```html
 <div class="tab_menu">
   <ul class="i_list" role="tablist">
     <li class="i_item" role="none">
-      <button class="i_btn" type="button" role="tab" data-state="active" aria-selected="true">전체</button>
+      <button class="i_btn" type="button" role="tab" id="tab_all" aria-controls="panel_all" aria-selected="true" tabindex="0" data-state="active">전체</button>
     </li>
     <li class="i_item" role="none">
-      <button class="i_btn" type="button" role="tab" data-state="" aria-selected="false">인기</button>
-    </li>
-    <li class="i_item" role="none">
-      <button class="i_btn" type="button" role="tab" data-state="" aria-selected="false">신규</button>
+      <button class="i_btn" type="button" role="tab" id="tab_popular" aria-controls="panel_popular" aria-selected="false" tabindex="-1" data-state="">인기</button>
     </li>
   </ul>
+  <div class="i_panel" id="panel_all" role="tabpanel" aria-labelledby="tab_all" data-state="active"><!-- 전체 목록 --></div>
+  <div class="i_panel" id="panel_popular" role="tabpanel" aria-labelledby="tab_popular" data-state=""><!-- 인기 목록 --></div>
 </div>
+```
+
+```js
+// 방향키 이동: tabindex·aria-selected·data-state를 함께 갱신. 활성화 기본값 = 자동(포커스가 가면 패널 전환)
+tablist.addEventListener('keydown', (e) => {
+  const step = { ArrowRight: 1, ArrowLeft: -1, Home: 0, End: 0 };
+  if (!(e.key in step)) return;
+  e.preventDefault();
+  const tabs = [...tablist.querySelectorAll('[role="tab"]')];
+  let idx = tabs.indexOf(document.activeElement) + step[e.key];
+  if (e.key === 'Home') idx = 0;
+  if (e.key === 'End') idx = tabs.length - 1;
+  const next = tabs[(idx + tabs.length) % tabs.length];
+  tabs.forEach((tab) => {
+    const active = tab === next;
+    tab.tabIndex = active ? 0 : -1;
+    tab.setAttribute('aria-selected', String(active));
+    tab.dataset.state = active ? 'active' : '';
+    document.querySelector('#' + tab.getAttribute('aria-controls')).dataset.state = active ? 'active' : '';
+  });
+  next.focus();
+});
 ```
 
 ### 토스트
 
+기본은 `role="status"`(조용한 알림, 자동 소멸 허용). 끼어들어야 하는 실패·세션 만료만 `role="alert"`(자동 소멸 금지). 컨테이너는 미리 DOM에 있어야 읽힌다. 규칙은 `accessibility.md` 5-C.
+
 ```html
-<div class="toast_message" data-state="close" role="alert" aria-live="polite">
+<div class="toast_message" data-state="close" role="status">
   <div class="i_wrap">
     <p class="i_text">저장되었습니다.</p>
     <button class="i_close" type="button" aria-label="닫기"></button>
@@ -170,6 +195,8 @@
   <div class="i_dim" aria-hidden="true"></div>
 </div>
 ```
+
+드로어도 모달과 같은 포커스 관리 대상이다(`accessibility.md` 5-A) — 열린 동안 배경 `inert`, Tab 순환, 닫으면 연 버튼으로 복귀.
 
 ---
 

@@ -15,3 +15,4 @@ dist/
 
 # AI 도구 로컬 설정
 CLAUDE.md
+.claude/

@@ -79,8 +79,8 @@ HTML은 콘텐츠의 구조를 정의하는 언어다. 화면을 그리기 위�
 ## 컴포넌트 구조 예시
 
 ```html
-<!-- 모달 컴포넌트 -->
-<div class="modal_login" data-state="close" role="dialog" aria-modal="true" aria-labelledby="modal_login_title">
+<!-- 모달 컴포넌트 — 네이티브 dialog가 1순위. 상태 정본은 [open]이므로 data-state를 붙이지 않는다 (accessibility.md 5-A) -->
+<dialog class="modal_login" aria-labelledby="modal_login_title">
   <div class="i_wrap">
     <div class="i_head">
       <h2 class="i_title" id="modal_login_title">로그인</h2>
@@ -101,7 +101,7 @@ HTML은 콘텐츠의 구조를 정의하는 언어다. 화면을 그리기 위�
       </div>
     </div>
   </div>
-</div>
+</dialog>
 ```
 
 ---

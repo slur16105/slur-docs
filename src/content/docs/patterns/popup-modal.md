@@ -63,12 +63,20 @@ UI 흐름을 제어하기 위한 구조적 장치로 취급합니다.
 클래스 토글만으로
 암묵적인 제어를 하지 않습니다.
 
-팝업·모달 블록은 `modal_` 접두사로 짓고(`modal_login`, `modal_alert`),
-열림 / 닫힘은 `.active` 같은 클래스가 아니라 `data-state`로만 표현합니다.
+모달 구현의 1순위는 **네이티브 `<dialog>` + `showModal()`** 입니다.
+배경 차단(inert), Esc 닫기, 닫힐 때 포커스 복귀를 브라우저가 제공합니다.
+
+팝업·모달 블록은 `modal_` 접두사로 짓습니다(`modal_login`, `modal_alert`).
 접두사 기준은 [접두사 참조 표](/reference/prefix-table/)를 따릅니다.
 
+`<dialog>`는 브라우저가 `open` 속성으로 상태를 직접 관리하는 요소이므로,
+**상태의 정본은 `data-state`가 아니라 `[open]`** 입니다.
+`data-state`를 중복해 붙이면 브라우저가 닫는 경로(Esc)에서 두 상태가 어긋나므로 붙이지 않습니다.
+(`<details>`의 `[open]`도 같습니다.
+네이티브가 상태를 갖지 않는 일반 블록은 지금처럼 `data-state`를 씁니다.)
+
 ```html
-<div class="modal_login" data-state="close" role="dialog" aria-modal="true" aria-labelledby="modal_login_title">
+<dialog class="modal_login" aria-labelledby="modal_login_title">
   <div class="i_wrap">
     <div class="i_head">
       <h2 class="i_title" id="modal_login_title">로그인</h2>
@@ -78,16 +86,16 @@ UI 흐름을 제어하기 위한 구조적 장치로 취급합니다.
       <!-- 단일 목적 인터랙션 -->
     </div>
   </div>
-</div>
+</dialog>
 ```
 
-시각적 표현은 CSS가 `data-state` 값만 보고 결정합니다.
-닫힘은 `display: none`, 열림은 `display: flex`로, 상태와 스타일이 1:1로 대응합니다.
+시각적 표현은 CSS가 `[open]`을 보고 결정하고, 배경은 `::backdrop`으로 처리합니다.
+닫힌 `<dialog>`는 브라우저가 표시하지 않으므로 별도의 숨김 규칙이 필요 없습니다.
 
 ```css
-.modal_login { display: none; position: fixed; inset: 0; }
-.modal_login[data-state="open"] { display: flex; }
-.modal_login .i_wrap { width: 360px; margin: auto; padding: 24px; border-radius: 8px; background: #fff; }
+.modal_login { width: 360px; padding: 0; border: 0; border-radius: 8px; }
+.modal_login::backdrop { background: rgba(0, 0, 0, 0.55); }
+.modal_login .i_wrap { padding: 24px; }
 .modal_login .i_head { display: flex; justify-content: space-between; align-items: center; }
 ```
 
@@ -102,22 +110,34 @@ UI 흐름을 제어하기 위한 구조적 장치로 취급합니다.
 - 단일 목적을 유지하고 있는가
 - 접근성(포커스 이동, 닫기 방식)이 고려되었는가
 
-JavaScript는 스타일을 직접 만지지 않고 `data-state`만 토글합니다.
-열릴 때는 모달 안으로 초점을 옮기고, `Esc` 키로 닫을 수 있어야 합니다.
+JavaScript는 `showModal()` / `close()`만 부릅니다.
+초기 포커스는 모달 안 첫 포커스 가능 요소로 가고,
+닫히면 연 버튼으로 돌아갑니다 — 모두 브라우저 기본 동작입니다.
+닫힘 후처리는 `close` 이벤트에 둡니다.
+Esc처럼 브라우저가 닫는 경로까지 전부 이 이벤트를 지나갑니다.
 
 ```js
 const modalLogin = {
   el: document.querySelector('.modal_login'),
-  open() { this.el.dataset.state = 'open'; this.el.querySelector('.i_close').focus(); },
-  close() { this.el.dataset.state = 'close'; },
+  open() { this.el.showModal(); document.body.dataset.state = 'modal_open'; },
+  close() { this.el.close(); },
   init() {
     document.querySelector('[data-action="modal_login_open"]')?.addEventListener('click', () => this.open());
     this.el.querySelector('.i_close')?.addEventListener('click', () => this.close());
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.el.dataset.state === 'open') this.close(); });
+    this.el.addEventListener('close', () => { document.body.dataset.state = ''; });
   }
 };
 modalLogin.init();
 ```
+
+`<dialog>`를 쓸 수 없는 커스텀 오버레이(`div[role="dialog"] aria-modal="true"`)는
+브라우저가 해 주던 것을 직접 구현해야 합니다 —
+열린 동안 배경에 `inert`, Tab이 오버레이 안에서 순환, 닫을 때 연 버튼으로 포커스 복귀.
+이때 상태는 지금처럼 `data-state="open|close"`로 관리합니다.
+
+파괴적 확인 모달(삭제·결제)은 바깥 클릭으로 닫지 않고,
+초기 포커스는 덜 파괴적인 버튼(취소)에 둡니다.
+포커스 규칙의 전체 기준은 [키보드 내비게이션](/a11y/keyboard/)을 참고하세요.
 
 불필요한 팝업은
 UI 복잡도의 가장 큰 원인입니다.
