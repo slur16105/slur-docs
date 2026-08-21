@@ -9,6 +9,32 @@ SLUR UX/UI System의
 
 ---
 
+## v1.7.0 — 2026.08
+
+### 문법이 요구하는 어휘 보충 (검토 피드백 P0-4)
+
+#### 방법론 확장
+
+- **4상태 값 확정** — `data-state="loading | empty | error | success"`. 정상 상태의 이름이 없던 빈칸을 `success`로 채움(버튼·입력의 기존 `success`와 같은 어휘, 데이터 로딩 상태의 통용 이름)
+- **4상태 안내문은 항상 렌더되는 `i_status`(`role="status"`) 상자 안에** — 상자가 미리 있어야 상태 전환이 보조 기술에 읽힌다(라이브 영역 선존재 원칙). 지금 상태가 아닌 안내문은 `display:none`으로 접근성 트리에서도 숨긴다
+- **모달이 열려 있는 동안 토스트 금지** — 모달 안 상태 변화는 모달 안에서(버튼 글자 변화·`alert.m_inline`·인라인 오류). 근거: 정의상 모순 + 네이티브 `<dialog>` 바깥 inert로 최상위 레이어의 토스트도 닫기·키보드·보조 기술 불가(결정 기록 `docs-internal/2026-08-dialog-adoption.md`)
+
+#### 스킬 (`slur-guidelines`)
+
+- `global.css`에 **4상태 스위치** 동봉 — `[data-state] > .i_status > .i_*` 노출 전환(룩 없음). `i_`를 블록 대신 `[data-state]`로 스코프하는 유일한 예외로 명시
+- `ux-states.md`·`accessibility.md`(D)에 모달 중 토스트 금지 규칙, `css.md` 스코프 규칙에 4상태 예외 명문화, `SKILL.md` 동봉 목록 갱신
+
+#### 스킬 (`slur-design`)
+
+- **`components/state.css` 신설** — 4상태 안내문 모양(여백·색) + `i_loading` 자동 스피너 + `.btn[data-state="loading"]` 스피너(기존 opacity만 → 스피너). 스켈레톤은 대시보드 어휘 때
+- **`components/toast.css` 신설** — `toast_message` 단일 토스트(모바일 하단 전체폭 → 640px 이상 우하단), `m_success/m_warning/m_danger`(alert와 같은 이름), 숨김은 `display:none`이 아니라 opacity·visibility(라이브 영역 컨테이너 선존재), `role="status"`/`"alert"` 컨테이너 분리
+- **`components/modal.css` → 네이티브 `<dialog>` 이관** — `[open]` 정본·`::backdrop`·`@starting-style` 모션. 문법(v1.6.0 1순위)과 어휘의 드리프트 해소. 토큰 `--color-overlay` 신설(라이트/다크)
+- `demo.html` — State·Toast 섹션 추가, 모달을 `<dialog>` + `showModal()`로, JS를 `data-action` 위임 패턴으로 정리
+- `card.css`의 `.card.m_link:focus-visible` 재선언 제거 — global의 `a:focus-visible`과 중복(자기 규칙 정리)
+- 사이트: 화면 상태 설계·ARIA 최소 사용·global 레이어·피드백·팝업/모달 페이지를 같은 문장으로 갱신
+
+---
+
 ## v1.6.0 — 2026.08
 
 ### 복합 위젯 접근성 기준

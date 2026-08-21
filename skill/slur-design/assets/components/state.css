@@ -1,0 +1,22 @@
+/* ─────────────────────────────────────────────
+   STATE — SLUR Design System × slur-guidelines
+   4상태(loading / empty / error / success) 안내문의 모양 + 스피너.
+   "언제 보이나"(노출 전환)는 global.css의 4상태 스위치가 담당하고,
+   여기는 "어떻게 보이나"만 — 여백·색·스피너. 블록 이름과 무관하게
+   [data-state] > .i_status 안의 안내문에 적용한다(global.css와 같은 예외).
+   i_status 상자는 항상 렌더(role="status")이므로 상자 자체에는 스타일 없음.
+   스켈레톤은 대시보드 어휘(card·table)와 함께 추후.
+   ───────────────────────────────────────────── */
+
+[data-state] > .i_status > .i_loading, [data-state] > .i_status > .i_empty, [data-state] > .i_status > .i_error { padding: var(--space-24) var(--space-16); font-size: var(--text-sm); line-height: var(--leading-normal); text-align: center; color: var(--color-text-secondary); }
+[data-state="loading"] > .i_status > .i_loading { display: flex; align-items: center; justify-content: center; gap: var(--space-8); }
+[data-state] > .i_status > .i_error { color: var(--color-danger); }
+
+/* 스피너 — i_loading 앞에 자동 부착(마크업 추가 없음). 크기는 em(텍스트를 따라감). */
+[data-state] > .i_status > .i_loading::before { content: ""; display: inline-block; width: 1em; height: 1em; border: 2px solid var(--color-border-default); border-top-color: var(--color-brand); border-radius: var(--radius-full); flex: none; animation: spin_state 0.8s linear infinite; }
+
+/* 버튼 로딩 — 같은 스피너(currentColor). button.css의 opacity 0.6·pointer-events none과 함께 쓰인다. */
+.btn[data-state="loading"]::before { content: ""; display: inline-block; width: 1em; height: 1em; border: 2px solid currentColor; border-right-color: transparent; border-radius: var(--radius-full); flex: none; animation: spin_state 0.8s linear infinite; }
+
+/* prefers-reduced-motion은 global.css가 animation을 끈다 — 스피너는 정지된 링으로 남는다. */
+@keyframes spin_state { to { transform: rotate(360deg); } }

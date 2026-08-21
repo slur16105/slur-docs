@@ -22,7 +22,7 @@ SLUR은 네 층으로 나뉜다. 이 스킬은 **guidelines** 층이고, 나머�
 
 ### 동봉 파일 — `assets/global.css` (공통 레이어)
 
-규칙이 전제하는 최소 CSS를 이 스킬이 직접 동봉한다: 리셋, 폼 컨트롤 상속, **포커스 링 한 쌍**(`outline:none` + 대체 링, 링크·`[tabindex]`·`summary` 포함), `.a11y_hidden`, `prefers-reduced-motion`. 색·크기는 토큰을 `var(--x, 폴백)`으로 **참조만** 하므로 토큰이 없는 프로젝트(규칙만 적용)에서도 그대로 쓸 수 있다. 룩은 바꾸지 않는다.
+규칙이 전제하는 최소 CSS를 이 스킬이 직접 동봉한다: 리셋, 폼 컨트롤 상속, **포커스 링 한 쌍**(`outline:none` + 대체 링, 링크·`[tabindex]`·`summary` 포함), `.a11y_hidden`, **4상태 스위치**(`[data-state]` → `i_status` 안 `i_loading/i_empty/i_error`·`i_body` 노출 전환), `prefers-reduced-motion`. 색·크기는 토큰을 `var(--x, 폴백)`으로 **참조만** 하므로 토큰이 없는 프로젝트(규칙만 적용)에서도 그대로 쓸 수 있다. 룩은 바꾸지 않는다.
 
 - 프로젝트에 넣을 때: 이 스킬 폴더의 `assets/global.css`를 프로젝트 CSS 폴더로 복사해 **가장 먼저** `<link>`한다. 로드 순서 `global.css → (tokens → components) → 레이아웃 → 컴포넌트 → 페이지 → 반응형`.
 - 프로젝트에 이미 리셋 파일이 있으면 두 개를 두지 않고 **합친다**(포커스 링·`a11y_hidden`·reduced-motion 세 가지는 반드시 남긴다). 파일명 관례는 `global.css`. `common.css` 같은 "공통 통"은 만들지 않는다 — 공통처럼 보이는 스타일은 `layout_*` 또는 컴포넌트로 간다.

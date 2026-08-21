@@ -5,7 +5,7 @@ description: SLUR Design System — 시각 어휘(디자인 토큰과 컴포넌�
 
 # SLUR Design System (시각 어휘)
 
-이 스킬은 **어휘**를 제공한다 — 색·타이포·간격 토큰과 컴포넌트의 생김새. **문법**(클래스 네이밍, `data-state`, CSS 작성 규칙, 단위·토큰 운영 원칙)과 **공통 레이어**(`global.css`: 리셋·포커스 링·`a11y_hidden`)는 `slur-guidelines` 스킬이 담당하며, 이 시스템의 모든 코드는 그 문법을 따른다. 두 스킬은 항상 함께 쓴다.
+이 스킬은 **어휘**를 제공한다 — 색·타이포·간격 토큰과 컴포넌트의 생김새. **문법**(클래스 네이밍, `data-state`, CSS 작성 규칙, 단위·토큰 운영 원칙)과 **공통 레이어**(`global.css`: 리셋·포커스 링·`a11y_hidden`·4상태 스위치)는 `slur-guidelines` 스킬이 담당하며, 이 시스템의 모든 코드는 그 문법을 따른다. 두 스킬은 항상 함께 쓴다.
 
 ## 층과 파일 위치 (이 스킬 폴더 기준 상대경로)
 
@@ -13,7 +13,7 @@ description: SLUR Design System — 시각 어휘(디자인 토큰과 컴포넌�
 slur-design/
 └── assets/
     ├── tokens/        # tokens 층 — colors, typography, spacing, radius, shadows, motion, breakpoints, z-index
-    ├── components/    # components 층 — button, input, select, selection, badge, card, alert, modal, navigation, table
+    ├── components/    # components 층 — button, input, select, selection, badge, card, alert, state, toast, modal, navigation, table
     └── patterns/      # patterns 층 — (후순위, 아직 없음)
 ```
 
@@ -66,7 +66,9 @@ slur-design/
 | `badge`(+ `m_brand` `m_success` `m_warning` `m_danger` `m_count`), `chip` | `components/badge.css` |
 | `card`(+ `m_link` `m_list`) | `components/card.css` |
 | `alert`(+ `m_inline` `m_banner`, 상태 변형) | `components/alert.css` |
-| `modal_dialog` | `components/modal.css` |
+| 4상태 안내문 `i_status` > `i_loading`/`i_empty`/`i_error`(모양·스피너), `.btn[data-state="loading"]` 스피너 — 노출 전환은 `global.css` | `components/state.css` |
+| `toast_message`(+ `m_success` `m_warning` `m_danger`; `role="status"`/`"alert"` 컨테이너 별도, 모달 중 금지) | `components/toast.css` |
+| `modal_dialog` — 네이티브 `<dialog>`, 상태 정본 `[open]`, 딤은 `::backdrop` | `components/modal.css` |
 | `tab_menu`, `nav_side`, `breadcrumb` | `components/navigation.css` |
 | `table_wrap`, `table_data` | `components/table.css` |
 
@@ -77,7 +79,7 @@ slur-design/
 - **텍스트**: `--color-text-primary` `-secondary` `-muted` `-inverse` `-brand`
 - **면**: `--color-surface-page` `-card` `-sunken` `-hover` `-inverse`
 - **보더**: `--color-border-subtle` `-default` `-strong` `-focus`
-- **브랜드**: `--color-brand` `-hover` `-active` `-soft`, `--color-on-brand`, `--color-focus-ring`
+- **브랜드**: `--color-brand` `-hover` `-active` `-soft`, `--color-on-brand`, `--color-focus-ring`, `--color-overlay`(모달 딤)
 - **상태**: `--color-success` `-warning` `-danger` (+ 각 `-soft`), `--color-on-danger` `-on-success` `-on-warning`
 - **타이포**: `--font-sans`, `--text-xs`(12) `-sm`(14) `-base`(16) `-lg`(18) `-2xl`(24) `-3xl`(30) `-4xl`(36), `--weight-medium`(500) `-semibold`(600) `-bold`(700), `--leading-normal`(1.5) `-relaxed`(1.7, 장문), `--tracking-tight` `-snug` `-wide`
 - **간격**: `--space-4` `-8` `-12` `-16` `-20` `-24` (rem, 이름 = px 환산값). **레이아웃 구조 간격(섹션 여백·그리드 갭)은 토큰이 아니라 px 직접** — `--space-32` 같은 토큰은 없다

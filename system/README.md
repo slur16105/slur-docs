@@ -27,7 +27,7 @@
 
 ## 로드 순서
 
-`global.css` → `tokens/*.css` → `components/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`이 이 순서의 실례다(`../skill/...` 상대경로).
+`global.css` → `tokens/*.css` → `components/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`·4상태 스위치는 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`이 이 순서의 실례다(`../skill/...` 상대경로).
 
 ## 파일 분할과 로드
 

@@ -203,6 +203,8 @@ display → width/height → margin → padding → border → border-radius
 .p_section .p_label { }        /* X — 중간 내부 요소를 스코프로 사용 (블록 아님) */
 ```
 
+**유일한 예외 — 4상태 스위치.** 문법이 전역으로 예약한 상태 요소(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)는 어느 블록에서나 같은 뜻이므로 `global.css`가 블록 대신 `[data-state]`로 스코프해 한 번만 선언한다(`[data-state="loading"] > .i_status > .i_loading`). 프로젝트 CSS에서 이 형태를 흉내 내지 않는다 — 예외는 시스템 파일(global.css의 스위치, slur-design `state.css`의 모양)에만 있다.
+
 ---
 
 ## 스타일 변형 — `m_`

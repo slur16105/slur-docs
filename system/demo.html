@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="../skill/slur-design/assets/components/alert.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/components/navigation.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/components/table.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/state.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/toast.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/components/modal.css">
 <style>
 /* 페이지 레이아웃 간격은 정책상 토큰 대신 px 직접 사용 */
@@ -54,6 +56,9 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
 .page_demo .card.m_list .i_label { flex: 1; font-size: var(--text-sm); font-weight: var(--weight-medium); }
 .page_demo .card.m_list .i_meta { font-size: var(--text-xs); color: var(--color-text-secondary); }
 .page_demo .card .breadcrumb { margin-bottom: var(--space-12); }
+.page_demo .list_demo .i_item { padding: 12px 16px; border-bottom: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+.page_demo .list_demo .i_item:last-child { border-bottom: none; }
+.page_demo .p_row .btn[data-state="active"] { border-color: var(--color-brand); color: var(--color-text-brand); }
 @media (max-width: 768px) {
   .page_demo .p_grid { grid-template-columns: 1fr; }
   .page_demo .p_grid_3 { grid-template-columns: 1fr; }
@@ -391,34 +396,88 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
   </section>
 
   <!-- MODAL -->
+  <!-- STATE (4상태) -->
   <section class="p_component">
-    <h2 class="p_component_title">Modal</h2>
+    <h2 class="p_component_title">State — 4상태</h2>
     <div class="p_section">
-      <h3 class="p_section_title">트리거</h3>
+      <h3 class="p_section_title">loading · empty · error · success — 스위치는 global.css, 모양은 state.css</h3>
       <div class="p_row">
-        <button type="button" class="btn m_primary" data-modal-open="default">다이얼로그 열기</button>
-        <button type="button" class="btn m_danger" data-modal-open="confirm">계정 삭제…</button>
+        <button type="button" class="btn m_small" data-action="state_set" data-target="loading" data-state="active">loading</button>
+        <button type="button" class="btn m_small" data-action="state_set" data-target="empty">empty</button>
+        <button type="button" class="btn m_small" data-action="state_set" data-target="error">error</button>
+        <button type="button" class="btn m_small" data-action="state_set" data-target="success">success</button>
+      </div>
+      <div class="card">
+        <section class="list_demo" data-state="loading" aria-label="프로그램 목록">
+          <div class="i_status" role="status">
+            <p class="i_loading">불러오는 중…</p>
+            <p class="i_empty">등록된 프로그램이 없습니다.</p>
+            <p class="i_error">불러오지 못했습니다. 다시 시도해 주세요.</p>
+          </div>
+          <ul class="i_body">
+            <li class="i_item">디자인 시스템 워크숍</li>
+            <li class="i_item">접근성 점검 세션</li>
+            <li class="i_item">바이브 코딩 대시보드</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <section class="p_component">
+    <h2 class="p_component_title">Toast</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">role=status(자동 소멸) · role=alert(수동 닫기) — 컨테이너는 미리 DOM에</h3>
+      <div class="p_row">
+        <button type="button" class="btn" data-action="toast_show" data-target="status">저장됨 (status)</button>
+        <button type="button" class="btn" data-action="toast_show" data-target="success">성공 (status · m_success)</button>
+        <button type="button" class="btn m_danger" data-action="toast_show" data-target="danger">실패 (alert · m_danger)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <section class="p_component">
+    <h2 class="p_component_title">Modal — 네이티브 dialog</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">트리거 — showModal() / close(), 상태 정본은 [open]</h3>
+      <div class="p_row">
+        <button type="button" class="btn m_primary" data-action="modal_open" data-target="default">다이얼로그 열기</button>
+        <button type="button" class="btn m_danger" data-action="modal_open" data-target="confirm">계정 삭제…</button>
       </div>
     </div>
   </section>
 
 </div>
 
-<!-- 모달 블록 — 페이지 블록 밖 -->
-<div class="modal_dialog" id="demoModal" data-state="close">
+<!-- 모달 블록 — 페이지 블록 밖. 네이티브 dialog: 상태 정본은 [open], data-state 없음 -->
+<dialog class="modal_dialog" aria-labelledby="modalTitle">
   <div class="i_wrap">
     <div class="i_head">
       <div>
-        <div class="i_title" id="modalTitle">프로젝트 이름 변경</div>
-        <div class="i_text" id="modalText">팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.</div>
+        <h2 class="i_title" id="modalTitle">프로젝트 이름 변경</h2>
+        <p class="i_text">팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.</p>
       </div>
-      <button type="button" class="i_close" data-modal-close aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+      <button type="button" class="i_close" data-action="modal_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
     </div>
     <div class="i_foot">
-      <button type="button" class="btn" data-modal-close>취소</button>
-      <button type="button" class="btn m_primary" id="modalConfirm" data-modal-close>저장</button>
+      <button type="button" class="btn" data-action="modal_close" autofocus>취소</button>
+      <button type="button" class="btn m_primary" data-action="modal_close" data-target="confirm">저장</button>
     </div>
   </div>
+</dialog>
+
+<!-- 토스트 — 페이지 블록 밖, body 직계. status/alert 컨테이너를 미리 둔다(라이브 영역 선존재). 모달이 열린 동안엔 띄우지 않는다 -->
+<div class="toast_message" role="status" data-state="hide">
+  <span class="i_icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+  <p class="i_text"></p>
+  <button type="button" class="i_close" data-action="toast_hide" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+</div>
+<div class="toast_message m_danger" role="alert" data-state="hide">
+  <span class="i_icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg></span>
+  <p class="i_text"></p>
+  <button type="button" class="i_close" data-action="toast_hide" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
 </div>
 
 <script>
@@ -461,25 +520,64 @@ document.querySelectorAll(".nav_side .i_item").forEach((item) => {
   });
 });
 
-const modal = document.getElementById("demoModal");
-const modalTitle = document.getElementById("modalTitle");
-const modalText = document.getElementById("modalText");
-const modalConfirm = document.getElementById("modalConfirm");
-document.querySelectorAll("[data-modal-open]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const confirm = btn.getAttribute("data-modal-open") === "confirm";
-    modalTitle.textContent = confirm ? "계정을 삭제할까요?" : "프로젝트 이름 변경";
-    modalText.textContent = confirm ? "계정과 모든 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : "팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.";
-    modalConfirm.textContent = confirm ? "삭제" : "저장";
-    modalConfirm.className = confirm ? "btn m_danger" : "btn m_primary";
-    modal.setAttribute("data-state", "open");
-  });
+// 모달 — 네이티브 dialog. JS는 showModal()/close()만, 닫힘 후처리는 close 이벤트(Esc 경로 포함)
+const modalDemo = {
+  el: document.querySelector(".modal_dialog"),
+  open(kind) {
+    const confirm = kind === "confirm";
+    this.el.querySelector(".i_title").textContent = confirm ? "계정을 삭제할까요?" : "프로젝트 이름 변경";
+    this.el.querySelector(".i_text").textContent = confirm ? "계정과 모든 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : "팀원이 쉽게 알아볼 수 있는 명확한 이름을 지어주세요.";
+    const btn = this.el.querySelector('[data-target="confirm"]');
+    btn.textContent = confirm ? "삭제" : "저장";
+    btn.className = confirm ? "btn m_danger" : "btn m_primary";
+    this.el.showModal();
+    document.body.dataset.state = "modal_open";
+  },
+  close() { this.el.close(); },
+  init() { this.el.addEventListener("close", () => { document.body.dataset.state = ""; }); }
+};
+modalDemo.init();
+
+// 4상태 — 블록의 data-state만 바꾼다. 노출은 global.css 스위치가 처리
+const stateDemo = {
+  el: document.querySelector(".list_demo"),
+  set(value, btn) {
+    this.el.dataset.state = value;
+    btn.closest(".p_row").querySelectorAll("[data-action='state_set']").forEach((b) => b.removeAttribute("data-state"));
+    btn.setAttribute("data-state", "active");
+  }
+};
+
+// 토스트 — status/alert 컨테이너는 미리 있고, 글만 바꿔 data-state="show". status는 3초 뒤 자동 소멸, alert는 수동 닫기
+const toastDemo = {
+  status: document.querySelector('.toast_message[role="status"]'),
+  alert: document.querySelector('.toast_message[role="alert"]'),
+  timer: 0,
+  show(kind) {
+    if (document.body.dataset.state === "modal_open") return; // 모달이 열린 동안엔 띄우지 않는다
+    const el = kind === "danger" ? this.alert : this.status;
+    const other = el === this.alert ? this.status : this.alert;
+    other.dataset.state = "hide";
+    el.classList.toggle("m_success", kind === "success");
+    el.querySelector(".i_text").textContent = kind === "danger" ? "저장하지 못했습니다. 네트워크를 확인해 주세요." : kind === "success" ? "프로젝트가 게시되었습니다." : "저장되었습니다.";
+    el.dataset.state = "show";
+    clearTimeout(this.timer);
+    if (el === this.status) this.timer = setTimeout(() => this.hide(el), 3000);
+  },
+  hide(el) { el.dataset.state = "hide"; }
+};
+
+// data-action 위임 — HTML과 JS의 결합을 줄인다(js.md)
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-action]");
+  if (!el) return;
+  const { action, target } = el.dataset;
+  if (action === "modal_open") modalDemo.open(target);
+  if (action === "modal_close") modalDemo.close();
+  if (action === "state_set") stateDemo.set(target, el);
+  if (action === "toast_show") toastDemo.show(target);
+  if (action === "toast_hide") toastDemo.hide(el.closest(".toast_message"));
 });
-document.querySelectorAll("[data-modal-close]").forEach((btn) => {
-  btn.addEventListener("click", () => modal.setAttribute("data-state", "close"));
-});
-modal.addEventListener("click", (e) => { if (e.target === modal) modal.setAttribute("data-state", "close"); });
-window.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.setAttribute("data-state", "close"); });
 </script>
 </body>
 </html>

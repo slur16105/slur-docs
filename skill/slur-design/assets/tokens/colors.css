@@ -72,6 +72,7 @@
   --color-brand-soft:   var(--color-brand-50);
   --color-on-brand:     var(--color-neutral-0);
   --color-focus-ring:   0 0 0 3px rgba(47, 107, 255, 0.30);
+  --color-overlay:      rgba(11, 13, 15, 0.45);   /* 모달 ::backdrop 등 딤 — 그림자와 같은 잉크색 */
 
   /* Status */
   --color-success:      var(--color-green-500);
@@ -119,6 +120,7 @@
   --color-brand-soft:   rgba(47, 107, 255, 0.16);
   --color-on-brand:     var(--color-neutral-0);
   --color-focus-ring:   0 0 0 3px rgba(92, 141, 255, 0.45);
+  --color-overlay:      rgba(0, 0, 0, 0.60);
 
   --color-success-soft: rgba(22, 163, 74, 0.16);
   --color-warning-soft: rgba(217, 119, 6, 0.16);

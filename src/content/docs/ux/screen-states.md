@@ -59,15 +59,18 @@ description: SLUR UX/UI System에서 모든 화면이 가져야 할 사용자 �
 
 ```html
 <section class="list_program" data-state="loading">
-    <div class="i_loading">불러오는 중…</div>
-    <div class="i_empty">등록된 프로그램이 없습니다.</div>
-    <div class="i_error">불러오지 못했습니다. 다시 시도해 주세요.</div>
+    <div class="i_status" role="status">
+        <p class="i_loading">불러오는 중…</p>
+        <p class="i_empty">등록된 프로그램이 없습니다.</p>
+        <p class="i_error">불러오지 못했습니다. 다시 시도해 주세요.</p>
+    </div>
     <ul class="i_body"><!-- 정상 상태 목록 --></ul>
 </section>
 ```
 
-- 상태는 `data-state` 값으로 선언합니다.
-- CSS는 상태 값을 해석해 해당 영역만 노출합니다.
+- 상태는 `data-state` 값으로 선언합니다. 값은 넷 — `loading` / `empty` / `error` / `success`(정상).
+- 안내문 셋은 **항상 렌더되는 `i_status`(`role="status"`) 상자 안에** 둡니다. 상자가 미리 있어야 상태가 바뀔 때 보조 기술이 읽어 줍니다 — [ARIA 최소 사용 원칙](/a11y/aria-policy/)의 라이브 영역 규칙과 같은 이유입니다.
+- CSS는 상태 값을 해석해 해당 영역만 노출합니다. 이 전환 규칙은 공통 레이어(`global.css`)가 담당하므로 블록마다 다시 쓰지 않습니다. 지금 상태가 아닌 안내문은 `display:none`으로 숨깁니다 — 읽히면 안 되는 문장이므로 접근성 트리에서도 빠지는 것이 맞습니다.
 - 하나의 구조 안에서 상태만 전환되며, 구조는 바뀌지 않습니다.
 
 ---

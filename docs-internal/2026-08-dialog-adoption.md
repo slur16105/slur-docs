@@ -40,3 +40,20 @@
 | `appearance: base-select` | 향상 전용 | Safari 27 예정 |
 
 판단 리트머스는 **Safari 지원 여부** 하나다 (테스트 범위: Chrome + Safari).
+
+## 모달 중 토스트 — 금지 결정 (2026-08-22)
+
+**규칙**: 모달이 열려 있는 동안 토스트를 띄우지 않는다. 모달 안 상태 변화는 모달 안에서 알린다(버튼 글자·아이콘 변화 + 글자/`aria-label` 동반, `alert.m_inline`, 인라인 오류). 모달과 무관한 알림은 닫힌 뒤 띄우고, 끼어들어야 하는 알림(세션 만료)은 모달을 닫고 경고 모달로 대체한다.
+
+**검토한 것**
+- 순서를 정한 표준은 없다. APG·WCAG는 알림이 포커스를 옮기지 않을 것(4.1.3), 떠 있는 레이어가 포커스를 가리지 말 것(2.4.11)만 요구한다.
+- HTML 표준 top layer: `showModal()` 모달과 `popover`는 같은 최상위 레이어에 **나중에 연 것이 위**. 그러나 모달이 열리면 dialog 바깥 DOM은 전부 "blocked by a modal dialog"(inert). 따라서 모달 뒤에 연 토스트 popover는 **보이지만 inert** — 닫기 버튼 무반응, Tab·가상 커서 불가. Chrome·Firefox 재현 확인(HTMHell 2025-12). 또한 `showModal()`은 열려 있던 `auto` 팝오버를 닫는다(spec "hide popovers until").
+- WHATWG 제안 — "모달보다 위에 있는 top-layer 요소는 inert에서 제외"(whatwg/html #10811, 2024-12 / 중복 #11195 → #9936). 2026-08 현재 열림·미구현. 확정·출시되면 "모달 위 토스트 허용"으로 재검토.
+- 우회법(토스트 컨테이너를 dialog 안으로 옮기기 + `popover="manual"`)은 동작하지만 구조가 복잡해 에이전트가 매번 틀릴 여지가 크다 — 채택하지 않음.
+- 관행은 갈린다: Material(스낵바는 다이얼로그 아래, elevation 낮음) vs Atlassian·Bootstrap·Chakra(z-index 스케일상 토스트가 위). 공개 문서에는 타사 비교를 쓰지 않는다.
+
+**결정 근거**: 슬러 정의에서 답을 끌어낸다 — 토스트 = 흐름을 안 끊는 알림, 모달 = 흐름을 멈춘 상태이므로 둘의 동시 존재는 정의상 모순. 이 규칙이면 브라우저 inert 문제를 통째로 피하고, `popover` 트릭·우회 없이 토스트 CSS가 `position: fixed` + `--z-toast`로 단순해진다. `--z-toast: 600`은 비모달 레이어(드롭다운·스티키·팝오버) 위 용도로 유지.
+
+**"dialog 없이 잘되던 것 아닌가"에 대한 답**: 구 `div.modal_dialog`에서 토스트가 떴던 것은 그 모달이 배경을 잠그지 않았기 때문(접근성 규칙 미충족). 규칙대로 커스텀 오버레이에 `inert`를 걸어도 토스트 컨테이너만 예외로 둘 수는 있으나(dialog에는 없는 선택권), 배경 잠금·Tab 순환·Esc·포커스 복귀를 매번 JS로 짜야 하는 비용이 더 크다고 판단. **dialog 1순위 유지.**
+
+참고: HTML Living Standard(interactive-elements, showModal 절) · whatwg/html #10811 · #11195 · #9998 · HTMHell "Top layer troubles: popover vs. dialog"(2025-12) · Material Design Snackbars · MDN ARIA live regions
