@@ -32,6 +32,10 @@
 
 `global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형), 그리고 `<script src="slur.js" defer>`. 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`·4상태 슬롯 토글은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`과 `patterns/screens/*.html`이 이 순서의 실례다(상대경로). 로컬 확인: 레포 루트에서 `python3 -m http.server 4173` → `http://localhost:4173/system/demo.html`, 화면 조립본은 `http://localhost:4173/skill/slur-design/assets/patterns/screens/index.html`(목차 — 여덟 장).
 
+## 사이트에서 보기
+
+문서 사이트가 `skill/`과 `system/demo.html`을 dev·build 시작 때 `public/`으로 복사해(`scripts/sync-assets.mjs`, `astro.config.mjs`의 통합 훅) 같은 경로로 서빙한다 — 데모 `https://docs.slur.co.kr/system/demo.html`, 조립본 목차 `https://docs.slur.co.kr/skill/slur-design/assets/patterns/screens/index.html`, 스킬 원본 `https://docs.slur.co.kr/skill/slur-guidelines/SKILL.md`. 사이트의 「디자인시스템」 섹션(`/design/`)이 토큰·컴포넌트·조립본을 프레임으로 보여 주고, `/skill/install.sh`가 두 스킬을 `.claude/skills/`에 설치한다(`manifest.txt` 기반 — 저장소가 비공개라 사이트가 공개 배포 경로).
+
 ## 동작 — 네이티브 → slur.js → 위임
 
 모달은 `<dialog>`(`[open]` 정본), 드롭다운 열고 닫기는 `popover="auto"`(`:popover-open` 정본), 아코디언은 `<details>`. 남는 동작(탭 방향키·메뉴 방향키와 위치·툴팁·토스트 큐·드로어 inert·테마)은 `slur.js`. 콤보박스처럼 복잡한 위젯만 검증된 헤드리스 라이브러리에 위임하되 모양·네이밍·`data-state`는 슬러. 어떤 JS 라이브러리에도 의존하지 않는다. 위치 계산은 slur.js가 한다 — CSS anchor positioning은 Safari 26에서 지원되나 popover 트리거의 암묵적 앵커 지원이 확인되지 않아 보류(확인되면 CSS로 이전).

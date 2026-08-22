@@ -3,6 +3,9 @@
 
 .content-panel .sl-container {max-width: none;}
 
+/* 표 셀 — 한국어는 글자 사이 어디서나 줄이 바뀌어 좁은 열이 한 글자씩 세로로 쌓인다(keep-all: 어절 단위로만 바꿈). Starlight 표는 overflow:auto라 넓어지면 가로 스크롤 */
+.sl-markdown-content :is(th, td) {word-break: keep-all;}
+
 .header:where(.astro-vrdttmbt) {border-bottom: 1px solid var(--color-border-subtle); backdrop-filter: blur(12px); background-color: color-mix(in srgb, var(--sl-color-black) 72%, transparent);}
 .header .site-title {color: var(--sl-color-white); gap: 8px;}
 .header .site-title img {max-height: 20px;}
@@ -26,3 +29,22 @@
 html[data-theme="dark"] .layout_footer .l_logo .m_dark {display: inline-block;}
 html[data-theme="dark"] .layout_footer .l_logo .m_light {display: none;}
 
+
+/* 디자인시스템 섹션 — 조립본·데모 프레임(src/components/ScreenFrame.astro). 폭 모드 data-state="desktop|mobile" */
+.preview_frame {display: flex; flex-direction: column; margin: 24px 0; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-xs); overflow: hidden;}
+.preview_frame .i_head {display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-sunken); font-size: var(--text-sm);}
+.preview_frame .i_title {font-weight: var(--weight-medium); color: var(--color-text-secondary);}
+.preview_frame .i_actions {display: flex; align-items: center; gap: var(--space-12);}
+.preview_frame .i_toggle {display: inline-flex; align-items: center; height: 2rem; padding: 0 var(--space-12); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); font: inherit; font-size: var(--text-xs); font-weight: var(--weight-medium); color: var(--color-text-secondary); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);}
+.preview_frame .i_toggle:hover {background: var(--color-surface-hover);}
+.preview_frame .i_toggle[aria-pressed="true"] {border-color: var(--color-brand); background: var(--color-brand-soft); color: var(--color-text-brand);}
+.preview_frame .i_open {font-size: var(--text-xs); font-weight: var(--weight-medium); color: var(--color-text-brand); text-decoration: none;}
+.preview_frame .i_open:hover {text-decoration: underline;}
+.preview_frame .i_body {display: flex; justify-content: center; height: 640px; background: var(--color-surface-sunken);}
+.preview_frame.m_tall .i_body {height: 780px;}
+.preview_frame .i_frame {display: block; width: 100%; height: 100%; border: 0; background: var(--color-surface-page); transition: width var(--duration-base) var(--ease-standard);}
+.preview_frame[data-state="mobile"] .i_frame {width: 375px; border-left: 1px solid var(--color-border-subtle); border-right: 1px solid var(--color-border-subtle);}
+
+/* 디자인시스템 섹션 — 토큰 색·그림자 칸(src/components/TokenSwatch.astro). 값은 사이트에 배선된 실제 토큰(--swatch) */
+.token_swatch {display: inline-block; width: 1.125em; height: 1.125em; margin-right: var(--space-8); border: 1px solid var(--color-border-default); border-radius: var(--radius-4); background: var(--swatch); vertical-align: -0.2em;}
+.token_swatch.m_shadow {background: var(--color-surface-card); box-shadow: var(--swatch);}

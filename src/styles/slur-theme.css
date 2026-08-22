@@ -10,6 +10,7 @@
 @import url("../../skill/slur-design/assets/tokens/spacing.css");
 @import url("../../skill/slur-design/assets/tokens/radius.css");
 @import url("../../skill/slur-design/assets/tokens/shadows.css");
+@import url("../../skill/slur-design/assets/tokens/motion.css");
 
 /* 폰트·그림자 */
 :root { --sl-font: var(--font-sans); --sl-shadow-sm: var(--shadow-sm); --sl-shadow-md: var(--shadow-md); --sl-shadow-lg: var(--shadow-lg); }

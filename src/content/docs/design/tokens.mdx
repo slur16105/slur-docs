@@ -1,0 +1,235 @@
+---
+title: 디자인 토큰
+description: SLUR Design System의 디자인 토큰 — 프리미티브/시맨틱 두 층, 색·타이포·간격·라디우스·그림자·모션·z-index·브레이크포인트의 실제 이름과 값, 단위 기준과 운영 원칙을 정리합니다.
+---
+
+import TokenSwatch from '../../../components/TokenSwatch.astro';
+
+토큰은 **의미를 담은 단위**입니다([토큰 및 변수 전략](/css/tokens/)).
+이 문서는 슬러 디자인이 실제로 가진 토큰의 **이름과 값**을 정리합니다 —
+여기 없는 토큰은 존재하지 않는 것이며, 지어내지 않습니다.
+
+색·그림자 칸은 이 사이트에 배선된 실제 토큰을 그대로 그립니다.
+오른쪽 위에서 테마를 바꾸면 칸도 함께 바뀝니다.
+
+---
+
+## 두 층 — 프리미티브와 시맨틱
+
+색 토큰은 두 층입니다.
+
+| 층 | 이름 | 쓰임 |
+|---|---|---|
+| 프리미티브 | `--color-neutral-400`, `--color-brand-500`처럼 **번호**가 붙은 원색 | 시맨틱 층의 내부 구현. **컴포넌트·화면 코드에서 직접 쓰지 않습니다** |
+| 시맨틱 | `--color-text-primary`, `--color-surface-card`처럼 **역할** 이름 | UI를 만들 때 쓰는 유일한 층. 테마별로 다른 프리미티브를 가리킵니다 |
+
+다크 모드는 `<html data-theme="dark">`에서 **시맨틱 층만** 재배선합니다.
+같은 프리미티브, 다른 단계 — 컴포넌트 CSS는 손대지 않습니다.
+다크 배경은 순흑이 아닌 `neutral-900`입니다(순흑 위 밝은 글자는 번짐으로 눈을 피로하게 합니다).
+
+---
+
+## 색
+
+### 텍스트
+
+| 토큰 | 역할 |
+|---|---|
+| <TokenSwatch name="--color-text-primary" /> | 본문·제목 |
+| <TokenSwatch name="--color-text-secondary" /> | 보조 설명, 표 머리글 |
+| <TokenSwatch name="--color-text-muted" /> | 자리 표시자, 메타 정보 |
+| <TokenSwatch name="--color-text-inverse" /> | 반전 면(`surface-inverse`) 위 글자 |
+| <TokenSwatch name="--color-text-brand" /> | 링크, 강조 글자 |
+
+### 면
+
+| 토큰 | 역할 |
+|---|---|
+| <TokenSwatch name="--color-surface-page" /> | 페이지 배경 |
+| <TokenSwatch name="--color-surface-card" /> | 카드·입력·버튼 면 |
+| <TokenSwatch name="--color-surface-sunken" /> | 한 단 꺼진 면 — 앱 배경, 코드 |
+| <TokenSwatch name="--color-surface-hover" /> | 호버·선택 행 |
+| <TokenSwatch name="--color-surface-inverse" /> | 반전 면 — 어두운 토스트 |
+| <TokenSwatch name="--color-surface-overlay" /> | 모달 `::backdrop`·드로어 딤(테마 무관, 어두운 반투명) |
+
+### 보더
+
+| 토큰 | 역할 |
+|---|---|
+| <TokenSwatch name="--color-border-subtle" /> | 구분선, 카드 테두리 |
+| <TokenSwatch name="--color-border-default" /> | 입력·버튼 테두리 |
+| <TokenSwatch name="--color-border-strong" /> | 강조 테두리 |
+| <TokenSwatch name="--color-border-focus" /> | 포커스된 입력의 테두리 |
+
+### 브랜드
+
+| 토큰 | 역할 |
+|---|---|
+| <TokenSwatch name="--color-brand" /> | 기본 버튼, 활성 탭 |
+| <TokenSwatch name="--color-brand-hover" /> | 호버 |
+| <TokenSwatch name="--color-brand-active" /> | 누름 |
+| <TokenSwatch name="--color-brand-soft" /> | 연한 면 — 배지, 알림 배경, 선택 항목 |
+| <TokenSwatch name="--color-on-brand" /> | 브랜드 면 위 글자 |
+| <TokenSwatch name="--color-focus-ring" kind="shadow" /> | 포커스 링(`box-shadow` 값) — `global.css`가 한 곳에서 씁니다 |
+
+### 상태
+
+| 토큰 | 역할 |
+|---|---|
+| <TokenSwatch name="--color-success" /> <TokenSwatch name="--color-success-soft" /> | 성공 — 솔리드 / 연한 면 |
+| <TokenSwatch name="--color-warning" /> <TokenSwatch name="--color-warning-soft" /> | 경고 — 솔리드 / 연한 면 |
+| <TokenSwatch name="--color-danger" /> <TokenSwatch name="--color-danger-soft" /> | 위험·오류 — 솔리드 / 연한 면 |
+| <TokenSwatch name="--color-on-success" /> <TokenSwatch name="--color-on-warning" /> <TokenSwatch name="--color-on-danger" /> | 상태색 **솔리드 면 위 글자**. 면이 테마와 무관하게 고정이라 글자도 고정 |
+
+상태색 면 위에 리터럴 `#fff`를 쓰지 않고 `on-` 토큰을 씁니다.
+`on-warning`은 진한 색(대비 5.9:1), `on-danger`는 흰색(4.8:1)입니다.
+`on-success`의 흰색은 3.3:1로 AA 미달이지만 룩 통일을 우선한 결정이며, AA가 필요해지면 솔리드용 그린을 한 단계 어둡게 조정합니다.
+
+### 차트
+
+범주형 계열 전용 다섯 슬롯입니다. 상태색과 분리돼 있습니다.
+
+| 토큰 | 계열 |
+|---|---|
+| <TokenSwatch name="--color-chart-1" /> | 브랜드 |
+| <TokenSwatch name="--color-chart-2" /> | 오렌지 |
+| <TokenSwatch name="--color-chart-3" /> | 틸 |
+| <TokenSwatch name="--color-chart-4" /> | 옐로 |
+| <TokenSwatch name="--color-chart-5" /> | 핑크 |
+
+- 순서는 고정(1→5)입니다. 계열이 다섯을 넘으면 "기타"로 묶거나 화면을 나눕니다.
+- `success`·`warning`·`danger`를 계열색으로 재사용하지 않습니다.
+- 라이트 면에서 3·4·5는 대비 3:1 미만입니다 — 색만으로 계열을 구분시키지 말고 직접 라벨·범례·표를 함께 둡니다.
+- 다크에서는 같은 색상을 어두운 면에 맞춰 한 단계 조정한 값으로 바뀝니다(자동 반전이 아닙니다).
+- 차트 라이브러리에는 값을 읽어 주입합니다.
+
+```js
+const chart1 = getComputedStyle(document.documentElement).getPropertyValue('--color-chart-1').trim();
+```
+
+---
+
+## 타이포그래피
+
+글자 크기는 사용자의 글꼴 크기 선호에 반응해야 하므로 **rem**입니다(루트 100% 유지, % 환산 트릭 없음). 괄호 안은 루트 16px 기준 환산값입니다.
+
+| 토큰 | 값 | 용도 |
+|---|---|---|
+| `--font-sans` | `"Noto Sans KR", ui-sans-serif, system-ui, …` | 단일 패밀리. 웹폰트는 소비자 페이지가 로드 |
+| `--text-xs` | 0.75rem (12) | 배지, 메타, 캡션 — 허용되는 최소 크기 |
+| `--text-sm` | 0.875rem (14) | 컨트롤, 보조 본문, 표 |
+| `--text-base` | 1rem (16) | 본문 |
+| `--text-lg` | 1.125rem (18) | 카드 제목, 소제목 |
+| `--text-2xl` | 1.5rem (24) | 페이지 제목(앱) |
+| `--text-3xl` | 1.875rem (30) | 큰 제목, 통계 숫자 |
+| `--text-4xl` | 2.25rem (36) | 히어로 |
+| `--weight-medium` · `-semibold` · `-bold` | 500 · 600 · 700 | 기본 굵기 400은 선언 없음 |
+| `--leading-normal` · `-relaxed` | 1.5 · 1.7 | 본문 · 장문(문서 사이트 prose) |
+| `--tracking-tight` · `-snug` · `-wide` | -0.02em · -0.01em · 0.04em | 큰 제목 · 중간 제목 · 대문자 라벨 |
+
+[타이포그래피 선정 기록](/reference/typography-choice/)에 Noto Sans KR을 고른 근거가 있습니다.
+
+---
+
+## 간격
+
+컴포넌트·텍스트 주변 간격 전용입니다. 글자 크기 선호에 따라 함께 커져야 정보 전달이 유지되므로 **rem**이고, 이름은 환산 px값입니다.
+
+| 토큰 | 값 |
+|---|---|
+| `--space-4` | 0.25rem (4) |
+| `--space-8` | 0.5rem (8) |
+| `--space-12` | 0.75rem (12) |
+| `--space-16` | 1rem (16) |
+| `--space-20` | 1.25rem (20) |
+| `--space-24` | 1.5rem (24) |
+
+**레이아웃 구조 간격**(섹션 여백, 그리드 갭, 사이드바 폭)은 토큰이 아니라 **px를 직접** 씁니다 — `--space-32` 같은 토큰은 없습니다. 구조 간격은 글자 크기와 함께 커질 이유가 없기 때문입니다.
+
+---
+
+## 라디우스
+
+모서리는 정보 전달과 무관한 시각 속성이므로 **px**입니다.
+
+| 토큰 | 값 | 쓰임 |
+|---|---|---|
+| `--radius-4` | 4px | 배지, 코드, 작은 칸 |
+| `--radius-8` | 8px | 컨트롤(버튼·입력), 카드 안 요소 |
+| `--radius-12` | 12px | 카드, 모달, 표 래퍼 |
+| `--radius-full` | 9999px | 완전한 원(필·아바타) — 유일한 개념값 |
+
+## 그림자
+
+낮은 대비의 부드러운 고도입니다.
+
+| 토큰 | 쓰임 |
+|---|---|
+| <TokenSwatch name="--shadow-xs" kind="shadow" /> | 카드 — 테두리를 살짝 보강 |
+| <TokenSwatch name="--shadow-sm" kind="shadow" /> | 카드·표 래퍼, 사이드바 |
+| <TokenSwatch name="--shadow-md" kind="shadow" /> | 드롭다운·메뉴·팝오버, 들어 올린 카드 |
+| <TokenSwatch name="--shadow-lg" kind="shadow" /> | 모달·드로어 |
+
+## 모션
+
+| 토큰 | 값 | 쓰임 |
+|---|---|---|
+| `--duration-fast` | 120ms | 호버, 작은 상태 변화 |
+| `--duration-base` | 200ms | 기본 |
+| `--duration-slow` | 280ms | 큰 면, 오버레이 |
+| `--ease-standard` | `cubic-bezier(0.2, 0, 0, 1)` | 기본(감속 느낌) |
+| `--ease-in` | `cubic-bezier(0.4, 0, 1, 1)` | 가속 — 퇴장 |
+| `--ease-out` | `cubic-bezier(0, 0, 0.2, 1)` | 감속 — 등장 |
+| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | 살짝 튕김 — 절제해서 |
+
+`prefers-reduced-motion`은 `global.css`가 처리합니다([모션 원칙](/ux/motion/)).
+
+---
+
+## z-index
+
+역할별 층입니다. 100 간격이라 필요하면 사이에 끼울 수 있습니다. 컴포넌트 코드에 생 z-index 값을 쓰지 않습니다.
+
+| 토큰 | 값 | 층 |
+|---|---|---|
+| `--z-base` | 0 | 기본 |
+| `--z-dropdown` | 100 | 메뉴·셀렉트 |
+| `--z-sticky` | 200 | 고정 헤더·툴바 |
+| `--z-overlay` | 300 | 딤 배경 |
+| `--z-modal` | 400 | 다이얼로그·시트 |
+| `--z-popover` | 500 | 팝오버·툴팁(모달 위) |
+| `--z-toast` | 600 | 알림 — 항상 맨 위 |
+
+`<dialog>`와 `popover`는 최상위 레이어(top layer)에 오르므로 z-index가 필요 없습니다. 토큰은 그 밖의 것(고정 헤더, 커스텀 오버레이)에 씁니다.
+
+## 브레이크포인트
+
+| 토큰 | 값 |
+|---|---|
+| `--breakpoint-sm` | 640px |
+| `--breakpoint-md` | 768px |
+| `--breakpoint-lg` | 1024px |
+| `--breakpoint-xl` | 1280px |
+
+CSS 변수는 `@media` 안에서 쓸 수 없으므로 **미디어쿼리에는 px 리터럴을 직접** 씁니다. 토큰은 참조용이자 JS(`matchMedia`)용입니다([반응형 규칙](/css/responsive/)).
+
+---
+
+## 단위 기준
+
+| 단위 | 쓰는 곳 | 기준 질문 |
+|---|---|---|
+| **rem** | 글자 크기, 컨트롤 높이·패딩(2/2.5/3rem), 텍스트 주변 간격(space 토큰) | "글자 크기를 키웠을 때 함께 커져야 정보 전달이 유지되는가" |
+| **px** | 라디우스, 1px 보더, 그림자, 브레이크포인트, 레이아웃 구조 간격 | 글자 크기와 무관한 시각·구조 값인가 |
+| **em** | 텍스트와 나란히 의미를 전달하는 아이콘 | 부모 글자 크기에 비례해야 하는가 |
+
+루트 폰트 크기는 100%를 유지하고, rem 토큰에는 px 환산 주석을 답니다. 배경은 [rem 기준 글](https://blog.slur.co.kr/260107-rem/)에 있습니다.
+
+---
+
+## 운영 원칙
+
+- **실제 사용처가 생길 때만** 토큰을 추가합니다. 미사용 스케일은 지우고, 반복되는 생값은 스케일로 스냅합니다. z-index만 층 계약으로 전체를 유지합니다.
+- **새 색상값을 만들지 않습니다.** 새 역할이 필요하면 토큰 파일에서 시맨틱 이름을 추가하고 프리미티브를 가리키게 합니다.
+- **컴포넌트 CSS 안에서 토큰 값을 재정의하지 않습니다.** 값이 바뀌어야 하면 토큰 파일에서 바꿉니다.
+- 토큰은 실명으로 참조합니다. 공통 레이어(`global.css`)만 토큰이 없는 프로젝트를 위해 `var(--x, 폴백)`을 씁니다.

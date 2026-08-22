@@ -1,0 +1,10 @@
+---
+/**
+ * TokenSwatch — 사이트에 배선된 슬러 토큰(slur-theme.css가 import)을 그대로 그리는 색·그림자 칸 + 토큰 이름.
+ * 값은 CSS가 읽으므로 토큰이 바뀌면 문서도 따라온다(사이트 테마를 따라 라이트/다크 전환).
+ * kind="shadow"는 box-shadow 값(--shadow-*, --color-focus-ring). 스타일은 src/styles/custom.css(.token_swatch).
+ */
+interface Props { name: string; kind?: 'color' | 'shadow'; }
+const { name, kind = 'color' } = Astro.props;
+---
+<span class:list={['token_swatch', { m_shadow: kind === 'shadow' }]} style={`--swatch: var(${name})`} aria-hidden="true"></span><code>{name}</code>

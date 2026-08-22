@@ -1,0 +1,53 @@
+---
+/**
+ * ScreenFrame — 조립본·데모 HTML(public/skill, public/system — scripts/sync-assets.mjs가 복사)을
+ * 문서 안에서 그대로 보여 주는 틀.
+ * 블록 preview_frame: i_head(제목·동작) / i_body > i_frame(iframe). 폭 모드는 data-state="desktop|mobile".
+ * 사이트 다크 모드(<html data-theme>)를 같은 출처의 프레임 문서에 전파한다(조립본은 자체 data-theme를 읽는다).
+ * not-content: Starlight 본문 간격 규칙(.sl-markdown-content * + *)이 내부 요소에 닿지 않게 하는 Starlight 이스케이프.
+ * 스타일은 src/styles/custom.css(.preview_frame).
+ */
+interface Props { src: string; title: string; tall?: boolean; }
+const { src, title, tall = false } = Astro.props;
+---
+<div class:list={['preview_frame', 'not-content', { m_tall: tall }]} data-state="desktop">
+	<div class="i_head">
+		<span class="i_title">{title}</span>
+		<div class="i_actions">
+			<button type="button" class="i_toggle" data-action="frame_width" aria-pressed="false">모바일 폭 375</button>
+			<a class="i_open" href={src} target="_blank" rel="noopener">새 탭에서 열기 ↗</a>
+		</div>
+	</div>
+	<div class="i_body">
+		<iframe class="i_frame" src={src} title={title} loading="lazy"></iframe>
+	</div>
+</div>
+
+<script>
+	// 페이지에 프레임이 여러 개여도 한 번만 실행된다(Astro가 모듈로 묶음). 이벤트는 document에 위임.
+	const FRAME = '.preview_frame .i_frame';
+	const syncTheme = (frame: HTMLIFrameElement) => {
+		try {
+			const doc = frame.contentDocument;
+			if (!doc || !doc.documentElement) return;
+			if (document.documentElement.dataset.theme === 'dark') doc.documentElement.dataset.theme = 'dark';
+			else delete doc.documentElement.dataset.theme;
+		} catch { /* 다른 출처면 건드리지 않는다 */ }
+	};
+	const syncAll = () => document.querySelectorAll<HTMLIFrameElement>(FRAME).forEach(syncTheme);
+	document.addEventListener('load', (e) => {
+		const t = e.target;
+		if (t instanceof HTMLIFrameElement && t.matches(FRAME)) syncTheme(t);
+	}, true);
+	new MutationObserver(syncAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+	syncAll();
+	document.addEventListener('click', (e) => {
+		const btn = (e.target as Element).closest<HTMLButtonElement>('[data-action="frame_width"]');
+		if (!btn) return;
+		const block = btn.closest<HTMLElement>('.preview_frame');
+		if (!block) return;
+		const mobile = block.dataset.state !== 'mobile';
+		block.dataset.state = mobile ? 'mobile' : 'desktop';
+		btn.setAttribute('aria-pressed', String(mobile));
+	});
+</script>

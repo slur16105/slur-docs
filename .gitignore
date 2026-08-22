@@ -16,3 +16,7 @@ dist/
 # AI 도구 로컬 설정
 CLAUDE.md
 .claude/
+
+# 사이트 서빙용 복사본 (scripts/sync-assets.mjs가 빌드·dev 전에 skill/·system/demo.html에서 생성)
+public/skill/
+public/system/

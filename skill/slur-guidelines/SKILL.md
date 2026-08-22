@@ -20,6 +20,8 @@ SLUR은 네 층으로 나뉜다. 이 스킬은 **guidelines** 층이고, 나머�
 | components | 컴포넌트 CSS | `slur-design` |
 | patterns | 조합 레시피(후순위) | `slur-design` |
 
+문서 사이트 `https://docs.slur.co.kr`가 두 스킬 폴더를 같은 경로로 서빙한다(`/skill/slur-guidelines/SKILL.md`, `/skill/slur-design/...`). 설치: `curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh`(두 스킬 → `.claude/skills/`). 디자인시스템 섹션 `/design/`, AI 퀵스타트 `/design/ai-quickstart/`.
+
 ### 동봉 파일 — `assets/global.css` (공통 레이어)
 
 규칙이 전제하는 최소 CSS를 이 스킬이 직접 동봉한다: 리셋, 폼 컨트롤 상속, **포커스 링 한 쌍**(`outline:none` + 대체 링, 링크·`[tabindex]`·`summary` 포함), `.a11y_hidden`, **4상태 스위치**(블록의 `data-state`가 `loading|empty|error`일 때만 `i_status` 상자 안의 해당 슬롯 `i_loading`/`i_empty`/`i_error`를 보이고 `i_body`를 숨김), `prefers-reduced-motion`. 색·크기는 토큰을 `var(--x, 폴백)`으로 **참조만** 하므로 토큰이 없는 프로젝트(규칙만 적용)에서도 그대로 쓸 수 있다. 룩은 바꾸지 않는다.

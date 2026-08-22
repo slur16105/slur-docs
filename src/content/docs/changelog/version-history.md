@@ -9,6 +9,31 @@ SLUR UX/UI System의
 
 ---
 
+## v1.11.0 — 2026.08
+
+### 사이트 「디자인시스템」 섹션 · AI 퀵스타트 · 스킬 배포 경로
+
+지금까지 스킬 폴더(`skill/`)에만 있던 디자인시스템 — 토큰·컴포넌트 15개·패턴·화면 조립본 여덟 장 — 을 **문서 사이트에서 볼 수 있게** 했다. 사이트는 여전히 문법이 본문이고, 디자인시스템은 그 위의 한 섹션이다(별도 사이트를 만들지 않음 — 양이 작고 읽는 사람이 같다). 저장소가 비공개라 **사이트가 두 스킬의 공개 배포 경로**가 됐다.
+
+#### 사이트
+
+- **사이드바 「디자인시스템」 그룹 신설** — [개요](/design/overview/)(네 층·호칭·로드 순서·핵심 규칙·가져오기) / [디자인 토큰](/design/tokens/)(두 층, 실제 이름·값 전부, 단위 기준, 운영 원칙) / [컴포넌트](/design/components/)(색인 표 — 블록·변형·상태의 정본, 라이브 데모, 4상태·토스트·모달 마크업) / [패턴 · 화면 조립본](/design/screens/)(앱 셸·인증 셸, 여덟 장 프레임, 공통 규칙, 복사해서 시작) / [AI 퀵스타트](/design/ai-quickstart/)(설치, 호칭 세 가지와 예시 프롬프트, 결과 점검, 스택별 메모)
+- **조립본·데모를 사이트 안에서 바로 본다** — `ScreenFrame.astro`(블록 `preview_frame`: iframe, 「모바일 폭 375」 토글 `data-state="desktop|mobile"`, 새 탭 열기, 사이트 다크 모드를 같은 출처 프레임 문서의 `data-theme`로 전파)
+- **토큰 문서의 색·그림자 칸은 사이트에 배선된 실제 토큰을 그린다** — `TokenSwatch.astro`(`token_swatch`, `--swatch` 변수 하나). 토큰 값이 바뀌어도 문서가 따라오고, 테마를 바꾸면 칸도 바뀐다
+- **`scripts/sync-assets.mjs`** — dev·build 시작 때(`astro.config.mjs`의 통합 훅 `astro:config:setup` — 빌드 명령이 무엇이든 같이 돈다) `skill/` 전체와 `system/demo.html`을 `public/`으로 복사해 같은 경로로 서빙(`/skill/...`, `/system/demo.html`). 조립본이 `../../../../slur-guidelines/...` 상대경로로 두 스킬을 넘나드므로 트리를 그대로 옮긴다. 복사본은 gitignore — 원본은 한 곳
+- **스킬 설치 스크립트** `https://docs.slur.co.kr/skill/install.sh` — `manifest.txt`(빌드 시 생성)의 파일 목록을 같은 경로로 내려받아 `.claude/skills/`에 두 스킬을 둔다(`SLUR_SKILLS_DIR`로 위치 변경). 하는 일은 curl뿐
+- 첫 화면에 「디자인시스템 · 화면 조립본」 버튼과 카드, 「문서 읽는 방법」에 섹션 안내, README에 항목 추가
+- 표 셀에 `word-break: keep-all` — 한국어는 글자 사이 어디서나 줄이 바뀌어 좁은 열이 한 글자씩 세로로 쌓이던 것(색인 표의 「컴포넌트」 열). Starlight 표는 `overflow: auto`라 넓어지면 가로 스크롤
+- `slur-theme.css`에 motion 토큰 import — `custom.css`가 `--duration-fast`·`--ease-standard`를 참조하고 있었으나 정의가 없어 전환이 무시되던 것
+
+#### 스킬
+
+- `slur-design/SKILL.md`·`slur-guidelines/SKILL.md`에 사이트·설치 경로 한 줄, `system/README.md`에 「사이트에서 보기」, `slur.js` 버전 1.11.0. 규칙 변경 없음
+
+#### 검증
+
+- `npm run build` Complete(`dist/skill/`·`dist/system/` 포함). Chrome에서 다섯 페이지 렌더, 프레임 로드·모바일 폭 토글·다크 전파, 토큰 칸 테마 전환 확인
+
 ## v1.10.0 — 2026.08
 
 ### 화면 조립본 — 회원가입 · 비밀번호 재설정 · 상세/편집 · 온보딩

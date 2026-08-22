@@ -1,12 +1,15 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { syncAssets } from './scripts/sync-assets.mjs';
 const GA_ID = 'G-GHY00755Y6';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.slur.co.kr',
 	integrations: [
+		// skill/·system/demo.html → public/ 복사(사이트가 같은 경로로 서빙). dev·build 시작마다 실행 — scripts/sync-assets.mjs 참고
+		{ name: 'slur-sync-assets', hooks: { 'astro:config:setup': () => { syncAssets(); } } },
 		starlight({
 			title: 'UX/UI System',
 			logo: {
@@ -150,6 +153,17 @@ export default defineConfig({
 						{ label: "모션 원칙", slug: "ux/motion" },
 						{ label: "기능 절제 원칙", slug: "ux/feature-restraint" },
 						{ label: "폼 입력 경험", slug: "ux/form-ux" },
+					],
+				},
+				{
+					label: "디자인시스템",
+					collapsed: true,
+					items: [
+						{ label: "개요", slug: "design/overview" },
+						{ label: "디자인 토큰", slug: "design/tokens" },
+						{ label: "컴포넌트", slug: "design/components" },
+						{ label: "패턴 · 화면 조립본", slug: "design/screens" },
+						{ label: "AI 퀵스타트", slug: "design/ai-quickstart" },
 					],
 				},
 				{
