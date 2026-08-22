@@ -7,23 +7,24 @@
    로드 순서: global → tokens → components → 이 파일 → 페이지 CSS.
    ───────────────────────────────────────────── */
 
-.layout_auth { display: grid; min-height: 100vh; padding: 24px; background: var(--color-surface-sunken); grid-template-rows: auto 1fr auto; justify-items: center; }
-.layout_auth .l_brand { display: flex; align-items: center; gap: var(--space-8); padding: 16px 0; font-weight: var(--weight-bold); color: var(--color-text-primary); text-decoration: none; }
-.layout_auth .l_brand svg { width: 1.5rem; height: 1.5rem; color: var(--color-brand); flex: none; }
-.layout_auth .l_main { display: flex; width: 100%; max-width: 400px; flex-direction: column; align-self: center; }
+/* 로고 → 카드 → 하단 링크를 한 묶음으로 세로 가운데. auto 마진이라 내용이 화면보다 길어지면 위에서부터 자연스럽게 흐른다(잘림 없음) */
+.layout_auth { display: flex; min-height: 100vh; padding: 24px; background: var(--color-surface-sunken); flex-direction: column; align-items: center; }
+.layout_auth .l_brand { display: flex; align-items: center; margin: auto 0 28px; color: var(--color-text-primary); text-decoration: none; }
+.layout_auth .l_main { display: flex; width: 100%; max-width: 400px; flex-direction: column; }
 .layout_auth .l_card { padding: 32px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-sm); }
-.layout_auth .l_foot { display: flex; gap: var(--space-16); padding: 16px 0; font-size: var(--text-xs); color: var(--color-text-muted); }
+.layout_auth .l_foot { display: flex; gap: var(--space-16); margin: 24px 0 auto; font-size: var(--text-xs); color: var(--color-text-muted); }
 .layout_auth .l_foot a { color: var(--color-text-secondary); text-decoration: none; }
 .layout_auth .l_foot a:hover { color: var(--color-text-primary); text-decoration: underline; }
 
 @media (max-width: 639px) {
   .layout_auth { padding: 16px; }
+  .layout_auth .l_brand { margin-bottom: 20px; }
   .layout_auth .l_card { padding: 24px 20px; }
 }
 
 /* 브랜드 로고 — assets/brand/logo.svg(라이트) · logo-white.svg(다크)를 img 두 장으로 두고 테마에 따라 하나만 보인다.
    (mask로 칠하면 한 장으로 되지만 CORS 이미지라 file://로 열었을 때 안 그려진다.) 비율 416:109. 이름은 l_logo가 role="img"로 갖는다 */
-.layout_auth .l_logo { display: inline-flex; height: 26px; }
+.layout_auth .l_logo { display: inline-flex; height: 28px; }
 .layout_auth .l_logo img { display: block; height: 100%; width: auto; }
 .layout_auth .l_logo .l_logo_dark { display: none; }
 [data-theme="dark"] .layout_auth .l_logo .l_logo_light { display: none; }
