@@ -22,7 +22,7 @@ dialog.modal_dialog[open]::backdrop { opacity: 1; }
 /* 대안 — 커스텀 오버레이(div). 열림/닫힘은 data-state, 배경 inert·Tab 순환·포커스 복귀는 JS가 직접 */
 div.modal_dialog { display: flex; align-items: center; justify-content: center; padding: var(--space-24); background: var(--color-surface-overlay); position: fixed; inset: 0; z-index: var(--z-overlay); opacity: 0; pointer-events: none; transition: opacity var(--duration-base) var(--ease-standard); }
 div.modal_dialog[data-state="open"] { opacity: 1; pointer-events: auto; }
-div.modal_dialog .i_wrap { width: 100%; max-width: 420px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); position: relative; z-index: var(--z-modal); box-shadow: var(--shadow-lg); opacity: 0; transform: scale(0.96) translateY(8px); transition: transform var(--duration-base) var(--ease-spring), opacity var(--duration-base) var(--ease-standard); }
+div.modal_dialog .i_wrap { width: 100%; max-width: 420px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); box-shadow: var(--shadow-lg); opacity: 0; transform: scale(0.96) translateY(8px); transition: transform var(--duration-base) var(--ease-spring), opacity var(--duration-base) var(--ease-standard); }
 div.modal_dialog[data-state="open"] .i_wrap { opacity: 1; transform: scale(1) translateY(0); }
 
 /* 내부 구조 — 두 방식 공통 */

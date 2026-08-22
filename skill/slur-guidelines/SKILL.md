@@ -121,7 +121,7 @@ display → width/height → margin → padding → border → border-radius
 
 - 검증은 **Chrome(크로미움 계열)과 Safari** 두 곳만 한다. **Firefox는 검증·판단 대상이 아니다**(차단이 아니라 표준 기반이라 대체로 동작한다는 전제).
 - 네이티브 웹 기능 채택의 리트머스는 **Safari 지원 여부** 하나다. Firefox 미지원·지연은 무시한다(예: `@starting-style`은 채택).
-- Safari 미지원 기능(2026-08 기준 `closedby="any"`, `popover="hint"`, `appearance: base-select` 등)은 **쓰지 않거나**, 없어도 동작이 성립할 때만 **향상 전용**으로 쓴다. Safari가 지원하면 재평가한다.
+- Safari 미지원 기능(2026-08 기준 `closedby="any"`, `popover="hint"`(WebKit 26.5부터 지원 — 이전 Safari가 남아 있는 동안은 같은 취급), `appearance: base-select` 등)은 **쓰지 않거나**, 없어도 동작이 성립할 때만 **향상 전용**으로 쓴다. Safari가 지원하면 재평가한다.
 
 ---
 

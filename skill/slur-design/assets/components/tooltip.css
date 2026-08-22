@@ -2,11 +2,12 @@
    TOOLTIP — SLUR Design System × slur-guidelines
    tooltip_help: 보조 설명 한 줄(role="tooltip"). 트리거와
    aria-describedby로 연결하고 popover="manual"로 최상위 레이어에 띄운다
-   (popover="hint"는 Safari 미지원이라 쓰지 않는다). 상태 정본은
+   (popover="hint"는 WebKit 26.5에서야 지원 — 이전 Safari를 위해 manual 유지). 상태 정본은
    :popover-open — data-state 없음. 호버·포커스·Esc·위치는 slur.js(tooltip).
    안에 버튼·링크를 넣지 않는다 — 그건 팝오버/다이얼로그다.
    ───────────────────────────────────────────── */
 
-.tooltip_help { display: block; max-width: 240px; margin: 0; padding: var(--space-4) var(--space-8); border: none; border-radius: var(--radius-4); background: var(--color-surface-inverse); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-inverse); position: fixed; inset: auto; overflow: visible; opacity: 0; pointer-events: none; transition: opacity var(--duration-fast) var(--ease-standard), display var(--duration-fast) allow-discrete, overlay var(--duration-fast) allow-discrete; }
-.tooltip_help:popover-open { opacity: 1; pointer-events: auto; }
+/* display는 :popover-open에만(menu.css와 같은 이유) */
+.tooltip_help { max-width: 240px; margin: 0; padding: var(--space-4) var(--space-8); border: none; border-radius: var(--radius-4); background: var(--color-surface-inverse); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-inverse); position: fixed; inset: auto; overflow: visible; opacity: 0; pointer-events: none; transition: opacity var(--duration-fast) var(--ease-standard), display var(--duration-fast) allow-discrete, overlay var(--duration-fast) allow-discrete; }
+.tooltip_help:popover-open { display: block; opacity: 1; pointer-events: auto; }
 @starting-style { .tooltip_help:popover-open { opacity: 0; } }

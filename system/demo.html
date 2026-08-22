@@ -68,6 +68,7 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
 .page_demo .p_skel_row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .page_demo .p_skel_row .p_skel_lines { display: flex; flex: 1; flex-direction: column; gap: 8px; }
 .page_demo .p_skel_row .skeleton:last-child { width: 60%; }
+.page_demo .p_skel_demo { padding: 8px 0; border: 1px dashed var(--color-border-default); border-radius: var(--radius-12); background: var(--color-surface-card); }
 .page_demo .p_chart { display: flex; align-items: flex-end; gap: 12px; height: 120px; padding: 16px; border-radius: var(--radius-12); background: var(--color-surface-card); }
 .page_demo .p_bar { flex: 1; border-radius: 4px 4px 0 0; }
 .page_demo .p_bar:nth-child(1) { height: 80%; background: var(--color-chart-1); }
@@ -76,6 +77,7 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
 .page_demo .p_bar:nth-child(4) { height: 35%; background: var(--color-chart-4); }
 .page_demo .p_bar:nth-child(5) { height: 60%; background: var(--color-chart-5); }
 .page_demo .p_th_action { width: 56px; }
+/* 데모는 PC 기준 카탈로그라 PC-first로 좁힌다 — 제품 페이지는 css.md대로 mobile-first */
 @media (max-width: 768px) {
   .page_demo .p_grid_4 { grid-template-columns: 1fr 1fr; }
   .page_demo .p_grid { grid-template-columns: 1fr; }
@@ -494,11 +496,7 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
       </div>
       <section class="p_state" id="demoState" data-state="loading" aria-label="프로그램 목록">
         <div class="i_status" role="status">   <!-- 항상 렌더되는 상자 — 상태 전환이 보조 기술에 읽힌다 -->
-        <div class="i_loading">
-          <div class="p_skel_row"><span class="skeleton m_circle"></span><div class="p_skel_lines"><span class="skeleton"></span><span class="skeleton"></span></div></div>
-          <div class="p_skel_row"><span class="skeleton m_circle"></span><div class="p_skel_lines"><span class="skeleton"></span><span class="skeleton"></span></div></div>
-          <span class="a11y_hidden">불러오는 중…</span>
-        </div>
+        <p class="i_loading"><span class="spinner" aria-hidden="true"></span> 불러오는 중…</p>   <!-- 로딩 기본 — 스피너 + 읽힐 문장. 스켈레톤은 아래 「선택지」 절 -->
         <div class="i_empty">
           <div class="empty_state">
             <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path></svg></span>
@@ -523,11 +521,19 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
       </section>
     </div>
     <div class="p_section">
-      <h3 class="p_section_title">스피너</h3>
+      <h3 class="p_section_title">스피너 — 문장 옆(위 4상태 기본형) · 단독 · 버튼 안</h3>
       <div class="p_row">
         <span class="spinner" role="status" aria-label="불러오는 중"></span>
         <span class="spinner m_large" role="status" aria-label="불러오는 중"></span>
         <button type="button" class="btn m_primary" data-state="loading"><span class="spinner" aria-hidden="true"></span>저장 중…</button>
+      </div>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">스켈레톤 — 표·카드 목록처럼 모양이 정해진 넓은 영역의 선택지(기본은 스피너+문장). 뼈대 행은 페이지 CSS(p_skel_row), 읽힐 문장은 a11y_hidden으로</h3>
+      <div class="p_skel_demo" role="status">
+        <div class="p_skel_row"><span class="skeleton m_circle"></span><div class="p_skel_lines"><span class="skeleton"></span><span class="skeleton"></span></div></div>
+        <div class="p_skel_row"><span class="skeleton m_circle"></span><div class="p_skel_lines"><span class="skeleton"></span><span class="skeleton"></span></div></div>
+        <span class="a11y_hidden">불러오는 중…</span>
       </div>
     </div>
   </section>
@@ -596,7 +602,7 @@ body { padding: 48px 40px; background: var(--color-surface-sunken); transition: 
 
 <script>
 // 데모 전용 스크립트 — 탭·메뉴·툴팁·토스트·테마 동작은 slur.js가 위임으로 처리한다(별도 코드 없음)
-document.getElementById("demoIndet").indeterminate = true;
+document.getElementById("demoIndet").indeterminate = true;   // indeterminate는 HTML 속성이 없어 JS로만 준다 — id는 JS 연결에만(CSS 선택자로 쓰지 않는다)
 
 document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-action]");

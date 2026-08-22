@@ -6,8 +6,8 @@
    i_status(role="status") 상자 안에 있다 — 상자 자체에는 스타일 없음.
    · 슬롯 기본형 — 문장만 넣은 i_loading/i_empty/i_error의 여백·색 (global.css와 같은 [data-state] 예외)
    · empty_state — 빈/에러 안내 패널(i_empty·i_error 슬롯 안에, 아이콘+제목+설명+행동)
-   · skeleton    — 로딩 자리표시(i_loading 슬롯 안에, 실제 콘텐츠 형태를 흉내)
-   · spinner     — 진행 중 표시(문장 옆·버튼 안·단독)
+   · spinner     — 진행 중 표시. i_loading 기본형은 「spinner + 불러오는 중…」(문장 옆) · 버튼 안 · 단독
+   · skeleton    — 로딩 자리표시의 선택지(표·카드 목록처럼 모양이 정해진 넓은 영역; 뼈대 행은 페이지 CSS가 짠다)
    i_loading에는 읽힐 문장을 하나 둔다(스켈레톤만이면 보조 기술에 읽히지 않음 — a11y_hidden 가능).
    치수는 rem/em(텍스트와 함께 확대), 값은 시맨틱 토큰만.
    ───────────────────────────────────────────── */

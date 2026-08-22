@@ -7,8 +7,10 @@
    slur.js(menu). 사이트 내비게이션에는 쓰지 않는다(role="menu" 금지).
    ───────────────────────────────────────────── */
 
-.menu_action { display: flex; min-width: 180px; margin: 0; padding: var(--space-4); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-8); background: var(--color-surface-card); position: fixed; inset: auto; flex-direction: column; box-shadow: var(--shadow-md); opacity: 0; transform: translateY(-4px); transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), display var(--duration-fast) allow-discrete, overlay var(--duration-fast) allow-discrete; }
-.menu_action:popover-open { opacity: 1; transform: none; }
+/* display는 :popover-open에만 — 기본 규칙에 두면 UA의 [popover]:not(:popover-open) { display: none }을 덮어써
+   닫힌 메뉴가 투명한 채 남아 그 자리의 클릭을 가로챈다(Safari는 포커스도 숨은 항목에 남는다) */
+.menu_action { min-width: 180px; margin: 0; padding: var(--space-4); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-8); background: var(--color-surface-card); position: fixed; inset: auto; flex-direction: column; box-shadow: var(--shadow-md); opacity: 0; transform: translateY(-4px); transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), display var(--duration-fast) allow-discrete, overlay var(--duration-fast) allow-discrete; }
+.menu_action:popover-open { display: flex; opacity: 1; transform: none; }
 @starting-style { .menu_action:popover-open { opacity: 0; transform: translateY(-4px); } }
 
 .menu_action .i_item { display: flex; align-items: center; gap: var(--space-8); width: 100%; padding: var(--space-8) var(--space-12); border: none; border-radius: var(--radius-4); background: transparent; font-size: var(--text-sm); font-weight: normal; line-height: var(--leading-normal); color: var(--color-text-primary); text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard); }

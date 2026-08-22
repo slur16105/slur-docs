@@ -97,7 +97,7 @@
   /* ── 액션 메뉴 ─────────────────────────────────
      <button popovertarget="id" aria-haspopup="menu"> + <div id="id" popover role="menu"> > [role="menuitem"].
      열고 닫기·Esc·바깥 클릭·포커스 복귀는 popover="auto"가 한다. 여기서는 트리거 기준 위치,
-     열리면 첫 항목 포커스, 방향키·Home/End 이동, Tab이면 닫기, 항목 선택 시 닫기. — APG Menu Button */
+     열리면 첫 항목 포커스, 방향키·Home/End 이동, Tab이면 닫기, 항목 선택 시 닫기, Esc 뒤 트리거 포커스 보강. — APG Menu Button */
   const menu = {
     items: (m) => [...m.querySelectorAll('[role="menuitem"]')].filter((i) => !i.disabled && i.getAttribute('aria-disabled') !== 'true'),
     trigger: (m) => document.querySelector(`[popovertarget="${CSS.escape(m.id)}"]`),
@@ -114,6 +114,11 @@
         const m = e.target.closest?.('[popover][role="menu"]');
         if (!m) return;
         if (e.key === 'Tab') { m.hidePopover(); return; }          // 포커스가 안에 있었으므로 트리거로 복귀 → Tab은 거기서 이어진다
+        if (e.key === 'Escape') {                                   // 닫기는 네이티브(light dismiss)가 한다. 포커스 복귀만 보강 — Safari는 마우스 클릭이 버튼에 포커스를 주지 않아 복귀할 곳이 없으면 body로 가므로, 닫힌 뒤 트리거로(APG Menu Button)
+          const t = menu.trigger(m);
+          setTimeout(() => { if (t && !m.matches(':popover-open')) t.focus(); }, 0);
+          return;
+        }
         const list = menu.items(m);
         let idx = list.indexOf(document.activeElement);
         if (e.key === 'ArrowDown') idx = (idx + 1) % list.length;
@@ -283,7 +288,7 @@
     }
   };
 
-  const slur = { tabs, menu, tooltip, toast: toast.show, drawer, theme, version: '1.11.1' };
+  const slur = { tabs, menu, tooltip, toast: toast.show, drawer, theme, version: '1.11.2' };
   function init() { tabs.init(); menu.init(); tooltip.init(); toast.init(); drawer.init(); theme.init(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 

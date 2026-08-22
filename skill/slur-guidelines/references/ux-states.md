@@ -29,7 +29,7 @@
 [data-state="loading"] > .i_body, [data-state="empty"] > .i_body, [data-state="error"] > .i_body { display: none; }
 ```
 
-- JS는 `block.dataset.state = 'loading'` 한 줄(React면 `data-state={status}`). 로딩은 스켈레톤(콘텐츠 형태를 흉내)이 기본, 빈·에러는 안내 + 다음 행동(다시 시도·만들기).
+- JS는 `block.dataset.state = 'loading'` 한 줄(React면 `data-state={status}`). **로딩 기본은 `spinner` + 읽힐 문장**(「불러오는 중…」 — 위 예시 그대로. 지어낼 게 없고 문장이 마크업에 내장된다). 스켈레톤은 표·카드 목록처럼 모양이 정해진 넓은 영역에서 고르는 선택지이며, 그때도 읽힐 문장을 `a11y_hidden`으로 함께 둔다. 빈·에러는 안내 + 다음 행동(다시 시도·만들기).
 - 로딩 없음 → 멈춘 화면 / 빈 상태 없음 → 실패로 오해 / 에러 없음 → 다음 행동 불명.
 - 목록 로드 실패는 끼어들 일이 아니므로 `i_error`도 `status` 상자 안에 둔다. 세션 만료처럼 즉시 알려야 하는 것만 별도 `role="alert"`(토스트 절).
 

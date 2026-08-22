@@ -56,7 +56,7 @@ JS 라이브러리 의존은 없습니다.
 ```html
 <section class="p_programs" data-state="loading" aria-label="프로그램 목록">
   <div class="i_status" role="status">            <!-- 항상 렌더 — 상태 전환이 보조 기술에 읽힌다 -->
-    <div class="i_loading"><span class="skeleton"></span><span class="a11y_hidden">불러오는 중…</span></div>
+    <div class="i_loading"><span class="spinner" aria-hidden="true"></span> 불러오는 중…</div>
     <div class="i_empty"><div class="empty_state">…</div></div>
     <div class="i_error"><div class="empty_state m_error">…</div></div>
   </div>
@@ -64,7 +64,7 @@ JS 라이브러리 의존은 없습니다.
 </section>
 ```
 
-`data-state` 값만 `loading` → `empty` / `error` / `success`로 바꾸면 `global.css`의 스위치가 슬롯을 고릅니다. 룩(스켈레톤·빈 상태 패널·스피너)은 `state.css`가 줍니다 — [화면 상태 설계](/ux/screen-states/).
+`data-state` 값만 `loading` → `empty` / `error` / `success`로 바꾸면 `global.css`의 스위치가 슬롯을 고릅니다. 룩(스피너·빈 상태 패널·스켈레톤)은 `state.css`가 줍니다 — 로딩 기본은 스피너 + 읽힐 문장, 스켈레톤은 넓은 표·목록의 선택지입니다([화면 상태 설계](/ux/screen-states/)).
 
 ### 토스트 — 컨테이너 선존재 + `slur.toast()`
 

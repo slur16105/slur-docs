@@ -119,7 +119,7 @@ Safari가 아직 지원하지 않는 기능은 둘 중 하나로 처리합니다
 - **향상 전용(progressive enhancement)** — 없어도 화면과 동작이 성립한다면,
   지원 브라우저에서만 더 좋아지는 방향으로만 씁니다.
 
-예 (2026-08 기준): `closedby="any"`, `popover="hint"`, `appearance: base-select`
+예 (2026-08 기준): `closedby="any"`, `popover="hint"`(WebKit 26.5에서 지원 확인 — 이전 Safari가 남아 있는 동안은 같은 취급), `appearance: base-select`
 
 이 목록은 고정된 규칙이 아니라 **시점의 기록**입니다.
 Safari가 지원을 시작하면 다시 채택 후보가 되며, 바뀌면 변경 이력에 남깁니다.

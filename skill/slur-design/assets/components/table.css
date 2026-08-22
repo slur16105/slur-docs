@@ -8,7 +8,7 @@
    셀 여백은 rem 토큰(텍스트와 함께 확대).
    ───────────────────────────────────────────── */
 
-.table_wrap { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); overflow: hidden; box-shadow: var(--shadow-sm); }
+.table_wrap { border: 1px solid var(--color-border-subtle); border-radius: var(--radius-12); background: var(--color-surface-card); overflow: hidden; position: relative; box-shadow: var(--shadow-sm); }   /* position: relative — 표 안 a11y_hidden(absolute) 같은 절대 배치 자손을 래퍼 안에 가둔다(없으면 모바일에서 문서가 가로로 밀린다) */
 /* 좁은 화면 — 표 자체를 줄이지 않고 가로 스크롤. 열을 숨기는 선택은 페이지가 한다 */
 .table_wrap .i_scroll, .table_wrap .i_body { overflow-x: auto; }
 .table_wrap .i_foot { display: flex; align-items: center; justify-content: space-between; padding: var(--space-12) var(--space-16); border-top: 1px solid var(--color-border-subtle); }

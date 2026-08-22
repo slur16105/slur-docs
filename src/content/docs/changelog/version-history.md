@@ -9,6 +9,16 @@ SLUR UX/UI System의
 
 ---
 
+## v1.11.2 — 2026.08
+
+### 로딩 기본형 정리 · 새 부품 WebKit 재검증 · 데모 P2 마무리
+
+- **로딩 기본 = 스피너 + 읽힐 문장** — 문법 예시(`ux-states.md`)는 처음부터 `spinner` + 「불러오는 중…」이었는데, 같은 문서의 규칙 문장과 레시피·사이트는 "스켈레톤이 기본"이라고 적혀 서로 달랐다. 기본을 예시 쪽으로 통일한다: 문장이 마크업에 내장돼 `a11y_hidden`을 빠뜨릴 일이 없고, 지어낼 게 없다. `skeleton`은 표·카드 목록처럼 모양이 정해진 넓은 영역의 **선택지**로 내린다(클래스·변형은 그대로 — 조립본 `list`·`detail`이 그 예). `ux-states.md`·[화면 상태 설계](/ux/screen-states/)·레시피 4절·[컴포넌트](/design/components/)·`state.css` 머리말·데모 State 절(스피너 기본, 스켈레톤은 별도 「선택지」 절) 갱신
+- **메뉴·툴팁 CSS 결함** — `menu.css`의 `.menu_action { display: flex }`가 브라우저의 닫힘 숨김(`[popover]:not(:popover-open) { display: none }`)을 덮어써, 닫힌 메뉴가 투명한 채 남아 그 자리의 클릭을 가로챘다(Safari는 클릭이 버튼에 포커스를 주지 않아 Esc 뒤 포커스가 숨은 항목에 남기도 했다). `display`를 `:popover-open`에만 두고(`tooltip.css`도 같게) — 이제 `display … allow-discrete` 전환이 실제로 동작한다. `slur.js` menu는 Esc 뒤 트리거로 포커스를 보강한다(닫기 자체는 네이티브 그대로 — Safari에서 마우스로 연 경우 복귀할 곳이 없어 body로 가던 것, APG Menu Button). 레시피 6절·`js.md`·[동작 층](/js/behaviors/)에 한 줄
+- **표 래퍼 가로 넘침** — 표 머리의 `a11y_hidden`(absolute)이 `table_wrap` 안에 positioned 조상이 없어 모바일 폭에서 문서가 가로로 밀렸다(데모 480·대시보드 456·목록 729px). `.table_wrap { position: relative }`
+- **WebKit 재검증** — 메뉴·툴팁·페이지네이션·앱 셸 드로어·탭 방향키·모달·토스트·테마·reduced-motion 61항목을 Playwright WebKit 26.5와 Chromium 151에서 같은 대본으로 실행해 위 두 결함을 찾았고, 수정 후 둘 다 61/61 통과. WebKit 26.5는 anchor positioning·`popover="hint"`를 지원하지만 이전 Safari가 남아 있는 동안 정책(`slur.js` 위치 계산·`popover="manual"`)은 유지 — [브라우저 지원 기준](/core/browser-support/) 문구 보정
+- 데모 P2 마무리 — `modal.css` 커스텀 오버레이 `.i_wrap`의 무의미한 `z-index` 제거, 데모 PC-first 미디어쿼리 이유 주석, `demoIndet`(indeterminate는 JS로만) 주석. `slur.js` 1.11.2
+
 ## v1.11.1 — 2026.08
 
 ### 스킬 설치 — tar.gz 한 덩어리로

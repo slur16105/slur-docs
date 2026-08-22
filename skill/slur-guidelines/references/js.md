@@ -30,6 +30,7 @@ JavaScript는 HTML과 CSS를 존중한다. 동작만 담당하고 구조나 표�
 | 3 | **위임** (검증된 헤드리스 라이브러리) | 콤보박스(검색되는 셀렉트)·메뉴바·범위 달력 같은 복잡 위젯 | 라이브러리가 내보내는 `data-state`(대부분 호환) — 표현은 CSS |
 
 - 네이티브가 상태를 속성으로 갖는 요소(`dialog[open]`·`details[open]`·`:popover-open`)와 표준 ARIA 상태(`aria-sort`·`aria-current`·`aria-selected`)는 **그 속성이 정본**이다. `data-state`는 네이티브가 상태를 갖지 않는 일반 블록에 쓴다.
+- 팝오버 블록의 `display`는 `:popover-open`에만 쓴다 — 기본 규칙에 두면 브라우저의 닫힘 숨김(`[popover]:not(:popover-open) { display: none }`)을 덮어써 닫힌 팝오버가 투명한 채 남아 클릭을 가로챈다.
 - `slur.js`는 `document`에 위임 바인딩하므로 `<script src="slur.js" defer>` 한 줄이면 나중에 추가된 요소에도 동작한다. 모듈별 바인딩과 API는 SKILL.md 「동봉 파일 — slur.js」, 조립 예시는 `slur-design/references/recipes.md`.
 
 ```js

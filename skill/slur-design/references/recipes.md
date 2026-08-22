@@ -65,7 +65,7 @@
 ```html
 <section class="table_wrap" data-state="loading">   <!-- loading | empty | error | success -->
   <div class="i_status" role="status">   <!-- 항상 렌더 — 상자가 미리 있어야 전환이 보조 기술에 읽힌다 -->
-    <div class="i_loading"><span class="skeleton m_title"></span><span class="skeleton"></span><span class="a11y_hidden">불러오는 중…</span></div>
+    <div class="i_loading"><span class="spinner" aria-hidden="true"></span> 불러오는 중…</div>
     <div class="i_empty"><div class="empty_state"><span class="i_title">조건에 맞는 청구서가 없습니다</span><span class="i_text">필터를 바꿔 보세요.</span></div></div>
     <div class="i_error"><div class="empty_state m_error"><span class="i_title">불러오지 못했습니다</span><div class="i_action"><button class="btn m_small" type="button">다시 시도</button></div></div></div>
   </div>
@@ -74,7 +74,7 @@
 ```
 
 - 어느 슬롯을 보일지는 **global.css가 블록의 `data-state`를 읽어** 결정한다(`[data-state="loading"] > .i_status > .i_loading` 식). 페이지 CSS에서 슬롯의 `display`를 건드리지 않는다.
-- 로딩은 **스켈레톤이 기본**(실제 콘텐츠 형태를 흉내), 짧은 전환은 `spinner`. 스켈레톤만이면 읽히지 않으므로 `a11y_hidden` 문장을 하나 둔다. 빈·에러는 `empty_state`(+`m_error`).
+- 로딩 기본은 **`spinner` + 읽힐 문장**(「불러오는 중…」). 표·카드 목록처럼 모양이 정해진 넓은 영역은 `skeleton`(+`m_title`·`m_circle`…)로 자리를 그려도 된다 — 뼈대 행은 페이지 CSS(`p_skel_row` 등)로 짜고, 스켈레톤만이면 읽히지 않으므로 `a11y_hidden` 문장을 하나 둔다(조립본 `list`·`detail`이 그 예). 빈·에러는 `empty_state`(+`m_error`).
 - JS는 `el.dataset.state = 'loading' | 'empty' | 'error' | 'success'` 한 줄. React면 `data-state={status}`.
 
 ## 5. 토스트 — 컨테이너 선존재 + `slur.toast()`
@@ -108,6 +108,7 @@ slur.toast('내보내는 중…', { duration: 8000 });
 - 열고 닫기·Esc·바깥 클릭·최상위 레이어·포커스 복귀 = `popover="auto"`(네이티브, JS 0). 상태 정본은 `:popover-open` — `data-state`를 붙이지 않는다.
 - 트리거 기준 위치, 열리면 첫 항목 포커스, ↑↓·Home/End, Tab으로 닫기, 항목 선택 시 닫기 = `slur.js`의 `menu`. `data-align="end"`는 트리거 오른쪽 끝 정렬.
 - 항목 클릭 처리는 프로젝트가 `data-action`으로 위임한다. 테이블 한 행에 메뉴 하나씩 두어도 된다(id만 다르게).
+- 팝오버 블록(`menu_action`·`tooltip_help`)에 `display`를 직접 쓰지 않는다 — `:popover-open`에만. 기본 규칙의 `display`는 브라우저의 닫힘 숨김(`[popover]:not(:popover-open) { display: none }`)을 덮어써 닫힌 메뉴가 투명한 채 남아 그 자리의 클릭을 가로챈다.
 
 ## 7. 툴팁 — `tooltip_help`
 

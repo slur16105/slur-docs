@@ -39,6 +39,7 @@ description: SLUR UX/UI System에서 위젯의 동작(키보드·포커스·열�
 
 - `<dialog>` + `showModal()` — 배경 차단(inert), Esc 닫기, 포커스 복귀, 최상위 레이어
 - `popover="auto"` — Esc·바깥 클릭으로 닫힘, 최상위 레이어, 포커스 복귀, 트리거의 `aria-expanded`
+- 팝오버 블록의 `display`는 `:popover-open`에만 씁니다 — 기본 규칙에 두면 브라우저의 닫힘 숨김(`[popover]:not(:popover-open) { display: none }`)을 덮어써 닫힌 팝오버가 투명한 채 남아 클릭을 가로챕니다
 - `<details>` — 열고 닫기와 상태(`[open]`)
 - `<select>`, `<input type="date">` — 키보드·보조 기술·모바일 UI
 

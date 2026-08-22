@@ -97,7 +97,7 @@ slur-design/
 | `layout_auth`(`l_brand` · `l_main` > `l_card` · `l_foot`) — 로그인·가입·재설정 틀 | `patterns/auth-shell.css` |
 | 화면 조립본 — 대시보드 · 로그인 · 목록(선택 바·4상태·행 메뉴·삭제 확인) · 설정(구역 내비·스위치·저장 바·위험 구역) · 회원가입(강도·규칙·약관·인증 메일) · 비밀번호 재설정(4단계 한 파일) · 상세/편집(탭·보기↔편집·버리기 확인) · 온보딩(empty_state 히어로·progress 체크리스트) | `patterns/screens/*.html` |
 
-4상태 슬롯(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)의 **노출 스위치는 `global.css`**(slur-guidelines)가 하고, 이 시스템은 슬롯 기본형과 그 안에 넣는 `empty_state`·`skeleton`·`spinner`의 룩만 준다. 상태 값은 `loading|empty|error|success`.
+4상태 슬롯(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)의 **노출 스위치는 `global.css`**(slur-guidelines)가 하고, 이 시스템은 슬롯 기본형과 그 안에 넣는 `empty_state`·`skeleton`·`spinner`의 룩만 준다. 상태 값은 `loading|empty|error|success`. 로딩 기본형은 `spinner` + 읽힐 문장, `skeleton`은 표·카드 목록처럼 넓은 영역의 선택지(recipes.md 4절).
 
 ## 토큰 빠른 참조 (실제 이름 — 추측 금지)
 
