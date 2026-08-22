@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고객 상세 — SLUR 화면 조립본</title>
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="icon" href="../../brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
+<link rel="stylesheet" href="../../tokens/colors.css">
+<link rel="stylesheet" href="../../tokens/typography.css">
+<link rel="stylesheet" href="../../tokens/spacing.css">
+<link rel="stylesheet" href="../../tokens/radius.css">
+<link rel="stylesheet" href="../../tokens/shadows.css">
+<link rel="stylesheet" href="../../tokens/motion.css">
+<link rel="stylesheet" href="../../tokens/breakpoints.css">
+<link rel="stylesheet" href="../../tokens/z-index.css">
+<link rel="stylesheet" href="../../components/button.css">
+<link rel="stylesheet" href="../../components/input.css">
+<link rel="stylesheet" href="../../components/select.css">
+<link rel="stylesheet" href="../../components/selection.css">
+<link rel="stylesheet" href="../../components/badge.css">
+<link rel="stylesheet" href="../../components/card.css">
+<link rel="stylesheet" href="../../components/alert.css">
+<link rel="stylesheet" href="../../components/navigation.css">
+<link rel="stylesheet" href="../../components/table.css">
+<link rel="stylesheet" href="../../components/menu.css">
+<link rel="stylesheet" href="../../components/modal.css">
+<link rel="stylesheet" href="../../components/toast.css">
+<link rel="stylesheet" href="../../components/state.css">
+<link rel="stylesheet" href="../app-shell.css">
+<script src="../../../../slur-guidelines/assets/slur.js" defer></script>
+<style>
+/* 페이지 CSS — 상세 화면 조합: 헤더(정체+동작) · 탭 · 개요(보기/편집 전환) · 청구서(4상태 표) · 활동(타임라인)
+   보기↔편집은 page_detail의 data-state="view|edit" — 보기는 dl(p_dl), 편집은 폼(p_fields)이 같은 카드 안에서 교대한다 */
+.page_detail { display: flex; flex-direction: column; gap: 20px; max-width: 1120px; }
+.page_detail .p_head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.page_detail .p_identity { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.page_detail .p_avatar { display: inline-flex; align-items: center; justify-content: center; width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--color-brand-soft); font-size: var(--text-lg); font-weight: var(--weight-semibold); color: var(--color-text-brand); flex: none; }
+.page_detail .p_title { display: flex; align-items: center; gap: var(--space-8); font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); flex-wrap: wrap; }
+.page_detail .p_meta { margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_detail .p_meta a { color: inherit; }
+.page_detail .p_actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.page_detail[data-state="edit"] .p_actions { display: none; }   /* 편집 중엔 헤더 동작 숨김 — 저장 바가 유일한 출구 */
+.page_detail .tab_menu .i_tab { display: inline-flex; align-items: center; gap: var(--space-8); }
+/* 개요 — 2열(본문 | 요약). 1024 아래 1열 */
+.page_detail .p_grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
+.page_detail .p_dl { display: grid; grid-template-columns: 140px 1fr; gap: 12px 24px; font-size: var(--text-sm); }
+.page_detail .p_dl dt { color: var(--color-text-muted); }
+.page_detail .p_dl dd { min-width: 0; color: var(--color-text-primary); overflow-wrap: anywhere; }
+.page_detail .p_dl dd:empty::before { content: "—"; color: var(--color-text-muted); }
+.page_detail .p_dl .p_tags { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+.page_detail .p_fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+.page_detail .p_fields .m_wide { grid-column: 1 / -1; }
+.page_detail .p_fields .i_help:empty { display: none; }
+.page_detail .p_fields legend.i_label { margin-bottom: var(--space-8); }   /* legend는 flex 흐름 밖(UA) — gap 대신 margin */
+.page_detail .p_radios { display: flex; gap: var(--space-16); min-height: 2.5rem; align-items: center; flex-wrap: wrap; }
+.page_detail[data-state="view"] .p_fields { display: none; }
+.page_detail[data-state="edit"] .p_dl { display: none; }
+.page_detail .p_side { display: flex; flex-direction: column; gap: 20px; }
+.page_detail .p_kv { display: flex; flex-direction: column; }
+.page_detail .p_kv div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); padding: var(--space-8) 0; border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+.page_detail .p_kv div:first-child { border-top: none; padding-top: 0; }
+.page_detail .p_kv dt { color: var(--color-text-secondary); }
+.page_detail .p_kv dd { font-weight: var(--weight-medium); font-variant-numeric: tabular-nums; text-align: right; }
+.page_detail .p_owner { display: flex; align-items: center; gap: var(--space-12); }
+.page_detail .p_owner .p_avatar { width: 2.5rem; height: 2.5rem; font-size: var(--text-sm); }
+.page_detail .p_owner_meta { display: flex; flex-direction: column; font-size: var(--text-sm); line-height: 1.3; }
+.page_detail .p_owner_meta small { font-size: var(--text-xs); color: var(--color-text-muted); }
+/* 저장 바 — 편집 모드일 때만. 취소는 변경이 있으면 확인 dialog를 거친다 */
+.page_detail .p_savebar { display: none; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--color-border-default); border-radius: var(--radius-12); background: var(--color-surface-card); font-size: var(--text-sm); position: sticky; bottom: 16px; z-index: var(--z-sticky); box-shadow: var(--shadow-lg); }
+.page_detail[data-state="edit"] .p_savebar { display: flex; }
+.page_detail .p_savebar .p_spacer { flex: 1; }
+/* 청구서 — 표 위 헤더 줄, 4상태는 table_wrap의 data-state */
+.page_detail .p_invoice_head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.page_detail .p_invoice_head .p_sub { font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_detail .table_data { min-width: 640px; }
+.page_detail .p_skel_row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--color-border-subtle); }
+.page_detail .p_skel_row .skeleton { width: 25%; }
+/* 활동 — 타임라인. 점과 선은 li의 ::before/::after, 시각은 time */
+.page_detail .p_timeline { display: flex; flex-direction: column; list-style: none; }
+.page_detail .p_timeline li { display: grid; grid-template-columns: 1rem 1fr; gap: 0 12px; padding-bottom: 20px; position: relative; }
+.page_detail .p_timeline li::before { content: ""; width: 0.625rem; height: 0.625rem; margin: 0.375rem 0 0 0.1875rem; border: 2px solid var(--color-brand); border-radius: 50%; background: var(--color-surface-card); }
+.page_detail .p_timeline li::after { content: ""; width: 2px; background: var(--color-border-subtle); position: absolute; top: 1.125rem; bottom: 0; left: 0.4375rem; }
+.page_detail .p_timeline li:last-child::after { display: none; }
+.page_detail .p_timeline li:last-child { padding-bottom: 0; }
+.page_detail .p_timeline .p_event { font-size: var(--text-sm); color: var(--color-text-primary); }
+.page_detail .p_timeline .p_event strong { font-weight: var(--weight-medium); }
+.page_detail .p_timeline time { display: block; margin-top: 2px; font-size: var(--text-xs); color: var(--color-text-muted); }
+@media (max-width: 1023px) {
+  .page_detail .p_grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 639px) {
+  .page_detail .p_actions { width: 100%; }
+  .page_detail .p_dl { grid-template-columns: 1fr; gap: 4px 0; }
+  .page_detail .p_dl dt { margin-top: var(--space-8); }
+  .page_detail .p_dl dt:first-child { margin-top: 0; }
+  .page_detail .p_fields { grid-template-columns: 1fr; }
+  .page_detail .p_savebar { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout_app">
+
+  <div class="l_side" id="app_side" data-state="close">
+    <div class="l_panel">
+      <a class="l_brand" href="dashboard.html"><span class="l_logo" role="img" aria-label="SLUR"><img class="l_logo_light" src="../../brand/logo.svg" alt=""><img class="l_logo_dark" src="../../brand/logo-white.svg" alt=""></span></a>
+      <button type="button" class="l_close" data-action="drawer_close" aria-label="메뉴 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+      <span class="l_group">워크스페이스</span>
+      <nav aria-label="주 메뉴">
+        <ul class="l_nav">
+          <li><a class="l_item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>대시보드</a></li>
+          <li><a class="l_item" href="list.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>고객<span class="l_count">12</span></a></li>
+          <li><a class="l_item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>청구서</a></li>
+          <li><a class="l_item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>리포트</a></li>
+        </ul>
+      </nav>
+      <div class="l_divider" role="separator"></div>
+      <span class="l_group">계정</span>
+      <nav aria-label="계정 메뉴"><ul class="l_nav"><li><a class="l_item" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>설정</a></li></ul></nav>
+      <div class="l_foot"><a class="l_user" href="settings.html"><span class="l_avatar">SL</span><span class="l_user_meta">슬러<small>admin@slur.co.kr</small></span></a></div>
+    </div>
+    <div class="l_dim" data-action="drawer_close" aria-hidden="true"></div>
+  </div>
+
+  <header class="l_head">
+    <button type="button" class="l_menu" data-action="drawer_open" aria-controls="app_side" aria-expanded="false" aria-label="메뉴 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button>
+    <nav class="breadcrumb" aria-label="현재 위치"><a href="dashboard.html" class="i_link">워크스페이스</a><span class="i_sep">/</span><a href="list.html" class="i_link">고객</a><span class="i_sep">/</span><span class="i_current p_crumb_name">김민준</span></nav>
+    <div class="l_actions">
+      <button type="button" class="btn m_ghost m_icon" data-action="theme_toggle" aria-pressed="false" aria-label="다크 모드 전환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
+    </div>
+  </header>
+
+  <main class="l_main">
+    <div class="page_detail" data-state="view">
+
+      <!-- 헤더 — 정체(아바타·이름·상태·플랜·메타) + 동작(편집·이메일·더보기 메뉴) -->
+      <div class="p_head">
+        <div class="p_identity">
+          <span class="p_avatar" aria-hidden="true">김</span>
+          <div>
+            <h1 class="p_title"><span class="p_name">김민준</span><span class="badge m_success p_status_badge"><span class="i_dot"></span>활성</span><span class="badge m_brand p_plan_badge">Team</span></h1>
+            <p class="p_meta"><a class="p_email" href="mailto:minjun@acme.co.kr">minjun@acme.co.kr</a> · <span class="p_company">에이스 주식회사</span> · 가입 <time datetime="2025-03-12">2025.03.12</time></p>
+          </div>
+        </div>
+        <div class="p_actions">
+          <button type="button" class="btn" data-action="edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>편집</button>
+          <a class="btn" href="mailto:minjun@acme.co.kr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg>이메일 보내기</a>
+          <button type="button" class="btn m_icon" popovertarget="more_menu" aria-haspopup="menu" aria-label="더보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+          <div class="menu_action" id="more_menu" popover role="menu" aria-label="고객 동작" data-align="end">
+            <button type="button" class="i_item" role="menuitem" data-action="invoice_new">청구서 만들기</button>
+            <button type="button" class="i_item" role="menuitem" data-action="dormant">휴면 처리</button>
+            <div class="i_divider" role="separator"></div>
+            <button type="button" class="i_item m_danger" role="menuitem" data-action="delete_open">고객 삭제…</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 탭 — 방향키·활성화는 slur.js(tabs). 패널 전환은 aria-controls → i_panel[data-state=active] -->
+      <div class="tab_menu">
+        <div class="i_list" role="tablist" aria-label="고객 정보">
+          <button type="button" class="i_tab" role="tab" id="tab_overview" aria-controls="panel_overview" aria-selected="true" tabindex="0" data-state="active">개요</button>
+          <button type="button" class="i_tab" role="tab" id="tab_invoices" aria-controls="panel_invoices" aria-selected="false" tabindex="-1" data-state="">청구서<span class="badge m_count">8</span></button>
+          <button type="button" class="i_tab" role="tab" id="tab_activity" aria-controls="panel_activity" aria-selected="false" tabindex="-1" data-state="">활동</button>
+        </div>
+
+        <!-- 개요 — 기본 정보 카드(보기 dl ↔ 편집 폼) + 요약·담당자 -->
+        <div class="i_panel" role="tabpanel" id="panel_overview" aria-labelledby="tab_overview" data-state="active">
+          <div class="p_grid">
+            <form class="card p_form" id="customer_form" aria-labelledby="info_title" novalidate>
+              <div class="i_head"><div><h2 class="i_title" id="info_title">기본 정보</h2><p class="i_desc p_mode_hint">편집하려면 오른쪽 위 「편집」을 누르세요.</p></div></div>
+              <div class="i_body">
+                <dl class="p_dl">
+                  <dt>이름</dt><dd data-field="name">김민준</dd>
+                  <dt>이메일</dt><dd data-field="email">minjun@acme.co.kr</dd>
+                  <dt>전화</dt><dd data-field="phone">010-1234-5678</dd>
+                  <dt>회사</dt><dd data-field="company">에이스 주식회사</dd>
+                  <dt>플랜</dt><dd data-field="plan">Team</dd>
+                  <dt>상태</dt><dd data-field="status">활성</dd>
+                  <dt>담당자</dt><dd data-field="owner">슬러</dd>
+                  <dt>태그</dt><dd data-field="tags"><span class="p_tags"><span class="badge">VIP</span><span class="badge">연간 결제</span></span></dd>
+                  <dt>메모</dt><dd data-field="note">분기마다 리포트 요청. 결제는 항상 법인 카드.</dd>
+                </dl>
+                <div class="p_fields">
+                  <div class="field"><label class="i_label" for="f_name">이름</label><input class="input_text" id="f_name" name="name" value="김민준" autocomplete="off" required aria-describedby="f_name_help"><span class="i_help" id="f_name_help"></span></div>
+                  <div class="field"><label class="i_label" for="f_email">이메일</label><input class="input_text" type="email" id="f_email" name="email" value="minjun@acme.co.kr" autocomplete="off" required aria-describedby="f_email_help"><span class="i_help" id="f_email_help"></span></div>
+                  <div class="field"><label class="i_label" for="f_phone">전화</label><input class="input_text" type="tel" id="f_phone" name="phone" value="010-1234-5678" autocomplete="off"></div>
+                  <div class="field"><label class="i_label" for="f_company">회사</label><input class="input_text" id="f_company" name="company" value="에이스 주식회사" autocomplete="off"></div>
+                  <div class="field"><label class="i_label" for="f_plan">플랜</label><div class="select"><select class="input_text" id="f_plan" name="plan"><option>Free</option><option>Pro</option><option selected>Team</option></select><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></div></div>
+                  <div class="field"><label class="i_label" for="f_owner">담당자</label><div class="select"><select class="input_text" id="f_owner" name="owner"><option selected>슬러</option><option>박대리</option><option>이과장</option></select><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></div></div>
+                  <fieldset class="field m_wide"><legend class="i_label">상태</legend><div class="p_radios"><label class="radio"><input class="i_input" type="radio" name="status" value="활성" checked><span>활성</span></label><label class="radio"><input class="i_input" type="radio" name="status" value="휴면"><span>휴면</span></label><label class="radio"><input class="i_input" type="radio" name="status" value="해지"><span>해지</span></label></div></fieldset>
+                  <div class="field m_wide"><label class="i_label" for="f_tags">태그</label><input class="input_text" id="f_tags" name="tags" value="VIP, 연간 결제" autocomplete="off" aria-describedby="f_tags_help"><span class="i_help" id="f_tags_help">쉼표로 구분</span></div>
+                  <div class="field m_wide"><label class="i_label" for="f_note">메모</label><textarea class="input_text m_textarea" id="f_note" name="note" rows="3">분기마다 리포트 요청. 결제는 항상 법인 카드.</textarea></div>
+                </div>
+              </div>
+            </form>
+
+            <div class="p_side">
+              <section class="card" aria-labelledby="sum_title">
+                <div class="i_head"><h2 class="i_title" id="sum_title">요약</h2></div>
+                <div class="i_body">
+                  <dl class="p_kv">
+                    <div><dt>누적 매출</dt><dd>₩4,820,000</dd></div>
+                    <div><dt>청구서</dt><dd>8건 <span class="badge m_warning m_small">미납 1</span></dd></div>
+                    <div><dt>최근 활동</dt><dd>2시간 전</dd></div>
+                    <div><dt>평균 결제 주기</dt><dd>30일</dd></div>
+                  </dl>
+                </div>
+              </section>
+              <section class="card" aria-labelledby="owner_title">
+                <div class="i_head"><h2 class="i_title" id="owner_title">담당자</h2></div>
+                <div class="i_body"><div class="p_owner"><span class="p_avatar" aria-hidden="true">SL</span><span class="p_owner_meta"><span class="p_owner_name">슬러</span><small>admin@slur.co.kr</small></span></div></div>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        <!-- 청구서 — 4상태 표. 탭을 처음 열 때 loading → success(데모) -->
+        <div class="i_panel" role="tabpanel" id="panel_invoices" aria-labelledby="tab_invoices" data-state="">
+          <div class="p_invoice_head"><span class="p_sub">총 8건 · 미납 1건</span><button type="button" class="btn m_primary m_small" data-action="invoice_new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>새 청구서</button></div>
+          <section class="table_wrap" id="invoices" data-state="loading" aria-label="청구서 목록">
+            <div class="i_status" role="status">
+              <div class="i_loading">
+                <div class="p_skel_row"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+                <div class="p_skel_row"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+                <div class="p_skel_row"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+                <span class="a11y_hidden">불러오는 중…</span>
+              </div>
+              <div class="i_empty"><div class="empty_state"><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></span><span class="i_title">아직 청구서가 없습니다</span><span class="i_text">첫 청구서를 만들어 보내 보세요.</span><div class="i_action"><button type="button" class="btn m_primary m_small" data-action="invoice_new">새 청구서</button></div></div></div>
+              <div class="i_error"><div class="empty_state m_error"><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg></span><span class="i_title">청구서를 불러오지 못했습니다</span><div class="i_action"><button type="button" class="btn m_small" data-action="reload">다시 시도</button></div></div></div>
+            </div>
+            <div class="i_body">
+              <table class="table_data">
+                <thead><tr><th>번호</th><th>발행일</th><th>만기</th><th>상태</th><th class="m_num">금액</th><th><span class="a11y_hidden">동작</span></th></tr></thead>
+                <tbody>
+                  <tr><td><a href="#">INV-1042</a></td><td class="m_muted">2026.08.01</td><td class="m_muted">2026.08.31</td><td><span class="badge m_warning"><span class="i_dot"></span>미납</span></td><td class="m_num">₩420,000</td><td><button type="button" class="btn m_ghost m_small">독촉 메일</button></td></tr>
+                  <tr><td><a href="#">INV-1031</a></td><td class="m_muted">2026.07.01</td><td class="m_muted">2026.07.31</td><td><span class="badge m_success"><span class="i_dot"></span>결제됨</span></td><td class="m_num">₩420,000</td><td><button type="button" class="btn m_ghost m_small">영수증</button></td></tr>
+                  <tr><td><a href="#">INV-1020</a></td><td class="m_muted">2026.06.01</td><td class="m_muted">2026.06.30</td><td><span class="badge m_success"><span class="i_dot"></span>결제됨</span></td><td class="m_num">₩420,000</td><td><button type="button" class="btn m_ghost m_small">영수증</button></td></tr>
+                  <tr><td><a href="#">INV-1009</a></td><td class="m_muted">2026.05.01</td><td class="m_muted">2026.05.31</td><td><span class="badge m_success"><span class="i_dot"></span>결제됨</span></td><td class="m_num">₩420,000</td><td><button type="button" class="btn m_ghost m_small">영수증</button></td></tr>
+                  <tr><td><a href="#">INV-0998</a></td><td class="m_muted">2026.04.01</td><td class="m_muted">2026.04.30</td><td><span class="badge"><span class="i_dot"></span>초안</span></td><td class="m_num">₩0</td><td><button type="button" class="btn m_ghost m_small">이어서 작성</button></td></tr>
+                </tbody>
+              </table>
+              <div class="i_foot"><span class="i_count">8건 중 1–5</span><a class="btn m_ghost m_small" href="#">전체 보기</a></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 활동 — 타임라인. 포커스 가능한 내용이 없으므로 패널 자체가 tabindex=0 -->
+        <div class="i_panel" role="tabpanel" id="panel_activity" aria-labelledby="tab_activity" data-state="" tabindex="0">
+          <section class="card" aria-label="최근 활동">
+            <div class="i_body">
+              <ol class="p_timeline">
+                <li><span class="p_event"><strong>로그인</strong> — 서울, Chrome</span><time datetime="2026-08-22T12:10">2시간 전</time></li>
+                <li><span class="p_event"><strong>청구서 INV-1042 발행</strong> — ₩420,000, 만기 8월 31일</span><time datetime="2026-08-01">8월 1일</time></li>
+                <li><span class="p_event"><strong>플랜 변경</strong> — Pro → Team (담당 슬러)</span><time datetime="2026-07-15">7월 15일</time></li>
+                <li><span class="p_event"><strong>청구서 INV-1031 결제</strong> — 법인 카드</span><time datetime="2026-07-03">7월 3일</time></li>
+                <li><span class="p_event"><strong>태그 추가</strong> — VIP</span><time datetime="2026-05-20">5월 20일</time></li>
+                <li><span class="p_event"><strong>가입</strong> — 초대 링크(박대리)</span><time datetime="2025-03-12">2025.03.12</time></li>
+              </ol>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- 저장 바 — 편집 모드에서만 보임(page_detail[data-state=edit]). 변경 수는 실시간, 취소는 변경이 있으면 확인 -->
+      <div class="p_savebar" role="status"><span>편집 중 — 변경 <strong class="p_dirty">0</strong>개</span><span class="p_spacer"></span><button type="button" class="btn" data-action="cancel">취소</button><button type="button" class="btn m_primary" data-action="save">저장</button></div>
+    </div>
+  </main>
+</div>
+
+<!-- 변경 버리기 확인 — 되돌릴 수 없는 쪽(버리기)이 아니라 안전한 쪽(계속 편집)에 초기 포커스 -->
+<dialog class="modal_dialog" id="modal_discard" aria-labelledby="modal_discard_title" aria-describedby="modal_discard_text">
+  <div class="i_head"><div><h2 class="i_title" id="modal_discard_title">변경 사항을 버릴까요?</h2><p class="i_text" id="modal_discard_text">저장하지 않은 변경 <strong class="p_dirty">0</strong>개가 사라집니다.</p></div></div>
+  <div class="i_foot"><button type="button" class="btn" data-action="modal_close">계속 편집</button><button type="button" class="btn m_danger" data-action="discard_confirm">버리기</button></div>
+</dialog>
+
+<!-- 삭제 확인 — 파괴적: 초기 포커스는 취소 -->
+<dialog class="modal_dialog" id="modal_delete" aria-labelledby="modal_delete_title" aria-describedby="modal_delete_text">
+  <div class="i_head"><div><h2 class="i_title" id="modal_delete_title"><span class="p_name">김민준</span> 님을 삭제할까요?</h2><p class="i_text" id="modal_delete_text">청구서 기록은 유지되지만 고객 정보는 복구할 수 없습니다.</p></div></div>
+  <div class="i_foot"><button type="button" class="btn" data-action="modal_close">취소</button><button type="button" class="btn m_danger" data-action="delete_confirm">삭제</button></div>
+</dialog>
+
+<div class="toast_message" role="status" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+<div class="toast_message" role="alert" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+
+<script>
+// 페이지 스크립트 — 보기/편집 전환·변경 추적·저장·탭별 데이터 로딩·삭제 흐름만. 위젯 동작(탭·메뉴·드로어·토스트·테마)은 slur.js
+const page = document.querySelector('.page_detail');
+const form = document.getElementById('customer_form');
+const controls = () => [...form.querySelectorAll('input:not([type="radio"]), select, textarea, input[type="radio"]:checked')];
+const initial = new Map();
+const dirty = new Set();
+
+const valueOf = (el) => el.type === 'radio' ? form.querySelector(`[name="${el.name}"]:checked`)?.value : el.value;
+const keyOf = (el) => el.name;   // 라디오는 그룹(name) 단위로 하나의 변경
+
+function syncDirty() { document.querySelectorAll('.p_dirty').forEach((n) => { n.textContent = dirty.size; }); }
+function enterEdit() {
+  initial.clear(); dirty.clear();
+  controls().forEach((el) => initial.set(keyOf(el), valueOf(el)));
+  page.dataset.state = 'edit';
+  page.querySelector('.p_mode_hint').textContent = '변경 후 아래 저장 바에서 저장하세요.';
+  syncDirty();
+  document.getElementById('f_name').focus();
+}
+function exitEdit(restore) {
+  if (restore) {
+    form.querySelectorAll('input:not([type="radio"]), select, textarea').forEach((el) => { el.value = initial.get(el.name); });
+    form.querySelectorAll('input[type="radio"]').forEach((el) => { el.checked = el.value === initial.get(el.name); });
+  }
+  form.querySelectorAll('.field[data-state="error"]').forEach((f) => { f.dataset.state = ''; f.querySelector('.i_help').textContent = ''; f.querySelector('[aria-invalid]')?.removeAttribute('aria-invalid'); });
+  page.dataset.state = 'view';
+  page.querySelector('.p_mode_hint').textContent = '편집하려면 오른쪽 위 「편집」을 누르세요.';
+  page.querySelector('[data-action="edit"]').focus();   // 출구에서 포커스는 들어온 곳으로
+}
+form.addEventListener('input', (e) => {
+  const el = e.target, key = keyOf(el);
+  if (valueOf(el) === initial.get(key)) dirty.delete(key); else dirty.add(key);
+  const field = el.closest('.field');
+  if (field?.dataset.state === 'error') { field.dataset.state = ''; field.querySelector('.i_help').textContent = ''; el.removeAttribute('aria-invalid'); }
+  syncDirty();
+});
+
+// 저장 — 인라인 검증 → 로딩 → 보기 dl·헤더·브레드크럼·배지 갱신 → 보기 모드 → 토스트
+const statusBadgeClass = { '활성': 'm_success', '휴면': 'm_warning', '해지': 'm_danger' };
+function setError(id, message) {
+  const input = document.getElementById(id), field = input.closest('.field');
+  field.dataset.state = message ? 'error' : ''; input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  field.querySelector('.i_help').textContent = message || '';
+}
+async function save(btn) {
+  const name = document.getElementById('f_name').value.trim(), email = document.getElementById('f_email').value.trim();
+  let firstInvalid = null;
+  if (!name) { setError('f_name', '이름을 입력하세요.'); firstInvalid ??= document.getElementById('f_name'); } else setError('f_name', '');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('f_email', '올바른 이메일 주소를 입력하세요.'); firstInvalid ??= document.getElementById('f_email'); } else setError('f_email', '');
+  if (firstInvalid) { firstInvalid.focus(); return; }
+  if (!dirty.size) { exitEdit(false); return; }   // 바뀐 게 없으면 조용히 보기로
+  btn.dataset.state = 'loading'; btn.disabled = true; btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>저장 중…';
+  await new Promise((r) => setTimeout(r, 800));   // 데모 — 실제로는 fetch
+  btn.dataset.state = ''; btn.disabled = false; btn.textContent = '저장';
+  const data = Object.fromEntries(controls().map((el) => [keyOf(el), valueOf(el)]));
+  form.querySelectorAll('.p_dl [data-field]').forEach((dd) => {
+    const k = dd.dataset.field;
+    if (k === 'tags') dd.querySelector('.p_tags').innerHTML = data.tags.split(',').map((t) => t.trim()).filter(Boolean).map((t) => `<span class="badge">${t}</span>`).join('');
+    else dd.textContent = data[k];
+  });
+  document.querySelectorAll('.p_name, .p_crumb_name').forEach((n) => { n.textContent = data.name; });
+  page.querySelector('.p_company').textContent = data.company;
+  const mail = page.querySelector('.p_email'); mail.textContent = data.email; mail.href = `mailto:${data.email}`;
+  page.querySelector('.p_actions a.btn').href = `mailto:${data.email}`;
+  page.querySelector('.p_plan_badge').textContent = data.plan;
+  const sb = page.querySelector('.p_status_badge'); sb.className = `badge ${statusBadgeClass[data.status]} p_status_badge`; sb.innerHTML = `<span class="i_dot"></span>${data.status}`;
+  page.querySelector('.p_owner_name').textContent = data.owner;
+  exitEdit(false);
+  slur.toast('고객 정보를 저장했습니다.');
+}
+
+// 청구서 탭 — 처음 열 때만 불러오는 흉내(loading → success)
+let invoicesLoaded = false;
+document.addEventListener('slur:tabchange', (e) => {
+  if (e.detail.tab.id === 'tab_invoices' && !invoicesLoaded) { invoicesLoaded = true; setTimeout(() => { document.getElementById('invoices').dataset.state = 'success'; }, 700); }
+});
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const { action } = el.dataset;
+  if (action === 'edit') enterEdit();
+  if (action === 'cancel') { if (dirty.size) { const d = document.getElementById('modal_discard'); d.showModal(); d.querySelector('[data-action="modal_close"]').focus(); } else exitEdit(true); }
+  if (action === 'discard_confirm') { document.getElementById('modal_discard').close(); exitEdit(true); }
+  if (action === 'save') save(el);
+  if (action === 'modal_close') el.closest('dialog').close();
+  if (action === 'reload') { const inv = document.getElementById('invoices'); inv.dataset.state = 'loading'; setTimeout(() => { inv.dataset.state = 'success'; }, 700); }
+  if (action === 'invoice_new') slur.toast('새 청구서 작성 화면으로 이동합니다. (데모)');
+  if (action === 'dormant') {   // 되돌릴 수 있는 상태 변경은 확인 없이 바로 — 결과만 토스트
+    const sb = page.querySelector('.p_status_badge'); sb.className = 'badge m_warning p_status_badge'; sb.innerHTML = '<span class="i_dot"></span>휴면';
+    form.querySelector('.p_dl [data-field="status"]').textContent = '휴면'; form.querySelector('[name="status"][value="휴면"]').checked = true;
+    slur.toast('휴면 처리했습니다.');
+  }
+  if (action === 'delete_open') { const d = document.getElementById('modal_delete'); d.showModal(); d.querySelector('[data-action="modal_close"]').focus(); }   // 파괴적: 초기 포커스는 취소
+  if (action === 'delete_confirm') { document.getElementById('modal_delete').close(); slur.toast('고객을 삭제했습니다. (데모 — 실제로는 목록으로 이동)', { level: 'alert' }); }
+});
+</script>
+</body>
+</html>

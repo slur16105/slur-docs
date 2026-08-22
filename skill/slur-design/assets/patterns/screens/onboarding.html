@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시작하기 — SLUR 화면 조립본</title>
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="icon" href="../../brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
+<link rel="stylesheet" href="../../tokens/colors.css">
+<link rel="stylesheet" href="../../tokens/typography.css">
+<link rel="stylesheet" href="../../tokens/spacing.css">
+<link rel="stylesheet" href="../../tokens/radius.css">
+<link rel="stylesheet" href="../../tokens/shadows.css">
+<link rel="stylesheet" href="../../tokens/motion.css">
+<link rel="stylesheet" href="../../tokens/breakpoints.css">
+<link rel="stylesheet" href="../../tokens/z-index.css">
+<link rel="stylesheet" href="../../components/button.css">
+<link rel="stylesheet" href="../../components/input.css">
+<link rel="stylesheet" href="../../components/select.css">
+<link rel="stylesheet" href="../../components/badge.css">
+<link rel="stylesheet" href="../../components/card.css">
+<link rel="stylesheet" href="../../components/navigation.css">
+<link rel="stylesheet" href="../../components/modal.css">
+<link rel="stylesheet" href="../../components/toast.css">
+<link rel="stylesheet" href="../../components/state.css">
+<link rel="stylesheet" href="../app-shell.css">
+<script src="../../../../slur-guidelines/assets/slur.js" defer></script>
+<style>
+/* 페이지 CSS — 빈 워크스페이스의 첫 화면: 히어로(empty_state) + 진행 체크리스트 + 둘러보기 + 4상태 활동.
+   첫 고객이 생기면 page_onboarding[data-state="started"] — 히어로가 내려가고 활동 블록이 채워진다 */
+.page_onboarding { display: flex; flex-direction: column; gap: 20px; max-width: 1040px; }
+.page_onboarding .p_hero .empty_state { max-width: 520px; padding: 40px 24px 32px; }
+.page_onboarding .p_hero .empty_state .i_icon { width: 3.5rem; height: 3.5rem; background: var(--color-brand-soft); color: var(--color-brand); }
+.page_onboarding .p_hero .empty_state .i_icon svg { width: 1.75rem; height: 1.75rem; }
+.page_onboarding .p_hero .empty_state .i_title { font-size: var(--text-2xl); letter-spacing: var(--tracking-snug); }
+.page_onboarding .p_hero .empty_state .i_text { font-size: var(--text-base); }
+.page_onboarding[data-state="started"] .p_hero { display: none; }
+.page_onboarding .p_grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
+.page_onboarding .p_col { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+/* 체크리스트 — 진행 표시는 네이티브 progress(룩만 입힘), 항목 완료는 li의 data-state="done" */
+.page_onboarding .p_checklist .i_head { align-items: center; }
+.page_onboarding .p_progress_text { font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
+.page_onboarding .p_progress_text strong { font-size: var(--text-lg); color: var(--color-text-primary); }
+.page_onboarding .p_progress { display: block; width: 100%; height: 6px; margin: 16px 0 0; border: none; border-radius: var(--radius-full); background: var(--color-surface-sunken); overflow: hidden; appearance: none; -webkit-appearance: none; }
+.page_onboarding .p_progress::-webkit-progress-bar { background: transparent; }
+.page_onboarding .p_progress::-webkit-progress-value { border-radius: var(--radius-full); background: var(--color-brand); transition: width var(--duration-slow) var(--ease-standard); }
+.page_onboarding .p_progress::-moz-progress-bar { border-radius: var(--radius-full); background: var(--color-brand); }
+.page_onboarding .p_checklist .i_body { padding: 0 var(--space-20); }
+.page_onboarding .p_steps { list-style: none; }
+.page_onboarding .p_step { display: grid; grid-template-columns: 1.5rem 1fr auto; gap: 12px; align-items: center; padding: 16px 0; border-top: 1px solid var(--color-border-subtle); }
+.page_onboarding .p_step:first-child { border-top: none; }
+.page_onboarding .p_step_icon { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; border: 1px solid var(--color-border-strong); border-radius: 50%; font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--color-text-muted); }
+.page_onboarding .p_step_icon svg { display: none; width: 0.875rem; height: 0.875rem; }
+.page_onboarding .p_step[data-state="done"] .p_step_icon { border-color: var(--color-success); background: var(--color-success); color: var(--color-on-success); }
+.page_onboarding .p_step[data-state="done"] .p_step_icon svg { display: block; }
+.page_onboarding .p_step[data-state="done"] .p_step_icon .p_step_no { display: none; }
+.page_onboarding .p_step_body { display: flex; flex-direction: column; min-width: 0; }
+.page_onboarding .p_step_body strong { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-primary); }
+.page_onboarding .p_step_body small { font-size: var(--text-xs); color: var(--color-text-muted); }
+.page_onboarding .p_step[data-state="done"] .p_step_body strong { color: var(--color-text-secondary); text-decoration: line-through; }
+.page_onboarding .p_step[data-state="done"] .p_step_action { display: none; }
+.page_onboarding .p_step_action a { font-size: var(--text-sm); color: var(--color-text-brand); text-decoration: none; }
+.page_onboarding .p_step_action a:hover { text-decoration: underline; }
+/* 모두 마치면 i_foot가 완료 메시지로 — p_checklist[data-state="done"] */
+.page_onboarding .p_checklist .i_foot { align-items: center; justify-content: space-between; }
+.page_onboarding .p_checklist .p_foot_done { display: none; align-items: center; gap: var(--space-8); font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-success); }
+.page_onboarding .p_checklist[data-state="done"] .p_foot_done { display: inline-flex; }
+.page_onboarding .p_checklist[data-state="done"] .p_foot_todo { display: none; }
+.page_onboarding .p_foot_todo { font-size: var(--text-xs); color: var(--color-text-muted); }
+/* 둘러보기 — 리스트 카드(m_list)의 링크 행 */
+.page_onboarding .p_explore .i_row { color: inherit; text-decoration: none; }
+.page_onboarding .p_explore .i_row svg { width: 1.125rem; height: 1.125rem; color: var(--color-text-muted); flex: none; }
+.page_onboarding .p_explore .i_row .p_row_text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.page_onboarding .p_explore .i_row strong { font-size: var(--text-sm); font-weight: var(--weight-medium); }
+.page_onboarding .p_explore .i_row small { font-size: var(--text-xs); color: var(--color-text-muted); }
+.page_onboarding .p_explore .p_row_head { padding: var(--space-12) var(--space-12) var(--space-4); font-size: var(--text-xs); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
+.page_onboarding .p_tip .i_body { display: flex; flex-direction: column; gap: var(--space-12); font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_onboarding .p_tip strong { color: var(--color-text-primary); }
+/* 활동 — 4상태 블록(empty → success). 정상 본문은 타임라인 한 줄 */
+.page_onboarding .p_feed > .i_body { padding: 0; }
+.page_onboarding .p_activity_list { list-style: none; }
+.page_onboarding .p_activity_list li { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-20); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+.page_onboarding .p_activity_list li:first-child { border-top: none; }
+.page_onboarding .p_activity_list time { font-size: var(--text-xs); color: var(--color-text-muted); flex: none; }
+@media (max-width: 1023px) {
+  .page_onboarding .p_grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 639px) {
+  .page_onboarding .p_hero .empty_state { padding: 28px 16px 24px; }
+  .page_onboarding .p_step { grid-template-columns: 1.5rem 1fr; }
+  .page_onboarding .p_step_action { grid-column: 2; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout_app">
+
+  <div class="l_side" id="app_side" data-state="close">
+    <div class="l_panel">
+      <a class="l_brand" href="dashboard.html"><span class="l_logo" role="img" aria-label="SLUR"><img class="l_logo_light" src="../../brand/logo.svg" alt=""><img class="l_logo_dark" src="../../brand/logo-white.svg" alt=""></span></a>
+      <button type="button" class="l_close" data-action="drawer_close" aria-label="메뉴 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+      <span class="l_group">워크스페이스</span>
+      <nav aria-label="주 메뉴">
+        <ul class="l_nav">
+          <li><a class="l_item" href="onboarding.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><path d="M4 22v-7"></path></svg>시작하기<span class="l_count" id="nav_progress">2/5</span></a></li>
+          <li><a class="l_item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>대시보드</a></li>
+          <li><a class="l_item" href="list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>고객<span class="l_count" id="nav_customers">0</span></a></li>
+          <li><a class="l_item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>청구서</a></li>
+          <li><a class="l_item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>리포트</a></li>
+        </ul>
+      </nav>
+      <div class="l_divider" role="separator"></div>
+      <span class="l_group">계정</span>
+      <nav aria-label="계정 메뉴"><ul class="l_nav"><li><a class="l_item" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>설정</a></li></ul></nav>
+      <div class="l_foot"><a class="l_user" href="settings.html"><span class="l_avatar">SL</span><span class="l_user_meta">슬러<small>admin@slur.co.kr</small></span></a></div>
+    </div>
+    <div class="l_dim" data-action="drawer_close" aria-hidden="true"></div>
+  </div>
+
+  <header class="l_head">
+    <button type="button" class="l_menu" data-action="drawer_open" aria-controls="app_side" aria-expanded="false" aria-label="메뉴 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button>
+    <nav class="breadcrumb" aria-label="현재 위치"><a href="dashboard.html" class="i_link">워크스페이스</a><span class="i_sep">/</span><span class="i_current">시작하기</span></nav>
+    <div class="l_actions">
+      <button type="button" class="btn m_ghost m_icon" data-action="theme_toggle" aria-pressed="false" aria-label="다크 모드 전환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
+    </div>
+  </header>
+
+  <main class="l_main">
+    <div class="page_onboarding" data-state="">
+
+      <!-- 히어로 — 워크스페이스가 비었을 때의 빈 상태. 첫 고객이 생기면 사라진다 -->
+      <section class="card p_hero" aria-labelledby="hero_title">
+        <div class="empty_state">
+          <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"></path><circle cx="12" cy="12" r="4"></circle></svg></span>
+          <h1 class="i_title" id="hero_title">슬러 워크스페이스에 오신 것을 환영합니다</h1>
+          <p class="i_text">아직 고객이 없습니다. 첫 고객을 추가하면 대시보드·청구서·리포트가 채워지기 시작합니다.</p>
+          <div class="i_action"><button type="button" class="btn m_primary m_large" data-action="customer_open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>첫 고객 추가</button><button type="button" class="btn m_large" data-action="import">CSV로 가져오기</button></div>
+        </div>
+      </section>
+
+      <div class="p_grid">
+        <div class="p_col">
+          <!-- 체크리스트 — 다섯 단계. 완료는 li[data-state=done], 전체 완료는 카드의 data-state=done -->
+          <section class="card p_checklist" data-state="" aria-labelledby="cl_title">
+            <div class="i_head">
+              <div><h2 class="i_title" id="cl_title">시작하기</h2><p class="i_desc">다섯 단계면 준비가 끝납니다.</p></div>
+              <span class="p_progress_text"><strong class="p_done_count">2</strong>/5</span>
+            </div>
+            <div class="i_body">
+              <progress class="p_progress" value="2" max="5" aria-label="시작하기 진행 5단계 중 2단계 완료"></progress>
+              <ol class="p_steps">
+                <li class="p_step" data-state="done" data-step="workspace"><span class="p_step_icon" aria-hidden="true"><span class="p_step_no">1</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div class="p_step_body"><strong>워크스페이스 만들기<span class="a11y_hidden"> — 완료</span></strong><small>slur 워크스페이스가 준비됐습니다</small></div><div class="p_step_action"></div></li>
+                <li class="p_step" data-state="done" data-step="profile"><span class="p_step_icon" aria-hidden="true"><span class="p_step_no">2</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div class="p_step_body"><strong>프로필 완성<span class="a11y_hidden"> — 완료</span></strong><small>이름·사진을 넣었습니다 · <a href="settings.html">설정에서 수정</a></small></div><div class="p_step_action"></div></li>
+                <li class="p_step" data-state="" data-step="customer"><span class="p_step_icon" aria-hidden="true"><span class="p_step_no">3</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div class="p_step_body"><strong>첫 고객 추가<span class="a11y_hidden"></span></strong><small>고객이 생기면 청구서와 리포트가 시작됩니다</small></div><div class="p_step_action"><button type="button" class="btn m_primary m_small" data-action="customer_open">고객 추가</button></div></li>
+                <li class="p_step" data-state="" data-step="invite"><span class="p_step_icon" aria-hidden="true"><span class="p_step_no">4</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div class="p_step_body"><strong>팀원 초대<span class="a11y_hidden"></span></strong><small>함께 일할 사람을 이메일로 초대합니다</small></div><div class="p_step_action"><button type="button" class="btn m_small" data-action="invite_open">초대하기</button></div></li>
+                <li class="p_step" data-state="" data-step="invoice"><span class="p_step_icon" aria-hidden="true"><span class="p_step_no">5</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div class="p_step_body"><strong>첫 청구서 보내기<span class="a11y_hidden"></span></strong><small class="p_invoice_hint">고객을 먼저 추가하세요</small></div><div class="p_step_action"><button type="button" class="btn m_small" data-action="invoice_send" disabled>청구서 보내기</button></div></li>
+              </ol>
+            </div>
+            <div class="i_foot">
+              <span class="p_foot_todo">언제든 돌아올 수 있습니다 — 왼쪽 메뉴의 「시작하기」</span>
+              <span class="p_foot_done"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>모두 마쳤습니다. 준비 끝!</span>
+              <a class="btn m_small p_foot_dash" href="dashboard.html">대시보드로</a>
+            </div>
+          </section>
+
+          <!-- 최근 활동 — 4상태 블록. 시작 전엔 empty, 첫 고객 뒤 success -->
+          <section class="card p_activity" aria-labelledby="act_title">
+            <div class="i_head"><h2 class="i_title" id="act_title">최근 활동</h2></div>
+            <div class="p_feed" id="activity" data-state="empty">
+              <div class="i_status" role="status">
+                <div class="i_loading"><span class="spinner" aria-hidden="true"></span> 불러오는 중…</div>
+                <div class="i_empty"><div class="empty_state m_compact"><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></span><span class="i_title">아직 활동이 없습니다</span><span class="i_text">고객을 추가하거나 팀원을 초대하면 여기에 기록됩니다.</span></div></div>
+                <div class="i_error"><div class="empty_state m_compact m_error"><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg></span><span class="i_title">활동을 불러오지 못했습니다</span></div></div>
+              </div>
+              <div class="i_body"><ul class="p_activity_list"></ul></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="p_col">
+          <section class="card m_list p_explore" aria-label="둘러보기">
+            <span class="p_row_head">둘러보기</span>
+            <a class="i_row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span class="p_row_text"><strong>5분 안내서</strong><small>고객 → 청구서 → 리포트 흐름</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></a>
+            <a class="i_row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg><span class="p_row_text"><strong>템플릿 가져오기</strong><small>청구서·견적서 서식</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></a>
+            <a class="i_row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"></path></svg><span class="p_row_text"><strong>도움 받기</strong><small>채팅 · 이메일 · 커뮤니티</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></a>
+          </section>
+          <section class="card m_flat p_tip" aria-label="팁">
+            <div class="i_body"><span><strong>이미 데이터가 있나요?</strong> 스프레드시트를 CSV로 내보내 한 번에 가져올 수 있습니다. 열 이름만 맞추면 됩니다.</span><div><button type="button" class="btn m_small" data-action="import">CSV로 가져오기</button></div></div>
+          </section>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- 첫 고객 — 네이티브 dialog. 닫히면 포커스는 연 버튼으로(브라우저 기본) -->
+<dialog class="modal_dialog" id="modal_customer" aria-labelledby="modal_customer_title">
+  <div class="i_head"><h2 class="i_title" id="modal_customer_title">첫 고객 추가</h2><button type="button" class="i_close" data-action="modal_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+  <form id="customer_form" novalidate>
+    <div class="i_body">
+      <div class="field"><label class="i_label" for="c_name">이름</label><input class="input_text" id="c_name" name="name" placeholder="홍길동" autocomplete="off" required aria-describedby="c_name_help"><span class="i_help" id="c_name_help"></span></div>
+      <div class="field"><label class="i_label" for="c_email">이메일</label><input class="input_text" type="email" id="c_email" name="email" placeholder="name@company.com" autocomplete="off" aria-describedby="c_email_help"><span class="i_help" id="c_email_help">선택 — 청구서를 보낼 주소</span></div>
+    </div>
+    <div class="i_foot"><button type="button" class="btn" data-action="modal_close">취소</button><button type="submit" class="btn m_primary">추가</button></div>
+  </form>
+</dialog>
+
+<!-- 팀원 초대 -->
+<dialog class="modal_dialog" id="modal_invite" aria-labelledby="modal_invite_title">
+  <div class="i_head"><h2 class="i_title" id="modal_invite_title">팀원 초대</h2><button type="button" class="i_close" data-action="modal_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+  <form id="invite_form" novalidate>
+    <div class="i_body">
+      <div class="field"><label class="i_label" for="i_email">이메일</label><input class="input_text" type="email" id="i_email" name="email" placeholder="teammate@company.com" autocomplete="off" required aria-describedby="i_email_help"><span class="i_help" id="i_email_help"></span></div>
+      <div class="field"><label class="i_label" for="i_role">역할</label><div class="select"><select class="input_text" id="i_role" name="role"><option value="member" selected>멤버 — 고객·청구서 편집</option><option value="admin">관리자 — 설정·결제까지</option></select><span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></div></div>
+    </div>
+    <div class="i_foot"><button type="button" class="btn" data-action="modal_close">취소</button><button type="submit" class="btn m_primary">초대 보내기</button></div>
+  </form>
+</dialog>
+
+<div class="toast_message" role="status" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+
+<script>
+// 페이지 스크립트 — 체크리스트 진행·첫 고객·초대 흐름만. 위젯 동작(드로어·토스트·테마)은 slur.js
+const page = document.querySelector('.page_onboarding');
+const checklist = page.querySelector('.p_checklist');
+const activity = document.getElementById('activity');
+const activityList = page.querySelector('.p_activity_list');
+let customers = 0;
+
+// 진행 — 완료 수를 progress 값·글자·사이드바 카운트·aria-label에 한 번에 반영. 전부 끝나면 카드 data-state=done
+function syncProgress() {
+  const steps = [...checklist.querySelectorAll('.p_step')], done = steps.filter((s) => s.dataset.state === 'done').length;
+  const bar = checklist.querySelector('.p_progress');
+  bar.value = done; bar.setAttribute('aria-label', `시작하기 진행 ${steps.length}단계 중 ${done}단계 완료`);
+  checklist.querySelector('.p_done_count').textContent = done;
+  document.getElementById('nav_progress').textContent = `${done}/${steps.length}`;
+  checklist.dataset.state = done === steps.length ? 'done' : '';
+}
+function completeStep(key) {
+  const li = checklist.querySelector(`[data-step="${key}"]`);
+  if (!li || li.dataset.state === 'done') return;
+  li.dataset.state = 'done';
+  li.querySelector('.p_step_body strong .a11y_hidden').textContent = ' — 완료';
+  syncProgress();
+}
+function addActivity(text) {
+  const li = document.createElement('li');
+  li.innerHTML = `<span></span><time>방금</time>`;
+  li.firstChild.textContent = text;
+  activityList.prepend(li);
+  activity.dataset.state = 'success';
+}
+
+// 오류는 field의 data-state + i_help 문장 + aria-invalid
+function setError(input, message) {
+  input.closest('.field').dataset.state = message ? 'error' : '';
+  input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  input.closest('.field').querySelector('.i_help').textContent = message || '';
+}
+
+document.getElementById('customer_form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('c_name'), email = document.getElementById('c_email');
+  let firstInvalid = null;
+  if (!name.value.trim()) { setError(name, '이름을 입력하세요.'); firstInvalid ??= name; } else setError(name, '');
+  if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { setError(email, '올바른 이메일 주소를 입력하세요.'); firstInvalid ??= email; } else setError(email, '선택 — 청구서를 보낼 주소');
+  if (firstInvalid) { firstInvalid.focus(); return; }
+  const btn = e.target.querySelector('[type="submit"]');
+  btn.dataset.state = 'loading'; btn.disabled = true; btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>추가 중…';
+  await new Promise((r) => setTimeout(r, 700));   // 데모 — 실제로는 fetch
+  btn.dataset.state = ''; btn.disabled = false; btn.textContent = '추가';
+  document.getElementById('modal_customer').close();
+  customers++;
+  document.getElementById('nav_customers').textContent = customers;
+  page.dataset.state = 'started';   // 히어로 내려감
+  completeStep('customer');
+  const inv = checklist.querySelector('[data-action="invoice_send"]'); inv.disabled = false; checklist.querySelector('.p_invoice_hint').textContent = `${name.value.trim()} 님에게 첫 청구서를 보내 보세요`;
+  addActivity(`고객 ${name.value.trim()} 추가`);
+  slur.toast(`${name.value.trim()} 님을 추가했습니다.`);   // 모달이 닫힌 뒤 — slur.js가 순서를 보장
+  e.target.reset();
+});
+
+document.getElementById('invite_form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('i_email');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { setError(email, '올바른 이메일 주소를 입력하세요.'); email.focus(); return; }
+  setError(email, '');
+  const btn = e.target.querySelector('[type="submit"]');
+  btn.dataset.state = 'loading'; btn.disabled = true; btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>보내는 중…';
+  await new Promise((r) => setTimeout(r, 700));
+  btn.dataset.state = ''; btn.disabled = false; btn.textContent = '초대 보내기';
+  document.getElementById('modal_invite').close();
+  completeStep('invite');
+  addActivity(`${email.value.trim()} 초대 (${document.getElementById('i_role').value === 'admin' ? '관리자' : '멤버'})`);
+  slur.toast(`${email.value.trim()}로 초대를 보냈습니다.`);
+  e.target.reset();
+});
+
+document.addEventListener('input', (e) => { if (e.target.matches('dialog .input_text') && e.target.closest('.field').dataset.state === 'error') setError(e.target, ''); });
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const { action } = el.dataset;
+  if (action === 'customer_open') { document.getElementById('modal_customer').showModal(); document.getElementById('c_name').focus(); }
+  if (action === 'invite_open') { document.getElementById('modal_invite').showModal(); document.getElementById('i_email').focus(); }
+  if (action === 'modal_close') el.closest('dialog').close();
+  if (action === 'import') slur.toast('CSV 가져오기는 데모에 없습니다.');
+  if (action === 'invoice_send') { completeStep('invoice'); addActivity('첫 청구서 발송'); slur.toast('첫 청구서를 보냈습니다. (데모)'); }
+});
+</script>
+</body>
+</html>

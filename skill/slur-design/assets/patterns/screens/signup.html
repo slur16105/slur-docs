@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원가입 — SLUR 화면 조립본</title>
+<!-- 테마 복원은 첫 페인트 전에(깜빡임 방지) — slur.js보다 먼저, head 인라인 한 줄 -->
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="icon" href="../../brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
+<link rel="stylesheet" href="../../tokens/colors.css">
+<link rel="stylesheet" href="../../tokens/typography.css">
+<link rel="stylesheet" href="../../tokens/spacing.css">
+<link rel="stylesheet" href="../../tokens/radius.css">
+<link rel="stylesheet" href="../../tokens/shadows.css">
+<link rel="stylesheet" href="../../tokens/motion.css">
+<link rel="stylesheet" href="../../tokens/breakpoints.css">
+<link rel="stylesheet" href="../../tokens/z-index.css">
+<link rel="stylesheet" href="../../components/button.css">
+<link rel="stylesheet" href="../../components/input.css">
+<link rel="stylesheet" href="../../components/selection.css">
+<link rel="stylesheet" href="../../components/alert.css">
+<link rel="stylesheet" href="../../components/state.css">
+<link rel="stylesheet" href="../../components/toast.css">
+<link rel="stylesheet" href="../auth-shell.css">
+<script src="../../../../slur-guidelines/assets/slur.js" defer></script>
+<style>
+/* 페이지 CSS — 가입 폼 조합. 폼(p_main) ↔ 인증 메일 안내(p_done)는 page_signup의 data-state="sent"로 전환 */
+.page_signup { display: flex; flex-direction: column; gap: 24px; }
+.page_signup .p_head { display: flex; flex-direction: column; gap: var(--space-4); }
+.page_signup .p_title { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); }
+.page_signup .p_desc { font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_signup .alert[data-state="close"] { display: none; }
+.page_signup .alert a { font-weight: var(--weight-medium); color: inherit; }
+.page_signup .p_main { display: flex; flex-direction: column; gap: 24px; }
+.page_signup .p_form { display: flex; flex-direction: column; gap: 16px; }
+.page_signup .i_help:empty { display: none; }
+/* 비밀번호 강도 — 막대 네 칸은 장식(aria-hidden), 읽히는 문장은 i_help. 단계는 막대의 data-state */
+.page_signup .p_strength { display: flex; gap: var(--space-4); height: 4px; }
+.page_signup .p_strength span { border-radius: var(--radius-full); background: var(--color-border-subtle); flex: 1; transition: background-color var(--duration-fast) var(--ease-standard); }
+.page_signup .p_strength[data-state="weak"] span:nth-child(1) { background: var(--color-danger); }
+.page_signup .p_strength[data-state="fair"] span:nth-child(-n+2) { background: var(--color-warning); }
+.page_signup .p_strength[data-state="good"] span:nth-child(-n+3) { background: var(--color-success); }
+.page_signup .p_strength[data-state="strong"] span { background: var(--color-success); }
+/* 규칙 체크리스트 — 충족은 li의 data-state="pass". 색만으로 전하지 않도록 숨은 글자(충족/미충족)도 함께 */
+.page_signup .p_rules { display: flex; gap: var(--space-4) var(--space-12); list-style: none; font-size: var(--text-xs); color: var(--color-text-muted); flex-wrap: wrap; }
+.page_signup .p_rules li { display: flex; align-items: center; gap: var(--space-4); }
+.page_signup .p_rules li::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--color-border-strong); }
+.page_signup .p_rules li[data-state="pass"] { color: var(--color-success); }
+.page_signup .p_rules li[data-state="pass"]::before { background: var(--color-success); }
+/* 약관 — 전체 동의 + 개별 항목. 필수 미동의 오류는 field[data-state=error]의 i_help로 */
+.page_signup .p_terms { gap: var(--space-8); padding: 12px 16px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-8); background: var(--color-surface-sunken); }
+.page_signup .p_terms .check { align-items: flex-start; }
+.page_signup .p_terms .check .i_input { margin-top: 0.125rem; }
+.page_signup .p_terms .p_all { padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border-subtle); }
+.page_signup .p_terms a { color: var(--color-text-secondary); text-decoration: underline; }
+.page_signup .p_divider { display: flex; align-items: center; gap: var(--space-12); font-size: var(--text-xs); color: var(--color-text-muted); }
+.page_signup .p_divider::before, .page_signup .p_divider::after { content: ""; height: 1px; background: var(--color-border-subtle); flex: 1; }
+.page_signup .p_social { display: flex; flex-direction: column; gap: 8px; }
+.page_signup .p_login { font-size: var(--text-sm); color: var(--color-text-secondary); text-align: center; }
+.page_signup .p_login a, .page_signup .p_done a { font-weight: var(--weight-medium); color: var(--color-text-brand); text-decoration: none; }
+.page_signup .p_login a:hover, .page_signup .p_done a:hover { text-decoration: underline; }
+/* 인증 메일 안내 — empty_state 패널 재사용(아이콘+제목+문장+행동). 보낸 주소는 strong */
+.page_signup .p_done { display: none; flex-direction: column; gap: 16px; }
+.page_signup[data-state="sent"] .p_main { display: none; }
+.page_signup[data-state="sent"] .p_done { display: flex; }
+.page_signup .p_done .empty_state .i_icon { background: var(--color-brand-soft); color: var(--color-brand); }
+.page_signup .p_done .p_note { font-size: var(--text-xs); color: var(--color-text-muted); text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="layout_auth">
+  <a class="l_brand" href="login.html"><span class="l_logo" role="img" aria-label="SLUR"><img class="l_logo_light" src="../../brand/logo.svg" alt=""><img class="l_logo_dark" src="../../brand/logo-white.svg" alt=""></span></a>
+
+  <main class="l_main">
+    <div class="l_card">
+      <div class="page_signup" data-state="">
+
+        <div class="p_main">
+          <div class="p_head">
+            <h1 class="p_title">계정 만들기</h1>
+            <p class="p_desc">무료로 시작하고 언제든 플랜을 바꿀 수 있습니다. (데모: taken@slur.co.kr는 이미 가입된 이메일)</p>
+          </div>
+
+          <!-- 폼 전체 실패(중복 이메일 등 서버 응답)는 폼 상단 인라인 alert — role=alert, 제출 결과에만 표시 -->
+          <div class="alert m_inline m_danger" role="alert" data-state="close">
+            <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg></span>
+            <span class="i_text">이미 가입된 이메일입니다. <a href="login.html">로그인</a>하거나 다른 이메일을 쓰세요.</span>
+          </div>
+
+          <form class="p_form" novalidate>
+            <div class="field">
+              <label class="i_label" for="su_name">이름</label>
+              <input class="input_text m_large" type="text" id="su_name" name="name" autocomplete="name" placeholder="홍길동" required aria-describedby="su_name_help">
+              <span class="i_help" id="su_name_help"></span>
+            </div>
+            <div class="field">
+              <label class="i_label" for="su_email">이메일</label>
+              <input class="input_text m_large" type="email" id="su_email" name="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="su_email_help">
+              <span class="i_help" id="su_email_help"></span>
+            </div>
+            <div class="field">
+              <label class="i_label" for="su_pw">비밀번호</label>
+              <div class="input_wrap">
+                <input class="input_text m_large m_icon_right" type="password" id="su_pw" name="password" autocomplete="new-password" required aria-describedby="su_pw_help su_pw_rules">
+                <button class="i_action" type="button" data-action="pw_toggle" aria-controls="su_pw" aria-label="비밀번호 표시" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+              </div>
+              <div class="p_strength" data-state="" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+              <ul class="p_rules" id="su_pw_rules">
+                <li data-rule="length" data-state="">8자 이상<span class="p_rule_state a11y_hidden"> 미충족</span></li>
+                <li data-rule="alpha" data-state="">영문 포함<span class="p_rule_state a11y_hidden"> 미충족</span></li>
+                <li data-rule="digit" data-state="">숫자 포함<span class="p_rule_state a11y_hidden"> 미충족</span></li>
+              </ul>
+              <span class="i_help" id="su_pw_help"></span>
+            </div>
+            <div class="field">
+              <label class="i_label" for="su_pw2">비밀번호 확인</label>
+              <div class="input_wrap">
+                <input class="input_text m_large m_icon_right" type="password" id="su_pw2" name="password2" autocomplete="new-password" required aria-describedby="su_pw2_help">
+                <button class="i_action" type="button" data-action="pw_toggle" aria-controls="su_pw2" aria-label="비밀번호 표시" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+              </div>
+              <span class="i_help" id="su_pw2_help"></span>
+            </div>
+
+            <!-- 약관 — fieldset으로 묶고, 필수 항목 미동의는 field 오류로 -->
+            <fieldset class="field p_terms" data-state="" aria-describedby="su_terms_help">
+              <legend class="a11y_hidden">약관 동의</legend>
+              <label class="check p_all"><input class="i_input" type="checkbox" data-action="agree_all"><span><strong>전체 동의</strong></span></label>
+              <label class="check"><input class="i_input" type="checkbox" name="tos" data-required="true"><span>(필수) <a href="#">이용약관</a>에 동의합니다</span></label>
+              <label class="check"><input class="i_input" type="checkbox" name="privacy" data-required="true"><span>(필수) <a href="#">개인정보처리방침</a>에 동의합니다</span></label>
+              <label class="check"><input class="i_input" type="checkbox" name="marketing"><span>(선택) 제품 소식·이벤트 안내를 받습니다</span></label>
+              <span class="i_help" id="su_terms_help"></span>
+            </fieldset>
+
+            <button class="btn m_primary m_large m_full" type="submit">계정 만들기</button>
+          </form>
+
+          <div class="p_divider"><span>또는</span></div>
+          <div class="p_social">
+            <button class="btn m_large m_full" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10zM2 12h20"></path></svg>Google로 계속</button>
+            <button class="btn m_large m_full" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 22v-4a4 4 0 0 0-1-3c3 0 6-2 6-5.5a4.6 4.6 0 0 0-1-3.5 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2 4.6 4.6 0 0 0-1 3.5c0 3.5 3 5.5 6 5.5a4 4 0 0 0-1 3v4"></path></svg>GitHub로 계속</button>
+          </div>
+          <p class="p_login">이미 계정이 있으신가요? <a href="login.html">로그인</a></p>
+        </div>
+
+        <!-- 인증 메일 안내 — 가입 요청 성공 뒤. 포커스는 제목으로(화면이 바뀌었음을 알림) -->
+        <div class="p_done">
+          <div class="empty_state">
+            <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg></span>
+            <h1 class="i_title" tabindex="-1">인증 메일을 보냈습니다</h1>
+            <p class="i_text"><strong class="p_sent_to">you@example.com</strong>으로 보낸 메일의 링크를 누르면 가입이 끝납니다. 링크는 24시간 동안 유효합니다.</p>
+            <div class="i_action">
+              <button type="button" class="btn m_small" data-action="resend" disabled>다시 보내기 (60초)</button>
+              <button type="button" class="btn m_ghost m_small" data-action="back">다른 이메일로 가입</button>
+            </div>
+          </div>
+          <p class="p_note">메일이 보이지 않으면 스팸함을 확인하세요. 문제가 계속되면 <a href="#">고객지원</a>에 문의하세요.</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="l_foot"><a href="#">이용약관</a><a href="#">개인정보처리방침</a><span>© 2026 SLUR</span></footer>
+</div>
+
+<!-- 토스트 컨테이너 — 라이브 영역은 미리 DOM에 -->
+<div class="toast_message" role="status" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+
+<script>
+// 페이지 스크립트 — 검증·강도·약관·제출 흐름만. 위젯 동작(토스트·테마)은 slur.js
+const page = document.querySelector('.page_signup');
+const form = page.querySelector('.p_form');
+const alertBox = page.querySelector('.alert');
+const fields = {
+  name: { input: document.getElementById('su_name'), help: document.getElementById('su_name_help') },
+  email: { input: document.getElementById('su_email'), help: document.getElementById('su_email_help') },
+  password: { input: document.getElementById('su_pw'), help: document.getElementById('su_pw_help') },
+  password2: { input: document.getElementById('su_pw2'), help: document.getElementById('su_pw2_help') }
+};
+const terms = page.querySelector('.p_terms');
+const termsHelp = document.getElementById('su_terms_help');
+const rules = { length: (v) => v.length >= 8, alpha: (v) => /[A-Za-z]/.test(v), digit: (v) => /\d/.test(v) };
+
+// 오류는 field의 data-state + i_help 문장 + aria-invalid. 풀리면 셋 다 되돌린다
+function setError(key, message) {
+  const { input, help } = fields[key];
+  input.closest('.field').dataset.state = message ? 'error' : '';
+  input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  help.textContent = message || '';
+}
+function setTermsError(message) { terms.dataset.state = message ? 'error' : ''; termsHelp.textContent = message || ''; }
+
+// 강도 — 규칙 충족 수 + 길이 보너스. 막대(data-state)와 읽히는 문장(i_help)을 같이 갱신
+function updateStrength(v) {
+  let score = 0;
+  Object.entries(rules).forEach(([k, test]) => {
+    const pass = test(v), li = page.querySelector(`[data-rule="${k}"]`);
+    li.dataset.state = pass ? 'pass' : '';
+    li.querySelector('.p_rule_state').textContent = pass ? ' 충족' : ' 미충족';
+    if (pass) score++;
+  });
+  if (v.length >= 12) score++;
+  if (/[^A-Za-z0-9]/.test(v)) score++;
+  const level = !v ? '' : score <= 1 ? 'weak' : score === 2 ? 'fair' : score === 3 ? 'good' : 'strong';
+  page.querySelector('.p_strength').dataset.state = level;
+  const label = { weak: '약함', fair: '보통', good: '좋음', strong: '강함' }[level];
+  if (fields.password.input.closest('.field').dataset.state !== 'error') fields.password.help.textContent = label ? `비밀번호 강도: ${label}` : '';
+}
+
+// 비밀번호 보기 — 버튼의 aria-controls가 가리키는 입력만 바꾼다(두 개라서)
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-action="pw_toggle"]');
+  if (!btn) return;
+  const input = document.getElementById(btn.getAttribute('aria-controls')), show = input.type === 'password';
+  input.type = show ? 'text' : 'password';
+  btn.setAttribute('aria-pressed', String(show));
+  btn.setAttribute('aria-label', show ? '비밀번호 숨기기' : '비밀번호 표시');
+});
+
+// 약관 — 전체 동의 ↔ 개별 항목. 일부만 켜지면 전체 동의는 indeterminate
+const agreeAll = terms.querySelector('[data-action="agree_all"]');
+const items = [...terms.querySelectorAll('.i_input:not([data-action])')];
+terms.addEventListener('change', (e) => {
+  if (e.target === agreeAll) items.forEach((c) => { c.checked = agreeAll.checked; });
+  const on = items.filter((c) => c.checked).length;
+  agreeAll.checked = on === items.length;
+  agreeAll.indeterminate = on > 0 && on < items.length;
+  if (items.filter((c) => c.dataset.required).every((c) => c.checked)) setTermsError('');
+});
+
+form.addEventListener('input', (e) => {
+  const key = e.target.name;
+  if (fields[key]) setError(key, '');
+  if (key === 'password') updateStrength(e.target.value);
+  alertBox.dataset.state = 'close';
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = fields.name.input.value.trim(), email = fields.email.input.value.trim();
+  const pw = fields.password.input.value, pw2 = fields.password2.input.value;
+  let firstInvalid = null;
+  if (name.length < 2) { setError('name', '이름을 2자 이상 입력하세요.'); firstInvalid ??= fields.name.input; } else setError('name', '');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email', '올바른 이메일 주소를 입력하세요.'); firstInvalid ??= fields.email.input; } else setError('email', '');
+  if (!Object.values(rules).every((t) => t(pw))) { setError('password', '아래 규칙을 모두 만족해야 합니다.'); firstInvalid ??= fields.password.input; } else setError('password', '');
+  if (pw2 !== pw || !pw2) { setError('password2', '비밀번호가 일치하지 않습니다.'); firstInvalid ??= fields.password2.input; } else setError('password2', '');
+  const firstUnchecked = items.find((c) => c.dataset.required && !c.checked);
+  if (firstUnchecked) { setTermsError('필수 약관에 동의해야 가입할 수 있습니다.'); firstInvalid ??= firstUnchecked; } else setTermsError('');
+  if (firstInvalid) { firstInvalid.focus(); return; }   // 포커스는 첫 오류 필드로 — 인라인 오류는 그 자리에서
+
+  const submit = form.querySelector('[type="submit"]');
+  submit.dataset.state = 'loading'; submit.disabled = true;
+  submit.innerHTML = '<span class="spinner" aria-hidden="true"></span>계정 만드는 중…';
+  await new Promise((r) => setTimeout(r, 900));   // 데모 — 실제로는 fetch
+  submit.dataset.state = ''; submit.disabled = false; submit.textContent = '계정 만들기';
+
+  if (email === 'taken@slur.co.kr') { alertBox.dataset.state = 'show'; fields.email.input.focus(); return; }   // 서버 응답 오류는 폼 상단 alert
+  page.querySelector('.p_sent_to').textContent = email;
+  page.dataset.state = 'sent';
+  page.querySelector('.p_done .i_title').focus();
+  startResendTimer();
+});
+
+// 재전송 — 60초 동안 잠갔다가 푼다. 카운트다운은 버튼 글자만 바꾼다(라이브 영역 아님 — 매초 읽히면 시끄럽다)
+let timer = null;
+function startResendTimer() {
+  const btn = page.querySelector('[data-action="resend"]');
+  let left = 60; btn.disabled = true; btn.textContent = `다시 보내기 (${left}초)`;
+  clearInterval(timer);
+  timer = setInterval(() => { left--; if (left <= 0) { clearInterval(timer); btn.disabled = false; btn.textContent = '다시 보내기'; } else btn.textContent = `다시 보내기 (${left}초)`; }, 1000);
+}
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  if (el.dataset.action === 'resend') { slur.toast('인증 메일을 다시 보냈습니다.'); startResendTimer(); }
+  if (el.dataset.action === 'back') { clearInterval(timer); page.dataset.state = ''; fields.email.input.focus(); fields.email.input.select(); }
+});
+</script>
+</body>
+</html>

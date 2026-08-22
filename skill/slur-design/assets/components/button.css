@@ -5,7 +5,7 @@
    공유 컨트롤 높이: 2/2.5/3rem (32/40/48).
    ───────────────────────────────────────────── */
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: 2.5rem; padding: 0 var(--space-16); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: 2.5rem; padding: 0 var(--space-16); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); text-decoration: none; color: inherit; cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
 .btn:hover { background: var(--color-surface-hover); }
 .btn:active { background: var(--color-surface-sunken); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }

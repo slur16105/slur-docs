@@ -193,7 +193,7 @@ const series = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--color-chart-${
 
 ## 15. 화면 조립본 — `assets/patterns/screens/`
 
-처음부터 짜지 말고 **조립본을 복사해 시작**한다. 네 장 모두 그대로 열리는 HTML(마크업 + 페이지 CSS + 페이지 JS)이고, 위젯 동작은 전부 `slur.js`에 위임돼 있어 페이지 스크립트는 그 화면의 데이터 흐름만 담는다.
+처음부터 짜지 말고 **조립본을 복사해 시작**한다. 여덟 장 모두 그대로 열리는 HTML(마크업 + 페이지 CSS + 페이지 JS)이고, 위젯 동작은 전부 `slur.js`에 위임돼 있어 페이지 스크립트는 그 화면의 데이터 흐름만 담는다. 화면끼리는 실제 흐름대로 연결돼 있다(로그인 ↔ 가입·재설정, 목록 행 메뉴 → 상세). 목차는 `index.html`.
 
 | 파일 | 틀 | 들어 있는 것 |
 |---|---|---|
@@ -201,6 +201,10 @@ const series = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--color-chart-${
 | `login.html` | `layout_auth` | 이메일·비밀번호(보기 토글 `input_wrap .i_action`), 인라인 오류(`field[data-state=error]` + `i_help` + `aria-invalid`), 폼 상단 실패 `alert.m_inline`, 로딩 버튼(스피너), 소셜 버튼, 하단 링크 |
 | `list.html` | `layout_app` | 제목+카운트 배지, 상태 탭(필터 → 4상태 전환), 검색·플랜 셀렉트, **선택 바**(`page_list[data-state="selected"]`), 전체 선택 `indeterminate`, 정렬(`aria-sort`), 행 메뉴 → **삭제 확인 `<dialog>`**(초기 포커스 취소) → 토스트, 빈/에러 상태, 좁은 화면 가로 스크롤 |
 | `settings.html` | `layout_app` | 구역 내비(`aria-current`, `scroll-margin-top`), 카드 섹션(프로필·알림·보안·위험 구역), 라벨/컨트롤 2열 행(`p_row`), `role="switch"` + `aria-checked`, **변경 추적 저장 바**(`p_savebar[data-state="open"]`, 취소=초기값 복원), 비밀번호 규칙 인라인 오류, 위험 구역(`card.p_danger`) → 이름 입력 게이트 삭제 확인 |
+| `signup.html` | `layout_auth` | 이름·이메일·비밀번호·확인, **강도 막대**(`p_strength[data-state=weak|fair|good|strong]`, 장식 — 읽히는 문장은 `i_help`) + **규칙 체크리스트**(`li[data-state=pass]` + 숨은 "충족/미충족"), 약관 `fieldset.field`(전체 동의 ↔ 개별, `indeterminate`, 필수 미동의는 `i_help` 오류), 중복 이메일은 폼 상단 `alert`, 성공 → `page_signup[data-state="sent"]` 인증 메일 안내(`empty_state`, 제목으로 포커스, 재전송 60초 잠금) |
+| `reset.html` | `layout_auth` | **네 단계 한 파일** — `page_reset[data-state="request|sent|new|done"]`로 `p_step_*` 블록 전환, 단계가 바뀌면 새 단계의 `h1`(tabindex=-1)로 포커스. 요청(이메일 — 계정 유무 노출 없음) → 메일 확인(`empty_state`, 재전송 잠금, 데모용 "메일 링크 열기") → 새 비밀번호(규칙 체크리스트 + 확인, 이전 비밀번호 재사용은 상단 `alert`) → 완료(다른 기기 로그아웃 안내, 로그인으로) |
+| `detail.html` | `layout_app` | 정체 헤더(아바타·이름·상태/플랜 badge·메타 + 편집·`mailto:`·더보기 `menu_action`), **탭**(`tab_menu` 기본형, 개요/청구서/활동 — 방향키는 `slur.js`), **보기↔편집 전환** `page_detail[data-state="view|edit"]`(같은 카드 안에서 `p_dl` ↔ `p_fields` 교대, 편집 중엔 헤더 동작 숨김·저장 바만 출구), 변경 추적(라디오는 그룹 단위) + **변경 버리기 확인 `<dialog>`**(초기 포커스 "계속 편집"), 저장 → dl·헤더·브레드크럼 갱신 → 토스트, 청구서 탭은 처음 열 때 4상태 `loading→success`, 활동 타임라인(`p_timeline`, `<time>`), 휴면 처리(되돌릴 수 있어 확인 없음) vs 삭제(확인, 초기 포커스 취소) |
+| `onboarding.html` | `layout_app` | 빈 워크스페이스 첫 화면 — **히어로 = `empty_state`**(페이지 스코프에서 크기만 키움, 첫 고객 CTA), **진행 체크리스트**(네이티브 `<progress>` 룩만 입힘 + `aria-label`, 항목 `li[data-state=done]` + 숨은 "완료", 전부 끝나면 `p_checklist[data-state=done]` 푸터 교체), 첫 고객·팀원 초대 `<dialog>` 폼 → 단계 완료·사이드바 카운트·`page_onboarding[data-state="started"]`(히어로 내려감), **4상태 활동 블록** `empty → success`(카드 안 `p_feed[data-state]`에 `i_status`/`i_body` 직계), 둘러보기 `card.m_list` 링크 행 |
 
 조립본에서 지키는 공통 규칙(새 화면도 같게):
 
@@ -209,5 +213,8 @@ const series = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--color-chart-${
 - 파괴적 확인은 `<dialog>` + 초기 포커스 취소(또는 이름 입력 게이트), 성공 알림은 **모달이 닫힌 뒤** 토스트 — `slur.toast()`가 순서를 보장한다.
 - 인라인 오류는 그 자리(`field` + `i_help` + `aria-invalid`), 폼 전체 실패는 폼 상단 `alert.m_inline`(`role="alert"`), 포커스는 첫 오류 필드로.
 - 컨트롤 이름 규칙: 아이콘만 있는 버튼은 `aria-label`, 스위치는 `aria-labelledby`로 행 라벨과 연결, 검색·셀렉트의 숨은 라벨은 `a11y_hidden`.
+- 한 페이지 안에서 **화면(단계·모드)이 바뀌면 포커스를 옮긴다** — 새 단계의 제목(`h1[tabindex=-1]`)이나 편집의 첫 입력으로, 나갈 때는 들어온 버튼으로(`reset.html`·`signup.html`·`detail.html`). 모달·팝오버는 네이티브가 복귀시키므로 손대지 않는다.
+- 확인 대화상자는 **되돌릴 수 없는 것에만** — 휴면 처리처럼 되돌릴 수 있는 변경은 바로 적용하고 결과만 토스트, 삭제·변경 버리기는 `<dialog>`로 확인(초기 포커스는 안전한 쪽).
+- 색만으로 상태를 전하지 않는다 — 강도 막대·체크 아이콘은 `aria-hidden`, 읽히는 문장(`i_help`·`a11y_hidden` "충족"/"완료")을 함께 둔다. 진행률은 네이티브 `<progress>` + `aria-label`.
 
 React/Next로 옮길 때는 페이지 CSS를 CSS Module(같은 클래스명)로, 페이지 JS의 `data-action` 분기를 핸들러로 옮기고, `slur.js`는 `<Script>`로 그대로 로드한다(14절).

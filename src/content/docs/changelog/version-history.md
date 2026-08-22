@@ -9,6 +9,32 @@ SLUR UX/UI System의
 
 ---
 
+## v1.10.0 — 2026.08
+
+### 화면 조립본 — 회원가입 · 비밀번호 재설정 · 상세/편집 · 온보딩
+
+v1.9.0의 네 장에 이어 **조립본 네 장**을 추가해 여덟 장이 됐다. 인증 흐름(가입·재설정)과 앱 안의 두 축(한 건의 상세/편집, 빈 워크스페이스의 첫 화면)을 채워, 바이브 코딩으로 앱을 시작할 때 빠지는 화면이 거의 없게 했다. 전부 슬러 디자인 + `slur.js`만으로 동작하며(Tailwind·shadcn·헤드리스 라이브러리 없음), 화면끼리 실제 흐름대로 연결돼 있다(로그인 ↔ 가입·재설정, 목록 행 메뉴 → 상세).
+
+#### 디자인시스템 (`slur-design`)
+
+- **`patterns/screens/` 네 장 추가** — 그대로 열리는 HTML(마크업 + 페이지 CSS + JS, 상대경로), 목차 `index.html`에 카드 추가
+  - **회원가입 `signup.html`** (`layout_auth`) — 이름·이메일·비밀번호·확인, 비밀번호 **강도 막대**(장식 — 읽히는 문장은 `i_help`) + **규칙 체크리스트**(`li[data-state=pass]` + 숨은 "충족/미충족"), 약관 `fieldset.field`(전체 동의 ↔ 개별, `indeterminate`, 필수 미동의는 `i_help` 오류), 중복 이메일은 폼 상단 `alert`, 성공 → `page_signup[data-state="sent"]` 인증 메일 안내(`empty_state`, 제목으로 포커스, 재전송 60초 잠금)
+  - **비밀번호 재설정 `reset.html`** (`layout_auth`) — **네 단계를 한 파일에**(`page_reset[data-state="request|sent|new|done"]`), 단계가 바뀌면 새 단계의 `h1`(tabindex=-1)로 포커스. 요청(계정 유무를 노출하지 않음) → 메일 확인(재전송 잠금) → 새 비밀번호(규칙 체크리스트, 이전 비밀번호 재사용은 상단 `alert`) → 완료(다른 기기 로그아웃 안내)
+  - **고객 상세/편집 `detail.html`** (`layout_app`) — 정체 헤더(아바타·이름·상태/플랜 badge·메타 + 편집·`mailto:`·더보기 `menu_action`), `tab_menu` 기본형 탭(개요/청구서/활동), **보기↔편집 전환** `page_detail[data-state="view|edit"]`(같은 카드에서 `p_dl` ↔ `p_fields` 교대, 편집 중엔 헤더 동작 숨김·저장 바만 출구), 변경 추적 + **변경 버리기 확인 `<dialog>`**(초기 포커스 "계속 편집"), 저장 → dl·헤더·브레드크럼 갱신 → 토스트, 청구서 탭 4상태 `loading→success`, 활동 타임라인, 휴면 처리(되돌릴 수 있어 확인 없음) vs 삭제(확인)
+  - **온보딩 `onboarding.html`** (`layout_app`) — 빈 워크스페이스 첫 화면. **히어로 = `empty_state`**(페이지 스코프에서 크기만), **진행 체크리스트**(네이티브 `<progress>` 룩만 입힘 + `aria-label`, `li[data-state=done]`, 전부 끝나면 `p_checklist[data-state=done]`), 첫 고객·팀원 초대 `<dialog>` 폼 → 단계 완료·사이드바 카운트·히어로 내려감(`data-state="started"`), **4상태 활동 블록** `empty → success`, 둘러보기 `card.m_list` 링크 행
+- `login.html`의 "비밀번호를 잊으셨나요?"·"회원가입" 링크와 `list.html` 행 메뉴의 "상세 보기"(`a.i_item[role=menuitem]`)를 새 화면으로 연결
+- `references/recipes.md` 15절 표에 네 장 추가 + 공통 규칙 세 개 보강: **화면(단계·모드)이 바뀌면 포커스를 옮긴다**(제목 또는 첫 입력, 나갈 때는 들어온 버튼), **확인 대화상자는 되돌릴 수 없는 것에만**, **색만으로 상태를 전하지 않는다**(장식은 `aria-hidden` + 읽히는 문장, 진행률은 `<progress>` + `aria-label`)
+- SKILL.md 트리·색인·「프로젝트에 넣는 법」, `system/README.md`, `slur.js` 버전 1.10.0
+
+#### 공통 레이어 (`global.css`) · 컴포넌트 — 조립본을 만들며 드러난 빈칸
+
+- **`fieldset` 리셋** — `min-width: 0; border: 0;`(UA의 groove 테두리와 `min-width: min-content`가 그리드 안에서 넘치던 것). 묶음의 테두리가 필요하면 페이지가 그린다(`signup.html`의 약관 상자처럼)
+- **`.btn`을 `<a>`에도 안전하게** — `text-decoration: none; color: inherit;` 추가(`a.btn`이 밑줄·링크색으로 보이던 것. `mailto:`·"전체 보기"·"로그인으로" 같은 링크 버튼)
+
+#### 검증
+
+- Chrome(1280·375)에서 네 장 모두 콘솔 오류 0. 가입 검증·강도·약관·인증 메일 전환, 재설정 4단계 전환·포커스, 상세 보기↔편집·버리기 확인·저장 반영·탭 4상태, 온보딩 첫 고객→체크리스트·활동 전환 동작 확인. Safari는 Slur 수동 확인 대상
+
 ## v1.9.0 — 2026.08
 
 ### 화면 조립본 — 로그인 · 목록 · 설정

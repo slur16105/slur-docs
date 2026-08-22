@@ -13,7 +13,7 @@
 | **브랜드** (logo.svg · favicon.svg) | `skill/slur-design/assets/brand/` — 화면·데모의 `l_logo`(라이트/다크 img)와 파비콘 | `slur-design` |
 | **동작 층** (slur.js — 탭·메뉴·툴팁·토스트·드로어·테마) | `skill/slur-guidelines/assets/slur.js` | `slur-guidelines` |
 | 데모·메모 | `system/demo.html`(컴포넌트 전체) · `system/README.md` | — |
-| **화면 조립본**(dashboard · login · list · settings) | `skill/slur-design/assets/patterns/screens/*.html` — 그대로 열리는 HTML(마크업+페이지 CSS+JS) | `slur-design` |
+| **화면 조립본**(dashboard · login · list · settings · signup · reset · detail · onboarding) | `skill/slur-design/assets/patterns/screens/*.html` — 그대로 열리는 HTML(마크업+페이지 CSS+JS) | `slur-design` |
 
 - **디자인시스템(어휘)**: 색·타이포·간격 등 토큰과 컴포넌트 생김새 — 클로드디자인이 원본(source of truth)
 - **slur-guidelines(문법)**: 클래스 네이밍(`i_`/`m_`), 상태(`data-state`), CSS 한 줄 작성 규칙 — 이 레포의 `skill/slur-guidelines/`가 원본
@@ -30,7 +30,7 @@
 
 ## 로드 순서
 
-`global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형), 그리고 `<script src="slur.js" defer>`. 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`·4상태 슬롯 토글은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`과 `patterns/screens/*.html`이 이 순서의 실례다(상대경로). 로컬 확인: 레포 루트에서 `python3 -m http.server 4173` → `http://localhost:4173/system/demo.html`, 화면 조립본은 `http://localhost:4173/skill/slur-design/assets/patterns/screens/dashboard.html`(login·list·settings 동일).
+`global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형), 그리고 `<script src="slur.js" defer>`. 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`·4상태 슬롯 토글은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`과 `patterns/screens/*.html`이 이 순서의 실례다(상대경로). 로컬 확인: 레포 루트에서 `python3 -m http.server 4173` → `http://localhost:4173/system/demo.html`, 화면 조립본은 `http://localhost:4173/skill/slur-design/assets/patterns/screens/index.html`(목차 — 여덟 장).
 
 ## 동작 — 네이티브 → slur.js → 위임
 
@@ -66,7 +66,7 @@
 - [x] Toast · State(empty_state/skeleton/spinner) · Menu · Tooltip (1.7.0)
 - [x] Card `m_stat`, 차트 토큰 `--color-chart-1~5`, `--color-surface-overlay` (1.7.0)
 - [x] patterns/app-shell (`layout_app`) (1.7.0) · auth-shell (`layout_auth`) (1.9.0)
-- [x] 화면 조립본 screens/ — dashboard(1.8.0, system/demo-dashboard에서 이동) · login · list · settings (1.9.0)
+- [x] 화면 조립본 screens/ — dashboard(1.8.0, system/demo-dashboard에서 이동) · login · list · settings (1.9.0) · signup · reset · detail · onboarding (1.10.0)
 - [ ] 다음 후보: 콤보박스 위임 예시(실제 프로젝트에서 요구가 생기면), 앵커 포지셔닝 전환(Safari 확인 후)
 
 주의: 내부 요소(`i_`/`p_`/`l_`) 선택자는 반드시 블록 하위로 스코프한다(`.page_demo .p_head` ✅, `.p_head` 단독 ❌ — `css/internal-elements.md` 참고). 데모도 같은 규칙을 따른다 — 인라인 `style=`·CSS `id` 선택자 없음.

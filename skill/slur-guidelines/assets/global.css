@@ -12,6 +12,8 @@
 * { margin: 0; padding: 0; }
 /* 전체 리셋이 지운 네이티브 기본값 복원 — <dialog>는 UA의 margin:auto로 가운데 정렬된다(showModal). 리셋이 깬 동작은 리셋이 고친다. */
 dialog { margin: auto; }
+/* fieldset — UA의 groove 테두리와 min-width:min-content(그리드 안에서 넘침)를 지운다. 묶음의 테두리가 필요하면 페이지가 그린다 */
+fieldset { min-width: 0; border: 0; }
 
 body { background: var(--color-surface-page, #fff); font-family: var(--font-sans, system-ui, -apple-system, "Apple SD Gothic Neo", "Segoe UI", sans-serif); font-size: var(--text-base, 1rem); line-height: var(--leading-normal, 1.5); color: var(--color-text-primary, #1f2328); }
 
