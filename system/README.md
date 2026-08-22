@@ -10,7 +10,7 @@
 | **tokens** (디자인 토큰) | `skill/slur-design/assets/tokens/` | `slur-design` |
 | **components** (컴포넌트 CSS) | `skill/slur-design/assets/components/` | `slur-design` |
 | **patterns** (조합 레시피) | `skill/slur-design/assets/patterns/`(`app-shell.css`) · `skill/slur-design/references/recipes.md` | `slur-design` |
-| **브랜드** (logo.svg · favicon.svg) | `skill/slur-design/assets/brand/` — 화면·데모의 `l_logo`(mask)와 파비콘 | `slur-design` |
+| **브랜드** (logo.svg · favicon.svg) | `skill/slur-design/assets/brand/` — 화면·데모의 `l_logo`(라이트/다크 img)와 파비콘 | `slur-design` |
 | **동작 층** (slur.js — 탭·메뉴·툴팁·토스트·드로어·테마) | `skill/slur-guidelines/assets/slur.js` | `slur-guidelines` |
 | 데모·메모 | `system/demo.html`(컴포넌트 전체) · `system/README.md` | — |
 | **화면 조립본**(dashboard · login · list · settings) | `skill/slur-design/assets/patterns/screens/*.html` — 그대로 열리는 HTML(마크업+페이지 CSS+JS) | `slur-design` |

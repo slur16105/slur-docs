@@ -58,5 +58,10 @@
   .layout_app .l_main { padding: 16px; }
 }
 
-/* 브랜드 로고 — assets/brand/logo.svg를 mask로 칠해 글자색(테마)을 따라간다. 비율 416:109 */
-.layout_app .l_logo { display: inline-block; width: 84px; height: 22px; background: currentColor; mask: url("../brand/logo.svg") no-repeat center / contain; -webkit-mask: url("../brand/logo.svg") no-repeat center / contain; }
+/* 브랜드 로고 — assets/brand/logo.svg(라이트) · logo-white.svg(다크)를 img 두 장으로 두고 테마에 따라 하나만 보인다.
+   (mask로 칠하면 한 장으로 되지만 CORS 이미지라 file://로 열었을 때 안 그려진다.) 비율 416:109. 이름은 l_logo가 role="img"로 갖는다 */
+.layout_app .l_logo { display: inline-flex; height: 22px; }
+.layout_app .l_logo img { display: block; height: 100%; width: auto; }
+.layout_app .l_logo .l_logo_dark { display: none; }
+[data-theme="dark"] .layout_app .l_logo .l_logo_light { display: none; }
+[data-theme="dark"] .layout_app .l_logo .l_logo_dark { display: block; }

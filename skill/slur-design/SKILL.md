@@ -14,7 +14,7 @@ slur-design/
 ├── references/
 │   └── recipes.md     # 대시보드 레시피 — 앱 셸·4상태·토스트·메뉴·툴팁·표 정렬/페이지·차트 토큰·다크 토글·위임·화면 조립본
 └── assets/
-    ├── brand/         # 로고(logo.svg — mask로 칠해 글자색을 따라감) · favicon.svg
+    ├── brand/         # 로고 logo.svg(라이트)·logo-white.svg(다크) · favicon.svg
     ├── tokens/        # tokens 층 — colors(차트 5슬롯·overlay 포함), typography, spacing, radius, shadows, motion, breakpoints, z-index
     ├── components/    # components 층 — button, input, select, selection, badge, card, alert, modal, navigation, table,
     │                  #                 toast, state, menu, tooltip, pagination
