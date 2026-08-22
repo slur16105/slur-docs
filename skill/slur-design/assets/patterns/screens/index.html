@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SLUR 화면 조립본 — 목차</title>
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
+<link rel="stylesheet" href="../../tokens/colors.css">
+<link rel="stylesheet" href="../../tokens/typography.css">
+<link rel="stylesheet" href="../../tokens/spacing.css">
+<link rel="stylesheet" href="../../tokens/radius.css">
+<link rel="stylesheet" href="../../tokens/shadows.css">
+<link rel="stylesheet" href="../../tokens/motion.css">
+<link rel="stylesheet" href="../../components/button.css">
+<link rel="stylesheet" href="../../components/badge.css">
+<link rel="stylesheet" href="../../components/card.css">
+<script src="../../../../slur-guidelines/assets/slur.js" defer></script>
+<style>
+/* 목차 페이지 — 서버 없이 파일로 열어도 동작한다(상대경로) */
+body { padding: 48px 24px; background: var(--color-surface-sunken); }
+.page_index { display: flex; max-width: 880px; margin: 0 auto; flex-direction: column; gap: 24px; }
+.page_index .p_head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.page_index .p_eyebrow { font-size: var(--text-xs); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
+.page_index .p_title { font-size: var(--text-3xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
+.page_index .p_desc { max-width: 60ch; margin-top: var(--space-8); font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_index .p_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.page_index .card.m_link { display: flex; flex-direction: column; gap: var(--space-8); }
+.page_index .card .i_title { font-size: var(--text-lg); }
+.page_index .card .i_tags { display: flex; gap: var(--space-4); flex-wrap: wrap; margin-top: var(--space-4); }
+.page_index .p_foot { font-size: var(--text-xs); color: var(--color-text-muted); }
+@media (max-width: 639px) { .page_index .p_grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page_index">
+  <header class="p_head">
+    <div>
+      <span class="p_eyebrow">SLUR Design System × slur.js</span>
+      <h1 class="p_title">화면 조립본</h1>
+      <p class="p_desc">Tailwind·shadcn·헤드리스 라이브러리 없이 슬러 토큰·컴포넌트·slur.js만으로 만든 화면 네 장. 새 화면은 여기서 복사해 시작한다.</p>
+    </div>
+    <button type="button" class="btn m_icon" data-action="theme_toggle" aria-pressed="false" aria-label="다크 모드 전환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
+  </header>
+  <div class="p_grid">
+    <a class="card m_link" href="dashboard.html"><span class="i_title">대시보드</span><span class="i_desc">앱 셸 · 통계 카드 · 차트 토큰 · 4상태 표 · 행 메뉴 · 페이지네이션 · 모달 · 토스트</span><span class="i_tags"><span class="badge m_brand">layout_app</span><span class="badge">v1.8.0</span></span></a>
+    <a class="card m_link" href="login.html"><span class="i_title">로그인</span><span class="i_desc">인증 셸 · 인라인 오류 · 비밀번호 보기 · 로딩 버튼 · 실패 alert · 소셜 로그인</span><span class="i_tags"><span class="badge m_brand">layout_auth</span><span class="badge">v1.9.0</span></span></a>
+    <a class="card m_link" href="list.html"><span class="i_title">고객 목록</span><span class="i_desc">상태 탭 → 4상태 · 검색·필터 · 선택 바 · 정렬 · 행 메뉴 → 삭제 확인 → 토스트</span><span class="i_tags"><span class="badge m_brand">layout_app</span><span class="badge">v1.9.0</span></span></a>
+    <a class="card m_link" href="settings.html"><span class="i_title">설정</span><span class="i_desc">구역 내비 · 프로필/알림/보안 카드 · 스위치 · 변경 추적 저장 바 · 위험 구역 삭제 게이트</span><span class="i_tags"><span class="badge m_brand">layout_app</span><span class="badge">v1.9.0</span></span></a>
+  </div>
+  <p class="p_foot">컴포넌트 전체 데모는 레포의 <code>system/demo.html</code>. 이 파일들은 서버 없이 더블클릭으로 열어도 동작한다(상대경로).</p>
+</div>
+</body>
+</html>
