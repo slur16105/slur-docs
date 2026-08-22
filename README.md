@@ -62,7 +62,7 @@ The documentation is organized as follows (see the sidebar at [docs.slur.co.kr](
 - **Media & Performance** — image role, image handling, loading performance
 - **Patterns** — structure hierarchy, popup/modal, form & table
 - **Experience (UX)** — screen states, feedback, motion, form UX
-- **Design System** — design tokens, components, app/auth shells & eight screen blueprints (viewable on the site), AI quickstart (skill installer at `docs.slur.co.kr/skill/install.sh`)
+- **Design System** — design tokens, components, app/auth shells & eight screen blueprints (viewable on the site), AI quickstart (skill installer at `docs.slur.co.kr/skill/install.sh` → unpacks `slur-skills.tar.gz`)
 - **Reference** — prefix table, naming examples, do & don't, checklist, FAQ
 - **Changelog** — version history
 
@@ -91,8 +91,9 @@ methodology, not a code library.
 
 The two AI skills (`skill/slur-guidelines`, `skill/slur-design`) and `system/demo.html` are copied into
 `public/` at the start of every dev/build by `scripts/sync-assets.mjs` (wired as an Astro integration hook in
-`astro.config.mjs`), so the site serves them at the same paths (`/skill/...`, `/system/demo.html`). The copies are
-gitignored — edit the originals only.
+`astro.config.mjs`), so the site serves them at the same paths (`/skill/...`, `/system/demo.html`), and bundles the two skill folders
+into `public/skill/slur-skills.tar.gz` for `install.sh` (a tarball, because Cloudflare's email obfuscation rewrites
+individually served HTML). The copies are gitignored — edit the originals only.
 
 ---
 

@@ -9,6 +9,16 @@ SLUR UX/UI System의
 
 ---
 
+## v1.11.1 — 2026.08
+
+### 스킬 설치 — tar.gz 한 덩어리로
+
+v1.11.0의 `install.sh`는 `manifest.txt` 목록대로 파일을 하나씩 받았다. 배포 후 실도메인에서 받아 보니 **조립본 HTML 여덟 장이 원본과 달랐다** — Cloudflare의 이메일 난독화(Email Address Obfuscation)가 HTML 응답 속 주소(`demo@slur.co.kr` 등)를 `[email protected]` + 디코드 스크립트로 바꿔 내보내기 때문(CSS·JS·MD는 그대로). 브라우저에서는 스크립트가 복원하므로 사이트의 프레임은 문제없지만, 복사해서 시작하는 조립본 파일이 훼손된다.
+
+- `scripts/sync-assets.mjs`가 두 스킬 폴더를 **`public/skill/slur-skills.tar.gz`**로 묶는다(의존성 없는 ustar 작성기 + `zlib` gzip). 바이너리 응답은 손대지 않으므로 원본 그대로 온다
+- **`install.sh`는 그 tar.gz 하나를 받아 푼다**(`curl | tar -xzf - -C $DEST`) — 요청 1번, 52파일 원본과 동일함을 로컬·실도메인에서 확인. `manifest.txt`는 파일 목록(참고용)으로 유지
+- 개요·AI 퀵스타트·README·`system/README.md` 문구 갱신, `slur.js` 1.11.1
+
 ## v1.11.0 — 2026.08
 
 ### 사이트 「디자인시스템」 섹션 · AI 퀵스타트 · 스킬 배포 경로

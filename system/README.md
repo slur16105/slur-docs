@@ -34,7 +34,7 @@
 
 ## 사이트에서 보기
 
-문서 사이트가 `skill/`과 `system/demo.html`을 dev·build 시작 때 `public/`으로 복사해(`scripts/sync-assets.mjs`, `astro.config.mjs`의 통합 훅) 같은 경로로 서빙한다 — 데모 `https://docs.slur.co.kr/system/demo.html`, 조립본 목차 `https://docs.slur.co.kr/skill/slur-design/assets/patterns/screens/index.html`, 스킬 원본 `https://docs.slur.co.kr/skill/slur-guidelines/SKILL.md`. 사이트의 「디자인시스템」 섹션(`/design/`)이 토큰·컴포넌트·조립본을 프레임으로 보여 주고, `/skill/install.sh`가 두 스킬을 `.claude/skills/`에 설치한다(`manifest.txt` 기반 — 저장소가 비공개라 사이트가 공개 배포 경로).
+문서 사이트가 `skill/`과 `system/demo.html`을 dev·build 시작 때 `public/`으로 복사해(`scripts/sync-assets.mjs`, `astro.config.mjs`의 통합 훅) 같은 경로로 서빙한다 — 데모 `https://docs.slur.co.kr/system/demo.html`, 조립본 목차 `https://docs.slur.co.kr/skill/slur-design/assets/patterns/screens/index.html`, 스킬 원본 `https://docs.slur.co.kr/skill/slur-guidelines/SKILL.md`. 사이트의 「디자인시스템」 섹션(`/design/`)이 토큰·컴포넌트·조립본을 프레임으로 보여 주고, `/skill/install.sh`가 두 스킬을 `.claude/skills/`에 설치한다(`slur-skills.tar.gz` 하나를 받아 푼다 — 저장소가 비공개라 사이트가 공개 배포 경로. 파일을 하나씩 받지 않는 이유: Cloudflare 이메일 난독화가 HTML 응답을 바꾼다).
 
 ## 동작 — 네이티브 → slur.js → 위임
 

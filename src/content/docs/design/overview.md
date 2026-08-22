@@ -102,7 +102,7 @@ AI 도구에 말할 때도 같은 세 호칭을 씁니다 — [AI 퀵스타트](
 curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh
 ```
 
-현재 폴더의 `.claude/skills/` 아래에 두 스킬이 들어갑니다(Claude Code 프로젝트 스킬). 스크립트가 하는 일은 [`manifest.txt`](/skill/manifest.txt)의 파일 목록을 같은 경로로 내려받는 것뿐이며, 내용은 [`install.sh`](/skill/install.sh)에서 확인할 수 있습니다. 다른 위치는 `SLUR_SKILLS_DIR=<폴더>`로 지정합니다.
+현재 폴더의 `.claude/skills/` 아래에 두 스킬이 들어갑니다(Claude Code 프로젝트 스킬). 스크립트가 하는 일은 두 스킬 폴더를 묶은 [`slur-skills.tar.gz`](/skill/slur-skills.tar.gz) 하나를 받아 푸는 것뿐이며, 내용은 [`install.sh`](/skill/install.sh)에서, 파일 목록은 [`manifest.txt`](/skill/manifest.txt)에서 확인할 수 있습니다. 다른 위치는 `SLUR_SKILLS_DIR=<폴더>`로 지정합니다.
 
 | 원본 | 주소 |
 |---|---|
