@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SLUR 화면 조립본 — 목차</title>
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="icon" href="../../brand/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
 <link rel="stylesheet" href="../../tokens/colors.css">
@@ -22,6 +23,7 @@
 body { padding: 48px 24px; background: var(--color-surface-sunken); }
 .page_index { display: flex; max-width: 880px; margin: 0 auto; flex-direction: column; gap: 24px; }
 .page_index .p_head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.page_index .p_logo { display: block; width: 100px; height: 26px; margin-bottom: var(--space-8); background: currentColor; mask: url("../../brand/logo.svg") no-repeat left center / contain; -webkit-mask: url("../../brand/logo.svg") no-repeat left center / contain; }
 .page_index .p_eyebrow { font-size: var(--text-xs); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
 .page_index .p_title { font-size: var(--text-3xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
 .page_index .p_desc { max-width: 60ch; margin-top: var(--space-8); font-size: var(--text-sm); color: var(--color-text-secondary); }
@@ -37,7 +39,8 @@ body { padding: 48px 24px; background: var(--color-surface-sunken); }
 <div class="page_index">
   <header class="p_head">
     <div>
-      <span class="p_eyebrow">SLUR Design System × slur.js</span>
+      <span class="p_logo" role="img" aria-label="SLUR"></span>
+      <span class="p_eyebrow">Design System × slur.js</span>
       <h1 class="p_title">화면 조립본</h1>
       <p class="p_desc">Tailwind·shadcn·헤드리스 라이브러리 없이 슬러 토큰·컴포넌트·slur.js만으로 만든 화면 네 장. 새 화면은 여기서 복사해 시작한다.</p>
     </div>

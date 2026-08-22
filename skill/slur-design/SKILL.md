@@ -14,6 +14,7 @@ slur-design/
 ├── references/
 │   └── recipes.md     # 대시보드 레시피 — 앱 셸·4상태·토스트·메뉴·툴팁·표 정렬/페이지·차트 토큰·다크 토글·위임·화면 조립본
 └── assets/
+    ├── brand/         # 로고(logo.svg — mask로 칠해 글자색을 따라감) · favicon.svg
     ├── tokens/        # tokens 층 — colors(차트 5슬롯·overlay 포함), typography, spacing, radius, shadows, motion, breakpoints, z-index
     ├── components/    # components 층 — button, input, select, selection, badge, card, alert, modal, navigation, table,
     │                  #                 toast, state, menu, tooltip, pagination
@@ -21,7 +22,7 @@ slur-design/
         └── screens/   #   화면 조립본(마크업+페이지 CSS+JS, 그대로 열리는 HTML) — dashboard · login · list · settings
 ```
 
-공통 레이어는 `../slur-guidelines/assets/global.css`, **동작 층은 `../slur-guidelines/assets/slur.js`**(탭·메뉴·툴팁·토스트·드로어·테마 — 룩 무관이라 guidelines가 동봉). 데모·작업 메모는 레포의 `system/`(`demo.html` 컴포넌트 전체, `demo-dashboard.html` 앱 셸 한 장, `README.md`).
+공통 레이어는 `../slur-guidelines/assets/global.css`, **동작 층은 `../slur-guidelines/assets/slur.js`**(탭·메뉴·툴팁·토스트·드로어·테마 — 룩 무관이라 guidelines가 동봉). 데모·작업 메모는 레포의 `system/`(`demo.html` 컴포넌트 전체, `README.md`); 화면 조립본은 `assets/patterns/screens/`(`index.html`이 목차).
 
 ## 동작은 어디서 오나 — 3단 우선순위
 

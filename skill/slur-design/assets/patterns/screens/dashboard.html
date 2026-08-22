@@ -6,6 +6,7 @@
 <title>SLUR 대시보드 데모 — 앱 셸 + 대시보드 어휘</title>
 <!-- 테마 복원은 첫 페인트 전에(깜빡임 방지) — slur.js보다 먼저, head 인라인 한 줄 -->
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="icon" href="../../brand/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
@@ -81,7 +82,7 @@
   <!-- 사이드바 — 데스크톱 고정, 모바일 드로어(slur.js drawer). 내부는 l_로 자족 -->
   <div class="l_side" id="app_side" data-state="close">
     <div class="l_panel">
-      <a class="l_brand" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>SLUR Admin</a>
+      <a class="l_brand" href="#"><span class="l_logo" role="img" aria-label="SLUR"></span></a>
       <button type="button" class="l_close" data-action="drawer_close" aria-label="메뉴 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
       <span class="l_group">워크스페이스</span>
       <nav aria-label="주 메뉴">
