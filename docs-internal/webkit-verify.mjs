@@ -2,7 +2,7 @@
 // 사용: node docs-internal/webkit-verify.mjs <출력폴더> [webkit|chromium]
 //   playwright는 프로젝트 의존성이 아니므로 `npx playwright@1.62 install webkit` 뒤 npx 캐시에서 찾거나 PLAYWRIGHT_DIR로 지정
 import { createRequire } from 'node:module';
-import { writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readdirSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
@@ -10,8 +10,11 @@ const ROOT = resolve(here, '..');
 function findPlaywright() {
   if (process.env.PLAYWRIGHT_DIR) return process.env.PLAYWRIGHT_DIR;
   try { return dirname(createRequire(import.meta.url).resolve('playwright/package.json')); } catch {}
-  const npx = join(process.env.HOME, '.npm', '_npx');
-  if (existsSync(npx)) for (const d of readdirSync(npx)) { const p = join(npx, d, 'node_modules', 'playwright'); if (existsSync(p)) return p; }
+  const npx = join(process.env.HOME, '.npm', '_npx');   // npx 캐시에 여러 버전이 있으면 가장 새 것(브라우저 빌드가 맞는 쪽)
+  const found = [];
+  if (existsSync(npx)) for (const d of readdirSync(npx)) { const p = join(npx, d, 'node_modules', 'playwright'); if (existsSync(join(p, 'package.json'))) found.push({ p, v: JSON.parse(readFileSync(join(p, 'package.json'), 'utf8')).version }); }
+  found.sort((a, b) => b.v.localeCompare(a.v, undefined, { numeric: true }));
+  if (found.length) return found[0].p;
   throw new Error('playwright를 찾지 못함 — PLAYWRIGHT_DIR 지정');
 }
 const pw = createRequire(join(findPlaywright(), 'package.json'))('playwright');
