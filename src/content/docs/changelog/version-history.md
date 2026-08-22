@@ -24,6 +24,8 @@ SLUR UX/UI System의
 - **`patterns/auth-shell.css` 신설** — `layout_auth`(`l_brand` · `l_main` > `l_card` · `l_foot`): 로그인·가입·재설정 같은 단일 과업 화면의 틀
 - **컴포넌트 소폭 확장** — `input_wrap .i_action`(컨트롤 안 오른쪽 액션 버튼: 비밀번호 보기·지우기) + `input_text.m_icon_right`; `table_wrap .i_body/.i_scroll`에 `overflow-x: auto`(좁은 화면 가로 스크롤); `switch`는 `role="switch"` + **`aria-checked="true"`를 정본**으로 인정(표준 ARIA 상태 규칙, 기존 `data-state="on"`도 유지)
 - `references/recipes.md`에 「15. 화면 조립본」 — 네 장의 내용 표 + 새 화면도 같게 지키는 공통 규칙(페이지 블록 조합·상태 정본·파괴적 확인·인라인 오류·컨트롤 이름) + React 이관 메모
+- **`assets/brand/` 신설** — 사이트의 SLUR 로고(`logo.svg` 라이트 · `logo-white.svg` 다크)와 `favicon.svg`를 디자인시스템 자산으로 동봉. 화면 조립본·데모의 사이드바·인증 셸에 로고(`l_logo`, 테마별 img 전환)와 파비콘 적용. `screens/index.html` 목차 페이지 추가(서버 없이 파일로 열림)
+- `layout_auth`는 로고·카드·하단 링크를 한 묶음으로 세로 가운데 정렬(auto 마진 — 내용이 길어지면 위에서부터 흐름)
 - SKILL.md 트리·색인·「프로젝트에 넣는 법」에 `auth-shell`·`screens/` 반영("화면을 새로 짤 때는 조립본을 복사해 시작"), `system/README.md` 갱신, `slur.js` 버전 1.9.0
 
 #### 검증
