@@ -23,6 +23,7 @@ curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh
   curl -fsSL https://docs.slur.co.kr/skill/install.sh | SLUR_SKILLS_DIR=~/.claude/skills sh
   ```
 - 스크립트는 두 스킬 폴더를 묶은 [`slur-skills.tar.gz`](/skill/slur-skills.tar.gz) 하나를 받아 풀기만 합니다 — [내용 보기](/skill/install.sh), 파일 목록은 [`manifest.txt`](/skill/manifest.txt). 다시 실행하면 최신으로 덮어씁니다. 직접 받으려면 그 tar.gz를 풀면 됩니다.
+- 설치된 버전은 `.claude/skills/slur-guidelines/VERSION`(`slur-design`에도 같은 파일)에 적혀 있고, 최신 버전은 [`/skill/VERSION`](/skill/VERSION)입니다 — 둘이 다르면 스크립트를 다시 실행하세요. 이 파일은 사이트가 빌드 때 만들어 넣는 것이라 저장소 원본에는 없습니다.
 - 설치 확인: `ls .claude/skills`에 두 폴더가 보이면 됩니다. Claude Code는 다음 대화부터 자동으로 읽습니다.
 - **다른 AI 도구**(Cursor, Copilot 등): `SLUR_SKILLS_DIR`로 원하는 폴더에 받은 뒤 `SKILL.md`와 `references/`를 그 도구의 규칙 파일로 연결합니다. 스킬은 마크다운과 CSS/JS 파일이라 도구를 가리지 않습니다.
 

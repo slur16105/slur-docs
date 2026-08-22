@@ -9,6 +9,13 @@ SLUR UX/UI System의
 
 ---
 
+## v1.11.3 — 2026.08
+
+### 설치본 버전 표기 · iOS 글자 자동 확대 방지
+
+- **`VERSION` 파일** — 스킬을 복사해 간 프로젝트가 "이게 몇 버전이지?"를 알 길이 없었다(탭 ④ P2-24). `scripts/sync-assets.mjs`가 빌드 때 `package.json`의 버전(= 이 changelog의 정본 버전)을 `slur-guidelines/VERSION`·`slur-design/VERSION`과 `/skill/VERSION`에 써 넣고, `slur-skills.tar.gz`에도 두 파일이 들어간다. `install.sh`는 설치 뒤 버전을 출력한다. 저장소 원본(`skill/`)에는 없는 파일 — 버전을 올려도 원본 23개 CSS는 바뀌지 않는다. [AI 퀵스타트](/design/ai-quickstart/)·[개요](/design/overview/)·SKILL.md×2·README에 한 줄
+- **`global.css`에 `html { text-size-adjust: 100% }`** — iOS Safari가 가로 회전 때 글자만 멋대로 키우는 것(text autosizing)을 막는다(P2-25 중 룩 무관·하위호환인 한 줄만; `keep-all`·`img max-width`는 줄바꿈·레이아웃을 바꾸므로 보류). 사용자의 핀치 확대·글자 크기 설정은 그대로 존중된다. [공통 레이어](/css/global-layer/) 목록 갱신, `slur.js` 1.11.3
+
 ## v1.11.2 — 2026.08
 
 ### 로딩 기본형 정리 · 새 부품 WebKit 재검증 · 데모 P2 마무리

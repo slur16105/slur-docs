@@ -16,7 +16,7 @@ description: 컴포넌트보다 먼저 작성하는 공통 스타일 레이어(g
 
 global 레이어는 다음을 담당합니다.
 
-- 전체 선택자 리셋 (box-sizing, margin, padding) — 리셋이 지운 네이티브 기본값 복원 포함(`dialog { margin: auto }`: `showModal()` 가운데 정렬)
+- 전체 선택자 리셋 (box-sizing, margin, padding) — 리셋이 지운 네이티브 기본값 복원 포함(`dialog { margin: auto }`: `showModal()` 가운데 정렬), iOS 가로 회전 시 글자 자동 확대 방지(`text-size-adjust: 100%`)
 - 본문 타이포그래피의 기준값 (글꼴, 크기, 행간, 색)
 - 폼 컨트롤의 상속 개방과 기본 타이포
 - 포커스 스타일의 단일 선언

@@ -10,6 +10,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
+/* iOS Safari가 가로 회전 때 글자만 멋대로 키우는 것(text autosizing) 방지 — 룩 무관, 사용자의 확대(핀치·설정)는 그대로 존중된다 */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 전체 리셋이 지운 네이티브 기본값 복원 — <dialog>는 UA의 margin:auto로 가운데 정렬된다(showModal). 리셋이 깬 동작은 리셋이 고친다. */
 dialog { margin: auto; }
 /* fieldset — UA의 groove 테두리와 min-width:min-content(그리드 안에서 넘침)를 지운다. 묶음의 테두리가 필요하면 페이지가 그린다 */

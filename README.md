@@ -93,7 +93,7 @@ The two AI skills (`skill/slur-guidelines`, `skill/slur-design`) and `system/dem
 `public/` at the start of every dev/build by `scripts/sync-assets.mjs` (wired as an Astro integration hook in
 `astro.config.mjs`), so the site serves them at the same paths (`/skill/...`, `/system/demo.html`), and bundles the two skill folders
 into `public/skill/slur-skills.tar.gz` for `install.sh` (a tarball, because Cloudflare's email obfuscation rewrites
-individually served HTML). The copies are gitignored — edit the originals only.
+individually served HTML), stamping a `VERSION` file (from `package.json`) into each skill folder and at `/skill/VERSION`. The copies are gitignored — edit the originals only.
 
 ---
 

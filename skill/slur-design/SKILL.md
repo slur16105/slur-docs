@@ -24,7 +24,7 @@ slur-design/
 
 공통 레이어는 `../slur-guidelines/assets/global.css`, **동작 층은 `../slur-guidelines/assets/slur.js`**(탭·메뉴·툴팁·토스트·드로어·테마 — 룩 무관이라 guidelines가 동봉). 데모·작업 메모는 레포의 `system/`(`demo.html` 컴포넌트 전체, `README.md`); 화면 조립본은 `assets/patterns/screens/`(`index.html`이 목차).
 
-문서 사이트 `https://docs.slur.co.kr/design/`(개요·토큰·컴포넌트·패턴/조립본·AI 퀵스타트)가 이 폴더를 같은 경로로 서빙한다 — 원본 `https://docs.slur.co.kr/skill/slur-design/...`, 설치 `curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh`(두 스킬 → `.claude/skills/`).
+문서 사이트 `https://docs.slur.co.kr/design/`(개요·토큰·컴포넌트·패턴/조립본·AI 퀵스타트)가 이 폴더를 같은 경로로 서빙한다 — 원본 `https://docs.slur.co.kr/skill/slur-design/...`, 설치 `curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh`(두 스킬 → `.claude/skills/`). 설치본 버전은 이 폴더의 `VERSION`(빌드 때 생성), 최신은 `https://docs.slur.co.kr/skill/VERSION`.
 
 ## 동작은 어디서 오나 — 3단 우선순위
 

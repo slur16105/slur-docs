@@ -59,12 +59,19 @@ export function syncAssets() {
   mkdirSync(join(pub, 'system'), { recursive: true });
   copyFileSync(join(root, 'system', 'demo.html'), join(pub, 'system', 'demo.html'));
 
-  const files = walk(join(root, 'skill')).map((p) => relative(join(root, 'skill'), p).split('\\').join('/')).sort();
+  // VERSION — 설치본이 몇 버전인지 알 수 있게(P2-24). package.json의 버전(= changelog 정본)을 각 스킬 폴더와 /skill/ 루트에 쓴다.
+  // 저장소 원본(skill/)에는 없고 복사본·tar.gz에만 들어간다 — 버전마다 원본 파일이 바뀌지 않는다.
+  const version = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version;
+  for (const dir of ['slur-guidelines', 'slur-design']) writeFileSync(join(pub, 'skill', dir, 'VERSION'), version + '\n');
+  writeFileSync(join(pub, 'skill', 'VERSION'), version + '\n');
+
+  // 묶음은 복사본(public/skill)에서 만든다 — VERSION이 들어가도록. manifest·tar.gz·install.sh 자신은 제외.
+  const files = walk(join(pub, 'skill')).map((p) => relative(join(pub, 'skill'), p).split('\\').join('/')).filter((f) => !/^(manifest\.txt|slur-skills\.tar\.gz|install\.sh|VERSION)$/.test(f)).sort();
   writeFileSync(join(pub, 'skill', 'manifest.txt'), files.join('\n') + '\n');
-  writeFileSync(join(pub, 'skill', 'slur-skills.tar.gz'), tarGz(join(root, 'skill'), files));
+  writeFileSync(join(pub, 'skill', 'slur-skills.tar.gz'), tarGz(join(pub, 'skill'), files));
   copyFileSync(join(root, 'scripts', 'install.sh'), join(pub, 'skill', 'install.sh'));
 
-  console.log(`[sync-assets] skill/ (${files.length} files, slur-skills.tar.gz) + system/demo.html → public/`);
+  console.log(`[sync-assets] skill/ (${files.length} files incl. VERSION ${version}, slur-skills.tar.gz) + system/demo.html → public/`);
   return files.length;
 }
 
