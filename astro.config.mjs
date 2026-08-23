@@ -12,6 +12,9 @@ export default defineConfig({
 		{ name: 'slur-sync-assets', hooks: { 'astro:config:setup': () => { syncAssets(); } } },
 		starlight({
 			title: 'UX/UI System',
+			locales: {
+				root: { label: '한국어', lang: 'ko-KR' },
+			},
 			logo: {
 				/* Use relative importable paths so Starlight can import/validate them */
 				light: './src/assets/logo_black.svg',
@@ -164,6 +167,15 @@ export default defineConfig({
 						{ label: "컴포넌트", slug: "design/components" },
 						{ label: "패턴 · 화면 조립본", slug: "design/screens" },
 						{ label: "AI 퀵스타트", slug: "design/ai-quickstart" },
+					],
+				},
+				{
+					label: "품질 검증",
+					collapsed: true,
+					items: [
+						{ label: "검증 원칙", slug: "quality/verification-principles" },
+						{ label: "반응형·브라우저 검증", slug: "quality/browser-verification" },
+						{ label: "완료 검증 체크리스트", slug: "quality/completion-checklist" },
 					],
 				},
 				{
