@@ -34,13 +34,13 @@
 .layout_app .l_close { display: none; }
 
 /* 상단 바 — 제목·브레드크럼 자리(l_title) + 오른쪽 액션(l_actions). 모바일 햄버거(l_menu)는 여기 */
-.layout_app .l_head { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 24px; border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-card); grid-area: head; position: sticky; top: 0; z-index: var(--z-sticky); }
+.layout_app .l_head { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 16px; border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-card); grid-area: head; position: sticky; top: 0; z-index: var(--z-sticky); }
 .layout_app .l_title { font-size: var(--text-lg); font-weight: var(--weight-semibold); }
 .layout_app .l_actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .layout_app .l_menu { display: none; }
 
 /* 본문 — 페이지(page_*)가 들어온다. min-width:0은 그리드 안 표·차트의 가로 넘침 방지 */
-.layout_app .l_main { min-width: 0; padding: 24px; grid-area: main; }
+.layout_app .l_main { min-width: 0; padding: 24px 16px; grid-area: main; }
 
 /* 모바일 — 사이드바는 드로어. l_side는 전체 화면 껍데기(딤 포함), l_panel이 왼쪽에서 들어온다 */
 @media (max-width: 1023px) {

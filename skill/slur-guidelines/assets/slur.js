@@ -288,7 +288,7 @@
     }
   };
 
-  const slur = { tabs, menu, tooltip, toast: toast.show, drawer, theme, version: '1.11.3' };
+  const slur = { tabs, menu, tooltip, toast: toast.show, drawer, theme, version: '1.11.5' };
   function init() { tabs.init(); menu.init(); tooltip.init(); toast.init(); drawer.init(); theme.init(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 

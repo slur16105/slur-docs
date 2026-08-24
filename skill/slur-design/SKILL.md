@@ -111,7 +111,7 @@ slur-design/
 - **오버레이**: `--color-surface-overlay` (모달 `::backdrop`·드로어 딤)
 - **차트**: `--color-chart-1` ~ `-5` (범주형 계열, 순서 고정·5개 초과 금지·상태색 재사용 금지. 라이트에서 3·4·5는 대비 3:1 미만이라 직접 라벨·범례·표 필수). 차트 라이브러리(Recharts·Chart.js 등)에는 `getComputedStyle(document.documentElement).getPropertyValue('--color-chart-1')`로 읽어 주입
 - **타이포**: `--font-sans`, `--text-xs`(12) `-sm`(14) `-base`(16) `-lg`(18) `-2xl`(24) `-3xl`(30) `-4xl`(36), `--weight-medium`(500) `-semibold`(600) `-bold`(700), `--leading-normal`(1.5) `-relaxed`(1.7, 장문), `--tracking-tight` `-snug` `-wide`
-- **간격**: `--space-4` `-8` `-12` `-16` `-20` `-24` (rem, 이름 = px 환산값). **레이아웃 구조 간격(섹션 여백·그리드 갭)은 토큰이 아니라 px 직접** — `--space-32` 같은 토큰은 없다
+- **간격**: `--space-4` `-8` `-12` `-16` `-20` `-24` (rem, 이름 = px 환산값). **레이아웃 구조 간격(섹션 여백·그리드 갭)은 토큰이 아니라 px 직접** — `--space-32` 같은 토큰은 없다. 페이지 콘텐츠의 기본 좌우 거터는 **16px**: 4px 그리드에 맞고 좁은 화면의 유효 폭을 확보하면서 화면 간 시작선을 통일한다. 카드 내부 패딩·섹션 간격에는 이 값을 강제하지 않는다
 - **라디우스**: `--radius-4` `-8` `-12` `-full` (px)
 - **그림자**: `--shadow-xs` `-sm` `-md` `-lg`
 - **모션**: `--duration-fast`(120ms) `-base`(200ms) `-slow`(280ms), `--ease-standard` `-in` `-out` `-spring`
@@ -126,6 +126,7 @@ slur-design/
 - [ ] `data-theme="dark"`로 바꿔도 깨지는 곳이 없는가(양쪽 확인)
 - [ ] 인라인 `style=` 0개, CSS `id` 선택자 0개
 - [ ] 로드 순서가 `global → tokens → components → patterns → 프로젝트`인가, `slur.js`가 로드되는가
+- [ ] 헤더와 본문 콘텐츠의 기본 좌우 거터가 16px로 같은가(컴포넌트 내부 패딩·섹션 간격 제외)
 - [ ] 네이티브가 상태를 갖는 요소(`dialog[open]`·`details[open]`·`:popover-open`·`aria-sort`·`aria-current`)에 `data-state`를 중복해 붙이지 않았는가
 - [ ] 토스트 컨테이너(`.toast_message[role=status]`)가 미리 DOM에 있는가, 4상태 블록에 `data-state`가 선언돼 있는가
 

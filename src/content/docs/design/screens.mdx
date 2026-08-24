@@ -21,7 +21,7 @@ import ScreenFrame from '../../../components/ScreenFrame.astro';
 - **앱 셸 `layout_app`** (`patterns/app-shell.css`) — `l_side`(사이드바: `l_logo` `l_nav` `l_group` `l_item` `l_count` `l_user`) · `l_head`(상단 바: `l_menu` `l_title` `l_actions`) · `l_main`(본문). 1024px 미만에서 `l_side`는 드로어가 됩니다 — `data-state="open"`, 배경 `inert`·Esc·포커스 복귀는 `slur.js`.
 - **인증 셸 `layout_auth`** (`patterns/auth-shell.css`) — `l_brand`(로고) · `l_main` > `l_card`(가운데 카드) · `l_foot`(하단 링크). 로고·카드·링크를 한 묶음으로 세로 가운데 정렬합니다.
 
-틀은 레이아웃 블록 규칙대로 `l_`로 자족합니다 — 공유 컴포넌트를 틀 안에 직접 두지 않고, 컴포넌트는 `l_main`·`l_card` 안의 `page_*` 블록이 조합합니다. 현재 페이지의 정본은 `aria-current="page"`, 구조 간격은 px입니다.
+틀은 레이아웃 블록 규칙대로 `l_`로 자족합니다 — 공유 컴포넌트를 틀 안에 직접 두지 않고, 컴포넌트는 `l_main`·`l_card` 안의 `page_*` 블록이 조합합니다. 현재 페이지의 정본은 `aria-current="page"`, 구조 간격은 px입니다. 앱 셸의 헤더와 본문 콘텐츠는 기본 좌우 거터를 **16px**로 맞춥니다. 4px 그리드 정합성, 좁은 화면의 유효 폭, 화면 간 시작선 일관성을 위한 값이며 카드 내부 패딩·섹션 간격은 별도입니다.
 
 ---
 
