@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>SLUR 외형 테마 실험실</title>
+<link rel="stylesheet" href="../skill/slur-guidelines/assets/global.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/tokens/colors.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/tokens/typography.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/tokens/spacing.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/tokens/radius.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/tokens/shadows.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/tokens/motion.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/tokens/z-index.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/button.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/input.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/badge.css">
+<link rel="stylesheet" href="../skill/slur-design/assets/components/card.css">
+<link rel="stylesheet" href="appearance-theme-lab.css">
+</head>
+<body class="theme_lab" data-appearance-theme="standard">
+<a class="a11y_hidden lab_skip" href="#lab_main">본문으로 바로가기</a>
+
+<header class="lab_toolbar">
+  <div class="l_identity">
+    <span class="l_mark" aria-hidden="true">SL</span>
+    <span class="l_name">Appearance Lab</span>
+    <span class="badge m_brand">내부 실험</span>
+  </div>
+  <div class="l_controls">
+    <div class="lab_segment" role="group" aria-labelledby="appearance_label">
+      <span class="i_label" id="appearance_label">외형</span>
+      <button class="i_option" type="button" data-appearance="standard" aria-pressed="true">Standard</button>
+      <button class="i_option" type="button" data-appearance="flat" aria-pressed="false">Flat</button>
+    </div>
+    <div class="lab_segment" role="group" aria-labelledby="scheme_label">
+      <span class="i_label" id="scheme_label">컬러 모드</span>
+      <button class="i_option" type="button" data-scheme="light" aria-pressed="true">Light</button>
+      <button class="i_option" type="button" data-scheme="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+  <p class="a11y_hidden" aria-live="polite" data-lab-status>Standard 외형, Light 모드</p>
+</header>
+
+<div class="lab_stage">
+  <div class="lab_app">
+    <aside class="lab_sidebar" aria-label="샘플 서비스 메뉴">
+      <a class="l_brand" href="#overview" aria-label="Morrow 홈">
+        <span class="l_brand_mark" aria-hidden="true">M</span>
+        <span>Morrow</span>
+      </a>
+      <nav class="l_nav" aria-label="주 메뉴">
+        <span class="l_group">워크스페이스</span>
+        <a class="l_item" href="#overview" aria-current="page"><span class="l_icon" aria-hidden="true">⌂</span>개요</a>
+        <a class="l_item" href="#projects"><span class="l_icon" aria-hidden="true">◇</span>프로젝트<span class="l_count">8</span></a>
+        <a class="l_item" href="#schedule"><span class="l_icon" aria-hidden="true">□</span>일정</a>
+        <a class="l_item" href="#reports"><span class="l_icon" aria-hidden="true">↗</span>리포트</a>
+        <span class="l_group m_second">관리</span>
+        <a class="l_item" href="#team"><span class="l_icon" aria-hidden="true">◎</span>팀</a>
+        <a class="l_item" href="#settings"><span class="l_icon" aria-hidden="true">⚙</span>설정</a>
+      </nav>
+      <div class="l_profile">
+        <span class="l_avatar" aria-hidden="true">SL</span>
+        <span class="l_profile_text"><strong>슬러</strong><small>Product designer</small></span>
+        <button class="l_more" type="button" aria-label="프로필 메뉴">•••</button>
+      </div>
+    </aside>
+
+    <div class="lab_workspace">
+      <header class="page_head">
+        <div>
+          <span class="p_eyebrow">2026년 8월 26일 수요일</span>
+          <h1>좋은 아침이에요, 슬러</h1>
+          <p>팀의 진행 상황과 오늘 집중할 일을 한눈에 확인하세요.</p>
+        </div>
+        <div class="p_actions">
+          <button class="btn" type="button">리포트 보기</button>
+          <button class="btn m_primary" type="button">새 프로젝트</button>
+        </div>
+      </header>
+
+      <main class="page_home" id="lab_main">
+        <section class="p_hero" id="overview" aria-labelledby="focus_title">
+          <div class="p_hero_copy">
+            <span class="badge m_brand">이번 주 포커스</span>
+            <h2 id="focus_title">신규 온보딩 흐름을<br>금요일까지 완성하세요</h2>
+            <p>디자인 검토 2건과 개발 전달 1건이 남았습니다.</p>
+            <div class="p_hero_actions">
+              <button class="btn m_primary" type="button">작업 열기</button>
+              <button class="btn m_ghost" type="button">세부 일정</button>
+            </div>
+          </div>
+          <div class="p_focus_card" aria-label="이번 주 진행률 72퍼센트">
+            <div class="p_focus_ring" aria-hidden="true"><strong>72</strong><span>%</span></div>
+            <div class="p_focus_meta"><span>이번 주</span><strong>18 / 25</strong><small>완료한 작업</small></div>
+          </div>
+        </section>
+
+        <section class="p_stats" aria-label="핵심 지표">
+          <article class="card m_stat">
+            <div class="i_head"><span class="i_label">진행 프로젝트</span><span class="p_stat_icon" aria-hidden="true">◇</span></div>
+            <strong class="i_value">8</strong>
+            <div class="i_delta"><span class="badge m_brand">+2</span>지난달 대비</div>
+          </article>
+          <article class="card m_stat">
+            <div class="i_head"><span class="i_label">이번 주 완료</span><span class="p_stat_icon" aria-hidden="true">✓</span></div>
+            <strong class="i_value">18</strong>
+            <div class="i_delta"><span class="badge m_success">+12%</span>지난주 대비</div>
+          </article>
+          <article class="card m_stat">
+            <div class="i_head"><span class="i_label">평균 진행률</span><span class="p_stat_icon" aria-hidden="true">↗</span></div>
+            <strong class="i_value">74%</strong>
+            <div class="i_delta"><span class="badge m_brand">+6%</span>이번 분기</div>
+          </article>
+          <article class="card m_stat">
+            <div class="i_head"><span class="i_label">확인 필요</span><span class="p_stat_icon" aria-hidden="true">!</span></div>
+            <strong class="i_value">3</strong>
+            <div class="i_delta"><span class="badge m_warning">오늘</span>마감 임박</div>
+          </article>
+        </section>
+
+        <div class="p_grid">
+          <section class="card p_chart_card" id="reports" aria-labelledby="chart_title">
+            <div class="i_head">
+              <div><h2 class="i_title" id="chart_title">주간 작업 흐름</h2><p class="i_desc">완료된 작업과 새로 추가된 작업</p></div>
+              <div class="p_legend" aria-label="차트 범례"><span class="m_done">완료</span><span class="m_added">추가</span></div>
+            </div>
+            <div class="i_body">
+              <div class="p_chart" role="img" aria-label="월요일부터 일요일까지 완료된 작업은 8, 11, 7, 14, 18, 10, 6건이며 추가된 작업은 5, 7, 4, 8, 9, 5, 3건입니다">
+                <div class="p_chart_grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+                <div class="p_bar_group"><div class="p_bars"><span class="p_bar m_done m_h40"></span><span class="p_bar m_added m_h25"></span></div><small>월</small></div>
+                <div class="p_bar_group"><div class="p_bars"><span class="p_bar m_done m_h55"></span><span class="p_bar m_added m_h35"></span></div><small>화</small></div>
+                <div class="p_bar_group"><div class="p_bars"><span class="p_bar m_done m_h35"></span><span class="p_bar m_added m_h20"></span></div><small>수</small></div>
+                <div class="p_bar_group"><div class="p_bars"><span class="p_bar m_done m_h70"></span><span class="p_bar m_added m_h40"></span></div><small>목</small></div>
+                <div class="p_bar_group"><div class="p_bars"><span class="p_bar m_done m_h90"></span><span class="p_bar m_added m_h45"></span></div><small>금</small></div>
+                <div class="p_bar_group"><div class="p_bars"><span class="p_bar m_done m_h50"></span><span class="p_bar m_added m_h25"></span></div><small>토</small></div>
+                <div class="p_bar_group"><div class="p_bars"><span class="p_bar m_done m_h30"></span><span class="p_bar m_added m_h15"></span></div><small>일</small></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card p_activity" id="team" aria-labelledby="activity_title">
+            <div class="i_head"><h2 class="i_title" id="activity_title">최근 활동</h2><button class="btn m_ghost m_small" type="button">전체 보기</button></div>
+            <div class="i_body">
+              <ol class="p_activity_list">
+                <li><span class="p_person m_one" aria-hidden="true">HJ</span><div><p><strong>현지</strong>님이 화면 검토를 완료했습니다.</p><time datetime="2026-08-26T09:20">12분 전</time></div></li>
+                <li><span class="p_person m_two" aria-hidden="true">MK</span><div><p><strong>민규</strong>님이 댓글을 남겼습니다.</p><time datetime="2026-08-26T08:42">50분 전</time></div></li>
+                <li><span class="p_person m_three" aria-hidden="true">SY</span><div><p><strong>서연</strong>님이 새 파일을 공유했습니다.</p><time datetime="2026-08-25T16:10">어제</time></div></li>
+              </ol>
+            </div>
+          </section>
+        </div>
+
+        <section class="card p_projects" id="projects" aria-labelledby="project_title">
+          <div class="i_head">
+            <div><h2 class="i_title" id="project_title">진행 중인 프로젝트</h2><p class="i_desc">최근 업데이트된 순서입니다.</p></div>
+            <label class="p_search"><span class="a11y_hidden">프로젝트 검색</span><input class="input_text m_small" type="search" placeholder="프로젝트 검색"></label>
+          </div>
+          <div class="i_body">
+            <div class="p_project_row">
+              <span class="p_project_mark m_brand" aria-hidden="true">ON</span>
+              <div class="p_project_name"><strong>신규 온보딩 개선</strong><small>Product · 8월 30일 마감</small></div>
+              <span class="badge m_brand">진행 중</span>
+              <div class="p_progress"><span><i class="m_w72"></i></span><small>72%</small></div>
+              <div class="p_members" aria-label="참여자 슬러, 현지, 민규"><span>SL</span><span>HJ</span><span>MK</span></div>
+              <button class="p_row_action" type="button" aria-label="신규 온보딩 개선 더보기">•••</button>
+            </div>
+            <div class="p_project_row">
+              <span class="p_project_mark m_warm" aria-hidden="true">DS</span>
+              <div class="p_project_name"><strong>디자인 시스템 정비</strong><small>Design · 9월 6일 마감</small></div>
+              <span class="badge m_warning">검토 필요</span>
+              <div class="p_progress"><span><i class="m_w48"></i></span><small>48%</small></div>
+              <div class="p_members" aria-label="참여자 슬러, 서연"><span>SL</span><span>SY</span></div>
+              <button class="p_row_action" type="button" aria-label="디자인 시스템 정비 더보기">•••</button>
+            </div>
+            <div class="p_project_row">
+              <span class="p_project_mark m_cool" aria-hidden="true">AP</span>
+              <div class="p_project_name"><strong>모바일 앱 프로토타입</strong><small>Research · 9월 12일 마감</small></div>
+              <span class="badge m_success">순조로움</span>
+              <div class="p_progress"><span><i class="m_w86"></i></span><small>86%</small></div>
+              <div class="p_members" aria-label="참여자 현지, 민규, 서연"><span>HJ</span><span>MK</span><span>SY</span></div>
+              <button class="p_row_action" type="button" aria-label="모바일 앱 프로토타입 더보기">•••</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script src="appearance-theme-lab.js"></script>
+</body>
+</html>
