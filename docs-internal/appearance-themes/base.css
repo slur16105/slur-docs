@@ -1,0 +1,8 @@
+/* 외형 역할 토큰을 기존 컴포넌트에 연결하는 실험실 전용 어댑터. */
+.theme_lab .btn,
+.theme_lab .input_text { border-radius:var(--appearance-control-radius); }
+.theme_lab .card { border-width:var(--appearance-border-width); border-color:var(--appearance-border); border-radius:var(--appearance-container-radius); box-shadow:var(--appearance-card-shadow); }
+.theme_lab .card.m_elevated { box-shadow:var(--appearance-raised-shadow); }
+.theme_lab .card.m_link:hover { box-shadow:var(--appearance-raised-shadow); transform:translateY(var(--appearance-card-hover-shift)); }
+.theme_lab .badge,
+.theme_lab .chip { border-radius:var(--appearance-control-radius); }

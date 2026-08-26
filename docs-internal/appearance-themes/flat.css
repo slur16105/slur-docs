@@ -1,0 +1,13 @@
+/* Flat — 그림자를 줄이고 명확한 테두리로 영역을 구분하는 외형. */
+.theme_lab[data-appearance-theme="flat"] {
+  --appearance-control-radius:var(--radius-4);
+  --appearance-item-radius:var(--radius-4);
+  --appearance-container-radius:var(--radius-4);
+  --appearance-shell-radius:4px;
+  --appearance-card-shadow:none;
+  --appearance-raised-shadow:none;
+  --appearance-floating-shadow:var(--shadow-sm);
+  --appearance-border-width:1px;
+  --appearance-border:var(--color-border-default);
+  --appearance-card-hover-shift:0;
+}

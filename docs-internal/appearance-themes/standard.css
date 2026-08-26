@@ -1,0 +1,13 @@
+/* Standard — 기본 라운드와 은은한 입체감을 사용하는 기준 외형. */
+.theme_lab[data-appearance-theme="standard"] {
+  --appearance-control-radius:var(--radius-8);
+  --appearance-item-radius:var(--radius-8);
+  --appearance-container-radius:var(--radius-12);
+  --appearance-shell-radius:20px;
+  --appearance-card-shadow:var(--shadow-sm);
+  --appearance-raised-shadow:var(--shadow-md);
+  --appearance-floating-shadow:var(--shadow-lg);
+  --appearance-border-width:1px;
+  --appearance-border:var(--color-border-subtle);
+  --appearance-card-hover-shift:-2px;
+}

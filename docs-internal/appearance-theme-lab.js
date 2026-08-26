@@ -5,9 +5,14 @@
   const appearanceButtons = [...document.querySelectorAll('[data-appearance]')];
   const schemeButtons = [...document.querySelectorAll('[data-scheme]')];
 
+  const selectedLabel = (buttons, key) => (
+    buttons.find((button) => button.dataset.appearance === key || button.dataset.scheme === key)?.textContent.trim()
+    ?? key
+  );
+
   const updateStatus = () => {
-    const appearance = body.dataset.appearanceTheme === 'flat' ? 'Flat' : 'Standard';
-    const scheme = root.dataset.theme === 'dark' ? 'Dark' : 'Light';
+    const appearance = selectedLabel(appearanceButtons, body.dataset.appearanceTheme);
+    const scheme = selectedLabel(schemeButtons, root.dataset.theme);
     if (status) status.textContent = `${appearance} 외형, ${scheme} 모드`;
   };
 

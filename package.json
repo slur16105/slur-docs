@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "start": "astro dev",
     "check:contrast": "node scripts/check-color-contrast.mjs",
-    "prebuild": "npm run check:contrast",
+    "check:appearance": "node scripts/check-appearance-themes.mjs",
+    "check:themes": "npm run check:contrast && npm run check:appearance",
+    "prebuild": "npm run check:themes",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

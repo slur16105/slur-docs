@@ -14,9 +14,13 @@ function declarations(body) {
 
 const light = {};
 for (const match of css.matchAll(/:root\s*{([\s\S]*?)}/g)) Object.assign(light, declarations(match[1]));
-const darkBlock = css.match(/\[data-theme=["']dark["']\]\s*{([\s\S]*?)}/);
-if (!darkBlock) throw new Error('Dark theme token block not found.');
-const themes = { light, dark: { ...light, ...declarations(darkBlock[1]) } };
+const themes = { light };
+for (const match of css.matchAll(/\[data-theme=["']([\w-]+)["']\]\s*{([\s\S]*?)}/g)) {
+  const [, name, body] = match;
+  if (themes[name]) throw new Error(`Duplicate color theme: ${name}`);
+  themes[name] = { ...light, ...declarations(body) };
+}
+if (!themes.dark) throw new Error('Dark theme token block not found.');
 
 function parseColor(value) {
   const hex = value.match(/^#([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i)?.[1];
