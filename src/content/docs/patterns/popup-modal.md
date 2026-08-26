@@ -167,7 +167,7 @@ UI 복잡도의 가장 큰 원인입니다.
 ```
 
 ```css
-.menu_action { display: flex; min-width: 180px; margin: 0; padding: 4px; border: 1px solid #e2e5e7; border-radius: 8px; background: #fff; position: fixed; inset: auto; flex-direction: column; opacity: 0; transition: opacity 120ms, display 120ms allow-discrete, overlay 120ms allow-discrete; }
+.menu_action { display: flex; min-width: 180px; margin: 0; padding: 4px; border: 1px solid #7d858d; border-radius: 8px; background: #fff; position: fixed; inset: auto; flex-direction: column; opacity: 0; transition: opacity 120ms, display 120ms allow-discrete, overlay 120ms allow-discrete; }
 .menu_action:popover-open { opacity: 1; }
 @starting-style { .menu_action:popover-open { opacity: 0; } }
 ```

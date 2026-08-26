@@ -211,8 +211,8 @@ display → width/height → margin → padding → border → border-radius
 
 ```css
 .btn { display: inline-flex; height: 40px; padding: 0 16px; border: none; border-radius: 4px; background: #e0e0e0; font-size: 14px; color: #333; }
-.btn.m_primary { background: #007aff; color: #fff; }
-.btn.m_outline { border: 1px solid #007aff; background: transparent; color: #007aff; }
+.btn.m_primary { background: #1d54e6; color: #fff; }
+.btn.m_outline { border: 1px solid #1d54e6; background: transparent; color: #1d54e6; }
 .btn.m_large { height: 48px; padding: 0 24px; font-size: 16px; }
 .btn.m_small { height: 32px; padding: 0 12px; font-size: 12px; }
 ```
@@ -226,7 +226,7 @@ display → width/height → margin → padding → border → border-radius
 .modal_login[data-state="open"] { display: flex; }
 .btn[data-state="loading"] { opacity: 0.6; pointer-events: none; cursor: not-allowed; }
 .input_text[data-state="error"] { border-color: #ff3b30; }
-.tab_item[data-state="active"] { border-bottom: 2px solid #007aff; color: #007aff; }
+.tab_item[data-state="active"] { border-bottom: 2px solid #1d54e6; color: #1d54e6; }
 ```
 
 ---
@@ -294,7 +294,7 @@ CSS Modules 사용 시에도 동일한 네이밍 원칙과 한 줄 작성을 따
 .i_wrap { display: flex; width: 100%; flex-direction: column; }
 .i_head { display: flex; align-items: center; justify-content: space-between; }
 .btn { display: inline-flex; height: 40px; padding: 0 16px; }
-.btn.m_primary { background: #007aff; color: #fff; }
+.btn.m_primary { background: #1d54e6; color: #fff; }
 ```
 
 Tailwind를 사용하더라도 컴포넌트 구조와 `data-state` 패턴은 유지한다.

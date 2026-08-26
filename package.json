@@ -1,13 +1,15 @@
 {
   "name": "proto-phase",
   "type": "module",
-  "version": "1.11.5",
+  "version": "1.12.0",
   "engines": {
     "node": ">=22.19.0"
   },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "check:contrast": "node scripts/check-color-contrast.mjs",
+    "prebuild": "npm run check:contrast",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

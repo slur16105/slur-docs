@@ -12,6 +12,10 @@ import TokenSwatch from '../../../components/TokenSwatch.astro';
 색·그림자 칸은 이 사이트에 배선된 실제 토큰을 그대로 그립니다.
 오른쪽 위에서 테마를 바꾸면 칸도 함께 바뀝니다.
 
+실제 UI 조합은 **WCAG 2.2 AA**를 출시 하한으로 둡니다.
+일반 텍스트는 4.5:1, UI 경계·포커스·차트 표식은 3:1 이상이며,
+`npm run check:contrast`가 라이트·다크의 정의된 조합을 빌드 전에 검사합니다.
+
 ---
 
 ## 두 층 — 프리미티브와 시맨틱
@@ -76,14 +80,15 @@ import TokenSwatch from '../../../components/TokenSwatch.astro';
 
 | 토큰 | 역할 |
 |---|---|
-| <TokenSwatch name="--color-success" /> <TokenSwatch name="--color-success-soft" /> | 성공 — 솔리드 / 연한 면 |
-| <TokenSwatch name="--color-warning" /> <TokenSwatch name="--color-warning-soft" /> | 경고 — 솔리드 / 연한 면 |
-| <TokenSwatch name="--color-danger" /> <TokenSwatch name="--color-danger-soft" /> | 위험·오류 — 솔리드 / 연한 면 |
-| <TokenSwatch name="--color-on-success" /> <TokenSwatch name="--color-on-warning" /> <TokenSwatch name="--color-on-danger" /> | 상태색 **솔리드 면 위 글자**. 면이 테마와 무관하게 고정이라 글자도 고정 |
+| <TokenSwatch name="--color-success" /> <TokenSwatch name="--color-success-soft" /> | 성공 — 글자·아이콘·보더 / 연한 면 |
+| <TokenSwatch name="--color-warning" /> <TokenSwatch name="--color-warning-soft" /> | 경고 — 글자·아이콘·보더 / 연한 면 |
+| <TokenSwatch name="--color-danger" /> <TokenSwatch name="--color-danger-soft" /> | 위험·오류 — 글자·아이콘·보더 / 연한 면 |
+| <TokenSwatch name="--color-success-solid" /> <TokenSwatch name="--color-warning-solid" /> <TokenSwatch name="--color-danger-solid" /> | 상태색 솔리드 면 |
+| <TokenSwatch name="--color-on-success" /> <TokenSwatch name="--color-on-warning" /> <TokenSwatch name="--color-on-danger" /> | 대응하는 상태색 솔리드 면 위 글자 |
+| <TokenSwatch name="--color-success-on-inverse" /> <TokenSwatch name="--color-warning-on-inverse" /> <TokenSwatch name="--color-danger-on-inverse" /> | 반전 면(토스트) 위 상태 아이콘 |
 
 상태색 면 위에 리터럴 `#fff`를 쓰지 않고 `on-` 토큰을 씁니다.
-`on-warning`은 진한 색(대비 5.9:1), `on-danger`는 흰색(4.8:1)입니다.
-`on-success`의 흰색은 3.3:1로 AA 미달이지만 룩 통일을 우선한 결정이며, AA가 필요해지면 솔리드용 그린을 한 단계 어둡게 조정합니다.
+상태 전경과 솔리드 면을 분리해 라이트·다크의 일반 텍스트 조합이 모두 4.5:1 이상을 유지합니다.
 
 ### 차트
 
@@ -99,7 +104,8 @@ import TokenSwatch from '../../../components/TokenSwatch.astro';
 
 - 순서는 고정(1→5)입니다. 계열이 다섯을 넘으면 "기타"로 묶거나 화면을 나눕니다.
 - `success`·`warning`·`danger`를 계열색으로 재사용하지 않습니다.
-- 라이트 면에서 3·4·5는 대비 3:1 미만입니다 — 색만으로 계열을 구분시키지 말고 직접 라벨·범례·표를 함께 둡니다.
+- 카드 면과의 대비는 라이트·다크 모두 3:1 이상입니다. 맞닿는 조각 사이에는 카드 면 구분선을 둡니다.
+- 대비를 통과해도 색만으로 계열을 구분시키지 말고 직접 라벨·범례·표를 함께 둡니다.
 - 다크에서는 같은 색상을 어두운 면에 맞춰 한 단계 조정한 값으로 바뀝니다(자동 반전이 아닙니다).
 - 차트 라이브러리에는 값을 읽어 주입합니다.
 

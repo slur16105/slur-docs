@@ -55,8 +55,8 @@ const sample = `
 </div>
 
 <style is:global>
-	.fc { --fc-bg:#ffffff; --fc-card:#ffffff; --fc-text:#363b41; --fc-heading:#14171a; --fc-muted:#6b737b; --fc-line:#e2e5e7; --fc-accent:#2f6bff; border: 1px solid var(--fc-line); border-radius: 12px; overflow: hidden; }
-	.fc[data-theme="dark"] { --fc-bg:#14171a; --fc-card:#23272b; --fc-text:#cbcfd3; --fc-heading:#eef0f1; --fc-muted:#9aa1a8; --fc-line:#2b3036; --fc-accent:#5c8dff; }
+	.fc { --fc-bg:#ffffff; --fc-card:#ffffff; --fc-text:#363b41; --fc-heading:#14171a; --fc-muted:#646b72; --fc-line:#e2e5e7; --fc-control:#7d858d; --fc-thumb:#ffffff; --fc-accent:#2e6aff; border: 1px solid var(--fc-line); border-radius: 12px; overflow: hidden; }
+	.fc[data-theme="dark"] { --fc-bg:#14171a; --fc-card:#23272b; --fc-text:#cbcfd3; --fc-heading:#eef0f1; --fc-muted:#9fa6ad; --fc-line:#2b3036; --fc-control:#9fa6ad; --fc-thumb:#23272b; --fc-accent:#5c8dff; }
 
 	.fc .fc_bar { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--fc-line); background: var(--fc-bg); }
 	.fc .fc_ctrl { display: flex; align-items: center; gap: 8px; margin-top: 0; }
@@ -65,9 +65,9 @@ const sample = `
 	.fc .fc_val { min-width: 2.4em; font-size: 13px; font-weight: 600; color: var(--fc-text); }
 	.fc .fc_range { flex: 1; min-width: 120px; accent-color: var(--fc-accent); }
 
-	.fc .fc_switch { flex: none; width: 40px; height: 22px; padding: 0; border: 0; border-radius: 999px; background: var(--fc-line); cursor: pointer; transition: background .15s ease; }
+	.fc .fc_switch { flex: none; width: 40px; height: 22px; padding: 0; border: 0; border-radius: 999px; background: var(--fc-control); cursor: pointer; transition: background .15s ease; }
 	.fc .fc_switch[aria-checked="true"] { background: var(--fc-accent); }
-	.fc .fc_thumb { display: block; width: 18px; height: 18px; margin: 2px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s ease; }
+	.fc .fc_thumb { display: block; width: 18px; height: 18px; margin: 2px; border-radius: 50%; background: var(--fc-thumb); box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s ease; }
 	.fc .fc_switch[aria-checked="true"] .fc_thumb { transform: translateX(18px); }
 
 	/* margin-top:0 — Starlight의 `.sl-markdown-content :not(…)+:not(…)` 인접 규칙이

@@ -7,7 +7,7 @@ description: SLUR Guidelines — SLUR UX/UI System의 문법(규칙) 스킬. 프
 
 ## 적용 범위 (중요)
 
-이 스킬은 **문법**만 규정한다 — 구조, 네이밍, 상태(`data-state`), CSS 작성 규칙, 단위·토큰 운영 원칙. **색·크기·모양 같은 시각 값(디자인)은 규정하지 않는다.** 문서와 예시에 등장하는 색상·수치는 설명용 예시일 뿐이며, 실제 값은 언제나 **해당 프로젝트의 기존 디자인과 토큰**을 따른다. 기존 디자인이 있는 프로젝트에 이 스킬을 적용해도 룩이 바뀌어서는 안 된다 — 바뀌는 것은 코드의 구조와 표기법뿐이다. SLUR Design System의 시각 어휘(토큰 값·컴포넌트 룩)가 필요한 경우에만 `slur-design` 스킬을 함께 쓴다.
+이 스킬은 **문법**만 규정한다 — 구조, 네이밍, 상태(`data-state`), CSS 작성 규칙, 단위·토큰 운영 원칙. **색·크기·모양 같은 시각 값(디자인)은 규정하지 않는다.** 문서와 예시에 등장하는 색상·수치는 설명용 예시일 뿐이며, 실제 값은 언제나 **해당 프로젝트의 기존 디자인과 토큰**을 따른다. 단, 실제 UI에 쓰는 색 조합은 WCAG 2.2 AA(일반 텍스트 4.5:1, 큰 텍스트·UI 경계·포커스·필수 그래픽 3:1)를 통과해야 하며 실패한 기존 값은 유지 대상이 아니다. 기존 디자인이 있는 프로젝트에 이 스킬을 적용해도 룩이 불필요하게 바뀌어서는 안 된다 — 바뀌는 것은 코드의 구조와 표기법뿐이다. SLUR Design System의 시각 어휘(토큰 값·컴포넌트 룩)가 필요한 경우에만 `slur-design` 스킬을 함께 쓴다.
 
 ### 층 구조와 이 스킬의 자리
 
@@ -102,7 +102,7 @@ display → width/height → margin → padding → border → border-radius
 예:
 ```css
 .btn { display: inline-flex; height: 40px; padding: 0 16px; border-radius: 4px; background: #e0e0e0; color: #333; }
-.btn.m_primary { background: #007aff; color: #fff; }
+.btn.m_primary { background: #1d54e6; color: #fff; }
 ```
 
 자세한 내용은 `references/css.md` 참고.

@@ -27,7 +27,7 @@ button { font-weight: var(--weight-medium, 500); line-height: 1; }
 
 /* 포커스 링 — 한 곳에서만 선언한다. 컴포넌트에서 반복 선언 금지.
    폼 컨트롤뿐 아니라 링크·tabindex 요소·summary도 키보드 포커스가 보여야 한다. */
-input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: none; box-shadow: var(--color-focus-ring, 0 0 0 3px rgba(47, 107, 255, 0.3)); }
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: none; box-shadow: var(--color-focus-ring, 0 0 0 3px #1d54e6); }
 
 /* 시각적으로 숨기되 보조 기술에는 노출 — 숨긴 제목(h1 등)·오프스크린 라벨용.
    display:none/visibility:hidden은 접근성 트리에서도 제거되므로 쓰지 않는다. */

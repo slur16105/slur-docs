@@ -17,6 +17,7 @@
 .input_text { height: 2.5rem; padding: 0 var(--space-12); border: 1px solid var(--color-border-default); border-radius: var(--radius-8); background: var(--color-surface-card); transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard); }
 .input_text:hover { border-color: var(--color-border-strong); }
 .input_text:focus { border-color: var(--color-border-focus); box-shadow: var(--color-focus-ring); }
+.input_text::placeholder { color: var(--color-text-muted); opacity: 1; }
 .input_text:disabled { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); color: var(--color-text-muted); cursor: not-allowed; }
 .input_text:read-only { border-color: var(--color-border-subtle); background: var(--color-surface-sunken); color: var(--color-text-secondary); }
 .input_text[data-state="error"] { border-color: var(--color-danger); box-shadow: 0 0 0 3px var(--color-danger-soft); }

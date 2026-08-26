@@ -72,6 +72,7 @@ slur-design/
 - **공유 컨트롤 높이: `2 / 2.5 / 3rem`** (32/40/48, `m_small`/기본/`m_large`).
 - **모바일 터치 타깃은 48이 기본** — 아이콘만 있는 단독 버튼은 보이는 크기 = 탭 영역. `.btn.m_icon`(정사각, 기본 40 / `m_large` 48) 또는 햄버거용 `.btn_menu`(48×48 고정).
 - **상태색 면 위 텍스트는 on-토큰**: `--color-on-brand` / `-on-danger` / `-on-success` / `-on-warning`. 리터럴 `#fff` 금지.
+- **실제 색 조합은 WCAG 2.2 AA**: 일반 텍스트 4.5:1, UI 경계·포커스·필수 그래픽 3:1. 라이트·다크·상태별 최종 합성색을 검사하며 실패한 기존 값은 유지하지 않는다.
 - 아이콘은 `em`(`1.125em` 기본), `stroke="currentColor"` — 텍스트 크기·색을 따라간다.
 
 ## 블록 → 파일 색인
@@ -107,9 +108,9 @@ slur-design/
 - **면**: `--color-surface-page` `-card` `-sunken` `-hover` `-inverse`
 - **보더**: `--color-border-subtle` `-default` `-strong` `-focus`
 - **브랜드**: `--color-brand` `-hover` `-active` `-soft`, `--color-on-brand`, `--color-focus-ring`
-- **상태**: `--color-success` `-warning` `-danger` (+ 각 `-soft`), `--color-on-danger` `-on-success` `-on-warning`
+- **상태**: `--color-success` `-warning` `-danger` (+ 각 `-soft`·`-solid`·`-on-inverse`), `--color-on-danger` `-on-success` `-on-warning`
 - **오버레이**: `--color-surface-overlay` (모달 `::backdrop`·드로어 딤)
-- **차트**: `--color-chart-1` ~ `-5` (범주형 계열, 순서 고정·5개 초과 금지·상태색 재사용 금지. 라이트에서 3·4·5는 대비 3:1 미만이라 직접 라벨·범례·표 필수). 차트 라이브러리(Recharts·Chart.js 등)에는 `getComputedStyle(document.documentElement).getPropertyValue('--color-chart-1')`로 읽어 주입
+- **차트**: `--color-chart-1` ~ `-5` (범주형 계열, 순서 고정·5개 초과 금지·상태색 재사용 금지. 카드 면 대비 3:1 이상, 맞닿는 조각은 카드 면 구분선, 직접 라벨·범례·표 필수). 차트 라이브러리(Recharts·Chart.js 등)에는 `getComputedStyle(document.documentElement).getPropertyValue('--color-chart-1')`로 읽어 주입
 - **타이포**: `--font-sans`, `--text-xs`(12) `-sm`(14) `-base`(16) `-lg`(18) `-2xl`(24) `-3xl`(30) `-4xl`(36), `--weight-medium`(500) `-semibold`(600) `-bold`(700), `--leading-normal`(1.5) `-relaxed`(1.7, 장문), `--tracking-tight` `-snug` `-wide`
 - **간격**: `--space-4` `-8` `-12` `-16` `-20` `-24` (rem, 이름 = px 환산값). **레이아웃 구조 간격(섹션 여백·그리드 갭)은 토큰이 아니라 px 직접** — `--space-32` 같은 토큰은 없다. 페이지 콘텐츠의 기본 좌우 거터는 **16px**: 4px 그리드에 맞고 좁은 화면의 유효 폭을 확보하면서 화면 간 시작선을 통일한다. 카드 내부 패딩·섹션 간격에는 이 값을 강제하지 않는다
 - **라디우스**: `--radius-4` `-8` `-12` `-full` (px)

@@ -31,10 +31,10 @@
 .toast_message .i_close svg { width: 1em; height: 1em; }
 
 /* 강도·의미 — 긴급(alert) 컨테이너는 위험색 아이콘, 정적 변형은 m_ */
-.toast_message[role="alert"] .i_icon { color: var(--color-danger); }
-.toast_message.m_success .i_icon { color: var(--color-success); }
-.toast_message.m_warning .i_icon { color: var(--color-warning); }
-.toast_message.m_danger .i_icon { color: var(--color-danger); }
+.toast_message[role="alert"] .i_icon { color: var(--color-danger-on-inverse); }
+.toast_message.m_success .i_icon { color: var(--color-success-on-inverse); }
+.toast_message.m_warning .i_icon { color: var(--color-warning-on-inverse); }
+.toast_message.m_danger .i_icon { color: var(--color-danger-on-inverse); }
 
 /* 위치 변형 — 상단(레이아웃 사유 전용: 하단이 탭바·푸터·FAB로 막힐 때, 두 컨테이너 모두에) */
 .toast_message.m_top { top: 24px; bottom: auto; transform: translate(-50%, -8px); }

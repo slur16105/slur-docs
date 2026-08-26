@@ -55,7 +55,7 @@ description: SLUR UX/UI System에서 입력 폼과 테이블 UI를 구조적으�
 
 ```css
 .i_field {display:flex; flex-direction:column;}
-.i_error {display:none; margin-top:4px; font-size:13px; color:#d33;}
+.i_error {display:none; margin-top:4px; font-size:13px; color:#b91c1c;}
 .i_field[data-state="error"] .i_error {display:block;}
 ```
 

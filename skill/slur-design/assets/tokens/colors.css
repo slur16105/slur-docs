@@ -18,8 +18,9 @@
   --color-neutral-100: #eef0f1;
   --color-neutral-200: #e2e5e7;
   --color-neutral-300: #cbcfd3;
-  --color-neutral-400: #9aa1a8;
-  --color-neutral-500: #6b737b;
+  --color-neutral-400: #9fa6ad;
+  --color-neutral-450: #7d858d;
+  --color-neutral-500: #646b72;
   --color-neutral-600: #4d545b;
   --color-neutral-700: #363b41;
   --color-neutral-800: #23272b;
@@ -30,16 +31,22 @@
   --color-brand-50:  #eef4ff;
   --color-brand-300: #8fb4ff;
   --color-brand-400: #5c8dff;
-  --color-brand-500: #2f6bff;
+  --color-brand-500: #2e6aff;
   --color-brand-600: #1d54e6;
   --color-brand-700: #163fb0;
 
   /* Semantic hues */
+  --color-green-400: #4ade80;
   --color-green-500: #16a34a;
+  --color-green-600: #16833f;
   --color-green-50:  #ecfdf3;
+  --color-amber-400: #fbbf24;
   --color-amber-500: #d97706;
+  --color-amber-700: #9a5700;
   --color-amber-50:  #fff7ed;
+  --color-red-400:   #f87171;
   --color-red-500:   #dc2626;
+  --color-red-700:   #b91c1c;
   --color-red-50:    #fef2f2;
 
   /* Chart hues — 범주형 계열 전용(상태색과 분리). 500은 라이트 면, 600은 다크 면용 단계 */
@@ -58,7 +65,7 @@
   /* Text */
   --color-text-primary:   var(--color-neutral-900);
   --color-text-secondary: var(--color-neutral-600);
-  --color-text-muted:     var(--color-neutral-400);
+  --color-text-muted:     var(--color-neutral-500);
   --color-text-inverse:   var(--color-neutral-0);
   --color-text-brand:    var(--color-brand-600);
 
@@ -71,8 +78,8 @@
 
   /* Borders */
   --color-border-subtle:  var(--color-neutral-200);
-  --color-border-default: var(--color-neutral-300);
-  --color-border-strong:  var(--color-neutral-400);
+  --color-border-default: var(--color-neutral-450);
+  --color-border-strong:  var(--color-neutral-500);
   --color-border-focus:   var(--color-brand-500);
 
   /* Accent (interactive) */
@@ -81,37 +88,44 @@
   --color-brand-active: var(--color-brand-700);
   --color-brand-soft:   var(--color-brand-50);
   --color-on-brand:     var(--color-neutral-0);
-  --color-focus-ring:   0 0 0 3px rgba(47, 107, 255, 0.30);
+  --color-focus-ring:   0 0 0 3px var(--color-border-focus);
 
   /* Status */
-  --color-success:      var(--color-green-500);
+  --color-success:      var(--color-green-600);
   --color-success-soft: var(--color-green-50);
-  --color-warning:      var(--color-amber-500);
+  --color-warning:      var(--color-amber-700);
   --color-warning-soft: var(--color-amber-50);
-  --color-danger:       var(--color-red-500);
+  --color-danger:       var(--color-red-700);
   --color-danger-soft:  var(--color-red-50);
 
-  /* On-status — 상태색 면 위 텍스트. 배경이 테마와 무관하게 고정이므로
-     텍스트도 고정(다크 오버라이드 없음). 대비: red 위 흰색 4.8:1 ✓,
-     amber 위 진한색 5.9:1 ✓. green 위 흰색은 3.3:1로 AA 미달이지만
-     룩 통일을 우선한 디자인 결정 (AA가 필요해지면 solid용 그린을
-     #15803d급으로 어둡게 — 흰색과 5.0:1). */
+  /* Solid status surfaces are separate from status foregrounds so both themes
+     keep normal text at 4.5:1 without changing the meaning of --color-success etc. */
+  --color-success-solid: var(--color-green-600);
+  --color-warning-solid: var(--color-amber-500);
+  --color-danger-solid:  var(--color-red-500);
+
+  /* On-status — corresponding *-solid surface text. All normal text pairs pass AA. */
   --color-on-danger:  var(--color-neutral-0);
   --color-on-success: var(--color-neutral-0);
   --color-on-warning: var(--color-neutral-900);
+
+  /* Status icons on the inverse surface (toast). The inverse surface flips by theme. */
+  --color-success-on-inverse: var(--color-green-400);
+  --color-warning-on-inverse: var(--color-amber-400);
+  --color-danger-on-inverse:  var(--color-red-400);
 
   /* Overlay — 모달·드로어 뒤 배경 딤. 테마와 무관하게 어두운 반투명 고정 */
   --color-surface-overlay: rgba(11, 13, 15, 0.45);
 
   /* Chart — 범주형 계열 5슬롯. 순서 고정(1→5), 계열이 5를 넘으면 "기타"로 묶거나 화면을 나눈다.
      상태색(success/warning/danger)을 계열색으로 재사용하지 않는다.
-     검증(dataviz 6항목, 라이트 #fff·다크 #23272b 면): 인접 쌍 CVD ΔE ≥ 8.4, 정상 시력 ≥ 19 통과.
-     라이트 면에서 3·4·5는 3:1 미만 — 색만으로 계열을 구분시키지 말고 직접 라벨·범례·표를 함께 둔다. */
+     카드 면 대비는 라이트·다크 모두 3:1 이상. 색만으로 계열을 구분시키지 말고
+     직접 라벨·범례·표를 함께 두며, 맞닿는 조각 사이에는 카드 면 구분선을 둔다. */
   --color-chart-1: var(--color-brand-500);
   --color-chart-2: var(--color-orange-500);
-  --color-chart-3: var(--color-teal-500);
-  --color-chart-4: var(--color-yellow-500);
-  --color-chart-5: var(--color-pink-400);
+  --color-chart-3: var(--color-teal-600);
+  --color-chart-4: var(--color-yellow-600);
+  --color-chart-5: var(--color-pink-500);
 }
 
 /* ── LAYER 2 · SEMANTIC — dark ──────────────────
@@ -119,10 +133,10 @@
    different steps. Set <html data-theme="dark">.   */
 [data-theme="dark"] {
   --color-text-primary:   var(--color-neutral-100);
-  --color-text-secondary: var(--color-neutral-400);
-  --color-text-muted:     var(--color-neutral-500);
+  --color-text-secondary: var(--color-neutral-300);
+  --color-text-muted:     var(--color-neutral-400);
   --color-text-inverse:   var(--color-neutral-900);
-  --color-text-brand:    var(--color-brand-400);
+  --color-text-brand:    var(--color-brand-300);
 
   /* 다크 배경은 순흑이 아닌 900 — 순흑+밝은 글자는 halation으로 눈을 피로하게 한다 */
   --color-surface-page:    var(--color-neutral-900);
@@ -132,21 +146,27 @@
   --color-surface-inverse: var(--color-neutral-0);
 
   --color-border-subtle:  var(--color-neutral-800);
-  --color-border-default: var(--color-neutral-700);
-  --color-border-strong:  var(--color-neutral-600);
+  --color-border-default: var(--color-neutral-450);
+  --color-border-strong:  var(--color-neutral-400);
   --color-border-focus:   var(--color-brand-400);
 
   --color-brand:        var(--color-brand-500);
-  --color-brand-hover:  var(--color-brand-400);
-  --color-brand-active: var(--color-brand-300);
-  --color-brand-soft:   rgba(47, 107, 255, 0.16);
+  --color-brand-hover:  var(--color-brand-600);
+  --color-brand-active: var(--color-brand-700);
+  --color-brand-soft:   rgba(46, 106, 255, 0.16);
   --color-on-brand:     var(--color-neutral-0);
-  --color-focus-ring:   0 0 0 3px rgba(92, 141, 255, 0.45);
+  --color-focus-ring:   0 0 0 3px var(--color-border-focus);
   --color-surface-overlay: rgba(0, 0, 0, 0.60);
 
   --color-success-soft: rgba(22, 163, 74, 0.16);
   --color-warning-soft: rgba(217, 119, 6, 0.16);
   --color-danger-soft:  rgba(220, 38, 38, 0.16);
+  --color-success: var(--color-green-400);
+  --color-warning: var(--color-amber-400);
+  --color-danger:  var(--color-red-400);
+  --color-success-on-inverse: var(--color-green-600);
+  --color-warning-on-inverse: var(--color-amber-700);
+  --color-danger-on-inverse:  var(--color-red-700);
 
   /* 다크 면용 계열 단계 — 같은 색상을 어두운 면에 맞춰 한 단계 조정(자동 반전 아님) */
   --color-chart-1: var(--color-brand-400);
