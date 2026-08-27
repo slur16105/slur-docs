@@ -1,20 +1,21 @@
 ---
 name: slur-design
-description: SLUR Design System — 시각 어휘(디자인 토큰과 컴포넌트 스타일). SLUR 룩앤필로 UI를 만들 때 이 스킬을 사용한다. "슬러 디자인", "SLUR 디자인으로", "우리 디자인시스템으로", "슬러 룩으로 만들어줘"라는 요청, 또는 SLUR 토큰(색·타이포·간격)이나 기성 컴포넌트(Button, Input, Badge 등)가 필요할 때 참고한다. 호칭 구분 — "슬러 디자인"은 이 스킬과 slur-guidelines 스킬을 **함께** 쓰라는 뜻이다(어휘만 따로 쓸 수 없고 문법이 있어야 성립). "슬러 디자인 토큰만"이라고 하면 tokens-only 모드(토큰만 쓰고 컴포넌트는 프로젝트가 직접). 반대로 "슬러 시스템"(단독)이라고 하면 slur-guidelines 만 적용하고 기존 디자인은 건드리지 않는다.
+description: SLUR Design System — UI와 문서의 시각 어휘. SLUR 룩앤필의 웹 화면, PDF·AUDIT 보고서, 디자인 토큰과 컴포넌트가 필요할 때 사용한다. "슬러 디자인", "SLUR 디자인으로", "슬러 보고서", "AUDIT 보고서 디자인" 요청에 적용한다. 웹 UI의 "슬러 디자인"은 slur-guidelines를 함께 사용하고, "슬러 디자인 토큰만"은 tokens-only 모드로 처리한다. "슬러 시스템" 단독 요청은 slur-guidelines만 적용해 기존 디자인을 유지한다.
 ---
 
 # SLUR Design System (시각 어휘)
 
-이 스킬은 **어휘**를 제공한다 — 색·타이포·간격 토큰과 컴포넌트의 생김새. **문법**(클래스 네이밍, `data-state`, CSS 작성 규칙, 단위·토큰 운영 원칙)과 **공통 레이어**(`global.css`: 리셋·포커스 링·`a11y_hidden`·4상태 스위치)는 `slur-guidelines` 스킬이 담당하며, 이 시스템의 모든 코드는 그 문법을 따른다. 두 스킬은 항상 함께 쓴다.
+이 스킬은 **어휘**를 제공한다 — 색·타이포·간격 토큰과 컴포넌트의 생김새. 웹 UI에서는 **문법**(클래스 네이밍, `data-state`, CSS 작성 규칙, 단위·토큰 운영 원칙)과 **공통 레이어**(`global.css`: 리셋·포커스 링·`a11y_hidden`·4상태 스위치)를 담당하는 `slur-guidelines`를 항상 함께 쓴다. PDF 같은 정적 문서는 웹 클래스 문법 대신 이 스킬의 보고서 규칙과 해당 문서 도구의 생성·검수 절차를 따른다.
 
 ## 층과 파일 위치 (이 스킬 폴더 기준 상대경로)
 
 ```
 slur-design/
 ├── references/
-│   └── recipes.md     # 대시보드 레시피 — 앱 셸·4상태·토스트·메뉴·툴팁·표 정렬/페이지·차트 토큰·다크 토글·위임·화면 조립본
+│   ├── recipes.md     # 대시보드 레시피 — 앱 셸·4상태·토스트·메뉴·툴팁·표 정렬/페이지·차트 토큰·다크 토글·위임·화면 조립본
+│   └── reports.md     # PDF·AUDIT 보고서 — 브랜드, 블루 팔레트, 일반어, 생성·검수 기준
 └── assets/
-    ├── brand/         # 로고 logo.svg(라이트)·logo-white.svg(다크) · favicon.svg
+    ├── brand/         # 로고 logo.svg(라이트)·logo-black.png(PDF)·logo-white.svg(다크) · favicon.svg
     ├── tokens/        # tokens 층 — colors(차트 5슬롯·overlay 포함), typography, spacing, radius, shadows, motion, breakpoints, z-index
     ├── components/    # components 층 — button, input, select, selection, badge, card, alert, modal, navigation, table,
     │                  #                 toast, state, menu, tooltip, pagination
@@ -45,8 +46,13 @@ slur-design/
 | "슬러 디자인으로" | **full** | `global.css` + `tokens/*` + `components/*` |
 | "슬러 디자인 토큰만", "색·폰트만 슬러로" | **tokens-only** | `global.css` + `tokens/*` — 컴포넌트는 프로젝트가 토큰으로 직접 만든다 |
 | "슬러 시스템으로" (단독) | — | `global.css`만 (slur-guidelines). 이 스킬을 쓰지 않는다 |
+| "슬러 보고서", "AUDIT 보고서 디자인" | **report** | `references/reports.md` + 원본 브랜드 자산 |
 
 컴포넌트 CSS는 토큰 실명(`--color-brand` 등)에 의존하므로 **토큰 없이 컴포넌트만 쓸 수 없다.**
+
+## 문서·보고서 모드
+
+PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만들 때는 [보고서 디자인 기준](references/reports.md)을 먼저 읽는다. 이 모드에서는 원본 로고의 색을 바꾸지 않고, 보고서 강조색과 브랜드 로고를 분리한다. 비개발자가 먼저 읽는 요약본은 일반어를 우선하고 기술 용어·측정 근거는 상세본에 남긴다. 생성 방식은 결과 형식에 맞게 선택하되 최종 PDF를 페이지 이미지로 렌더링해 잘림·겹침·색상 비중을 확인한다.
 
 ## 프로젝트에 넣는 법
 
