@@ -46,6 +46,8 @@ The system goes beyond structural design and connects everything under one stand
 - **Accessibility** — semantics first, minimal ARIA, keyboard access
 - **Media & Performance** — image roles, responsive images, loading performance
 - **Experience (UX)** — screen states, feedback, motion, form-input experience
+- **Design System** — tokens, components, report guidance, app/auth shells, screen blueprints, AI quickstart
+- **Quality Verification** — automated checks, real-browser verification, human judgment, completion gates
 - **Reference** — prefix table, naming examples, checklist, FAQ
 
 ---
@@ -55,15 +57,16 @@ The system goes beyond structural design and connects everything under one stand
 The documentation is organized as follows (see the sidebar at [docs.slur.co.kr](https://docs.slur.co.kr)):
 
 - **Start Here** — overview, philosophy, why the system exists, how to read the docs
-- **Core Concepts** — UI structure model, naming system, separation of concerns
-- **CSS Methodology** — block rules, internal elements (`i_`), modifiers (`m_`), nesting, one-line rule, tokens, anti-patterns, pseudo-elements
-- **JavaScript & State** — state-driven UI, external library integration
-- **Accessibility** — philosophy, alt text, ARIA policy, keyboard navigation
+- **Core Concepts** — UI structure model, semantic markup, naming system, separation of concerns, browser support
+- **CSS Methodology** — global layer, block rules, internal elements (`i_`), modifiers (`m_`), nesting, one-line rule, tokens, pseudo-elements, responsive rules
+- **JavaScript & State** — state-driven UI, behavior layer, external library integration
+- **Accessibility** — philosophy, alt text, ARIA policy, keyboard navigation, heading structure
 - **Media & Performance** — image role, image handling, loading performance
-- **Patterns** — structure hierarchy, popup/modal, form & table
-- **Experience (UX)** — screen states, feedback, motion, form UX
-- **Design System** — design tokens, components, app/auth shells & eight screen blueprints (viewable on the site), AI quickstart (skill installer at `docs.slur.co.kr/skill/install.sh` → unpacks `slur-skills.tar.gz`)
-- **Reference** — prefix table, naming examples, do & don't, checklist, FAQ
+- **Patterns** — popup/modal, form & table
+- **Experience (UX)** — screen states, feedback, motion, feature restraint, form UX
+- **Design System** — design tokens, components, report design, app/auth shells & eight screen blueprints (viewable on the site), AI quickstart ([skill installer](https://docs.slur.co.kr/skill/install.sh) → unpacks `slur-skills.tar.gz`)
+- **Quality Verification** — verification principles, responsive/browser verification, completion checklist
+- **Reference** — prefix table, naming examples, do & don't, checklist, typography choice, FAQ
 - **Changelog** — version history
 
 ---
