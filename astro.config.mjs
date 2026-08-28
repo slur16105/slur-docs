@@ -22,13 +22,14 @@ export default defineConfig({
 				alt: 'SLUR logo',
 				replacesTitle: false,
 			},
-			// social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/slur16105/slur-docs' }],
 			customCss: [
 				'./src/styles/slur-theme.css',
 				'./src/styles/custom.css',
 			],
 			components: {
 				Footer: './src/components/Footer.astro',
+				SocialIcons: './src/components/SocialIcons.astro',
 			},
 			head: [
 				{

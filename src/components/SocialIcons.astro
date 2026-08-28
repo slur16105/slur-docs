@@ -1,0 +1,29 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import config from 'virtual:starlight/user-config';
+
+const links = config.social || [];
+---
+
+{
+	links.map(({ label, href, icon }) => (
+		<a href={href} target="_blank" rel="me noopener noreferrer" class="sl-flex">
+			<span class="sr-only">{label} (새 창)</span>
+			<Icon name={icon} />
+		</a>
+	))
+}
+
+<style>
+	@layer starlight.core {
+		a {
+			color: var(--sl-color-text-accent);
+			padding: 0.5em;
+			margin: -0.5em;
+		}
+
+		a:hover {
+			opacity: 0.66;
+		}
+	}
+</style>
