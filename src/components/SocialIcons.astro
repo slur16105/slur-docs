@@ -17,13 +17,18 @@ const links = config.social || [];
 <style>
 	@layer starlight.core {
 		a {
-			color: var(--sl-color-text-accent);
-			padding: 0.5em;
-			margin: -0.5em;
+			align-items: center;
+			justify-content: center;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 50%;
+			background: var(--color-neutral-0);
+			color: var(--color-neutral-900);
+			transition: background-color var(--duration-fast) var(--ease-standard);
 		}
 
 		a:hover {
-			opacity: 0.66;
+			background: var(--color-neutral-100);
 		}
 	}
 </style>
