@@ -1,0 +1,13 @@
+/* Sharp — 각진 모서리와 선명한 경계로 정교한 작업 도구 느낌을 주는 외형. */
+.theme_lab[data-appearance-theme="sharp"] {
+  --appearance-control-radius:0;
+  --appearance-item-radius:0;
+  --appearance-container-radius:0;
+  --appearance-shell-radius:0;
+  --appearance-card-shadow:none;
+  --appearance-raised-shadow:var(--shadow-sm);
+  --appearance-floating-shadow:var(--shadow-md);
+  --appearance-border-width:1px;
+  --appearance-border:var(--color-border-strong);
+  --appearance-card-hover-shift:-2px;
+}

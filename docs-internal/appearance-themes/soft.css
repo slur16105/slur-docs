@@ -1,0 +1,13 @@
+/* Soft — 넉넉한 라운드와 부드러운 입체감으로 친근한 인상을 주는 외형. */
+.theme_lab[data-appearance-theme="soft"] {
+  --appearance-control-radius:var(--radius-12);
+  --appearance-item-radius:var(--radius-12);
+  --appearance-container-radius:var(--radius-12);
+  --appearance-shell-radius:28px;
+  --appearance-card-shadow:var(--shadow-md);
+  --appearance-raised-shadow:var(--shadow-lg);
+  --appearance-floating-shadow:var(--shadow-lg);
+  --appearance-border-width:1px;
+  --appearance-border:var(--color-border-subtle);
+  --appearance-card-hover-shift:-4px;
+}
