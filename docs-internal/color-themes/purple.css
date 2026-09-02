@@ -1,0 +1,12 @@
+/* Purple — 표현력이 있으면서 제품 UI의 명료함을 유지하는 컬러. */
+:root[data-color-theme="purple"] {
+  --color-brand-50:#f5f0ff;
+  --color-brand-300:#c4a7ff;
+  --color-brand-400:#9f75f0;
+  --color-brand-500:#8956d2;
+  --color-brand-600:#7440bd;
+  --color-brand-700:#5d2f9f;
+  --color-brand-soft:#f5f0ff;
+}
+:root[data-color-theme="purple"][data-theme="dark"] { --color-brand-soft:rgba(137, 86, 210, 0.18); }
+.theme_lab .i_color_option[data-color-theme="purple"] { --color-theme-chip-light:#8956d2; --color-theme-chip-dark:#c4a7ff; }

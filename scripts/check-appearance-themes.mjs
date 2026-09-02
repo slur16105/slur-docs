@@ -130,14 +130,17 @@ const schemes = [...html.matchAll(/data-scheme="([\w-]+)"/g)].map((match) => mat
 for (const requiredScheme of ['light', 'dark']) {
   if (!schemes.includes(requiredScheme)) fail(`컬러 모드 ${requiredScheme}가 실험실에 없습니다.`);
 }
+const colorThemes = [...html.matchAll(/<button[^>]+data-color-theme="([\w-]+)"/g)].map((match) => match[1]);
+const defaultColorTheme = html.match(/<html[^>]+data-color-theme="([\w-]+)"/)?.[1];
+if (!defaultColorTheme || !colorThemes.includes(defaultColorTheme)) fail('실험실 기본 컬러 테마가 유효하지 않습니다.');
 
 if (failures.length) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exitCode = 1;
 } else {
-  const combinations = themeNames.length * new Set(schemes).size;
+  const combinations = themeNames.length * new Set(colorThemes).size * new Set(schemes).size;
   console.log(
     `Appearance theme contract: ${themeNames.length}/${themeNames.length} passed ` +
-      `(${themeNames.join(', ')}; ${combinations} light/dark combinations gated).`,
+      `(${themeNames.join(', ')}; ${combinations} appearance/color/light-dark combinations gated).`,
   );
 }

@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tokenPath = path.join(root, 'skill/slur-design/assets/tokens/colors.css');
+const colorThemeDir = path.join(root, 'docs-internal/color-themes');
+const labHtmlPath = path.join(root, 'docs-internal/appearance-theme-lab.html');
 const css = fs.readFileSync(tokenPath, 'utf8');
 
 function declarations(body) {
@@ -12,15 +14,115 @@ function declarations(body) {
   );
 }
 
-const light = {};
-for (const match of css.matchAll(/:root\s*{([\s\S]*?)}/g)) Object.assign(light, declarations(match[1]));
-const themes = { light };
-for (const match of css.matchAll(/\[data-theme=["']([\w-]+)["']\]\s*{([\s\S]*?)}/g)) {
-  const [, name, body] = match;
-  if (themes[name]) throw new Error(`Duplicate color theme: ${name}`);
-  themes[name] = { ...light, ...declarations(body) };
+const baseLight = {};
+for (const match of css.matchAll(/:root\s*{([\s\S]*?)}/g)) Object.assign(baseLight, declarations(match[1]));
+const darkBlock = css.match(/\[data-theme=["']dark["']\]\s*{([\s\S]*?)}/);
+if (!darkBlock) throw new Error('Dark theme token block not found.');
+const baseDark = declarations(darkBlock[1]);
+
+const requiredLightTokens = [
+  '--color-brand-50',
+  '--color-brand-300',
+  '--color-brand-400',
+  '--color-brand-500',
+  '--color-brand-600',
+  '--color-brand-700',
+  '--color-brand-soft',
+];
+const requiredDarkTokens = ['--color-brand-soft'];
+const requiredChipTokens = ['--color-theme-chip-light', '--color-theme-chip-dark'];
+const contractFailures = [];
+
+function contractFail(message) {
+  contractFailures.push(message);
 }
-if (!themes.dark) throw new Error('Dark theme token block not found.');
+
+function withoutComments(source) {
+  return source.replace(/\/\*[\s\S]*?\*\//g, '').trim();
+}
+
+function normalizedSelector(selector) {
+  return selector.replace(/\s+/g, '');
+}
+
+function validateTokenSet(fileName, selector, values, requiredTokens) {
+  const names = Object.keys(values);
+  for (const token of requiredTokens) {
+    if (!names.includes(token)) contractFail(`${fileName}: ${selector}에 필수 토큰 ${token}이 없습니다.`);
+  }
+  for (const token of names) {
+    if (!requiredTokens.includes(token)) contractFail(`${fileName}: ${selector}에 승인되지 않은 토큰 ${token}이 있습니다.`);
+  }
+}
+
+if (!fs.existsSync(colorThemeDir)) throw new Error('Color theme directory not found.');
+const labHtml = fs.readFileSync(labHtmlPath, 'utf8');
+const colorThemeFiles = fs.readdirSync(colorThemeDir).filter((file) => file.endsWith('.css')).sort();
+const themes = {};
+const colorThemeNames = [];
+
+for (const fileName of colorThemeFiles) {
+  const themeName = path.basename(fileName, '.css');
+  const source = withoutComments(fs.readFileSync(path.join(colorThemeDir, fileName), 'utf8'));
+  const rules = [...source.matchAll(/([^{}]+)\{([^{}]*)}/g)];
+  const residual = source.replace(/([^{}]+)\{([^{}]*)}/g, '').trim();
+  colorThemeNames.push(themeName);
+
+  if (rules.length !== 3 || residual) {
+    contractFail(`${fileName}: Light, Dark, 컬러칩 규칙이 각각 하나씩 있어야 합니다.`);
+    continue;
+  }
+  if (/@import|!important|url\s*\(/i.test(source)) {
+    contractFail(`${fileName}: @import, !important, url()은 사용할 수 없습니다.`);
+  }
+
+  const ruleMap = new Map(rules.map((match) => [normalizedSelector(match[1]), declarations(match[2])]));
+  const lightSelector = normalizedSelector(`:root[data-color-theme="${themeName}"]`);
+  const darkSelector = normalizedSelector(`:root[data-color-theme="${themeName}"][data-theme="dark"]`);
+  const chipSelector = normalizedSelector(`.theme_lab .i_color_option[data-color-theme="${themeName}"]`);
+  const lightOverrides = ruleMap.get(lightSelector);
+  const darkOverrides = ruleMap.get(darkSelector);
+  const chipValues = ruleMap.get(chipSelector);
+
+  if (!lightOverrides) contractFail(`${fileName}: ${lightSelector} 규칙이 없습니다.`);
+  if (!darkOverrides) contractFail(`${fileName}: ${darkSelector} 규칙이 없습니다.`);
+  if (!chipValues) contractFail(`${fileName}: ${chipSelector} 규칙이 없습니다.`);
+  if (!lightOverrides || !darkOverrides || !chipValues) continue;
+
+  validateTokenSet(fileName, 'Light', lightOverrides, requiredLightTokens);
+  validateTokenSet(fileName, 'Dark', darkOverrides, requiredDarkTokens);
+  validateTokenSet(fileName, '컬러칩', chipValues, requiredChipTokens);
+
+  for (const [token, value] of Object.entries({ ...lightOverrides, ...darkOverrides, ...chipValues })) {
+    try {
+      parseColor(value);
+    } catch {
+      contractFail(`${fileName}: ${token}은 지원되는 원시 컬러값이어야 합니다 (${value}).`);
+    }
+  }
+
+  themes[`${themeName}-light`] = { ...baseLight, ...lightOverrides };
+  themes[`${themeName}-dark`] = { ...baseLight, ...baseDark, ...lightOverrides, ...darkOverrides };
+}
+
+const linkedThemes = [...labHtml.matchAll(/href="color-themes\/([\w-]+)\.css"/g)].map((match) => match[1]);
+const selectableThemes = [...labHtml.matchAll(/<button[^>]+data-color-theme="([\w-]+)"/g)].map((match) => match[1]);
+for (const themeName of colorThemeNames) {
+  if (!linkedThemes.includes(themeName)) contractFail(`${themeName}.css: 실험실 <link>에 등록되지 않았습니다.`);
+  if (!selectableThemes.includes(themeName)) contractFail(`${themeName}.css: 실험실 선택 목록에 등록되지 않았습니다.`);
+}
+for (const themeName of new Set([...linkedThemes, ...selectableThemes])) {
+  if (!colorThemeNames.includes(themeName)) contractFail(`${themeName}: 대응하는 컬러 테마 CSS 파일이 없습니다.`);
+}
+const defaultColorTheme = labHtml.match(/<html[^>]+data-color-theme="([\w-]+)"/)?.[1];
+if (!defaultColorTheme || !colorThemeNames.includes(defaultColorTheme)) {
+  contractFail('실험실 기본 컬러 테마가 유효하지 않습니다.');
+}
+
+if (contractFailures.length) {
+  for (const failure of contractFailures) console.error(`FAIL ${failure}`);
+  process.exit(1);
+}
 
 function parseColor(value) {
   const hex = value.match(/^#([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i)?.[1];
@@ -130,7 +232,8 @@ if (failures.length) {
   const textMinimum = Math.min(...checks.filter((check) => check.minimum === 4.5).map((check) => check.ratio));
   const uiMinimum = Math.min(...checks.filter((check) => check.minimum === 3).map((check) => check.ratio));
   console.log(
-    `WCAG AA color contrast: ${checks.length}/${checks.length} passed ` +
-      `(normal text min ${textMinimum.toFixed(2)}:1, UI/focus/chart min ${uiMinimum.toFixed(2)}:1).`,
+    `WCAG AA color contrast: ${checks.length}/${checks.length} passed across ${Object.keys(themes).length} variants ` +
+      `(${colorThemeNames.join(', ')} × light/dark; normal text min ${textMinimum.toFixed(2)}:1, ` +
+      `UI/focus/chart min ${uiMinimum.toFixed(2)}:1).`,
   );
 }

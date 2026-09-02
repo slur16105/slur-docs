@@ -1,0 +1,12 @@
+/* Green — 차분하고 자연스러운 제품 경험을 위한 컬러. */
+:root[data-color-theme="green"] {
+  --color-brand-50:#edf8f1;
+  --color-brand-300:#90d4aa;
+  --color-brand-400:#55b881;
+  --color-brand-500:#16833f;
+  --color-brand-600:#126e35;
+  --color-brand-700:#0d5428;
+  --color-brand-soft:#edf8f1;
+}
+:root[data-color-theme="green"][data-theme="dark"] { --color-brand-soft:rgba(22, 131, 63, 0.18); }
+.theme_lab .i_color_option[data-color-theme="green"] { --color-theme-chip-light:#16833f; --color-theme-chip-dark:#90d4aa; }

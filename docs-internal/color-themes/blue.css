@@ -1,0 +1,12 @@
+/* Blue — SLUR 기본 브랜드 컬러. */
+:root[data-color-theme="blue"] {
+  --color-brand-50:#eef4ff;
+  --color-brand-300:#8fb4ff;
+  --color-brand-400:#5c8dff;
+  --color-brand-500:#2e6aff;
+  --color-brand-600:#1d54e6;
+  --color-brand-700:#163fb0;
+  --color-brand-soft:#eef4ff;
+}
+:root[data-color-theme="blue"][data-theme="dark"] { --color-brand-soft:rgba(46, 106, 255, 0.16); }
+.theme_lab .i_color_option[data-color-theme="blue"] { --color-theme-chip-light:#2e6aff; --color-theme-chip-dark:#8fb4ff; }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko" data-theme="light" data-color-theme="blue">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,9 @@
 <title>SLUR 외형 테마 실험실</title>
 <link rel="stylesheet" href="../skill/slur-guidelines/assets/global.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/tokens/colors.css">
+<link rel="stylesheet" href="color-themes/blue.css">
+<link rel="stylesheet" href="color-themes/green.css">
+<link rel="stylesheet" href="color-themes/purple.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/tokens/typography.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/tokens/spacing.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/tokens/radius.css">
@@ -42,8 +45,14 @@
       <button class="i_option" type="button" data-scheme="light" aria-pressed="true">Light</button>
       <button class="i_option" type="button" data-scheme="dark" aria-pressed="false">Dark</button>
     </div>
+    <div class="lab_segment m_color_theme" role="group" aria-labelledby="color_theme_label">
+      <span class="i_label" id="color_theme_label">컬러 테마</span>
+      <button class="i_color_option" type="button" data-color-theme="blue" aria-pressed="true"><span class="i_swatch" aria-hidden="true"></span>Blue</button>
+      <button class="i_color_option" type="button" data-color-theme="green" aria-pressed="false"><span class="i_swatch" aria-hidden="true"></span>Green</button>
+      <button class="i_color_option" type="button" data-color-theme="purple" aria-pressed="false"><span class="i_swatch" aria-hidden="true"></span>Purple</button>
+    </div>
   </div>
-  <p class="a11y_hidden" aria-live="polite" data-lab-status>Standard 외형, Light 모드</p>
+  <p class="a11y_hidden" aria-live="polite" data-lab-status>Standard 외형, Blue 컬러, Light 모드</p>
 </header>
 
 <div class="lab_stage">
