@@ -3,13 +3,14 @@ title: 디자인시스템 개요
 description: SLUR Design System — 슬러 문법으로 쓴 시각 어휘(디자인 토큰·컴포넌트·패턴·화면 조립본)의 네 층과 호칭, 로드 순서, 가져오는 방법을 설명합니다.
 ---
 
-SLUR UX/UI System이 **문법**(구조·네이밍·상태·CSS 작성 규칙)이라면,
-SLUR Design System은 그 문법으로 쓴 **어휘**입니다 —
-색·타이포·간격 토큰, 컴포넌트의 생김새, 화면을 짜는 틀, 그리고 그대로 열리는 화면 조립본.
+SLUR UX/UI System은 두 부분으로 이루어집니다.
+**SLUR UI Guidelines**는 구조·네이밍·상태·접근성을 정하는 구현 규칙이고,
+**SLUR Design System**은 색·타이포·간격 토큰, 컴포넌트의 생김새, 화면을 짜는 틀과 조립본을 제공합니다.
+쉽게 말하면 UI Guidelines는 UI를 만드는 **문법**, Design System은 그 문법으로 만든 **슬러의 디자인**입니다.
 
 이 섹션은 어휘 층을 다룹니다.
-앞의 문서들이 정한 문법 위에서만 성립하며, 어휘의 모든 코드는 그 문법을 그대로 따릅니다.
-문법만 가져다 쓰면 프로젝트의 룩은 바뀌지 않고, 어휘까지 가져오면 슬러의 룩이 됩니다.
+Design System은 UI Guidelines 위에서 성립하며 모든 코드가 같은 구현 규칙을 따릅니다.
+UI Guidelines만 적용하면 프로젝트의 디자인은 그대로이고, Design System까지 적용하면 화면의 생김새도 슬러로 바뀝니다.
 
 ---
 
@@ -22,21 +23,22 @@ SLUR Design System은 그 문법으로 쓴 **어휘**입니다 —
 | **components** | [컴포넌트 CSS](/design/components/) 15개 — 버튼·입력·셀렉트·선택·배지·카드·알림·모달·내비게이션·표·토스트·상태·메뉴·툴팁·페이지네이션 | `slur-design/assets/components/` | `slur-design` |
 | **patterns** | [앱 셸 · 인증 셸 · 화면 조립본](/design/screens/) 여덟 장 | `slur-design/assets/patterns/` | `slur-design` |
 
-- 문법(guidelines)은 **룩 무관**입니다. 기존 디자인이 있는 프로젝트에 적용해도 바뀌는 것은 코드의 구조와 표기법뿐입니다.
+- UI Guidelines는 **룩 무관**입니다. 기존 디자인이 있는 프로젝트에 적용해도 바뀌는 것은 코드의 구조와 표기법뿐입니다.
 - 어휘(design)는 **문법이 있어야 성립**합니다. 컴포넌트 CSS는 공통 레이어의 리셋·포커스 링·4상태 스위치를 전제하고, 토큰 실명(`--color-brand` 등)에 의존합니다 — 토큰 없이 컴포넌트만 쓸 수 없습니다.
 - 동작은 CSS 밖입니다 — 네이티브 → `slur.js` → 위임의 [3단 우선순위](/js/behaviors/)를 따르며, 어떤 JS 라이브러리에도 의존하지 않습니다.
 
 ---
 
-## 호칭 — 부르는 말에 따라 들어가는 것이 다릅니다
+## 사용법 — 대표는 두 가지입니다
 
-| 부르는 말 | 뜻 | 프로젝트에 들어가는 것 |
+| 이렇게 말하면 | 가장 쉬운 차이 | 프로젝트에 적용되는 것 |
 |---|---|---|
-| **슬러 시스템** | 문법만 | `global.css` + `slur.js`. 기존 디자인은 그대로 |
-| **슬러 디자인** | 문법 + 어휘 전부 | `global.css` + `slur.js` + `tokens/*` + `components/*` (+ 필요한 `patterns/*`) |
-| **슬러 디자인 토큰만** | 문법 + 토큰 | `global.css` + `slur.js` + `tokens/*` — 컴포넌트는 프로젝트가 토큰으로 직접 만듭니다 |
+| **슬러 UI 가이드로 적용해줘** | 디자인은 그대로, 만드는 규칙만 슬러로 | 구조·네이밍·`data-state`·접근성 규칙 + `global.css`·`slur.js` |
+| **슬러 디자인시스템으로 적용해줘** | 화면의 생김새까지 슬러로 | UI Guidelines + 토큰 + 현재 프로젝트에서 실제 사용하는 컴포넌트·패턴 |
 
-AI 도구에 말할 때도 같은 세 호칭을 씁니다 — [AI 퀵스타트](/design/ai-quickstart/).
+Design System을 적용해도 모든 컴포넌트를 무조건 넣지는 않습니다. 현재 프로젝트를 먼저 확인하고, 이미 사용 중이거나 이번 기능에 필요한 것만 가져옵니다. 모달을 사용하지 않는 프로젝트에는 `modal.css`와 모달 마크업을 추가하지 않습니다.
+
+**토큰만 적용**은 세 번째 대표 방식이 아닙니다. 기존 컴포넌트를 반드시 유지하면서 색·타이포·간격만 슬러로 바꾸려는 사용자가 그 범위를 명시했을 때만 쓰는 제한 옵션입니다. AI 도구에도 위 두 가지를 기본 호칭으로 사용합니다 — [AI 퀵스타트](/design/ai-quickstart/).
 
 ---
 
@@ -107,9 +109,9 @@ curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh
 
 | 원본 | 주소 |
 |---|---|
-| 문법 스킬 | [`slur-guidelines/SKILL.md`](/skill/slur-guidelines/SKILL.md) · [`assets/global.css`](/skill/slur-guidelines/assets/global.css) · [`assets/slur.js`](/skill/slur-guidelines/assets/slur.js) |
-| 어휘 스킬 | [`slur-design/SKILL.md`](/skill/slur-design/SKILL.md) · [`assets/tokens/`](/skill/slur-design/assets/tokens/colors.css) · [`assets/components/`](/skill/slur-design/assets/components/button.css) · [`assets/patterns/`](/skill/slur-design/assets/patterns/app-shell.css) |
+| UI 가이드 스킬 | [`slur-guidelines/SKILL.md`](/skill/slur-guidelines/SKILL.md) · [`assets/global.css`](/skill/slur-guidelines/assets/global.css) · [`assets/slur.js`](/skill/slur-guidelines/assets/slur.js) |
+| 디자인시스템 스킬 | [`slur-design/SKILL.md`](/skill/slur-design/SKILL.md) · [`assets/tokens/`](/skill/slur-design/assets/tokens/colors.css) · [`assets/components/`](/skill/slur-design/assets/components/button.css) · [`assets/patterns/`](/skill/slur-design/assets/patterns/app-shell.css) |
 | 화면 조립본 목차 | [`patterns/screens/index.html`](/skill/slur-design/assets/patterns/screens/index.html) |
 | 컴포넌트 데모 | [`system/demo.html`](/system/demo.html) |
 
-프로젝트에 넣을 때는 스킬의 `assets/`를 프로젝트 CSS 폴더로 **복사**합니다(full: `tokens/` + `components/`, tokens-only: `tokens/`만). `global.css`·`slur.js`도 함께, 대시보드면 `patterns/app-shell.css`, 로그인류면 `auth-shell.css`까지. **화면을 새로 짤 때는 [조립본](/design/screens/)을 복사해 시작합니다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트가 규칙대로 들어 있습니다.
+프로젝트에 넣을 때는 먼저 현재 화면과 컴포넌트를 확인합니다. 토큰과 실제 사용하는 컴포넌트만 프로젝트 CSS 폴더로 **복사**하고 `global.css`·`slur.js`를 함께 둡니다. 대시보드면 `patterns/app-shell.css`, 로그인류면 `auth-shell.css`처럼 필요한 패턴만 가져옵니다. **화면을 새로 짤 때는 대응하는 [조립본](/design/screens/)을 복사해 시작합니다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트가 규칙대로 들어 있습니다. 사용자가 기존 컴포넌트 유지와 토큰만 적용을 명시한 경우에만 `tokens/`만 사용합니다.

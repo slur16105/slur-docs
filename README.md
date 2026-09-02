@@ -73,6 +73,15 @@ The documentation is organized as follows (see the sidebar at [docs.slur.co.kr](
 
 ## How to Use
 
+There are two primary ways to apply SLUR.
+
+| Request | Difference |
+|---|---|
+| **Apply the SLUR UI Guidelines** | Keep the current visual design and apply only SLUR's structure, naming, state, and accessibility rules. |
+| **Apply the SLUR Design System** | Apply the UI Guidelines and the SLUR visual language. Inspect the current project first, then use only the tokens, components, and patterns the project actually needs. |
+
+Applying the Design System does not automatically add unused modals, tables, toasts, or other components. Tokens-only use is not a third primary mode; it is a limited option for an explicit request to keep existing components while changing only color, typography, and spacing.
+
 1. New to SLUR UX/UI System → start with the **Start Here** section.
 2. Applying it in practice → use **Reference** and the relevant methodology sections as a working guide.
 3. SLUR UX/UI System is **not a framework** → it is not tied to any library, build tool, or stack (HTML/CSS, Astro, React, Vue, or static markup).

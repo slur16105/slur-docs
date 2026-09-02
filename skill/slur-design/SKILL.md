@@ -1,6 +1,6 @@
 ---
 name: slur-design
-description: SLUR Design System — UI와 문서의 시각 어휘. SLUR 룩앤필의 웹 화면, PDF·AUDIT 보고서, 디자인 토큰과 컴포넌트가 필요할 때 사용한다. "슬러 디자인", "SLUR 디자인으로", "슬러 보고서", "AUDIT 보고서 디자인" 요청에 적용한다. 웹 UI의 "슬러 디자인"은 slur-guidelines를 함께 사용하고, "슬러 디자인 토큰만"은 tokens-only 모드로 처리한다. "슬러 시스템" 단독 요청은 slur-guidelines만 적용해 기존 디자인을 유지한다.
+description: SLUR Design System — UI와 문서의 시각 어휘. SLUR 룩앤필의 웹 화면, PDF·AUDIT 보고서, 디자인 토큰과 컴포넌트가 필요할 때 사용한다. "슬러 디자인시스템", "슬러 디자인", "SLUR 디자인으로", "슬러 룩", "슬러 보고서", "AUDIT 보고서 디자인" 요청에 적용한다. 웹 UI에서는 slur-guidelines를 함께 사용하고 현재 프로젝트를 먼저 확인한 뒤 필요한 토큰·컴포넌트·패턴만 적용한다. 사용하지 않는 컴포넌트는 추가하지 않는다. 사용자가 기존 컴포넌트 유지와 토큰만 적용을 명시한 경우에만 제한 범위로 처리한다. "슬러 UI 가이드"나 "슬러 규칙" 요청은 slur-guidelines만 적용해 기존 디자인을 유지한다.
 ---
 
 # SLUR Design System (시각 어휘)
@@ -39,16 +39,16 @@ slur-design/
 
 위임 예시·React에서의 취급은 `references/recipes.md`.
 
-## 모드 — tokens-only / full
+## 웹 UI의 대표 적용 방식 — 두 가지
 
-| 요청 | 모드 | 프로젝트에 넣는 것 |
+| 요청 | 뜻 | 적용 범위 |
 |---|---|---|
-| "슬러 디자인으로" | **full** | `global.css` + `tokens/*` + `components/*` |
-| "슬러 디자인 토큰만", "색·폰트만 슬러로" | **tokens-only** | `global.css` + `tokens/*` — 컴포넌트는 프로젝트가 토큰으로 직접 만든다 |
-| "슬러 시스템으로" (단독) | — | `global.css`만 (slur-guidelines). 이 스킬을 쓰지 않는다 |
-| "슬러 보고서", "AUDIT 보고서 디자인" | **report** | `references/reports.md` + 원본 브랜드 자산 |
+| **"슬러 UI 가이드로"** | 현재 디자인은 그대로, 구현 규칙만 SLUR로 | `slur-guidelines`의 구조·네이밍·상태·접근성 규칙. 이 스킬은 사용하지 않는다 |
+| **"슬러 디자인시스템으로"** | 화면의 생김새까지 SLUR로 | `slur-guidelines` + `global.css` + `tokens/*` + 현재 프로젝트에서 실제 사용하는 `components/*`·`patterns/*` |
 
-컴포넌트 CSS는 토큰 실명(`--color-brand` 등)에 의존하므로 **토큰 없이 컴포넌트만 쓸 수 없다.**
+SLUR Design System을 적용한다고 모든 컴포넌트를 넣는 것은 아니다. 현재 프로젝트의 화면과 기능을 먼저 조사하고, 이미 쓰거나 이번 요구사항에 필요한 컴포넌트만 가져온다. 예를 들어 모달을 사용하지 않으면 `modal.css`나 모달 마크업을 추가하지 않는다.
+
+**토큰만 적용은 대표 방식이 아니라 제한 옵션**이다. 사용자가 “기존 컴포넌트 디자인은 유지하고 색·타이포·간격만 SLUR로”라고 명시했을 때만 `global.css` + `tokens/*`를 사용하고 컴포넌트·패턴은 가져오지 않는다. 컴포넌트 CSS는 토큰 실명(`--color-brand` 등)에 의존하므로 토큰 없이 컴포넌트만 쓸 수 없다.
 
 ## 문서·보고서 모드
 
@@ -56,7 +56,7 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 
 ## 프로젝트에 넣는 법
 
-1. 이 스킬 폴더의 `assets/tokens/`·`assets/components/`(full) 또는 `assets/tokens/`(tokens-only)를 프로젝트 CSS 폴더로 **복사**한다. `slur-guidelines/assets/global.css`와 `slur.js`도 함께. 대시보드면 `assets/patterns/app-shell.css`, 로그인류면 `auth-shell.css`까지. **화면을 새로 짤 때는 `assets/patterns/screens/`의 조립본(dashboard·login·list·settings·signup·reset·detail·onboarding)을 복사해 시작한다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트 흐름이 규칙대로 들어 있다. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
+1. 먼저 현재 프로젝트의 화면·컴포넌트·토큰을 조사한다. `assets/tokens/`와 실제 사용하는 `assets/components/`만 프로젝트 CSS 폴더로 **복사**하고, `slur-guidelines/assets/global.css`와 `slur.js`도 함께 둔다. 대시보드면 `assets/patterns/app-shell.css`, 로그인류면 `auth-shell.css`처럼 필요한 패턴만 가져온다. 사용하지 않는 컴포넌트와 패턴은 추가하지 않는다. **화면을 새로 짤 때는 `assets/patterns/screens/`의 대응 조립본(dashboard·login·list·settings·signup·reset·detail·onboarding)을 복사해 시작한다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트 흐름이 규칙대로 들어 있다. 사용자가 토큰만 적용하라고 명시한 경우에는 `assets/tokens/`만 복사한다. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
 2. **로드 순서**: `global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 런타임 `@import` 금지(순차 폭포). 번들러를 쓰면 같은 순서로 import. `slur.js`는 `<script src="slur.js" defer>` 한 줄(또는 `import 'slur.js'`).
 3. 웹폰트는 시스템이 로드하지 않는다 — `--font-sans` 선두가 **Noto Sans KR**이므로 소비자 페이지가 Google Fonts `<link>`(400/500/600/700)를 직접 넣는다. 없으면 시스템 폰트로 폴백.
 4. 다크 모드는 `<html data-theme="dark">` 하나로 끝난다. 전환·저장은 `slur.js`의 `theme`(`data-action="theme_toggle"` 버튼), 첫 페인트 깜빡임 방지는 `<head>` 인라인 한 줄 — `references/recipes.md` 「다크 토글」.

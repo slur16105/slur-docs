@@ -1,10 +1,10 @@
 ---
 title: AI 퀵스타트
-description: Claude Code 같은 AI 코딩 도구에 슬러 문법·디자인 스킬을 설치하고, "슬러 시스템으로 / 슬러 디자인으로"라고 불러 규칙대로 화면을 만들게 하는 가장 짧은 길입니다.
+description: Claude Code 같은 AI 코딩 도구에 SLUR UI Guidelines와 Design System을 설치하고, 두 대표 호출어로 적용 범위를 분명하게 지정하는 가장 짧은 길입니다.
 ---
 
 슬러의 규칙은 사람이 읽는 문서이자 **AI가 읽는 스킬**입니다.
-같은 내용이 두 스킬 폴더(`slur-guidelines` 문법, `slur-design` 어휘)에 AI용으로 압축돼 있어,
+같은 내용이 두 스킬 폴더(`slur-guidelines` UI 구현 규칙, `slur-design` 디자인시스템)에 AI용으로 압축돼 있어,
 설치하면 AI 도구가 화면을 만들 때 규칙·토큰·조립본을 스스로 참고합니다.
 
 ---
@@ -29,42 +29,39 @@ curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh
 
 ---
 
-## 2. 부르는 말 — 세 가지
+## 2. 부르는 말 — 두 가지
 
-| 이렇게 말하면 | AI가 하는 일 |
-|---|---|
-| **"슬러 시스템으로"** | 문법만 적용 — 네이밍·`data-state`·한 줄 CSS·접근성 규칙. **기존 디자인은 그대로.** `global.css`·`slur.js`만 들어갑니다 |
-| **"슬러 디자인으로"** | 문법 + 어휘 전부 — 토큰·컴포넌트·패턴을 넣고 슬러 룩으로 만듭니다. 새 화면은 [조립본](/design/screens/)을 복사해 시작합니다 |
-| **"슬러 디자인 토큰만"** | 문법 + 토큰 — 색·폰트·간격만 슬러, 컴포넌트는 프로젝트가 토큰으로 직접 |
+| 이렇게 말하면 | 가장 쉬운 차이 | AI가 하는 일 |
+|---|---|---|
+| **"슬러 UI 가이드로 적용해줘"** | 디자인은 그대로, 만드는 규칙만 슬러로 | 네이밍·`data-state`·CSS 작성법·접근성을 맞추고 기존 디자인과 토큰은 유지합니다 |
+| **"슬러 디자인시스템으로 적용해줘"** | 화면의 생김새까지 슬러로 | UI 가이드와 토큰을 적용하고, 현재 프로젝트에서 실제 사용하는 컴포넌트·패턴만 가져옵니다 |
+
+디자인시스템 적용은 모든 소스를 넣는다는 뜻이 아닙니다. AI가 현재 프로젝트를 먼저 확인한 뒤 필요한 요소만 적용합니다. **토큰만 적용**은 대표 호출어가 아니며, “기존 컴포넌트는 유지하고 색·타이포·간격만 슬러로”라고 범위를 명시했을 때만 제한 옵션으로 처리합니다.
 
 ### 예시 프롬프트
 
 ```text
-슬러 디자인으로 고객 목록 화면 만들어줘.
+슬러 디자인시스템으로 고객 목록 화면 만들어줘.
 list.html 조립본을 복사해서 시작하고, 열은 이름·이메일·플랜·가입일·상태,
 행 메뉴에 "상세 보기"·"휴면 처리"·"삭제".
 ```
 
 ```text
-이 React 컴포넌트를 슬러 시스템으로 리팩토링해줘.
+이 React 컴포넌트를 슬러 UI 가이드로 리팩토링해줘.
 디자인은 바꾸지 말고 클래스 네이밍·상태(data-state)·CSS 작성 규칙만 맞춰줘.
-```
-
-```text
-슬러 디자인 토큰만 써서 이 랜딩 페이지의 색·타이포를 맞춰줘. 컴포넌트는 지금 것 유지.
 ```
 
 프로젝트 `CLAUDE.md`(또는 `AGENTS.md`)에 한 줄 적어 두면 매번 말하지 않아도 됩니다.
 
 ```text
-이 프로젝트는 슬러 디자인으로 만든다. 동작은 네이티브 → slur.js → 위임, 모양은 슬러 클래스와 토큰, 상태는 data-state.
+이 프로젝트는 슬러 디자인시스템으로 만든다. 먼저 현재 프로젝트를 확인하고 실제 사용하는 컴포넌트와 패턴만 적용한다. 동작은 네이티브 → slur.js → 위임, 모양은 슬러 클래스와 토큰, 상태는 data-state.
 ```
 
 ---
 
 ## 3. 결과 점검
 
-AI가 만든 화면도 사람이 만든 것과 같은 기준으로 봅니다. 빠르게 거르는 항목입니다.
+UI 가이드만 적용했다면 기존 디자인이 유지됐는지와 [체크리스트](/reference/checklist/)를 확인합니다. 아래는 디자인시스템까지 적용한 화면을 빠르게 거르는 항목입니다.
 
 - [ ] 인라인 `style=` 0개, CSS `id` 선택자 0개, `!important` 0개
 - [ ] 생 색상값(hex/rgb) 0개, 번호 프리미티브(`--color-neutral-400` 등) 직접 참조 0개 — 시맨틱 토큰만
@@ -92,9 +89,9 @@ AI가 만든 화면도 사람이 만든 것과 같은 기준으로 봅니다. �
 
 | 무엇 | 어디 |
 |---|---|
-| 문법 스킬 | [`slur-guidelines/SKILL.md`](/skill/slur-guidelines/SKILL.md) + `references/`(naming · css · html · js · component · accessibility · ux-states · media · migration · checklist) |
+| UI 가이드 스킬 | [`slur-guidelines/SKILL.md`](/skill/slur-guidelines/SKILL.md) + `references/`(naming · css · html · js · component · accessibility · ux-states · media · migration · checklist) |
 | 공통 레이어 · 동작 층 | [`global.css`](/skill/slur-guidelines/assets/global.css) · [`slur.js`](/skill/slur-guidelines/assets/slur.js) |
-| 어휘 스킬 | [`slur-design/SKILL.md`](/skill/slur-design/SKILL.md) + [`references/recipes.md`](/skill/slur-design/references/recipes.md) |
+| 디자인시스템 스킬 | [`slur-design/SKILL.md`](/skill/slur-design/SKILL.md) + [`references/recipes.md`](/skill/slur-design/references/recipes.md) |
 | 토큰 · 컴포넌트 · 패턴 | `slur-design/assets/tokens/` · `components/` · `patterns/` — [토큰](/design/tokens/) · [컴포넌트](/design/components/) · [패턴 · 화면 조립본](/design/screens/) |
 | 조립본 · 데모 | [조립본 목차](/skill/slur-design/assets/patterns/screens/index.html) · [컴포넌트 데모](/system/demo.html) |
 
