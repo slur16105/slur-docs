@@ -53,10 +53,10 @@ body.theme_lab { min-width:320px; min-height:100vh; background:var(--color-surfa
 .theme_lab .page_home .p_hero_copy p { margin-top:var(--space-8); color:var(--color-text-secondary); }
 .theme_lab .page_home .p_hero_actions { display:flex; gap:var(--space-8); margin-top:var(--space-20); }
 .theme_lab .page_home .p_focus_card { display:flex; align-items:center; gap:var(--space-16); min-width:250px; padding:var(--space-20); border:var(--appearance-border-width) solid var(--appearance-border); border-radius:var(--appearance-container-radius); background:var(--color-surface-card); box-shadow:var(--appearance-raised-shadow); }
-.theme_lab .page_home .p_focus_ring { display:flex; align-items:baseline; justify-content:center; width:5.25rem; height:5.25rem; border:8px solid var(--color-brand-soft); border-top-color:var(--color-brand); border-right-color:var(--color-brand); border-radius:50%; flex:none; transform:rotate(18deg); }
-.theme_lab .page_home .p_focus_ring strong, .theme_lab .page_home .p_focus_ring span { transform:rotate(-18deg); }
+.theme_lab .page_home .p_focus_ring { display:flex; align-items:center; justify-content:center; width:5.25rem; height:5.25rem; border:8px solid var(--color-brand-soft); border-top-color:var(--color-brand); border-right-color:var(--color-brand); border-radius:50%; flex:none; transform:rotate(18deg); }
+.theme_lab .page_home .p_focus_value { display:inline-flex; align-items:baseline; gap:2px; line-height:1; transform:rotate(-18deg); }
 .theme_lab .page_home .p_focus_ring strong { font-size:var(--text-2xl); }
-.theme_lab .page_home .p_focus_ring span { font-size:var(--text-xs); }
+.theme_lab .page_home .p_focus_ring small { font-size:var(--text-xs); }
 .theme_lab .page_home .p_focus_meta { display:flex; flex-direction:column; }
 .theme_lab .page_home .p_focus_meta span, .theme_lab .page_home .p_focus_meta small { font-size:var(--text-xs); color:var(--color-text-secondary); }
 .theme_lab .page_home .p_focus_meta strong { margin:var(--space-4) 0; font-size:var(--text-lg); }
