@@ -1,7 +1,7 @@
 {
   "name": "proto-phase",
   "type": "module",
-  "version": "1.13.1",
+  "version": "1.13.2",
   "engines": {
     "node": ">=22.19.0"
   },
@@ -10,8 +10,9 @@
     "start": "astro dev",
     "check:contrast": "node scripts/check-color-contrast.mjs",
     "check:appearance": "node scripts/check-appearance-themes.mjs",
+    "check:auth": "node scripts/check-auth-shell.mjs",
     "check:themes": "npm run check:contrast && npm run check:appearance",
-    "prebuild": "npm run check:themes",
+    "prebuild": "npm run check:themes && npm run check:auth",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
