@@ -6,3 +6,8 @@
 .theme_lab .card.m_link:hover { box-shadow:var(--appearance-raised-shadow); transform:translateY(var(--appearance-card-hover-shift)); }
 .theme_lab .badge,
 .theme_lab .chip { border-radius:var(--appearance-control-radius); }
+
+/* 새 입체 외형의 버튼 그림자는 키보드 포커스 링을 덮지 않는다. */
+.theme_lab[data-appearance-theme="elevated"] .btn:not(.m_ghost):not(:focus-visible),
+.theme_lab[data-appearance-theme="brutal"] .btn:not(.m_ghost):not(:focus-visible) { box-shadow:var(--appearance-card-shadow); }
+.theme_lab[data-appearance-theme="brutal"] .btn:not(.m_ghost) { border-width:var(--appearance-border-width); border-color:var(--appearance-border); }

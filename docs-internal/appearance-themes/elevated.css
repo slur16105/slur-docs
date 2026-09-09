@@ -1,0 +1,13 @@
+/* Elevated — 중간 곡률과 여러 층의 그림자로 표면의 높이감을 강조한다. */
+.theme_lab[data-appearance-theme="elevated"] {
+  --appearance-control-radius:var(--radius-8);
+  --appearance-item-radius:var(--radius-8);
+  --appearance-container-radius:16px;
+  --appearance-shell-radius:24px;
+  --appearance-card-shadow:var(--shadow-lg);
+  --appearance-raised-shadow:var(--shadow-lg), 0 2px 0 var(--color-border-subtle);
+  --appearance-floating-shadow:var(--shadow-lg), 0 6px 0 var(--color-border-subtle);
+  --appearance-border-width:1px;
+  --appearance-border:var(--color-border-default);
+  --appearance-card-hover-shift:-3px;
+}

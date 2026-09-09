@@ -92,3 +92,23 @@
   .theme_lab[data-layout-theme="top-nav"] .lab_sidebar { padding:16px 20px; }
   .theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_nav { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); }
 }
+
+/* Focus: 본문과 제목을 같은 읽기 폭에 맞추고 DOM 순서는 그대로 유지한다. */
+.theme_lab[data-layout-theme="focus"] .page_head,
+.theme_lab[data-layout-theme="focus"] .page_home { width:min(100%, var(--layout-reading-width)); margin-inline:auto; }
+.theme_lab[data-layout-theme="focus"] .page_head { align-items:flex-start; flex-direction:column; }
+.theme_lab[data-layout-theme="focus"] .page_home .p_grid { grid-template-columns:minmax(0, 1fr); }
+
+/* Board: 카드 안에서도 이름→상태→진행률→참여자→동작의 읽기 순서를 보존한다. */
+.theme_lab[data-layout-theme="board"] .page_home .p_projects > .i_body { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, var(--layout-board-card-min-width)), 1fr)); gap:var(--layout-grid-gap); }
+.theme_lab[data-layout-theme="board"] .page_home .p_project_row { min-width:0; padding:var(--layout-project-row-padding); border:var(--appearance-border-width) solid var(--appearance-border); border-radius:var(--appearance-container-radius); box-shadow:var(--appearance-card-shadow); grid-template-columns:minmax(0, 1fr) 2rem; grid-template-areas:"mark mark" "name name" "status status" "progress progress" "members action"; gap:var(--layout-project-row-gap); }
+.theme_lab[data-layout-theme="board"] .page_home .p_project_mark { grid-area:mark; }
+.theme_lab[data-layout-theme="board"] .page_home .p_project_name { grid-area:name; }
+.theme_lab[data-layout-theme="board"] .page_home .p_project_name strong { white-space:normal; overflow-wrap:anywhere; }
+.theme_lab[data-layout-theme="board"] .page_home .p_project_row > .badge { display:inline-flex; grid-area:status; }
+.theme_lab[data-layout-theme="board"] .page_home .p_progress { display:flex; grid-area:progress; }
+.theme_lab[data-layout-theme="board"] .page_home .p_members { display:flex; grid-area:members; }
+.theme_lab[data-layout-theme="board"] .page_home .p_row_action { grid-area:action; }
+@media (max-width:720px) {
+  .theme_lab[data-layout-theme="board"] .page_home .p_projects > .i_body { grid-template-columns:minmax(0, 1fr); }
+}

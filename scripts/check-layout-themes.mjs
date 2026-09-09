@@ -30,7 +30,7 @@ const requiredTokens = [
   '--layout-focus-card-min-width',
 ];
 const requiredTokenSet = new Set(requiredTokens);
-const structureTokens = { split: ['--layout-split-columns'] };
+const structureTokens = { split: ['--layout-split-columns'], focus: ['--layout-reading-width'], board: ['--layout-board-card-min-width'] };
 
 function fail(message) {
   failures.push(message);

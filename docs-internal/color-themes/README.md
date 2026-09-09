@@ -14,7 +14,7 @@
 
 ## 새 컬러 추가 순서
 
-현재 단색 Blue, Green, Purple, Amber(따뜻한 주황 계열), Rose(붉은 분홍 계열)와 두 색 조합 Ocean(Blue + Teal), Sunset(Rose + Amber)을 제공한다. 밝은 색의 분위기는 연한 배경과 Dark의 강조색으로 표현하고, Light의 버튼색은 흰 글자를 읽을 수 있도록 충분히 짙게 조정한다.
+현재 단색 Blue, Green, Purple, Amber(따뜻한 주황 계열), Rose(붉은 분홍 계열)와 두 색 조합 Ocean(Blue + Teal), Sunset(Rose + Amber), Forest(Green + Gold), Aurora(Purple + Cyan)를 제공한다. 밝은 색의 분위기는 연한 배경과 Dark의 강조색으로 표현하고, Light의 버튼색은 흰 글자를 읽을 수 있도록 충분히 짙게 조정한다. Forest의 골드는 금속 질감이 아닌 색상 역할이며, Aurora의 보조색은 푸른 청록 계열이다.
 
 1. 이 폴더에 `<이름>.css`를 추가하고 Light/Dark 값과 칩 색을 선언한다. 조합 테마는 `ocean.css`처럼 보조색 역할 4개와 보조 칩의 Light/Dark 값도 모두 선언한다.
 2. 실험실 HTML에 CSS 링크와 컬러 선택 버튼을 등록한다. 조합 테마는 두 번째 칩에 `m_accent`를 붙이고 접근 가능한 이름에 조합을 명시한다.

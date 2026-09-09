@@ -1,0 +1,27 @@
+/* Aurora — Purple 주색과 푸른 청록(Cyan) 보조색. */
+:root[data-color-theme="aurora"] {
+  --color-brand-50:#f5f0ff;
+  --color-brand-300:#c4a7ff;
+  --color-brand-400:#9f75f0;
+  --color-brand-500:#8956d2;
+  --color-brand-600:#7440bd;
+  --color-brand-700:#5d2f9f;
+  --color-brand-soft:#f5f0ff;
+  --color-accent:#0e7490;
+  --color-accent-soft:#ecfeff;
+  --color-text-accent:#155e75;
+  --color-chart-accent:#0e7490;
+}
+:root[data-color-theme="aurora"][data-theme="dark"] {
+  --color-brand-soft:rgba(137, 86, 210, 0.18);
+  --color-accent:#67e8f9;
+  --color-accent-soft:#16353b;
+  --color-text-accent:#67e8f9;
+  --color-chart-accent:#67e8f9;
+}
+.theme_lab .i_color_option[data-color-theme="aurora"] {
+  --color-theme-chip-light:#8956d2;
+  --color-theme-chip-dark:#c4a7ff;
+  --color-theme-chip-accent-light:#0e7490;
+  --color-theme-chip-accent-dark:#67e8f9;
+}

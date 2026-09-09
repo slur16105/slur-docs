@@ -1,0 +1,25 @@
+/* Board — 동일한 프로젝트 목록을 반응형 카드 그리드로 표현한다. */
+.theme_lab[data-layout-theme="board"] {
+  --layout-shell-max-width:1540px;
+  --layout-sidebar-width:212px;
+  --layout-stage-padding:24px;
+  --layout-sidebar-padding:24px 16px 16px;
+  --layout-brand-margin-bottom:28px;
+  --layout-nav-item-height:2.5rem;
+  --layout-page-head-padding:28px;
+  --layout-page-padding:28px;
+  --layout-section-gap:24px;
+  --layout-hero-min-height:220px;
+  --layout-hero-padding:28px;
+  --layout-stats-columns:repeat(4, minmax(0, 1fr));
+  --layout-content-columns:minmax(0, 1.5fr) minmax(280px, 1fr);
+  --layout-grid-gap:20px;
+  --layout-card-head-padding:var(--space-20) var(--space-20) 0;
+  --layout-card-body-padding:var(--space-20);
+  --layout-stat-padding:var(--space-20);
+  --layout-project-row-gap:var(--space-12);
+  --layout-project-row-padding:var(--space-16);
+  --layout-chart-height:220px;
+  --layout-focus-card-min-width:250px;
+  --layout-board-card-min-width:260px;
+}

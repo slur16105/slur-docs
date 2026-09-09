@@ -1,0 +1,27 @@
+/* Forest — Green 주색과 Gold 보조색. 상태색은 그대로 유지한다. */
+:root[data-color-theme="forest"] {
+  --color-brand-50:#edf8f1;
+  --color-brand-300:#90d4aa;
+  --color-brand-400:#55b881;
+  --color-brand-500:#16833f;
+  --color-brand-600:#126e35;
+  --color-brand-700:#0d5428;
+  --color-brand-soft:#edf8f1;
+  --color-accent:#9c6900;
+  --color-accent-soft:#fffbeb;
+  --color-text-accent:#854d0e;
+  --color-chart-accent:#9c6900;
+}
+:root[data-color-theme="forest"][data-theme="dark"] {
+  --color-brand-soft:rgba(22, 131, 63, 0.18);
+  --color-accent:#fcd34d;
+  --color-accent-soft:#352f18;
+  --color-text-accent:#fcd34d;
+  --color-chart-accent:#fcd34d;
+}
+.theme_lab .i_color_option[data-color-theme="forest"] {
+  --color-theme-chip-light:#16833f;
+  --color-theme-chip-dark:#90d4aa;
+  --color-theme-chip-accent-light:#9c6900;
+  --color-theme-chip-accent-dark:#fcd34d;
+}

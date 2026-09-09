@@ -1,0 +1,13 @@
+/* Brutal — 각진 모서리, 굵은 경계, 번짐 없는 오프셋 그림자. */
+.theme_lab[data-appearance-theme="brutal"] {
+  --appearance-control-radius:2px;
+  --appearance-item-radius:2px;
+  --appearance-container-radius:2px;
+  --appearance-shell-radius:4px;
+  --appearance-card-shadow:3px 3px 0 var(--color-border-strong);
+  --appearance-raised-shadow:4px 4px 0 var(--color-border-strong);
+  --appearance-floating-shadow:6px 6px 0 var(--color-border-strong);
+  --appearance-border-width:2px;
+  --appearance-border:var(--color-border-strong);
+  --appearance-card-hover-shift:-2px;
+}

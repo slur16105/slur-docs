@@ -1,0 +1,25 @@
+/* Focus — 본문 폭을 제한하고 중앙의 세로 흐름에 집중한다. */
+.theme_lab[data-layout-theme="focus"] {
+  --layout-shell-max-width:1480px;
+  --layout-sidebar-width:212px;
+  --layout-stage-padding:28px;
+  --layout-sidebar-padding:24px 16px 16px;
+  --layout-brand-margin-bottom:28px;
+  --layout-nav-item-height:2.5rem;
+  --layout-page-head-padding:32px;
+  --layout-page-padding:32px 32px 48px;
+  --layout-section-gap:28px;
+  --layout-hero-min-height:280px;
+  --layout-hero-padding:32px;
+  --layout-stats-columns:repeat(2, minmax(0, 1fr));
+  --layout-content-columns:minmax(0, 1fr);
+  --layout-grid-gap:20px;
+  --layout-card-head-padding:var(--space-20) var(--space-20) 0;
+  --layout-card-body-padding:var(--space-16) var(--space-20);
+  --layout-stat-padding:var(--space-20);
+  --layout-project-row-gap:var(--space-12);
+  --layout-project-row-padding:var(--space-12) 0;
+  --layout-chart-height:240px;
+  --layout-focus-card-min-width:240px;
+  --layout-reading-width:820px;
+}
