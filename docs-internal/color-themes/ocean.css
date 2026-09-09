@@ -1,0 +1,27 @@
+/* Ocean — 주요 동작은 Blue, 진행률과 보조 강조는 Teal. */
+:root[data-color-theme="ocean"] {
+  --color-brand-50:#eef4ff;
+  --color-brand-300:#8fb4ff;
+  --color-brand-400:#5c8dff;
+  --color-brand-500:#2e6aff;
+  --color-brand-600:#1d54e6;
+  --color-brand-700:#163fb0;
+  --color-brand-soft:#eef4ff;
+  --color-accent:#0f766e;
+  --color-accent-soft:#eefbf8;
+  --color-text-accent:#0f625c;
+  --color-chart-accent:#0f766e;
+}
+:root[data-color-theme="ocean"][data-theme="dark"] {
+  --color-brand-soft:rgba(46, 106, 255, 0.16);
+  --color-accent:#5eead4;
+  --color-accent-soft:#153733;
+  --color-text-accent:#5eead4;
+  --color-chart-accent:#5eead4;
+}
+.theme_lab .i_color_option[data-color-theme="ocean"] {
+  --color-theme-chip-light:#2e6aff;
+  --color-theme-chip-dark:#8fb4ff;
+  --color-theme-chip-accent-light:#0f766e;
+  --color-theme-chip-accent-dark:#5eead4;
+}

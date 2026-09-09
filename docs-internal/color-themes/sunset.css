@@ -1,0 +1,27 @@
+/* Sunset — 주요 동작은 Rose, 진행률과 보조 강조는 Amber. */
+:root[data-color-theme="sunset"] {
+  --color-brand-50:#fff1f2;
+  --color-brand-300:#fda4af;
+  --color-brand-400:#fb7185;
+  --color-brand-500:#d12b68;
+  --color-brand-600:#9d174d;
+  --color-brand-700:#831843;
+  --color-brand-soft:#fff1f2;
+  --color-accent:#b85b09;
+  --color-accent-soft:#fff7ed;
+  --color-text-accent:#92400e;
+  --color-chart-accent:#b85b09;
+}
+:root[data-color-theme="sunset"][data-theme="dark"] {
+  --color-brand-soft:rgba(209, 43, 104, 0.16);
+  --color-accent:#fdba74;
+  --color-accent-soft:#3b2a18;
+  --color-text-accent:#fdba74;
+  --color-chart-accent:#fdba74;
+}
+.theme_lab .i_color_option[data-color-theme="sunset"] {
+  --color-theme-chip-light:#d12b68;
+  --color-theme-chip-dark:#fda4af;
+  --color-theme-chip-accent-light:#b85b09;
+  --color-theme-chip-accent-dark:#fdba74;
+}

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tokenPath = path.join(root, 'skill/slur-design/assets/tokens/colors.css');
 const colorThemeDir = path.join(root, 'docs-internal/color-themes');
+const colorBasePath = path.join(colorThemeDir, 'base.css');
 const labHtmlPath = path.join(root, 'docs-internal/appearance-theme-lab.html');
 const css = fs.readFileSync(tokenPath, 'utf8');
 
@@ -16,9 +17,12 @@ function declarations(body) {
 
 const baseLight = {};
 for (const match of css.matchAll(/:root\s*{([\s\S]*?)}/g)) Object.assign(baseLight, declarations(match[1]));
+const colorBaseCss = fs.readFileSync(colorBasePath, 'utf8');
+for (const match of colorBaseCss.matchAll(/:root\s*{([\s\S]*?)}/g)) Object.assign(baseLight, declarations(match[1]));
 const darkBlock = css.match(/\[data-theme=["']dark["']\]\s*{([\s\S]*?)}/);
 if (!darkBlock) throw new Error('Dark theme token block not found.');
 const baseDark = declarations(darkBlock[1]);
+for (const match of colorBaseCss.matchAll(/:root\[data-theme=["']dark["']\]\s*{([\s\S]*?)}/g)) Object.assign(baseDark, declarations(match[1]));
 
 const requiredLightTokens = [
   '--color-brand-50',
@@ -31,6 +35,8 @@ const requiredLightTokens = [
 ];
 const requiredDarkTokens = ['--color-brand-soft'];
 const requiredChipTokens = ['--color-theme-chip-light', '--color-theme-chip-dark'];
+const accentTokens = ['--color-accent', '--color-accent-soft', '--color-text-accent', '--color-chart-accent'];
+const accentChipTokens = ['--color-theme-chip-accent-light', '--color-theme-chip-accent-dark'];
 const contractFailures = [];
 
 function contractFail(message) {
@@ -57,7 +63,7 @@ function validateTokenSet(fileName, selector, values, requiredTokens) {
 
 if (!fs.existsSync(colorThemeDir)) throw new Error('Color theme directory not found.');
 const labHtml = fs.readFileSync(labHtmlPath, 'utf8');
-const colorThemeFiles = fs.readdirSync(colorThemeDir).filter((file) => file.endsWith('.css')).sort();
+const colorThemeFiles = fs.readdirSync(colorThemeDir).filter((file) => file.endsWith('.css') && file !== 'base.css').sort();
 const themes = {};
 const colorThemeNames = [];
 
@@ -89,11 +95,19 @@ for (const fileName of colorThemeFiles) {
   if (!chipValues) contractFail(`${fileName}: ${chipSelector} 규칙이 없습니다.`);
   if (!lightOverrides || !darkOverrides || !chipValues) continue;
 
-  validateTokenSet(fileName, 'Light', lightOverrides, requiredLightTokens);
-  validateTokenSet(fileName, 'Dark', darkOverrides, requiredDarkTokens);
-  validateTokenSet(fileName, '컬러칩', chipValues, requiredChipTokens);
+  const isMultiColor = accentTokens.some((token) => token in lightOverrides || token in darkOverrides)
+    || accentChipTokens.some((token) => token in chipValues);
+  validateTokenSet(fileName, 'Light', lightOverrides, [...requiredLightTokens, ...(isMultiColor ? accentTokens : [])]);
+  validateTokenSet(fileName, 'Dark', darkOverrides, [...requiredDarkTokens, ...(isMultiColor ? accentTokens : [])]);
+  validateTokenSet(fileName, '컬러칩', chipValues, [...requiredChipTokens, ...(isMultiColor ? accentChipTokens : [])]);
 
-  for (const [token, value] of Object.entries({ ...lightOverrides, ...darkOverrides, ...chipValues })) {
+  const buttonBody = labHtml.match(new RegExp(`<button[^>]+data-color-theme="${themeName}"[^>]*>([\\s\\S]*?)<\\/button>`))?.[1] ?? '';
+  const chipCount = [...buttonBody.matchAll(/class="i_swatch(?: m_accent)?"/g)].length;
+  if (chipCount !== (isMultiColor ? 2 : 1) || (isMultiColor && !buttonBody.includes('class="i_swatch m_accent"'))) {
+    contractFail(`${fileName}: 단색은 컬러칩 1개, 조합 테마는 주색·보조색 컬러칩 2개를 등록해야 합니다.`);
+  }
+
+  for (const [token, value] of [...Object.entries(lightOverrides), ...Object.entries(darkOverrides), ...Object.entries(chipValues)]) {
     try {
       parseColor(value);
     } catch {
@@ -105,7 +119,8 @@ for (const fileName of colorThemeFiles) {
   themes[`${themeName}-dark`] = { ...baseLight, ...baseDark, ...lightOverrides, ...darkOverrides };
 }
 
-const linkedThemes = [...labHtml.matchAll(/href="color-themes\/([\w-]+)\.css"/g)].map((match) => match[1]);
+const linkedThemes = [...labHtml.matchAll(/href="color-themes\/([\w-]+)\.css"/g)].map((match) => match[1]).filter((name) => name !== 'base');
+if (!labHtml.includes('href="color-themes/base.css"')) contractFail('보조색 기본값을 연결하는 color-themes/base.css 링크가 없습니다.');
 const selectableThemes = [...labHtml.matchAll(/<button[^>]+data-color-theme="([\w-]+)"/g)].map((match) => match[1]);
 for (const themeName of colorThemeNames) {
   if (!linkedThemes.includes(themeName)) contractFail(`${themeName}.css: 실험실 <link>에 등록되지 않았습니다.`);
@@ -190,8 +205,9 @@ for (const theme of Object.keys(themes)) {
     for (const background of surfaces) add(theme, foreground, background, 4.5, 'normal text');
   }
   for (const background of [...surfaces, '--color-brand-soft']) add(theme, '--color-text-brand', background, 4.5, 'brand text');
+  for (const background of [...surfaces, '--color-accent-soft']) add(theme, '--color-text-accent', background, 4.5, 'accent text');
 
-  const softSurfaces = ['--color-brand-soft', '--color-success-soft', '--color-warning-soft', '--color-danger-soft'];
+  const softSurfaces = ['--color-brand-soft', '--color-accent-soft', '--color-success-soft', '--color-warning-soft', '--color-danger-soft'];
   for (const foreground of ['--color-text-primary', '--color-text-secondary', '--color-text-muted']) {
     for (const background of softSurfaces) add(theme, foreground, background, 4.5, 'text on soft surface');
   }
@@ -216,6 +232,10 @@ for (const theme of Object.keys(themes)) {
     }
   }
   add(theme, '--color-brand', '--color-surface-card', 3, 'selected control');
+  for (const background of ['--color-surface-page', '--color-surface-card', '--color-surface-sunken', '--color-accent-soft']) {
+    add(theme, '--color-accent', background, 3, 'accent progress');
+  }
+  add(theme, '--color-chart-accent', '--color-surface-card', 3, 'accent chart mark');
   add(theme, '--color-surface-card', '--color-border-strong', 3, 'switch knob');
   for (let index = 1; index <= 5; index += 1) add(theme, `--color-chart-${index}`, '--color-surface-card', 3, 'chart mark');
 }
