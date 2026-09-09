@@ -43,7 +43,7 @@
 <link rel="stylesheet" href="layout-themes/top-nav.css">
 <link rel="stylesheet" href="layout-themes/focus.css">
 <link rel="stylesheet" href="layout-themes/board.css">
-<link rel="stylesheet" href="appearance-theme-lab.css">
+<link rel="stylesheet" href="appearance-theme-lab.css?v=mode-icons">
 <link rel="stylesheet" href="layout-themes/base.css">
 </head>
 <body class="theme_lab" data-appearance-theme="standard" data-layout-theme="comfortable">
@@ -54,6 +54,16 @@
     <span class="l_mark" aria-hidden="true">SL</span>
     <span class="l_name">Appearance Lab</span>
     <span class="badge m_brand">내부 실험</span>
+  </div>
+  <div class="lab_scheme" role="group" aria-label="컬러 모드">
+    <button class="i_scheme" type="button" data-scheme="light" aria-pressed="true" aria-label="라이트 모드" title="라이트 모드">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+      <span class="a11y_hidden">Light</span>
+    </button>
+    <button class="i_scheme" type="button" data-scheme="dark" aria-pressed="false" aria-label="다크 모드" title="다크 모드">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.8 14.1A9 9 0 0 1 9.9 3.2 9 9 0 1 0 20.8 14.1Z"></path></svg>
+      <span class="a11y_hidden">Dark</span>
+    </button>
   </div>
   <div class="l_controls">
     <div class="lab_segment" role="group" aria-labelledby="appearance_label">
@@ -76,11 +86,6 @@
       <button class="i_option" type="button" data-layout="top-nav" aria-pressed="false" title="상단 메뉴와 넓은 본문">Top Nav</button>
       <button class="i_option" type="button" data-layout="focus" aria-pressed="false" title="좁고 중앙 정렬된 세로 본문">Focus</button>
       <button class="i_option" type="button" data-layout="board" aria-pressed="false" title="프로젝트를 카드 그리드로 표시">Board</button>
-    </div>
-    <div class="lab_segment" role="group" aria-labelledby="scheme_label">
-      <span class="i_label" id="scheme_label">컬러 모드</span>
-      <button class="i_option" type="button" data-scheme="light" aria-pressed="true">Light</button>
-      <button class="i_option" type="button" data-scheme="dark" aria-pressed="false">Dark</button>
     </div>
     <div class="lab_segment m_color_theme" role="group" aria-labelledby="color_theme_label">
       <span class="i_label" id="color_theme_label">컬러 테마</span>

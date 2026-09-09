@@ -127,8 +127,18 @@ if (!/\.theme_lab\s+\.lab_segment\s+\.i_option:focus-visible\s*{[^}]*box-shadow\
 }
 
 const schemes = [...html.matchAll(/data-scheme="([\w-]+)"/g)].map((match) => match[1]);
+const schemeGroup = html.match(/<div class="lab_scheme"[^>]*role="group"[^>]*aria-label="컬러 모드"[^>]*>([\s\S]*?)<\/div>/)?.[1];
+if (!schemeGroup) fail('우측 상단 컬러 모드 아이콘 그룹이 없습니다.');
 for (const requiredScheme of ['light', 'dark']) {
   if (!schemes.includes(requiredScheme)) fail(`컬러 모드 ${requiredScheme}가 실험실에 없습니다.`);
+  if (schemes.filter((scheme) => scheme === requiredScheme).length !== 1) fail(`컬러 모드 ${requiredScheme} 버튼은 하나만 있어야 합니다.`);
+  const iconButton = schemeGroup?.match(new RegExp(`<button([^>]*data-scheme="${requiredScheme}"[^>]*)>([\\s\\S]*?)<\\/button>`));
+  if (!iconButton || !/aria-label="[^"]+"/.test(iconButton[1]) || !/title="[^"]+"/.test(iconButton[1]) || !/type="button"/.test(iconButton[1])) {
+    fail(`${requiredScheme}: 모드 아이콘 버튼의 접근 가능한 이름·툴팁·타입이 필요합니다.`);
+  }
+  if (!iconButton || !/<svg[^>]*aria-hidden="true"/.test(iconButton[2]) || !/<span class="a11y_hidden">(?:Light|Dark)<\/span>/.test(iconButton[2])) {
+    fail(`${requiredScheme}: 장식 SVG와 상태 알림에 사용할 숨김 텍스트가 필요합니다.`);
+  }
 }
 const colorThemes = [...html.matchAll(/<button[^>]+data-color-theme="([\w-]+)"/g)].map((match) => match[1]);
 const defaultColorTheme = html.match(/<html[^>]+data-color-theme="([\w-]+)"/)?.[1];
