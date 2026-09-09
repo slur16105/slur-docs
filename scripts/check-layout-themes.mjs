@@ -30,6 +30,7 @@ const requiredTokens = [
   '--layout-focus-card-min-width',
 ];
 const requiredTokenSet = new Set(requiredTokens);
+const structureTokens = { split: ['--layout-split-columns'] };
 
 function fail(message) {
   failures.push(message);
@@ -87,17 +88,20 @@ for (const fileName of themeFiles) {
   if (/@import|!important|url\s*\(/i.test(css)) fail(`${fileName}: @import, !important, url()은 사용할 수 없습니다.`);
 
   const entries = declarations(rules[0][2], fileName);
+  const extraTokens = structureTokens[themeName] ?? [];
+  const allowedTokens = new Set([...requiredTokenSet, ...extraTokens]);
   const seen = new Set();
   for (const [property, value] of entries) {
     if (seen.has(property)) fail(`${fileName}: ${property}가 중복 선언됐습니다.`);
     seen.add(property);
-    if (!requiredTokenSet.has(property)) fail(`${fileName}: 승인되지 않은 속성 ${property}`);
+    if (!allowedTokens.has(property)) fail(`${fileName}: 승인되지 않은 속성 ${property}`);
     if (/#[\da-f]{3,8}\b|rgba?\s*\(|hsla?\s*\(|oklch?\s*\(|\blab\s*\(|\blch\s*\(|color(?:-mix)?\s*\(/i.test(value)) {
       fail(`${fileName}: 레이아웃 파일에는 컬러값을 사용할 수 없습니다 (${property}).`);
     }
   }
-  for (const token of requiredTokens) {
+  for (const token of [...requiredTokens, ...extraTokens]) {
     if (!seen.has(token)) fail(`${fileName}: 필수 토큰 ${token}이 없습니다.`);
+    if (!baseCss.includes(`var(${token})`)) fail(`${token}: layout base CSS에서 사용되지 않습니다.`);
   }
 }
 
@@ -116,9 +120,7 @@ for (const themeName of new Set([...linkedThemes, ...selectableThemes])) {
 
 const defaultTheme = html.match(/<body[^>]+data-layout-theme="([\w-]+)"/)?.[1];
 if (!defaultTheme || !themeNames.includes(defaultTheme)) fail('실험실 기본 레이아웃이 유효한 테마가 아닙니다.');
-for (const token of requiredTokens) {
-  if (!baseCss.includes(`var(${token})`)) fail(`${token}: layout base CSS에서 사용되지 않습니다.`);
-}
+if (!html.includes('href="layout-themes/base.css"')) fail('실험실에 layout base CSS 링크가 없습니다.');
 
 if (failures.length) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

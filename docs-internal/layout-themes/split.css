@@ -1,0 +1,25 @@
+/* Split — 주요 콘텐츠 왼쪽, 지표·활동 오른쪽. 좁은 화면에서는 원래 읽기 순서로 접힌다. */
+.theme_lab[data-layout-theme="split"] {
+  --layout-shell-max-width:1540px;
+  --layout-sidebar-width:212px;
+  --layout-stage-padding:24px;
+  --layout-sidebar-padding:24px 16px 16px;
+  --layout-brand-margin-bottom:28px;
+  --layout-nav-item-height:2.5rem;
+  --layout-page-head-padding:28px 24px 24px;
+  --layout-page-padding:24px;
+  --layout-section-gap:24px;
+  --layout-hero-min-height:300px;
+  --layout-hero-padding:28px;
+  --layout-stats-columns:repeat(2, minmax(0, 1fr));
+  --layout-content-columns:minmax(0, 1fr);
+  --layout-grid-gap:16px;
+  --layout-card-head-padding:var(--space-20) var(--space-20) 0;
+  --layout-card-body-padding:var(--space-16) var(--space-20);
+  --layout-stat-padding:var(--space-16);
+  --layout-project-row-gap:var(--space-12);
+  --layout-project-row-padding:var(--space-12) 0;
+  --layout-chart-height:240px;
+  --layout-focus-card-min-width:240px;
+  --layout-split-columns:minmax(0, 1fr) minmax(280px, .55fr);
+}

@@ -38,3 +38,57 @@
 @container home (max-width:560px) {
   .theme_lab[data-layout-theme] .page_home .p_stats { grid-template-columns:minmax(0, 1fr); }
 }
+
+/* Split: DOM을 옮기지 않고 행별 읽기 순서(포커스→지표→차트→활동→프로젝트)를 유지한다. */
+@container workspace (min-width:800px) {
+  .theme_lab[data-layout-theme="split"] .page_home { display:grid; grid-template-columns:var(--layout-split-columns); grid-template-areas:"hero stats" "chart activity" "projects ."; align-items:start; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_grid { display:contents; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_hero { grid-area:hero; min-width:0; align-items:stretch; flex-direction:column; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_focus_card { width:100%; min-width:0; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_stats { grid-area:stats; min-width:0; grid-template-columns:var(--layout-stats-columns); }
+  .theme_lab[data-layout-theme="split"] .page_home .p_stats .card { min-width:0; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_stats .i_head { align-items:flex-start; gap:8px; flex-wrap:wrap; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_stats .i_delta { flex-wrap:wrap; row-gap:4px; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_stats .i_delta > .badge { white-space:nowrap; flex:none; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_chart_card { grid-area:chart; min-width:0; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_chart_card .i_head,
+  .theme_lab[data-layout-theme="split"] .page_home .p_activity .i_head { gap:12px; flex-wrap:wrap; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_activity { grid-area:activity; min-width:0; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_projects { grid-area:projects; min-width:0; container:split-projects / inline-size; }
+}
+
+/* 분할된 프로젝트 패널의 실제 폭을 기준으로 행과 검색창을 접는다. */
+@container split-projects (max-width:760px) {
+  .theme_lab[data-layout-theme="split"] .page_home .p_project_row { grid-template-columns:2.5rem minmax(0, 1fr) 88px minmax(80px, .6fr) 2rem; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_members { display:none; }
+}
+@container split-projects (max-width:560px) {
+  .theme_lab[data-layout-theme="split"] .page_home .p_project_row { grid-template-columns:2.5rem minmax(0, 1fr) 2rem; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_project_row > .badge { display:inline-flex; grid-column:2; grid-row:2; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_project_mark { grid-row:1 / span 2; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_row_action { grid-column:3; grid-row:1 / span 2; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_progress { display:none; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_projects .i_head { align-items:flex-start; flex-direction:column; }
+  .theme_lab[data-layout-theme="split"] .page_home .p_search { width:100%; }
+}
+
+/* Top Nav: 동일한 메뉴 노드를 사용하며 브랜드→메뉴→프로필의 DOM 순서를 보존한다. */
+.theme_lab[data-layout-theme="top-nav"] .lab_app { display:flex; flex-direction:column; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar { display:flex; align-items:center; gap:16px 24px; padding:var(--layout-sidebar-padding); border-right:0; border-bottom:var(--appearance-border-width) solid var(--appearance-border); flex-direction:row; flex-wrap:wrap; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_brand { margin:0; flex:none; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_brand > span:last-child { display:inline; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_nav { min-width:0; flex:1 1 480px; flex-direction:row; flex-wrap:wrap; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_group,
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_count,
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_profile_text { display:none; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_item { justify-content:center; gap:4px; height:var(--layout-nav-item-height); padding:0 8px; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_text { position:static; width:auto; height:auto; overflow:visible; clip-path:none; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_profile { margin:0; padding:8px; flex:none; }
+.theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_more { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; }
+@media (max-width:1100px) {
+  .theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_profile { display:none; }
+}
+@media (max-width:720px) {
+  .theme_lab[data-layout-theme="top-nav"] .lab_sidebar { padding:16px 20px; }
+  .theme_lab[data-layout-theme="top-nav"] .lab_sidebar .l_nav { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); }
+}

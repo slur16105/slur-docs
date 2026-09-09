@@ -1,0 +1,24 @@
+/* Top Nav — 같은 메뉴를 상단으로 옮겨 본문 전체 폭을 활용한다. */
+.theme_lab[data-layout-theme="top-nav"] {
+  --layout-shell-max-width:1480px;
+  --layout-sidebar-width:236px;
+  --layout-stage-padding:24px;
+  --layout-sidebar-padding:16px 24px;
+  --layout-brand-margin-bottom:0px;
+  --layout-nav-item-height:2.75rem;
+  --layout-page-head-padding:28px 36px 24px;
+  --layout-page-padding:28px 36px 40px;
+  --layout-section-gap:24px;
+  --layout-hero-min-height:240px;
+  --layout-hero-padding:32px 36px;
+  --layout-stats-columns:repeat(4, minmax(0, 1fr));
+  --layout-content-columns:minmax(0, 1.7fr) minmax(280px, 1fr);
+  --layout-grid-gap:20px;
+  --layout-card-head-padding:var(--space-20) var(--space-20) 0;
+  --layout-card-body-padding:var(--space-16) var(--space-20);
+  --layout-stat-padding:var(--space-20);
+  --layout-project-row-gap:var(--space-12);
+  --layout-project-row-padding:var(--space-12) 0;
+  --layout-chart-height:240px;
+  --layout-focus-card-min-width:260px;
+}
