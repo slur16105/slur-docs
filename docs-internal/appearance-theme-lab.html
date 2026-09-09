@@ -43,7 +43,7 @@
 <link rel="stylesheet" href="layout-themes/top-nav.css">
 <link rel="stylesheet" href="layout-themes/focus.css">
 <link rel="stylesheet" href="layout-themes/board.css">
-<link rel="stylesheet" href="appearance-theme-lab.css?v=mode-icons">
+<link rel="stylesheet" href="appearance-theme-lab.css?v=device-preview-2">
 <link rel="stylesheet" href="layout-themes/base.css">
 </head>
 <body class="theme_lab" data-appearance-theme="standard" data-layout-theme="comfortable">
@@ -98,6 +98,21 @@
       <button class="i_color_option" type="button" data-color-theme="sunset" aria-pressed="false" title="Rose + Amber" aria-label="Sunset — Rose + Amber"><span class="i_swatch" aria-hidden="true"></span><span class="i_swatch m_accent" aria-hidden="true"></span>Sunset</button>
       <button class="i_color_option" type="button" data-color-theme="forest" aria-pressed="false" title="Green + Gold" aria-label="Forest — Green + Gold"><span class="i_swatch" aria-hidden="true"></span><span class="i_swatch m_accent" aria-hidden="true"></span>Forest</button>
       <button class="i_color_option" type="button" data-color-theme="aurora" aria-pressed="false" title="Purple + Cyan" aria-label="Aurora — Purple + Cyan"><span class="i_swatch" aria-hidden="true"></span><span class="i_swatch m_accent" aria-hidden="true"></span>Aurora</button>
+    </div>
+  </div>
+  <div class="l_controls" data-device-controls hidden>
+    <div class="lab_segment" role="group" aria-labelledby="device_label">
+      <span class="i_label" id="device_label">디바이스</span>
+      <button class="i_option" type="button" data-device="auto" aria-pressed="true">자동</button>
+      <button class="i_option" type="button" data-device="desktop" aria-pressed="false">데스크톱 1440 × 900</button>
+      <button class="i_option" type="button" data-device="tablet" aria-pressed="false">태블릿 768 × 1024</button>
+      <button class="i_option" type="button" data-device="mobile" aria-pressed="false">모바일 390 × 844</button>
+    </div>
+    <div class="lab_segment" role="group" aria-labelledby="preview_scale_label">
+      <span class="i_label" id="preview_scale_label">화면 보기</span>
+      <button class="i_option" type="button" data-preview-scale="fit" aria-pressed="true">너비 맞춤</button>
+      <button class="i_option" type="button" data-preview-scale="actual" aria-pressed="false">100%</button>
+      <span class="lab_preview_info" data-preview-info></span>
     </div>
   </div>
   <p class="a11y_hidden" aria-live="polite" data-lab-status>Standard 외형, Comfortable 레이아웃, Blue 컬러, Light 모드</p>
@@ -249,6 +264,6 @@
   </div>
 </div>
 
-<script src="appearance-theme-lab.js"></script>
+<script type="module" src="appearance-theme-lab.js?v=device-preview-3"></script>
 </body>
 </html>
