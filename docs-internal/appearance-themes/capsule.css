@@ -1,0 +1,13 @@
+/* Capsule — 알약 모양 컨트롤과 크게 둥근 카드로 친근한 인상을 주는 외형. */
+.theme_lab[data-appearance-theme="capsule"] {
+  --appearance-control-radius:var(--radius-full);
+  --appearance-item-radius:var(--radius-full);
+  --appearance-container-radius:24px;
+  --appearance-shell-radius:32px;
+  --appearance-card-shadow:var(--shadow-sm);
+  --appearance-raised-shadow:var(--shadow-md);
+  --appearance-floating-shadow:var(--shadow-lg);
+  --appearance-border-width:1px;
+  --appearance-border:var(--color-border-subtle);
+  --appearance-card-hover-shift:-2px;
+}

@@ -1,0 +1,12 @@
+/* Amber — 따뜻한 주황빛과 명료한 텍스트 대비를 갖춘 컬러. */
+:root[data-color-theme="amber"] {
+  --color-brand-50:#fff7ed;
+  --color-brand-300:#fdba74;
+  --color-brand-400:#fb923c;
+  --color-brand-500:#b85b09;
+  --color-brand-600:#92400e;
+  --color-brand-700:#78350f;
+  --color-brand-soft:#fff7ed;
+}
+:root[data-color-theme="amber"][data-theme="dark"] { --color-brand-soft:rgba(184, 91, 9, 0.16); }
+.theme_lab .i_color_option[data-color-theme="amber"] { --color-theme-chip-light:#b85b09; --color-theme-chip-dark:#fdba74; }

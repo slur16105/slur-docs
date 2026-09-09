@@ -3,6 +3,7 @@
   const root = document.documentElement;
   const status = document.querySelector('[data-lab-status]');
   const appearanceButtons = [...document.querySelectorAll('[data-appearance]')];
+  const layoutButtons = [...document.querySelectorAll('[data-layout]')];
   const schemeButtons = [...document.querySelectorAll('[data-scheme]')];
   const colorThemeButtons = [...document.querySelectorAll('button[data-color-theme]')];
 
@@ -13,14 +14,21 @@
 
   const updateStatus = () => {
     const appearance = selectedLabel(appearanceButtons, 'appearance', body.dataset.appearanceTheme);
+    const layout = selectedLabel(layoutButtons, 'layout', body.dataset.layoutTheme);
     const colorTheme = selectedLabel(colorThemeButtons, 'colorTheme', root.dataset.colorTheme);
     const scheme = selectedLabel(schemeButtons, 'scheme', root.dataset.theme);
-    if (status) status.textContent = `${appearance} 외형, ${colorTheme} 컬러, ${scheme} 모드`;
+    if (status) status.textContent = `${appearance} 외형, ${layout} 레이아웃, ${colorTheme} 컬러, ${scheme} 모드`;
   };
 
   appearanceButtons.forEach((button) => button.addEventListener('click', () => {
     body.dataset.appearanceTheme = button.dataset.appearance;
     appearanceButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+    updateStatus();
+  }));
+
+  layoutButtons.forEach((button) => button.addEventListener('click', () => {
+    body.dataset.layoutTheme = button.dataset.layout;
+    layoutButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
     updateStatus();
   }));
 

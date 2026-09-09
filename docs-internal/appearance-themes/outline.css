@@ -1,0 +1,13 @@
+/* Outline — 두꺼운 경계와 절제된 곡률로 선을 강조하는 외형. */
+.theme_lab[data-appearance-theme="outline"] {
+  --appearance-control-radius:var(--radius-8);
+  --appearance-item-radius:var(--radius-8);
+  --appearance-container-radius:var(--radius-12);
+  --appearance-shell-radius:20px;
+  --appearance-card-shadow:none;
+  --appearance-raised-shadow:none;
+  --appearance-floating-shadow:none;
+  --appearance-border-width:2px;
+  --appearance-border:var(--color-border-strong);
+  --appearance-card-hover-shift:0;
+}

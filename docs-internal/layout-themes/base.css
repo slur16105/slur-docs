@@ -1,0 +1,40 @@
+/* 레이아웃 역할 토큰을 기존 실험실 구조에 연결하는 전용 어댑터. */
+@media (min-width:721px) {
+  .theme_lab[data-layout-theme] .lab_stage { padding:var(--layout-stage-padding); }
+  .theme_lab[data-layout-theme] .lab_app { width:min(var(--layout-shell-max-width), 100%); }
+  .theme_lab[data-layout-theme] .lab_sidebar { padding:var(--layout-sidebar-padding); }
+  .theme_lab[data-layout-theme] .lab_sidebar .l_brand { margin-bottom:var(--layout-brand-margin-bottom); }
+  .theme_lab[data-layout-theme] .lab_sidebar .l_item { height:var(--layout-nav-item-height); }
+  .theme_lab[data-layout-theme] .page_head { padding:var(--layout-page-head-padding); }
+  .theme_lab[data-layout-theme] .page_home { padding:var(--layout-page-padding); gap:var(--layout-section-gap); }
+  .theme_lab[data-layout-theme] .page_home .p_hero { min-height:var(--layout-hero-min-height); padding:var(--layout-hero-padding); }
+  .theme_lab[data-layout-theme] .page_home .p_stats,
+  .theme_lab[data-layout-theme] .page_home .p_grid { gap:var(--layout-grid-gap); }
+  .theme_lab[data-layout-theme] .page_home .card .i_head { padding:var(--layout-card-head-padding); }
+  .theme_lab[data-layout-theme] .page_home .card .i_body { padding:var(--layout-card-body-padding); }
+  .theme_lab[data-layout-theme] .page_home .card.m_stat { padding:var(--layout-stat-padding); }
+  .theme_lab[data-layout-theme] .page_home .card.m_stat .i_head { padding:0; }
+  .theme_lab[data-layout-theme] .page_home .p_project_row { gap:var(--layout-project-row-gap); padding:var(--layout-project-row-padding); }
+  .theme_lab[data-layout-theme] .page_home .p_chart { height:var(--layout-chart-height); }
+  .theme_lab[data-layout-theme] .page_home .p_focus_card { min-width:var(--layout-focus-card-min-width); }
+}
+
+@media (min-width:721px) and (max-width:1100px) {
+  .theme_lab[data-layout-theme] .lab_sidebar { padding-inline:12px; }
+}
+
+@media (min-width:1101px) {
+  .theme_lab[data-layout-theme] .lab_app { grid-template-columns:var(--layout-sidebar-width) minmax(0, 1fr); }
+  .theme_lab[data-layout-theme] .page_home .p_stats { grid-template-columns:var(--layout-stats-columns); }
+  .theme_lab[data-layout-theme] .page_home .p_grid { grid-template-columns:var(--layout-content-columns); }
+}
+
+@container home (max-width:760px) {
+  .theme_lab[data-layout-theme] .page_home .p_focus_card { min-width:0; }
+  .theme_lab[data-layout-theme] .page_home .p_stats { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .theme_lab[data-layout-theme] .page_home .p_grid { grid-template-columns:minmax(0, 1fr); }
+}
+
+@container home (max-width:560px) {
+  .theme_lab[data-layout-theme] .page_home .p_stats { grid-template-columns:minmax(0, 1fr); }
+}

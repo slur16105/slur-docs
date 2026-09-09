@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="color-themes/blue.css">
 <link rel="stylesheet" href="color-themes/green.css">
 <link rel="stylesheet" href="color-themes/purple.css">
+<link rel="stylesheet" href="color-themes/amber.css">
+<link rel="stylesheet" href="color-themes/rose.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/tokens/typography.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/tokens/spacing.css">
 <link rel="stylesheet" href="../skill/slur-design/assets/tokens/radius.css">
@@ -25,9 +27,15 @@
 <link rel="stylesheet" href="appearance-themes/flat.css">
 <link rel="stylesheet" href="appearance-themes/soft.css">
 <link rel="stylesheet" href="appearance-themes/sharp.css">
+<link rel="stylesheet" href="appearance-themes/outline.css">
+<link rel="stylesheet" href="appearance-themes/capsule.css">
+<link rel="stylesheet" href="layout-themes/comfortable.css">
+<link rel="stylesheet" href="layout-themes/compact.css">
+<link rel="stylesheet" href="layout-themes/spacious.css">
 <link rel="stylesheet" href="appearance-theme-lab.css">
+<link rel="stylesheet" href="layout-themes/base.css">
 </head>
-<body class="theme_lab" data-appearance-theme="standard">
+<body class="theme_lab" data-appearance-theme="standard" data-layout-theme="comfortable">
 <a class="a11y_hidden lab_skip" href="#lab_main">본문으로 바로가기</a>
 
 <header class="lab_toolbar">
@@ -43,6 +51,14 @@
       <button class="i_option" type="button" data-appearance="flat" aria-pressed="false">Flat</button>
       <button class="i_option" type="button" data-appearance="soft" aria-pressed="false">Soft</button>
       <button class="i_option" type="button" data-appearance="sharp" aria-pressed="false">Sharp</button>
+      <button class="i_option" type="button" data-appearance="outline" aria-pressed="false">Outline</button>
+      <button class="i_option" type="button" data-appearance="capsule" aria-pressed="false">Capsule</button>
+    </div>
+    <div class="lab_segment" role="group" aria-labelledby="layout_label">
+      <span class="i_label" id="layout_label">레이아웃</span>
+      <button class="i_option" type="button" data-layout="comfortable" aria-pressed="true">Comfortable</button>
+      <button class="i_option" type="button" data-layout="compact" aria-pressed="false">Compact</button>
+      <button class="i_option" type="button" data-layout="spacious" aria-pressed="false">Spacious</button>
     </div>
     <div class="lab_segment" role="group" aria-labelledby="scheme_label">
       <span class="i_label" id="scheme_label">컬러 모드</span>
@@ -54,9 +70,11 @@
       <button class="i_color_option" type="button" data-color-theme="blue" aria-pressed="true"><span class="i_swatch" aria-hidden="true"></span>Blue</button>
       <button class="i_color_option" type="button" data-color-theme="green" aria-pressed="false"><span class="i_swatch" aria-hidden="true"></span>Green</button>
       <button class="i_color_option" type="button" data-color-theme="purple" aria-pressed="false"><span class="i_swatch" aria-hidden="true"></span>Purple</button>
+      <button class="i_color_option" type="button" data-color-theme="amber" aria-pressed="false"><span class="i_swatch" aria-hidden="true"></span>Amber</button>
+      <button class="i_color_option" type="button" data-color-theme="rose" aria-pressed="false"><span class="i_swatch" aria-hidden="true"></span>Rose</button>
     </div>
   </div>
-  <p class="a11y_hidden" aria-live="polite" data-lab-status>Standard 외형, Blue 컬러, Light 모드</p>
+  <p class="a11y_hidden" aria-live="polite" data-lab-status>Standard 외형, Comfortable 레이아웃, Blue 컬러, Light 모드</p>
 </header>
 
 <div class="lab_stage">
@@ -68,13 +86,13 @@
       </a>
       <nav class="l_nav" aria-label="주 메뉴">
         <span class="l_group">워크스페이스</span>
-        <a class="l_item" href="#overview" aria-current="page"><span class="l_icon" aria-hidden="true">⌂</span>개요</a>
-        <a class="l_item" href="#projects"><span class="l_icon" aria-hidden="true">◇</span>프로젝트<span class="l_count">8</span></a>
-        <a class="l_item" href="#schedule"><span class="l_icon" aria-hidden="true">□</span>일정</a>
-        <a class="l_item" href="#reports"><span class="l_icon" aria-hidden="true">↗</span>리포트</a>
+        <a class="l_item" href="#overview" aria-current="page" title="개요"><span class="l_icon" aria-hidden="true">⌂</span><span class="l_text">개요</span></a>
+        <a class="l_item" href="#projects" title="프로젝트"><span class="l_icon" aria-hidden="true">◇</span><span class="l_text">프로젝트</span><span class="l_count">8</span></a>
+        <a class="l_item" href="#schedule" title="일정"><span class="l_icon" aria-hidden="true">□</span><span class="l_text">일정</span></a>
+        <a class="l_item" href="#reports" title="리포트"><span class="l_icon" aria-hidden="true">↗</span><span class="l_text">리포트</span></a>
         <span class="l_group m_second">관리</span>
-        <a class="l_item" href="#team"><span class="l_icon" aria-hidden="true">◎</span>팀</a>
-        <a class="l_item" href="#settings"><span class="l_icon" aria-hidden="true">⚙</span>설정</a>
+        <a class="l_item" href="#team" title="팀"><span class="l_icon" aria-hidden="true">◎</span><span class="l_text">팀</span></a>
+        <a class="l_item" href="#settings" title="설정"><span class="l_icon" aria-hidden="true">⚙</span><span class="l_text">설정</span></a>
       </nav>
       <div class="l_profile">
         <span class="l_avatar" aria-hidden="true">SL</span>

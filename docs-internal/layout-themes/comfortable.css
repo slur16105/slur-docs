@@ -1,0 +1,24 @@
+/* Comfortable — 현재 기준과 같은 균형 잡힌 여백과 화면 배치. */
+.theme_lab[data-layout-theme="comfortable"] {
+  --layout-shell-max-width:1440px;
+  --layout-sidebar-width:236px;
+  --layout-stage-padding:28px;
+  --layout-sidebar-padding:24px 16px 16px;
+  --layout-brand-margin-bottom:28px;
+  --layout-nav-item-height:2.5rem;
+  --layout-page-head-padding:28px 32px 24px;
+  --layout-page-padding:28px 32px 40px;
+  --layout-section-gap:24px;
+  --layout-hero-min-height:240px;
+  --layout-hero-padding:32px 36px;
+  --layout-stats-columns:repeat(4, minmax(0, 1fr));
+  --layout-content-columns:minmax(0, 1.65fr) minmax(280px, .85fr);
+  --layout-grid-gap:16px;
+  --layout-card-head-padding:var(--space-20) var(--space-20) 0;
+  --layout-card-body-padding:var(--space-16) var(--space-20);
+  --layout-stat-padding:var(--space-20);
+  --layout-project-row-gap:var(--space-12);
+  --layout-project-row-padding:var(--space-12) 0;
+  --layout-chart-height:230px;
+  --layout-focus-card-min-width:250px;
+}

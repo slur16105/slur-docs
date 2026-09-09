@@ -1,0 +1,12 @@
+/* Rose — 선명한 붉은 분홍과 은은한 배경을 조합한 컬러. */
+:root[data-color-theme="rose"] {
+  --color-brand-50:#fff1f2;
+  --color-brand-300:#fda4af;
+  --color-brand-400:#fb7185;
+  --color-brand-500:#d12b68;
+  --color-brand-600:#9d174d;
+  --color-brand-700:#831843;
+  --color-brand-soft:#fff1f2;
+}
+:root[data-color-theme="rose"][data-theme="dark"] { --color-brand-soft:rgba(209, 43, 104, 0.16); }
+.theme_lab .i_color_option[data-color-theme="rose"] { --color-theme-chip-light:#d12b68; --color-theme-chip-dark:#fda4af; }

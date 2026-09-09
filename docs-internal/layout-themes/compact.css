@@ -1,0 +1,24 @@
+/* Compact — 좁은 여백과 넓은 작업 영역으로 정보 밀도를 높인 배치. */
+.theme_lab[data-layout-theme="compact"] {
+  --layout-shell-max-width:1600px;
+  --layout-sidebar-width:196px;
+  --layout-stage-padding:16px;
+  --layout-sidebar-padding:16px 10px 12px;
+  --layout-brand-margin-bottom:16px;
+  --layout-nav-item-height:2.25rem;
+  --layout-page-head-padding:20px 24px 16px;
+  --layout-page-padding:20px 24px 28px;
+  --layout-section-gap:14px;
+  --layout-hero-min-height:200px;
+  --layout-hero-padding:20px 24px;
+  --layout-stats-columns:repeat(4, minmax(0, 1fr));
+  --layout-content-columns:minmax(0, 2fr) minmax(240px, .75fr);
+  --layout-grid-gap:12px;
+  --layout-card-head-padding:var(--space-12) var(--space-16) 0;
+  --layout-card-body-padding:var(--space-12) var(--space-16);
+  --layout-stat-padding:var(--space-16);
+  --layout-project-row-gap:var(--space-8);
+  --layout-project-row-padding:var(--space-8) 0;
+  --layout-chart-height:190px;
+  --layout-focus-card-min-width:220px;
+}
