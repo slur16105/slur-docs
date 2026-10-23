@@ -154,6 +154,7 @@ display → width/height → margin → padding → border → border-radius
 - **접근성** (alt·ARIA·키보드·복합 위젯 동작) → `references/accessibility.md`
 - **이미지·성능** (포맷·반응형·로딩) → `references/media.md`
 - **화면 상태·피드백** (빈/로딩/에러/정상, 토스트·모달) → `references/ux-states.md`
+- **모바일 헤더** (고정 여부, 숨김·재노출, 헤더·로고 크기) → `references/mobile-header.md`
 - **기존 프로젝트 이관** (SLUR 도입 시 실패 지점과 검증법) → `references/migration.md`
 - **검토 체크리스트** → `references/checklist.md`
 
