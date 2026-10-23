@@ -15,6 +15,8 @@ import { join, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { gzipSync } from 'node:zlib';
 
+import { buildCss } from '../skill/slur-design/scripts/build-css.mjs';
+
 const root = fileURLToPath(new URL('..', import.meta.url));
 const keep = (p) => !p.endsWith('.DS_Store');
 
@@ -51,6 +53,7 @@ const tarGz = (rootDir, relFiles) => gzipSync(Buffer.concat([
 ]));
 
 export function syncAssets() {
+  buildCss();
   const pub = join(root, 'public');
   rmSync(join(pub, 'skill'), { recursive: true, force: true });
   rmSync(join(pub, 'system'), { recursive: true, force: true });
@@ -58,6 +61,7 @@ export function syncAssets() {
   cpSync(join(root, 'skill'), join(pub, 'skill'), { recursive: true, filter: keep });
   mkdirSync(join(pub, 'system'), { recursive: true });
   copyFileSync(join(root, 'system', 'demo.html'), join(pub, 'system', 'demo.html'));
+  cpSync(join(root, 'system', 'styles'), join(pub, 'system', 'styles'), { recursive: true });
 
   // VERSION — 설치본이 몇 버전인지 알 수 있게(P2-24). package.json의 버전(= changelog 정본)을 각 스킬 폴더와 /skill/ 루트에 쓴다.
   // 저장소 원본(skill/)에는 없고 복사본·tar.gz에만 들어간다 — 버전마다 원본 파일이 바뀌지 않는다.

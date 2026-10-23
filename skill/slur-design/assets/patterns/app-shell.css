@@ -6,7 +6,7 @@
    데스크톱(1024+)은 2열 고정, 그 아래에서 l_side는 드로어가 된다 —
    열림은 data-state="open", 배경 inert·Esc·포커스 복귀는 slur.js(drawer).
    현재 페이지의 정본은 aria-current="page". 구조 간격은 px(레이아웃 값).
-   로드 순서: global → tokens → components → 이 파일 → 페이지 CSS.
+   이 저작 원본은 common.css에 포함한다. 로드 순서: global.css → common.css → page.css.
    ───────────────────────────────────────────── */
 
 .layout_app { display: grid; min-height: 100vh; grid-template-columns: 240px 1fr; grid-template-rows: auto 1fr; grid-template-areas: "side head" "side main"; background: var(--color-surface-sunken); }

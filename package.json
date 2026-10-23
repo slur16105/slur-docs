@@ -1,7 +1,7 @@
 {
   "name": "proto-phase",
   "type": "module",
-  "version": "1.13.3",
+  "version": "1.14.0",
   "engines": {
     "node": ">=22.19.0"
   },
@@ -11,10 +11,11 @@
     "check:contrast": "node scripts/check-color-contrast.mjs",
     "check:appearance": "node scripts/check-appearance-themes.mjs",
     "check:layout": "node scripts/check-layout-themes.mjs",
+    "check:css": "node scripts/check-css-structure.mjs",
     "check:auth": "node scripts/check-auth-shell.mjs",
     "check:devices": "node scripts/check-device-preview.mjs",
     "check:themes": "npm run check:contrast && npm run check:appearance && npm run check:layout && npm run check:devices",
-    "prebuild": "npm run check:themes && npm run check:auth",
+    "prebuild": "npm run check:css && npm run check:themes && npm run check:auth",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

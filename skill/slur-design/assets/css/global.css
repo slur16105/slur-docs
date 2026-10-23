@@ -1,0 +1,362 @@
+/* 자동 생성: skill/slur-design/scripts/build-css.mjs — 원본을 수정한 뒤 재생성하세요. */
+
+/* SOURCE: ../../slur-guidelines/assets/global.css */
+/* ─────────────────────────────────────────────
+   GLOBAL — 공통 레이어 (slur-guidelines 동봉)
+   룩과 무관한 기본값만 담는다: 리셋, 폼 컨트롤 상속, 포커스 링,
+   a11y_hidden, 움직임 줄이기. 4상태 스위치는 common.css가 담당한다. 색·크기 값은 토큰을 "참조"만 하고
+   토큰이 없는 프로젝트(규칙만 적용)에서도 동작하도록 폴백을 둔다.
+   로드 순서: global.css → common.css → page.css.
+   시스템 기본값은 여기가 담당하고, 컴포넌트에는 기본값과 다른
+   값(변형)만 남긴다. outline 제거는 대체 포커스 링과 반드시 한 쌍.
+   ───────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+/* iOS Safari가 가로 회전 때 글자만 멋대로 키우는 것(text autosizing) 방지 — 룩 무관, 사용자의 확대(핀치·설정)는 그대로 존중된다 */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* 전체 리셋이 지운 네이티브 기본값 복원 — <dialog>는 UA의 margin:auto로 가운데 정렬된다(showModal). 리셋이 깬 동작은 리셋이 고친다. */
+dialog { margin: auto; }
+/* fieldset — UA의 groove 테두리와 min-width:min-content(그리드 안에서 넘침)를 지운다. 묶음의 테두리가 필요하면 페이지가 그린다 */
+fieldset { min-width: 0; border: 0; }
+
+body { background: var(--color-surface-page, #fff); font-family: var(--font-sans, system-ui, -apple-system, "Apple SD Gothic Neo", "Segoe UI", sans-serif); font-size: var(--text-base, 1rem); line-height: var(--leading-normal, 1.5); color: var(--color-text-primary, #1f2328); }
+
+/* 컨트롤 기본 타이포 — 시스템 규칙: 컨트롤은 14px(sm), 본문은 16px(base).
+   폼 컨트롤은 UA 스타일 때문에 body에서 font/color를 상속받지 않으므로
+   태그 레벨에서 상속을 연다. 색은 상속(color: inherit)으로 한곳(body)에서 관리한다. */
+input, textarea, select, button { font-family: inherit; font-size: var(--text-sm, 0.875rem); line-height: inherit; color: inherit; }
+button { font-weight: var(--weight-medium, 500); line-height: 1; }
+
+/* 포커스 링 — 한 곳에서만 선언한다. 컴포넌트에서 반복 선언 금지.
+   폼 컨트롤뿐 아니라 링크·tabindex 요소·summary도 키보드 포커스가 보여야 한다. */
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: none; box-shadow: var(--color-focus-ring, 0 0 0 3px #1d54e6); }
+
+/* 시각적으로 숨기되 보조 기술에는 노출 — 숨긴 제목(h1 등)·오프스크린 라벨용.
+   display:none/visibility:hidden은 접근성 트리에서도 제거되므로 쓰지 않는다. */
+.a11y_hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+
+/* 움직임 줄이기 — OS 설정을 존중한다. 애니메이션·트랜지션을 사실상 끈다. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+
+/* SOURCE: tokens/colors.css */
+/* ═══════════════════════════════════════════════
+   COLOR TOKENS — two layers
+   ───────────────────────────────────────────────
+   LAYER 1 · PRIMITIVE  (--color-*)  ← raw palette.
+     A "paint store." Numbered steps. DO NOT use
+     these directly in component/screen code.
+   LAYER 2 · SEMANTIC   (--text-* / --surface-* …)
+     Named by role, no numbers. USE ONLY THESE
+     when building UI. They point at primitives,
+     and are remapped per theme (light / dark).
+   ═══════════════════════════════════════════════ */
+
+/* ── LAYER 1 · PRIMITIVE ──────────────────────── */
+:root {
+  /* Neutral — cool gray */
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #f7f8f8;
+  --color-neutral-100: #eef0f1;
+  --color-neutral-200: #e2e5e7;
+  --color-neutral-300: #cbcfd3;
+  --color-neutral-400: #9fa6ad;
+  --color-neutral-450: #7d858d;
+  --color-neutral-500: #646b72;
+  --color-neutral-600: #4d545b;
+  --color-neutral-700: #363b41;
+  --color-neutral-800: #23272b;
+  --color-neutral-900: #14171a;
+  --color-neutral-950: #0b0d0f;
+
+  /* Accent — blue */
+  --color-brand-50:  #eef4ff;
+  --color-brand-300: #8fb4ff;
+  --color-brand-400: #5c8dff;
+  --color-brand-500: #2e6aff;
+  --color-brand-600: #1d54e6;
+  --color-brand-700: #163fb0;
+
+  /* Semantic hues */
+  --color-green-400: #4ade80;
+  --color-green-500: #16a34a;
+  --color-green-600: #16833f;
+  --color-green-50:  #ecfdf3;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #d97706;
+  --color-amber-700: #9a5700;
+  --color-amber-50:  #fff7ed;
+  --color-red-400:   #f87171;
+  --color-red-500:   #dc2626;
+  --color-red-700:   #b91c1c;
+  --color-red-50:    #fef2f2;
+
+  /* Chart hues — 범주형 계열 전용(상태색과 분리). 500은 라이트 면, 600은 다크 면용 단계 */
+  --color-orange-500: #eb6834;
+  --color-orange-600: #d95926;
+  --color-teal-500:   #1baf7a;
+  --color-teal-600:   #199e70;
+  --color-yellow-500: #eda100;
+  --color-yellow-600: #c98500;
+  --color-pink-400:   #e87ba4;
+  --color-pink-500:   #d55181;
+}
+
+/* ── LAYER 2 · SEMANTIC — light (default) ─────── */
+:root {
+  /* Text */
+  --color-text-primary:   var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-muted:     var(--color-neutral-500);
+  --color-text-inverse:   var(--color-neutral-0);
+  --color-text-brand:    var(--color-brand-600);
+
+  /* Surfaces */
+  --color-surface-page:    var(--color-neutral-0);
+  --color-surface-card:    var(--color-neutral-0);
+  --color-surface-sunken:  var(--color-neutral-50);
+  --color-surface-hover:   var(--color-neutral-100);
+  --color-surface-inverse: var(--color-neutral-900);
+
+  /* Borders */
+  --color-border-subtle:  var(--color-neutral-200);
+  --color-border-default: var(--color-neutral-450);
+  --color-border-strong:  var(--color-neutral-500);
+  --color-border-focus:   var(--color-brand-500);
+
+  /* Accent (interactive) */
+  --color-brand:        var(--color-brand-500);
+  --color-brand-hover:  var(--color-brand-600);
+  --color-brand-active: var(--color-brand-700);
+  --color-brand-soft:   var(--color-brand-50);
+  --color-on-brand:     var(--color-neutral-0);
+  --color-focus-ring:   0 0 0 3px var(--color-border-focus);
+
+  /* Status */
+  --color-success:      var(--color-green-600);
+  --color-success-soft: var(--color-green-50);
+  --color-warning:      var(--color-amber-700);
+  --color-warning-soft: var(--color-amber-50);
+  --color-danger:       var(--color-red-700);
+  --color-danger-soft:  var(--color-red-50);
+
+  /* Solid status surfaces are separate from status foregrounds so both themes
+     keep normal text at 4.5:1 without changing the meaning of --color-success etc. */
+  --color-success-solid: var(--color-green-600);
+  --color-warning-solid: var(--color-amber-500);
+  --color-danger-solid:  var(--color-red-500);
+
+  /* On-status — corresponding *-solid surface text. All normal text pairs pass AA. */
+  --color-on-danger:  var(--color-neutral-0);
+  --color-on-success: var(--color-neutral-0);
+  --color-on-warning: var(--color-neutral-900);
+
+  /* Status icons on the inverse surface (toast). The inverse surface flips by theme. */
+  --color-success-on-inverse: var(--color-green-400);
+  --color-warning-on-inverse: var(--color-amber-400);
+  --color-danger-on-inverse:  var(--color-red-400);
+
+  /* Overlay — 모달·드로어 뒤 배경 딤. 테마와 무관하게 어두운 반투명 고정 */
+  --color-surface-overlay: rgba(11, 13, 15, 0.45);
+
+  /* Chart — 범주형 계열 5슬롯. 순서 고정(1→5), 계열이 5를 넘으면 "기타"로 묶거나 화면을 나눈다.
+     상태색(success/warning/danger)을 계열색으로 재사용하지 않는다.
+     카드 면 대비는 라이트·다크 모두 3:1 이상. 색만으로 계열을 구분시키지 말고
+     직접 라벨·범례·표를 함께 두며, 맞닿는 조각 사이에는 카드 면 구분선을 둔다. */
+  --color-chart-1: var(--color-brand-500);
+  --color-chart-2: var(--color-orange-500);
+  --color-chart-3: var(--color-teal-600);
+  --color-chart-4: var(--color-yellow-600);
+  --color-chart-5: var(--color-pink-500);
+}
+
+/* ── LAYER 2 · SEMANTIC — dark ──────────────────
+   Only the semantic layer changes: same primitives,
+   different steps. Set <html data-theme="dark">.   */
+[data-theme="dark"] {
+  --color-text-primary:   var(--color-neutral-100);
+  --color-text-secondary: var(--color-neutral-300);
+  --color-text-muted:     var(--color-neutral-400);
+  --color-text-inverse:   var(--color-neutral-900);
+  --color-text-brand:    var(--color-brand-300);
+
+  /* 다크 배경은 순흑이 아닌 900 — 순흑+밝은 글자는 halation으로 눈을 피로하게 한다 */
+  --color-surface-page:    var(--color-neutral-900);
+  --color-surface-card:    var(--color-neutral-800);
+  --color-surface-sunken:  var(--color-neutral-950);
+  --color-surface-hover:   var(--color-neutral-700);
+  --color-surface-inverse: var(--color-neutral-0);
+
+  --color-border-subtle:  var(--color-neutral-800);
+  --color-border-default: var(--color-neutral-450);
+  --color-border-strong:  var(--color-neutral-400);
+  --color-border-focus:   var(--color-brand-400);
+
+  --color-brand:        var(--color-brand-500);
+  --color-brand-hover:  var(--color-brand-600);
+  --color-brand-active: var(--color-brand-700);
+  --color-brand-soft:   rgba(46, 106, 255, 0.16);
+  --color-on-brand:     var(--color-neutral-0);
+  --color-focus-ring:   0 0 0 3px var(--color-border-focus);
+  --color-surface-overlay: rgba(0, 0, 0, 0.60);
+
+  --color-success-soft: rgba(22, 163, 74, 0.16);
+  --color-warning-soft: rgba(217, 119, 6, 0.16);
+  --color-danger-soft:  rgba(220, 38, 38, 0.16);
+  --color-success: var(--color-green-400);
+  --color-warning: var(--color-amber-400);
+  --color-danger:  var(--color-red-400);
+  --color-success-on-inverse: var(--color-green-600);
+  --color-warning-on-inverse: var(--color-amber-700);
+  --color-danger-on-inverse:  var(--color-red-700);
+
+  /* 다크 면용 계열 단계 — 같은 색상을 어두운 면에 맞춰 한 단계 조정(자동 반전 아님) */
+  --color-chart-1: var(--color-brand-400);
+  --color-chart-2: var(--color-orange-600);
+  --color-chart-3: var(--color-teal-600);
+  --color-chart-4: var(--color-yellow-600);
+  --color-chart-5: var(--color-pink-500);
+}
+
+
+/* SOURCE: tokens/typography.css */
+/* ─────────────────────────────────────────────
+   TYPOGRAPHY
+   Single family (Noto Sans KR) for a clean, minimal
+   voice. 단위 기준: 글자 크기는 사용자 선호에
+   반응해야 하므로 rem (루트는 100% 유지, % 트릭 금지).
+   이름 옆 주석 = 루트 16px 기준 환산 px값.
+   토큰은 실제 사용처가 생길 때만 추가한다.
+   ───────────────────────────────────────────── */
+:root {
+  /* Family */
+  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Pretendard Variable", sans-serif;
+
+  /* Font sizes */
+  --text-xs:   0.75rem;   /* 12 */
+  --text-sm:   0.875rem;  /* 14 */
+  --text-base: 1rem;      /* 16 */
+  --text-lg:   1.125rem;  /* 18 */
+  --text-2xl:  1.5rem;    /* 24 */
+  --text-3xl:  1.875rem;  /* 30 */
+  --text-4xl:  2.25rem;   /* 36 */
+
+  /* Weights */
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Line heights */
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.7;  /* 장문 본문(문서 사이트 prose) */
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-snug:   -0.01em;
+  --tracking-wide:   0.04em;
+}
+
+
+/* SOURCE: tokens/spacing.css */
+/* ─────────────────────────────────────────────
+   SPACING — 컴포넌트/텍스트 간격 전용
+   단위 기준: 글자 크기 선호에 따라 함께 커져야
+   정보 전달이 유지되는 간격이므로 rem.
+   (레이아웃 구조 간격 — 그리드 갭, 섹션 여백 —
+   은 토큰 대신 px를 직접 쓴다.)
+   토큰은 실제 사용처가 생길 때만 추가한다.
+   이름 = 루트 16px 기준 환산 px값.
+   ───────────────────────────────────────────── */
+:root {
+  --space-4:  0.25rem;  /* 4  */
+  --space-8:  0.5rem;   /* 8  */
+  --space-12: 0.75rem;  /* 12 */
+  --space-16: 1rem;     /* 16 */
+  --space-20: 1.25rem;  /* 20 */
+  --space-24: 1.5rem;   /* 24 */
+}
+
+
+/* SOURCE: tokens/radius.css */
+/* ─────────────────────────────────────────────
+   RADIUS
+   단위 기준: 모서리는 정보 전달과 무관한 시각
+   속성이므로 px — 글자 크기 선호에 반응하지 않는다.
+   `full`은 개념값(완전한 원)으로 유일한 예외.
+   ───────────────────────────────────────────── */
+:root {
+  --radius-4:    4px;
+  --radius-8:    8px;
+  --radius-12:   12px;
+  --radius-full: 9999px;
+}
+
+
+/* SOURCE: tokens/shadows.css */
+/* ─────────────────────────────────────────────
+   SHADOWS
+   Soft, low-contrast elevation for a minimal feel.
+   ───────────────────────────────────────────── */
+:root {
+  --shadow-xs:  0 1px 2px rgba(11, 13, 15, 0.05);
+  --shadow-sm:  0 1px 3px rgba(11, 13, 15, 0.08), 0 1px 2px rgba(11, 13, 15, 0.04);
+  --shadow-md:  0 4px 12px rgba(11, 13, 15, 0.08), 0 2px 4px rgba(11, 13, 15, 0.04);
+  --shadow-lg:  0 12px 28px rgba(11, 13, 15, 0.10), 0 4px 8px rgba(11, 13, 15, 0.05);
+}
+
+
+/* SOURCE: tokens/motion.css */
+/* ─────────────────────────────────────────────
+   MOTION — durations & easing
+   Short, brisk timings suit the minimal feel.
+   Use for transitions/animations on interactive
+   elements (hover, press, open/close).
+   ───────────────────────────────────────────── */
+:root {
+  --duration-fast: 120ms;   /* hover, small state changes */
+  --duration-base: 200ms;   /* default */
+  --duration-slow: 280ms;   /* larger surfaces, overlays */
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);        /* default — ease-out feel */
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);        /* accelerate (exit) */
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);        /* decelerate (enter) */
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1); /* subtle overshoot */
+}
+
+
+/* SOURCE: tokens/breakpoints.css */
+/* ─────────────────────────────────────────────
+   BREAKPOINTS — responsive width thresholds
+   NOTE: CSS custom properties cannot be used
+   inside @media queries, so these live here for
+   reference and for JS (matchMedia). In CSS, write
+   the px literals directly and keep them matching.
+     sm  640px   md  768px   lg 1024px   xl 1280px
+   ───────────────────────────────────────────── */
+:root {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+
+/* SOURCE: tokens/z-index.css */
+/* ─────────────────────────────────────────────
+   Z-INDEX — stacking order by role
+   Named layers, spaced by 100 so you can slot
+   values in between if ever needed. Always use a
+   token, never a raw z-index in component code.
+   ───────────────────────────────────────────── */
+:root {
+  --z-base:     0;
+  --z-dropdown: 100;   /* menus, selects */
+  --z-sticky:   200;   /* sticky headers, toolbars */
+  --z-overlay:  300;   /* dimming backdrop */
+  --z-modal:    400;   /* dialogs, sheets */
+  --z-popover:  500;   /* popovers, tooltips above modals */
+  --z-toast:    600;   /* notifications — always on top */
+}

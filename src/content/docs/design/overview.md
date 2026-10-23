@@ -24,7 +24,7 @@ UI Guidelines만 적용하면 프로젝트의 디자인은 그대로이고, Desi
 | **patterns** | [앱 셸 · 인증 셸 · 화면 조립본](/design/screens/) 여덟 장 | `slur-design/assets/patterns/` | `slur-design` |
 
 - UI Guidelines는 **룩 무관**입니다. 기존 디자인이 있는 프로젝트에 적용해도 바뀌는 것은 코드의 구조와 표기법뿐입니다.
-- 어휘(design)는 **문법이 있어야 성립**합니다. 컴포넌트 CSS는 공통 레이어의 리셋·포커스 링·4상태 스위치를 전제하고, 토큰 실명(`--color-brand` 등)에 의존합니다 — 토큰 없이 컴포넌트만 쓸 수 없습니다.
+- 어휘(design)는 **문법이 있어야 성립**합니다. 컴포넌트 CSS는 global의 리셋·포커스 링과 common의 4상태 스위치를 전제하고, 토큰 실명(`--color-brand` 등)에 의존합니다 — 토큰 없이 컴포넌트만 쓸 수 없습니다.
 - 동작은 CSS 밖입니다 — 네이티브 → `slur.js` → 위임의 [3단 우선순위](/js/behaviors/)를 따르며, 어떤 JS 라이브러리에도 의존하지 않습니다.
 
 ---
@@ -44,28 +44,15 @@ Design System을 적용해도 모든 컴포넌트를 무조건 넣지는 않습�
 
 ## 로드 순서
 
-전부 개별 `<link>`로 병렬 로드합니다. 런타임 `@import`는 순차 폭포를 만들므로 쓰지 않습니다(번들러를 쓰면 같은 순서로 `import`).
+[CSS 세 파일 구조](/css/global-layer/)에 따라 원본을 묶어 세 개의 `<link>`로 로드합니다. 런타임 `@import`는 순차 폭포를 만들므로 쓰지 않습니다(번들러를 쓰면 같은 순서로 `import`).
 
 ```html
-<!-- 1. 공통 레이어 (slur-guidelines) -->
+<!-- 리셋·토큰·문서 기본값·접근성 -->
 <link rel="stylesheet" href="/css/global.css">
-<!-- 2. 토큰 (slur-design/tokens) — 전부 -->
-<link rel="stylesheet" href="/css/tokens/colors.css">
-<link rel="stylesheet" href="/css/tokens/typography.css">
-<link rel="stylesheet" href="/css/tokens/spacing.css">
-<link rel="stylesheet" href="/css/tokens/radius.css">
-<link rel="stylesheet" href="/css/tokens/shadows.css">
-<link rel="stylesheet" href="/css/tokens/motion.css">
-<link rel="stylesheet" href="/css/tokens/breakpoints.css">
-<link rel="stylesheet" href="/css/tokens/z-index.css">
-<!-- 3. 컴포넌트 (slur-design/components) — 쓰는 것만 -->
-<link rel="stylesheet" href="/css/components/button.css">
-<link rel="stylesheet" href="/css/components/input.css">
-<!-- 4. 패턴 (slur-design/patterns) — 대시보드면 app-shell, 로그인류면 auth-shell -->
-<link rel="stylesheet" href="/css/patterns/app-shell.css">
-<!-- 5. 프로젝트 CSS — 레이아웃 → 컴포넌트 → 페이지 → 반응형 -->
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/page-dashboard.css">
+<!-- 공통 레이아웃·재사용 컴포넌트 -->
+<link rel="stylesheet" href="/css/common.css">
+<!-- 해당 화면 전용 -->
+<link rel="stylesheet" href="/css/dashboard/page.css">
 <!-- 동작 층 -->
 <script src="/js/slur.js" defer></script>
 ```
@@ -114,4 +101,4 @@ curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh
 | 화면 조립본 목차 | [`patterns/screens/index.html`](/skill/slur-design/assets/patterns/screens/index.html) |
 | 컴포넌트 데모 | [`system/demo.html`](/system/demo.html) |
 
-프로젝트에 넣을 때는 먼저 현재 화면과 컴포넌트를 확인합니다. 토큰과 실제 사용하는 컴포넌트만 프로젝트 CSS 폴더로 **복사**하고 `global.css`·`slur.js`를 함께 둡니다. 대시보드면 `patterns/app-shell.css`, 로그인류면 `auth-shell.css`처럼 필요한 패턴만 가져옵니다. **화면을 새로 짤 때는 대응하는 [조립본](/design/screens/)을 복사해 시작합니다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트가 규칙대로 들어 있습니다. 사용자가 기존 컴포넌트 유지와 토큰만 적용을 명시한 경우에만 `tokens/`만 사용합니다.
+프로젝트에 넣을 때는 먼저 현재 화면과 컴포넌트를 확인합니다. 토큰과 실제 사용하는 컴포넌트만 프로젝트 CSS 폴더로 **복사**하고 기본 원본 `global.css`·`common.css`와 `slur.js`를 함께 두고 위의 세 파일로 묶습니다. 대시보드면 `patterns/app-shell.css`, 로그인류면 `auth-shell.css`처럼 필요한 패턴만 가져옵니다. **화면을 새로 짤 때는 대응하는 [조립본](/design/screens/)을 복사해 시작합니다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트가 규칙대로 들어 있습니다. 사용자가 기존 컴포넌트 유지와 토큰만 적용을 명시한 경우에만 `tokens/`만 사용합니다.

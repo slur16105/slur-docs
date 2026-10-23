@@ -1,0 +1,41 @@
+/* 페이지 CSS — 가입 폼 조합. 폼(p_main) ↔ 인증 메일 안내(p_done)는 page_signup의 data-state="sent"로 전환 */
+.page_signup { display: flex; flex-direction: column; gap: 24px; }
+.page_signup .p_head { display: flex; flex-direction: column; gap: var(--space-4); }
+.page_signup .p_title { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); }
+.page_signup .p_desc { font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_signup .alert[data-state="close"] { display: none; }
+.page_signup .alert a { font-weight: var(--weight-medium); color: inherit; }
+.page_signup .p_main { display: flex; flex-direction: column; gap: 24px; }
+.page_signup .p_form { display: flex; flex-direction: column; gap: 16px; }
+.page_signup .i_help:empty { display: none; }
+/* 비밀번호 강도 — 막대 네 칸은 장식(aria-hidden), 읽히는 문장은 i_help. 단계는 막대의 data-state */
+.page_signup .p_strength { display: flex; gap: var(--space-4); height: 4px; }
+.page_signup .p_strength span { border-radius: var(--radius-full); background: var(--color-border-subtle); flex: 1; transition: background-color var(--duration-fast) var(--ease-standard); }
+.page_signup .p_strength[data-state="weak"] span:nth-child(1) { background: var(--color-danger); }
+.page_signup .p_strength[data-state="fair"] span:nth-child(-n+2) { background: var(--color-warning); }
+.page_signup .p_strength[data-state="good"] span:nth-child(-n+3) { background: var(--color-success); }
+.page_signup .p_strength[data-state="strong"] span { background: var(--color-success); }
+/* 규칙 체크리스트 — 충족은 li의 data-state="pass". 색만으로 전하지 않도록 숨은 글자(충족/미충족)도 함께 */
+.page_signup .p_rules { display: flex; gap: var(--space-4) var(--space-12); list-style: none; font-size: var(--text-xs); color: var(--color-text-muted); flex-wrap: wrap; }
+.page_signup .p_rules li { display: flex; align-items: center; gap: var(--space-4); }
+.page_signup .p_rules li::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--color-border-strong); }
+.page_signup .p_rules li[data-state="pass"] { color: var(--color-success); }
+.page_signup .p_rules li[data-state="pass"]::before { background: var(--color-success); }
+/* 약관 — 전체 동의 + 개별 항목. 필수 미동의 오류는 field[data-state=error]의 i_help로 */
+.page_signup .p_terms { gap: var(--space-8); padding: 12px 16px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-8); background: var(--color-surface-sunken); }
+.page_signup .p_terms .check { align-items: flex-start; }
+.page_signup .p_terms .check .i_input { margin-top: 0.125rem; }
+.page_signup .p_terms .p_all { padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border-subtle); }
+.page_signup .p_terms a { color: var(--color-text-secondary); text-decoration: underline; }
+.page_signup .p_divider { display: flex; align-items: center; gap: var(--space-12); font-size: var(--text-xs); color: var(--color-text-muted); }
+.page_signup .p_divider::before, .page_signup .p_divider::after { content: ""; height: 1px; background: var(--color-border-subtle); flex: 1; }
+.page_signup .p_social { display: flex; flex-direction: column; gap: 8px; }
+.page_signup .p_login { font-size: var(--text-sm); color: var(--color-text-secondary); text-align: center; }
+.page_signup .p_login a, .page_signup .p_done a { font-weight: var(--weight-medium); color: var(--color-text-brand); text-decoration: none; }
+.page_signup .p_login a:hover, .page_signup .p_done a:hover { text-decoration: underline; }
+/* 인증 메일 안내 — empty_state 패널 재사용(아이콘+제목+문장+행동). 보낸 주소는 strong */
+.page_signup .p_done { display: none; flex-direction: column; gap: 16px; }
+.page_signup[data-state="sent"] .p_main { display: none; }
+.page_signup[data-state="sent"] .p_done { display: flex; }
+.page_signup .p_done .empty_state .i_icon { background: var(--color-brand-soft); color: var(--color-text-brand); }
+.page_signup .p_done .p_note { font-size: var(--text-xs); color: var(--color-text-muted); text-align: center; }

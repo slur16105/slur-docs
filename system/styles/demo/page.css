@@ -1,0 +1,50 @@
+/* 페이지 레이아웃 간격은 정책상 토큰 대신 px 직접 사용 */
+.page_demo { display: flex; flex-direction: column; align-items: center; gap: 64px; width: 100%; min-height: 100vh; padding: 48px 40px; background: var(--color-surface-sunken); transition: background-color var(--duration-base) var(--ease-standard); }
+.page_demo > .p_head, .page_demo > .p_component { width: 100%; max-width: 960px; }
+.page_demo .p_head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.page_demo .p_head .btn { flex: none; }
+.page_demo .p_eyebrow { font-size: var(--text-xs); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
+.page_demo .p_title { font-size: var(--text-4xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
+.page_demo .p_desc { max-width: 56ch; font-size: var(--text-base); color: var(--color-text-secondary); }
+.page_demo .p_component { display: flex; flex-direction: column; gap: 24px; }
+.page_demo .p_component_title { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); }
+.page_demo .p_section { display: flex; flex-direction: column; gap: 16px; }
+.page_demo .p_section_title { padding-bottom: 8px; border-bottom: 1px solid var(--color-border-subtle); font-size: var(--text-sm); font-weight: var(--weight-medium); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
+.page_demo .p_row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.page_demo .p_col { display: flex; flex-direction: column; gap: 12px; }
+.page_demo .p_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.page_demo .p_grid_3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.page_demo .p_grid_side { display: grid; grid-template-columns: 240px 1fr; gap: 16px; }
+.page_demo .p_price { font-size: var(--text-3xl); font-weight: var(--weight-bold); font-variant-numeric: tabular-nums; }
+.page_demo .p_th_check { width: 44px; }
+/* 데모 전용 배치 — 컴포넌트 내부를 페이지 스코프에서 덮는다(페이지 CSS는 마지막에 로드) */
+.page_demo .card .i_foot .btn:first-child { flex: 1; }
+.page_demo .p_col .card.m_link { display: flex; flex-direction: row; align-items: center; gap: 14px; }
+.page_demo .p_col .card.m_link .badge { width: 40px; height: 40px; border-radius: var(--radius-8); }
+.page_demo .p_col .card.m_link .i_title { display: block; font-size: var(--text-base); }
+.page_demo .card.m_list .i_label { flex: 1; font-size: var(--text-sm); font-weight: var(--weight-medium); }
+.page_demo .card.m_list .i_meta { font-size: var(--text-xs); color: var(--color-text-secondary); }
+.page_demo .card .breadcrumb { margin-bottom: var(--space-12); }
+.page_demo .p_grid_4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.page_demo .p_state { min-height: 200px; border: 1px dashed var(--color-border-default); border-radius: var(--radius-12); background: var(--color-surface-card); }
+.page_demo .p_state .i_body { padding: 16px; list-style: none; }
+.page_demo .p_state .i_body li + li { margin-top: 12px; }   /* display는 건드리지 않는다 — 4상태 토글(common)이 display로 슬롯을 고르므로 */
+.page_demo .p_skel_row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.page_demo .p_skel_row .p_skel_lines { display: flex; flex: 1; flex-direction: column; gap: 8px; }
+.page_demo .p_skel_row .skeleton:last-child { width: 60%; }
+.page_demo .p_skel_demo { padding: 8px 0; border: 1px dashed var(--color-border-default); border-radius: var(--radius-12); background: var(--color-surface-card); }
+.page_demo .p_chart { display: flex; align-items: flex-end; gap: 12px; height: 120px; padding: 16px; border-radius: var(--radius-12); background: var(--color-surface-card); }
+.page_demo .p_bar { flex: 1; border-radius: 4px 4px 0 0; }
+.page_demo .p_bar:nth-child(1) { height: 80%; background: var(--color-chart-1); }
+.page_demo .p_bar:nth-child(2) { height: 55%; background: var(--color-chart-2); }
+.page_demo .p_bar:nth-child(3) { height: 70%; background: var(--color-chart-3); }
+.page_demo .p_bar:nth-child(4) { height: 35%; background: var(--color-chart-4); }
+.page_demo .p_bar:nth-child(5) { height: 60%; background: var(--color-chart-5); }
+.page_demo .p_th_action { width: 56px; }
+/* 데모는 PC 기준 카탈로그라 PC-first로 좁힌다 — 제품 페이지는 css.md대로 mobile-first */
+@media (max-width: 768px) {
+  .page_demo .p_grid_4 { grid-template-columns: 1fr 1fr; }
+  .page_demo .p_grid { grid-template-columns: 1fr; }
+  .page_demo .p_grid_3 { grid-template-columns: 1fr; }
+  .page_demo .p_grid_side { grid-template-columns: 1fr; }
+}

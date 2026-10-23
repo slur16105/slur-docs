@@ -7,7 +7,7 @@
 - 상태는 클래스 조합이 아니라 `data-state` 값으로 표현한다. 값은 넷 — `loading` / `empty` / `error` / `success`(정상). 블록에 **반드시 선언**한다. 구조는 그대로 두고 상태만 전환한다.
 - 안내 슬롯 셋(`i_loading`/`i_empty`/`i_error`)은 **항상 렌더되는 `i_status`(`role="status"`) 상자 안에**, 상자는 블록의 직계 자식으로 둔다. 상자가 미리 있어야 상태 전환이 보조 기술에 읽힌다(`accessibility.md` 5-C). 정상 내용은 `i_body`.
 - 슬롯 안에는 문장만 둬도 되고 스켈레톤·빈 상태 패널을 넣어도 된다. 단 `i_loading`에는 **읽힐 문장을 하나 둔다**(스켈레톤만이면 보조 기술에 읽히지 않음 — `a11y_hidden` 가능). 룩은 슬러 디자인의 `empty_state`·`skeleton`·`spinner`(규칙만 적용하는 프로젝트는 자기 디자인으로).
-- CSS가 `data-state`를 해석해 해당 슬롯만 노출한다 — 이 스위치는 `global.css`가 동봉하므로 **블록마다 다시 쓰지 않는다**. 지금 상태가 아닌 슬롯은 `display:none`으로 숨긴다(접근성 트리에서도 빠지는 것이 맞다 — 읽히면 안 되는 문장이다).
+- CSS가 `data-state`를 해석해 해당 슬롯만 노출한다 — 이 스위치는 `common.css`가 동봉하므로 **블록마다 다시 쓰지 않는다**. 지금 상태가 아닌 슬롯은 `display:none`으로 숨긴다(접근성 트리에서도 빠지는 것이 맞다 — 읽히면 안 되는 문장이다).
 
 ```html
 <section class="list_program" data-state="loading">
@@ -21,7 +21,7 @@
 ```
 
 ```css
-/* global.css 동봉 — 블록 이름을 모르므로 블록의 data-state로 스코프한다(내부 요소 단독 선택자 금지의 유일한 예외) */
+/* common.css 동봉 — 블록 이름을 모르므로 블록의 data-state로 스코프한다(내부 요소 단독 선택자 금지의 유일한 예외) */
 [data-state] > .i_status > .i_loading, [data-state] > .i_status > .i_empty, [data-state] > .i_status > .i_error { display: none; }
 [data-state="loading"] > .i_status > .i_loading { display: block; }
 [data-state="empty"] > .i_status > .i_empty { display: block; }

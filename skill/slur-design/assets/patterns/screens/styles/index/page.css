@@ -1,0 +1,18 @@
+/* 목차 페이지 — 서버 없이 파일로 열어도 동작한다(상대경로) */
+.page_index { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; min-height: 100vh; padding: 48px 24px; background: var(--color-surface-sunken); }
+.page_index > .p_head, .page_index > .p_grid, .page_index > .p_foot { width: 100%; max-width: 880px; }
+.page_index .p_head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.page_index .p_logo { display: flex; height: 26px; margin-bottom: var(--space-8); }
+.page_index .p_logo img { display: block; height: 100%; width: auto; }
+.page_index .p_logo .p_logo_dark { display: none; }
+[data-theme="dark"] .page_index .p_logo .p_logo_light { display: none; }
+[data-theme="dark"] .page_index .p_logo .p_logo_dark { display: block; }
+.page_index .p_eyebrow { font-size: var(--text-xs); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
+.page_index .p_title { font-size: var(--text-3xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
+.page_index .p_desc { max-width: 60ch; margin-top: var(--space-8); font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_index .p_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.page_index .card.m_link { display: flex; flex-direction: column; gap: var(--space-8); }
+.page_index .card .i_title { font-size: var(--text-lg); }
+.page_index .card .i_tags { display: flex; gap: var(--space-4); flex-wrap: wrap; margin-top: var(--space-4); }
+.page_index .p_foot { font-size: var(--text-xs); color: var(--color-text-muted); }
+@media (max-width: 639px) { .page_index .p_grid { grid-template-columns: 1fr; } }

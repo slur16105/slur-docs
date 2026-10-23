@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
    STATE — SLUR Design System × slur-guidelines
    4상태(loading / empty / error / success)의 "룩"을 담당한다.
-   "언제 보이나"(노출 전환)는 global.css의 4상태 스위치가 블록의 data-state를
+   "언제 보이나"(노출 전환)는 common.css의 4상태 스위치가 블록의 data-state를
    읽어 처리하고, 여기는 "어떻게 보이나"만. 안내문 셋은 항상 렌더되는
    i_status(role="status") 상자 안에 있다 — 상자 자체에는 스타일 없음.
    · 슬롯 기본형 — 문장만 넣은 i_loading/i_empty/i_error의 여백·색 (global.css와 같은 [data-state] 예외)

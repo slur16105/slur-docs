@@ -2,7 +2,7 @@
 
 대시보드 한 장을 슬러 디자인(tokens + components + patterns)과 `slur.js`만으로 끝까지 만드는 조립법. Tailwind·shadcn 없이, 어떤 JS 라이브러리에도 의존하지 않는다. 동작은 **네이티브 → slur.js → 위임** 순서(SKILL.md 「동작은 어디서 오나」). 완성 예시는 레포 `system/demo-dashboard.html`.
 
-로드 순서: `global.css → tokens/* → components/* → patterns/app-shell.css → 페이지 CSS`, 그리고 `<script src="slur.js" defer>`.
+로드 순서: `global.css → common.css → page.css`, 그리고 `<script src="slur.js" defer>`. 토큰은 global, 공통 셸과 컴포넌트는 common, 화면 전용 배치는 page로 묶는다.
 
 ---
 

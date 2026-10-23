@@ -9,92 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
-<link rel="stylesheet" href="../../tokens/colors.css">
-<link rel="stylesheet" href="../../tokens/typography.css">
-<link rel="stylesheet" href="../../tokens/spacing.css">
-<link rel="stylesheet" href="../../tokens/radius.css">
-<link rel="stylesheet" href="../../tokens/shadows.css">
-<link rel="stylesheet" href="../../tokens/motion.css">
-<link rel="stylesheet" href="../../tokens/breakpoints.css">
-<link rel="stylesheet" href="../../tokens/z-index.css">
-<link rel="stylesheet" href="../../components/button.css">
-<link rel="stylesheet" href="../../components/input.css">
-<link rel="stylesheet" href="../../components/select.css">
-<link rel="stylesheet" href="../../components/badge.css">
-<link rel="stylesheet" href="../../components/card.css">
-<link rel="stylesheet" href="../../components/navigation.css">
-<link rel="stylesheet" href="../../components/modal.css">
-<link rel="stylesheet" href="../../components/toast.css">
-<link rel="stylesheet" href="../../components/state.css">
-<link rel="stylesheet" href="../app-shell.css">
+<link rel="stylesheet" href="../../css/global.css">
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="styles/onboarding/page.css">
 <script src="../../../../slur-guidelines/assets/slur.js" defer></script>
-<style>
-/* 페이지 CSS — 빈 워크스페이스의 첫 화면: 히어로(empty_state) + 진행 체크리스트 + 둘러보기 + 4상태 활동.
-   첫 고객이 생기면 page_onboarding[data-state="started"] — 히어로가 내려가고 활동 블록이 채워진다 */
-.page_onboarding { display: flex; flex-direction: column; gap: 20px; max-width: 1040px; }
-.page_onboarding .p_hero .empty_state { max-width: 520px; padding: 40px 24px 32px; }
-.page_onboarding .p_hero .empty_state .i_icon { width: 3.5rem; height: 3.5rem; background: var(--color-brand-soft); color: var(--color-text-brand); }
-.page_onboarding .p_hero .empty_state .i_icon svg { width: 1.75rem; height: 1.75rem; }
-.page_onboarding .p_hero .empty_state .i_title { font-size: var(--text-2xl); letter-spacing: var(--tracking-snug); }
-.page_onboarding .p_hero .empty_state .i_text { font-size: var(--text-base); }
-.page_onboarding[data-state="started"] .p_hero { display: none; }
-.page_onboarding .p_grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
-.page_onboarding .p_col { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
-/* 체크리스트 — 진행 표시는 네이티브 progress(룩만 입힘), 항목 완료는 li의 data-state="done" */
-.page_onboarding .p_checklist .i_head { align-items: center; }
-.page_onboarding .p_progress_text { font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
-.page_onboarding .p_progress_text strong { font-size: var(--text-lg); color: var(--color-text-primary); }
-.page_onboarding .p_progress { display: block; width: 100%; height: 6px; margin: 16px 0 0; border: none; border-radius: var(--radius-full); background: var(--color-surface-sunken); overflow: hidden; appearance: none; -webkit-appearance: none; }
-.page_onboarding .p_progress::-webkit-progress-bar { background: transparent; }
-.page_onboarding .p_progress::-webkit-progress-value { border-radius: var(--radius-full); background: var(--color-brand); transition: width var(--duration-slow) var(--ease-standard); }
-.page_onboarding .p_progress::-moz-progress-bar { border-radius: var(--radius-full); background: var(--color-brand); }
-.page_onboarding .p_checklist .i_body { padding: 0 var(--space-20); }
-.page_onboarding .p_steps { list-style: none; }
-.page_onboarding .p_step { display: grid; grid-template-columns: 1.5rem 1fr auto; gap: 12px; align-items: center; padding: 16px 0; border-top: 1px solid var(--color-border-subtle); }
-.page_onboarding .p_step:first-child { border-top: none; }
-.page_onboarding .p_step_icon { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; border: 1px solid var(--color-border-strong); border-radius: 50%; font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--color-text-muted); }
-.page_onboarding .p_step_icon svg { display: none; width: 0.875rem; height: 0.875rem; }
-.page_onboarding .p_step[data-state="done"] .p_step_icon { border-color: var(--color-success-solid); background: var(--color-success-solid); color: var(--color-on-success); }
-.page_onboarding .p_step[data-state="done"] .p_step_icon svg { display: block; }
-.page_onboarding .p_step[data-state="done"] .p_step_icon .p_step_no { display: none; }
-.page_onboarding .p_step_body { display: flex; flex-direction: column; min-width: 0; }
-.page_onboarding .p_step_body strong { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-primary); }
-.page_onboarding .p_step_body small { font-size: var(--text-xs); color: var(--color-text-muted); }
-.page_onboarding .p_step[data-state="done"] .p_step_body strong { color: var(--color-text-secondary); text-decoration: line-through; }
-.page_onboarding .p_step[data-state="done"] .p_step_action { display: none; }
-.page_onboarding .p_step_action a { font-size: var(--text-sm); color: var(--color-text-brand); text-decoration: none; }
-.page_onboarding .p_step_action a:hover { text-decoration: underline; }
-/* 모두 마치면 i_foot가 완료 메시지로 — p_checklist[data-state="done"] */
-.page_onboarding .p_checklist .i_foot { align-items: center; justify-content: space-between; }
-.page_onboarding .p_checklist .p_foot_done { display: none; align-items: center; gap: var(--space-8); font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-success); }
-.page_onboarding .p_checklist[data-state="done"] .p_foot_done { display: inline-flex; }
-.page_onboarding .p_checklist[data-state="done"] .p_foot_todo { display: none; }
-.page_onboarding .p_foot_todo { font-size: var(--text-xs); color: var(--color-text-muted); }
-/* 둘러보기 — 리스트 카드(m_list)의 링크 행 */
-.page_onboarding .p_explore .i_row { color: inherit; text-decoration: none; }
-.page_onboarding .p_explore .i_row svg { width: 1.125rem; height: 1.125rem; color: var(--color-text-muted); flex: none; }
-.page_onboarding .p_explore .i_row .p_row_text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-.page_onboarding .p_explore .i_row strong { font-size: var(--text-sm); font-weight: var(--weight-medium); }
-.page_onboarding .p_explore .i_row small { font-size: var(--text-xs); color: var(--color-text-muted); }
-.page_onboarding .p_explore .p_row_head { padding: var(--space-12) var(--space-12) var(--space-4); font-size: var(--text-xs); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-wide); color: var(--color-text-muted); text-transform: uppercase; }
-.page_onboarding .p_tip .i_body { display: flex; flex-direction: column; gap: var(--space-12); font-size: var(--text-sm); color: var(--color-text-secondary); }
-.page_onboarding .p_tip strong { color: var(--color-text-primary); }
-/* 활동 — 4상태 블록(empty → success). 정상 본문은 타임라인 한 줄 */
-.page_onboarding .p_feed > .i_body { padding: 0; }
-.page_onboarding .p_activity_list { list-style: none; }
-.page_onboarding .p_activity_list li { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-20); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
-.page_onboarding .p_activity_list li:first-child { border-top: none; }
-.page_onboarding .p_activity_list time { font-size: var(--text-xs); color: var(--color-text-muted); flex: none; }
-@media (max-width: 1023px) {
-  .page_onboarding .p_grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 639px) {
-  .page_onboarding .p_hero .empty_state { padding: 28px 16px 24px; }
-  .page_onboarding .p_step { grid-template-columns: 1.5rem 1fr; }
-  .page_onboarding .p_step_action { grid-column: 2; }
-}
-</style>
 </head>
 <body>
 

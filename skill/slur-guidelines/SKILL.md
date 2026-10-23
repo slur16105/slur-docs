@@ -22,12 +22,17 @@ SLUR은 네 층으로 나뉜다. 이 스킬은 **guidelines** 층이고, 나머�
 
 문서 사이트 `https://docs.slur.co.kr`가 두 스킬 폴더를 같은 경로로 서빙한다(`/skill/slur-guidelines/SKILL.md`, `/skill/slur-design/...`). 설치: `curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh`(두 스킬 → `.claude/skills/`). 설치본의 버전은 각 스킬 폴더의 `VERSION` 파일(빌드 때 생성 — 저장소 원본에는 없다), 최신 버전은 `https://docs.slur.co.kr/skill/VERSION`. 디자인시스템 섹션 `/design/`, AI 퀵스타트 `/design/ai-quickstart/`.
 
-### 동봉 파일 — `assets/global.css` (공통 레이어)
+### 동봉 CSS — `global.css` · `common.css`
 
-규칙이 전제하는 최소 CSS를 이 스킬이 직접 동봉한다: 리셋(iOS 글자 자동 확대 방지 `text-size-adjust` 포함), 폼 컨트롤 상속, **포커스 링 한 쌍**(`outline:none` + 대체 링, 링크·`[tabindex]`·`summary` 포함), `.a11y_hidden`, **4상태 스위치**(블록의 `data-state`가 `loading|empty|error`일 때만 `i_status` 상자 안의 해당 슬롯 `i_loading`/`i_empty`/`i_error`를 보이고 `i_body`를 숨김), `prefers-reduced-motion`. 색·크기는 토큰을 `var(--x, 폴백)`으로 **참조만** 하므로 토큰이 없는 프로젝트(규칙만 적용)에서도 그대로 쓸 수 있다. 룩은 바꾸지 않는다.
+프로젝트 CSS는 **`global.css → common.css → page.css`** 순서로 로드한다.
 
-- 프로젝트에 넣을 때: 이 스킬 폴더의 `assets/global.css`를 프로젝트 CSS 폴더로 복사해 **가장 먼저** `<link>`한다. 로드 순서 `global.css → (tokens → components → patterns) → 레이아웃 → 컴포넌트 → 페이지 → 반응형`.
-- 프로젝트에 이미 리셋 파일이 있으면 두 개를 두지 않고 **합친다**(포커스 링·`a11y_hidden`·4상태 토글·reduced-motion은 반드시 남긴다). 파일명 관례는 `global.css`. `common.css` 같은 "공통 통"은 만들지 않는다 — 공통처럼 보이는 스타일은 `layout_*` 또는 컴포넌트로 간다.
+이 구조는 작성자가 실제 작업에서 가장 효율적이라고 확인한 방식이다. CSS의 적용 순서와 덮어쓰기 관계가 여러 파일에 흩어져 바로 파악하기 어려웠던 문제를 해결하는 것이 핵심이며, 기존 방식에 대한 익숙함은 부가적인 배경이다. 사람과 AI가 파일의 역할과 순서를 바로 파악할 수 있는지를 기준으로 삼는다. 로드 파일만 세 개로 묶어도 저작 원본이 복잡하면 이 목적을 완전히 달성한 것은 아니다.
+
+- `global.css`: 리셋, 색상·글꼴·간격 토큰, 문서 기본값, 폼 상속, 포커스 링, `a11y_hidden`, reduced-motion. 동봉 `assets/global.css`는 토큰 폴백을 가진 기본 원본이며 프로젝트의 토큰을 여기에 합친다.
+- `common.css`: 공통 레이아웃과 버튼·입력·표·카드·모달 등 재사용 컴포넌트. 동봉 `assets/common.css`의 4상태 슬롯 전환을 포함한다.
+- `page.css`: 페이지별 배치와 해당 화면 전용 스타일. `.page_*`로 스코프하고 각 화면에서 자신의 파일만 로드한다. `body`·`html`·`:root` 등 전역 선택자는 두지 않으며 화면 전용 여백·배경도 페이지 블록에 선언한다.
+- 기존 리셋은 중복 로드하지 않고 global에 합친다. 각 파일의 반응형 규칙은 그 파일에 둔다. 토큰·컴포넌트 원본을 별도로 유지해도 최종 로드 파일은 이 세 개다. 런타임 `@import`는 금지한다.
+- SLUR 디자인을 함께 적용하면 `slur-design/scripts/build-css.mjs`로 토큰을 포함한 global과 공통 컴포넌트를 포함한 common을 생성한다. 상세 기준은 `references/css.md`의 「CSS 세 파일 구조」를 따른다.
 
 ### 동봉 파일 — `assets/slur.js` (동작 층)
 
@@ -84,7 +89,6 @@ SLUR은 네 층으로 나뉜다. 이 스킬은 **guidelines** 층이고, 나머�
 
 1. 요구사항 분석
 2. 구조 설계
-
 3. 네이밍 설계
 4. HTML 작성
 5. CSS 작성

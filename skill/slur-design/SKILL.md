@@ -5,7 +5,7 @@ description: SLUR Design System — UI와 문서의 시각 어휘. SLUR 룩앤�
 
 # SLUR Design System (시각 어휘)
 
-이 스킬은 **어휘**를 제공한다 — 색·타이포·간격 토큰과 컴포넌트의 생김새. 웹 UI에서는 **문법**(클래스 네이밍, `data-state`, CSS 작성 규칙, 단위·토큰 운영 원칙)과 **공통 레이어**(`global.css`: 리셋·포커스 링·`a11y_hidden`·4상태 스위치)를 담당하는 `slur-guidelines`를 항상 함께 쓴다. PDF 같은 정적 문서는 웹 클래스 문법 대신 이 스킬의 보고서 규칙과 해당 문서 도구의 생성·검수 절차를 따른다.
+이 스킬은 **어휘**를 제공한다 — 색·타이포·간격 토큰과 컴포넌트의 생김새. 웹 UI에서는 **문법**(클래스 네이밍, `data-state`, CSS 작성 규칙, 단위·토큰 운영 원칙)과 **공통 레이어**(`global.css`: 리셋·포커스 링·`a11y_hidden`, `common.css`: 4상태 스위치)를 담당하는 `slur-guidelines`를 항상 함께 쓴다. PDF 같은 정적 문서는 웹 클래스 문법 대신 이 스킬의 보고서 규칙과 해당 문서 도구의 생성·검수 절차를 따른다.
 
 ## 정적 변형과 실행 상태의 적용
 
@@ -27,7 +27,7 @@ slur-design/
         └── screens/   #   화면 조립본(마크업+페이지 CSS+JS, 그대로 열리는 HTML) — dashboard · login · list · settings · signup · reset · detail · onboarding
 ```
 
-공통 레이어는 `../slur-guidelines/assets/global.css`, **동작 층은 `../slur-guidelines/assets/slur.js`**(탭·메뉴·툴팁·토스트·드로어·테마 — 룩 무관이라 guidelines가 동봉). 데모·작업 메모는 레포의 `system/`(`demo.html` 컴포넌트 전체, `README.md`); 화면 조립본은 `assets/patterns/screens/`(`index.html`이 목차).
+기본 원본은 `../slur-guidelines/assets/global.css`와 `common.css`, **동작 층은 `../slur-guidelines/assets/slur.js`**(탭·메뉴·툴팁·토스트·드로어·테마 — 룩 무관이라 guidelines가 동봉). 데모·작업 메모는 레포의 `system/`(`demo.html` 컴포넌트 전체, `README.md`); 화면 조립본은 `assets/patterns/screens/`(`index.html`이 목차).
 
 문서 사이트 `https://docs.slur.co.kr/design/`(개요·토큰·컴포넌트·패턴/조립본·AI 퀵스타트)가 이 폴더를 같은 경로로 서빙한다 — 원본 `https://docs.slur.co.kr/skill/slur-design/...`, 설치 `curl -fsSL https://docs.slur.co.kr/skill/install.sh | sh`(두 스킬 → `.claude/skills/`). 설치본 버전은 이 폴더의 `VERSION`(빌드 때 생성), 최신은 `https://docs.slur.co.kr/skill/VERSION`.
 
@@ -60,11 +60,11 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 
 ## 프로젝트에 넣는 법
 
-1. 먼저 현재 프로젝트의 화면·컴포넌트·토큰을 조사한다. `assets/tokens/`와 실제 사용하는 `assets/components/`만 프로젝트 CSS 폴더로 **복사**하고, `slur-guidelines/assets/global.css`와 `slur.js`도 함께 둔다. 대시보드면 `assets/patterns/app-shell.css`, 로그인류면 `auth-shell.css`처럼 필요한 패턴만 가져온다. 사용하지 않는 컴포넌트와 패턴은 추가하지 않는다. **화면을 새로 짤 때는 `assets/patterns/screens/`의 대응 조립본(dashboard·login·list·settings·signup·reset·detail·onboarding)을 복사해 시작한다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트 흐름이 규칙대로 들어 있다. 사용자가 토큰만 적용하라고 명시한 경우에는 `assets/tokens/`만 복사한다. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
-2. **로드 순서**: `global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형). 전부 개별 `<link>`(병렬). 런타임 `@import` 금지(순차 폭포). 번들러를 쓰면 같은 순서로 import. `slur.js`는 `<script src="slur.js" defer>` 한 줄(또는 `import 'slur.js'`).
+1. 먼저 현재 프로젝트의 화면·컴포넌트·토큰을 조사한다. `assets/tokens/`와 실제 사용하는 `assets/components/`만 프로젝트 CSS 폴더로 **복사**하고, `slur-guidelines/assets/global.css`·`common.css`와 `slur.js`도 함께 둔다. 대시보드면 `assets/patterns/app-shell.css`, 로그인류면 `auth-shell.css`처럼 필요한 패턴만 가져온다. 프로젝트에 맞춤으로 묶을 때는 사용하지 않는 컴포넌트와 패턴을 제외한다. 동봉 생성 스크립트는 전체 데모용 공통 묶음을 만든다. **화면을 새로 짤 때는 `assets/patterns/screens/`의 대응 조립본(dashboard·login·list·settings·signup·reset·detail·onboarding)을 복사해 시작한다** — 사이드바·4상태·토스트·모달·삭제 확인·보기/편집 전환·단계 전환·온보딩 체크리스트 흐름이 규칙대로 들어 있다. 사용자가 토큰만 적용하라고 명시한 경우에는 `assets/tokens/`만 복사한다. (경로는 이 스킬 폴더 기준 — 심볼릭 링크라면 링크를 따라가면 된다. npm 배포는 추후.)
+2. **로드 순서**: `global.css → common.css → page.css`. `node scripts/build-css.mjs`(이 스킬 폴더 기준)로 `assets/css/global.css`(기본 원본 + 토큰)와 `assets/css/common.css`(상태 전환 + 레이아웃 + 컴포넌트)를 생성한다. 페이지 스타일은 화면별 `page.css`에 둔다. 원본 파일을 중복 링크하지 않으며 런타임 `@import`는 금지한다. `slur.js`는 `<script src="slur.js" defer>`로 로드한다.
 3. 웹폰트는 시스템이 로드하지 않는다 — `--font-sans` 선두가 **Noto Sans KR**이므로 소비자 페이지가 Google Fonts `<link>`(400/500/600/700)를 직접 넣는다. 없으면 시스템 폰트로 폴백.
 4. 다크 모드는 `<html data-theme="dark">` 하나로 끝난다. 전환·저장은 `slur.js`의 `theme`(`data-action="theme_toggle"` 버튼), 첫 페인트 깜빡임 방지는 `<head>` 인라인 한 줄 — `references/recipes.md` 「다크 토글」.
-5. 필요한 컴포넌트가 여기 없으면 **토큰만으로 새로 조립**한다 — 이름은 slur-guidelines 네이밍, 위치는 프로젝트의 컴포넌트 CSS, 새 토큰·새 hex는 만들지 않는다. 같은 부품이 두 곳 이상에서 반복되면 그때 이 시스템으로 승격을 제안한다.
+5. 필요한 컴포넌트가 여기 없으면 **토큰만으로 새로 조립**한다 — 이름은 slur-guidelines 네이밍, 위치는 프로젝트의 `common.css`, 새 토큰·새 hex는 만들지 않는다. 같은 부품이 두 곳 이상에서 반복되면 그때 이 시스템으로 승격을 제안한다.
 
 ## 하지 말 것
 
@@ -108,7 +108,7 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 | `layout_auth` — `l_main`은 필수, `l_brand`·`l_foot`은 선택. 존재하는 슬롯 전체를 가운데 정렬하는 로그인·가입·재설정 틀 | `patterns/auth-shell.css` |
 | 화면 조립본 — 대시보드 · 로그인 · 목록(선택 바·4상태·행 메뉴·삭제 확인) · 설정(구역 내비·스위치·저장 바·위험 구역) · 회원가입(강도·규칙·약관·인증 메일) · 비밀번호 재설정(4단계 한 파일) · 상세/편집(탭·보기↔편집·버리기 확인) · 온보딩(empty_state 히어로·progress 체크리스트) | `patterns/screens/*.html` |
 
-4상태 슬롯(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)의 **노출 스위치는 `global.css`**(slur-guidelines)가 하고, 이 시스템은 슬롯 기본형과 그 안에 넣는 `empty_state`·`skeleton`·`spinner`의 룩만 준다. 상태 값은 `loading|empty|error|success`. 로딩 기본형은 `spinner` + 읽힐 문장, `skeleton`은 표·카드 목록처럼 넓은 영역의 선택지(recipes.md 4절).
+4상태 슬롯(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)의 **노출 스위치는 `common.css`**(slur-guidelines)가 하고, 이 시스템은 슬롯 기본형과 그 안에 넣는 `empty_state`·`skeleton`·`spinner`의 룩만 준다. 상태 값은 `loading|empty|error|success`. 로딩 기본형은 `spinner` + 읽힐 문장, `skeleton`은 표·카드 목록처럼 넓은 영역의 선택지(recipes.md 4절).
 
 ## 토큰 빠른 참조 (실제 이름 — 추측 금지)
 
@@ -136,7 +136,7 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 - [ ] 컴포넌트에 포커스 링 재선언이 없는가
 - [ ] `data-theme="dark"`로 바꿔도 깨지는 곳이 없는가(양쪽 확인)
 - [ ] 인라인 `style=` 0개, CSS `id` 선택자 0개
-- [ ] 로드 순서가 `global → tokens → components → patterns → 프로젝트`인가, `slur.js`가 로드되는가
+- [ ] 로드 순서가 `global.css → common.css → page.css`인가, `slur.js`가 로드되는가
 - [ ] 헤더와 본문 콘텐츠의 기본 좌우 거터가 16px로 같은가(컴포넌트 내부 패딩·섹션 간격 제외)
 - [ ] 네이티브가 상태를 갖는 요소(`dialog[open]`·`details[open]`·`:popover-open`·`aria-sort`·`aria-current`)에 `data-state`를 중복해 붙이지 않았는가
 - [ ] 토스트 컨테이너(`.toast_message[role=status]`)가 미리 DOM에 있는가, 4상태 블록에 `data-state`가 선언돼 있는가

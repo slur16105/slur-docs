@@ -67,7 +67,7 @@ UI 가이드만 적용했다면 기존 디자인이 유지됐는지와 [체크�
 - [ ] 생 색상값(hex/rgb) 0개, 번호 프리미티브(`--color-neutral-400` 등) 직접 참조 0개 — 시맨틱 토큰만
 - [ ] 상태는 `data-state` — `.active` 같은 상태 클래스 없음. 네이티브·ARIA 상태(`[open]` `:popover-open` `aria-sort` `aria-current` `aria-checked`)에 `data-state`를 겹치지 않음
 - [ ] `i_`/`p_`/`l_`는 블록 하위로 스코프(`.page_list .p_head` ✅, `.p_head` 단독 ❌), 같은 범위 접두사 중첩 없음
-- [ ] 로드 순서 `global → tokens → components → patterns → 프로젝트`, `slur.js` 로드됨, 런타임 `@import` 없음
+- [ ] 로드 순서 `global.css → common.css → page.css`, `slur.js` 로드됨, 런타임 `@import` 없음
 - [ ] 토스트 컨테이너(`.toast_message[role=status]`)가 미리 DOM에 있고, 4상태 블록에 `data-state`가 선언돼 있음
 - [ ] 아이콘만 있는 버튼에 `aria-label`, 폼 오류는 `field` + `i_help` + `aria-invalid`, 파괴적 동작은 `<dialog>` 확인
 - [ ] 포커스 링을 컴포넌트에서 재선언하지 않음, `data-theme="dark"`로 바꿔도 깨지지 않음
@@ -90,7 +90,7 @@ UI 가이드만 적용했다면 기존 디자인이 유지됐는지와 [체크�
 | 무엇 | 어디 |
 |---|---|
 | UI 가이드 스킬 | [`slur-guidelines/SKILL.md`](/skill/slur-guidelines/SKILL.md) + `references/`(naming · css · html · js · component · accessibility · ux-states · media · migration · checklist) |
-| 공통 레이어 · 동작 층 | [`global.css`](/skill/slur-guidelines/assets/global.css) · [`slur.js`](/skill/slur-guidelines/assets/slur.js) |
+| 공통 레이어 · 동작 층 | [`global.css`](/skill/slur-design/assets/css/global.css) · [`common.css`](/skill/slur-design/assets/css/common.css) · [`slur.js`](/skill/slur-guidelines/assets/slur.js) |
 | 디자인시스템 스킬 | [`slur-design/SKILL.md`](/skill/slur-design/SKILL.md) + [`references/recipes.md`](/skill/slur-design/references/recipes.md) |
 | 토큰 · 컴포넌트 · 패턴 | `slur-design/assets/tokens/` · `components/` · `patterns/` — [토큰](/design/tokens/) · [컴포넌트](/design/components/) · [패턴 · 화면 조립본](/design/screens/) |
 | 조립본 · 데모 | [조립본 목차](/skill/slur-design/assets/patterns/screens/index.html) · [컴포넌트 데모](/system/demo.html) |

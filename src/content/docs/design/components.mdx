@@ -36,7 +36,7 @@ JS 라이브러리 의존은 없습니다.
 | 표 | `table_wrap`(`i_body` `i_scroll` `i_foot` `i_count` `i_btn_wrap`) + `table_data`(숫자 열 `m_num`, `m_muted`, 정렬 `th.m_sort` > `i_sort`, 셀 `i_user` `i_avatar`) | 정렬 **`th[aria-sort]`** — `data-state` 없음 | `table.css` |
 | 페이지네이션 | `pagination`(`i_list` `i_prev` `i_next` `i_page` `i_ellipsis`) | 현재 페이지 **`aria-current="page"`** | `pagination.css` |
 | 토스트 | `toast_message`(`i_icon` `i_text` `i_close`) + `m_success` `m_warning` `m_danger` · 위치 `m_top` | `data-state="show"` / `close` · 컨테이너는 `role="status"`(기본) / `role="alert"`(긴급) 각각 따로, 미리 DOM에 | `toast.css` |
-| 상태 | 4상태 슬롯 `i_status`(> `i_loading` `i_empty` `i_error`) · `empty_state`(`i_icon` `i_title` `i_text` `i_action`, `m_error` `m_compact`) · `skeleton`(`m_title` `m_circle` `m_rect` `m_inline`) · `spinner`(`m_large`) | 블록의 `data-state="loading"` / `empty` / `error` / `success` — 전환은 `global.css` | `state.css` |
+| 상태 | 4상태 슬롯 `i_status`(> `i_loading` `i_empty` `i_error`) · `empty_state`(`i_icon` `i_title` `i_text` `i_action`, `m_error` `m_compact`) · `skeleton`(`m_title` `m_circle` `m_rect` `m_inline`) · `spinner`(`m_large`) | 블록의 `data-state="loading"` / `empty` / `error` / `success` — 전환은 `common.css` | `state.css` |
 | 메뉴 | `menu_action`(`i_group` `i_item` `i_divider` `i_shortcut`, 위험 항목 `m_danger`) — `popover` + `role="menu"` | **`:popover-open`**(네이티브) — `data-state` 없음 | `menu.css` |
 | 툴팁 | `tooltip_help` — `popover="manual"` + `role="tooltip"` + 트리거의 `aria-describedby` | **`:popover-open`** | `tooltip.css` |
 
@@ -64,7 +64,7 @@ JS 라이브러리 의존은 없습니다.
 </section>
 ```
 
-`data-state` 값만 `loading` → `empty` / `error` / `success`로 바꾸면 `global.css`의 스위치가 슬롯을 고릅니다. 룩(스피너·빈 상태 패널·스켈레톤)은 `state.css`가 줍니다 — 로딩 기본은 스피너 + 읽힐 문장, 스켈레톤은 넓은 표·목록의 선택지입니다([화면 상태 설계](/ux/screen-states/)).
+`data-state` 값만 `loading` → `empty` / `error` / `success`로 바꾸면 `common.css`의 스위치가 슬롯을 고릅니다. 룩(스피너·빈 상태 패널·스켈레톤)은 `state.css`가 줍니다 — 로딩 기본은 스피너 + 읽힐 문장, 스켈레톤은 넓은 표·목록의 선택지입니다([화면 상태 설계](/ux/screen-states/)).
 
 ### 토스트 — 컨테이너 선존재 + `slur.toast()`
 

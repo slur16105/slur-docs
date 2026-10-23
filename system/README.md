@@ -1,6 +1,6 @@
 # SLUR Design System — 데모·작업 메모
 
-클로드디자인 프로젝트 [SLUR Design System](https://claude.ai/design/p/c9449985-b8f5-40fc-8ef6-128b40f79649)을 **slur-guidelines 문법으로 구현**한 결과물의 데모와 운영 메모. CSS 원본은 v1.5.0부터 **스킬 폴더에 동봉**된다 — 이 폴더에는 데모와 이 문서만 남는다.
+클로드디자인 프로젝트 [SLUR Design System](https://claude.ai/design/p/c9449985-b8f5-40fc-8ef6-128b40f79649)을 **slur-guidelines 문법으로 구현**한 결과물의 데모와 운영 메모. CSS 원본은 v1.5.0부터 **스킬 폴더에 동봉**된다 — 이 폴더에는 데모, 화면 전용 `styles/demo/page.css`, 이 문서를 둔다.
 
 ## 층과 위치
 
@@ -28,9 +28,40 @@
 | 시맨틱 토큰만 사용 (numbered primitive 금지) | 동일 — 그대로 유지 |
 | 다크 모드 `[data-theme="dark"]` | 동일 — 그대로 유지 |
 
-## 로드 순서
+## CSS 세 파일 구조
 
-`global.css` → `tokens/*.css` → `components/*.css` → `patterns/*.css` → 프로젝트 CSS(레이아웃 → 컴포넌트 → 페이지 → 반응형), 그리고 `<script src="slur.js" defer>`. 전부 개별 `<link>`(병렬). 리셋·포커스 링·`a11y_hidden`·4상태 슬롯 토글은 global이 담당하고, 컴포넌트 CSS에는 기본값과 다른 변형만 남긴다. `demo.html`과 `patterns/screens/*.html`이 이 순서의 실례다(상대경로). 로컬 확인: 레포 루트에서 `python3 -m http.server 4173` → `http://localhost:4173/system/demo.html`, 화면 조립본은 `http://localhost:4173/skill/slur-design/assets/patterns/screens/index.html`(목차 — 여덟 장).
+### 변경 배경과 판단 기준
+
+`global.css → common.css → page.css`는 SLUR 작성자가 실제 작업에서 가장 효율적이라고 확인한 구조다. CSS는 선언 순서가 덮어쓰기 결과에 영향을 주므로, 어떤 스타일이 먼저 적용되고 어떤 스타일이 뒤에서 조정하는지 바로 파악할 수 있어야 한다. 토큰·컴포넌트·패턴별로 파일이 지나치게 세분화되면서 이 순서와 관계를 확인하려면 여러 파일과 로드 지점을 오가야 했고, 수정과 검토의 효율이 떨어졌다. 세 파일 구조를 선택한 핵심 이유는 적용 순서와 수정 위치를 한눈에 파악할 수 있는 작업 효율이다. 기존에 사용하던 익숙한 방식이라는 점은 부가적인 배경이다.
+
+파일을 열어 보는 사람이 전체 기준 → 공통 요소 → 화면 전용 스타일의 흐름을 바로 읽고, 사람과 AI 모두 같은 기준으로 작성 위치와 수정 범위를 판단할 수 있어야 한다. 파일 분리 여부는 이 가독성과 작업 편의성을 기준으로 결정한다.
+
+세 파일은 작성 책임과 기본 로드 순서를 함께 드러낸다. 실제 CSS 우선순위에는 선택자 명시도 등도 영향을 주므로, 페이지 조정은 `.page_*` 범위로 한정하고 불필요하게 높은 명시도를 만들지 않는다.
+
+현재 구현은 개별 저작 원본을 유지하고 global·common을 자동 생성한다. 이는 로드 순서를 정리한 상태이며, 작성자가 확인해야 하는 원본 구조의 복잡성은 남아 있다. **로드 파일 세 개만으로 작성 구조의 단순화까지 완료했다고 보지 않는다.**
+
+프로젝트는 **`global.css → common.css → page.css`** 순서로 로드합니다.
+
+| 파일 | 역할 | 포함 예시 |
+|---|---|---|
+| `global.css` | 리셋, 토큰, 문서 기본값, 접근성 기본 규칙 | 색상·글꼴·간격 토큰, `html`·`body`, 폼 상속, 포커스 링, `a11y_hidden`, reduced-motion |
+| `common.css` | 공통 레이아웃과 재사용 컴포넌트 | `layout_*`, 버튼·입력·표·카드·모달, 4상태 슬롯 전환 |
+| `page.css` | 페이지별 배치와 해당 화면 전용 스타일 | `.page_list .p_grid`, `.page_list .table_data`의 화면 한정 배치 |
+
+```html
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/list/page.css">
+```
+
+- 각 화면은 자신의 `page.css` 하나만 로드합니다. 여러 화면의 페이지 CSS를 동시에 로드하지 않습니다.
+- 공통 스타일은 `common.css` 안에서 레이아웃 → 컴포넌트 순으로 정리합니다. 각 파일의 반응형 규칙은 해당 파일에 둡니다. 별도 반응형 파일은 만들지 않습니다.
+- `page.css`의 모든 선택자는 해당 `.page_*` 범위에 한정합니다. `body`·`html`·`:root`·태그·공통 클래스만으로 전역을 변경하지 않습니다. 화면 전용 여백·배경은 페이지 블록에 선언하고, 문서 기본값은 `global.css`, 재사용 레이아웃·컴포넌트는 `common.css`에 둡니다.
+- 페이지의 공통 컴포넌트 조정은 `.page_*` 아래로 한정합니다. 공통 토큰을 페이지에서 전역 재정의하지 않습니다.
+- 시스템 토큰 정의는 `global.css`에 모읍니다. 가이드만 적용하는 프로젝트는 기존 디자인의 토큰을 유지하고, SLUR 디자인을 쓰는 프로젝트는 디자인 토큰 원본을 합칩니다.
+- 토큰·컴포넌트·패턴의 개별 파일은 **저작 원본**으로 유지할 수 있습니다. 브라우저에는 세 파일만 연결하며 원본을 중복 로드하지 않습니다. 런타임 `@import`는 사용하지 않습니다.
+- 이 저장소는 `node skill/slur-design/scripts/build-css.mjs`로 `skill/slur-design/assets/css/global.css`와 `common.css`를 생성합니다. 생성본을 직접 수정하지 않습니다. dev·build에서도 자동 재생성합니다.
+- 데모와 화면 예제는 `styles/<화면명>/page.css`를 사용합니다. 웹폰트 로드는 별도이며 CSS 세 파일 구조의 대상은 프로젝트 스타일입니다.
 
 ## 사이트에서 보기
 
@@ -42,8 +73,8 @@
 
 ## 파일 분할과 로드
 
-- 소스(저작)는 카테고리별 파일로 나눈다. 로드는 개별 `<link>`로 한다 — **`@import`가 브라우저에 도달하면 순차 폭포가 생기므로 런타임 사용 금지.**
-- 번들 파이프라인(npm 패키징 등)이 생기면 그때 진입점 `index.css`를 빌드 전용으로 재도입한다. `@import`는 빌드 타임에 해석될 때만 허용.
+- 소스(저작)는 카테고리별 파일로 나눈다. 브라우저 로드는 `global.css → common.css → page.css` 세 개의 `<link>`로 한다 — **`@import`가 브라우저에 도달하면 순차 폭포가 생기므로 런타임 사용 금지.**
+- `skill/slur-design/scripts/build-css.mjs`가 저작 원본을 묶는다. dev·build는 배포 복사 전에 이를 실행한다.
 - 웹폰트(**Noto Sans KR**)는 시스템이 강제 로드하지 않는다 — 소비자 페이지가 Google Fonts `<link>`로 직접 넣는다 (demo.html 참고).
 
 ## 단위·토큰 기준

@@ -1,0 +1,17 @@
+/* 페이지 CSS — 폼 조합. 구조 간격은 px, 텍스트 간격은 rem 토큰 */
+.page_login { display: flex; flex-direction: column; gap: 24px; }
+.page_login .p_head { display: flex; flex-direction: column; gap: var(--space-4); }
+.page_login .p_title { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-snug); }
+.page_login .p_desc { font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_login .alert[data-state="close"] { display: none; }
+.page_login .p_form { display: flex; flex-direction: column; gap: 16px; }
+.page_login .p_label_row { display: flex; align-items: center; justify-content: space-between; }
+.page_login .p_link { font-size: var(--text-sm); color: var(--color-text-brand); text-decoration: none; }
+.page_login .p_link:hover { text-decoration: underline; }
+.page_login .i_help:empty { display: none; }
+.page_login .p_divider { display: flex; align-items: center; gap: var(--space-12); font-size: var(--text-xs); color: var(--color-text-muted); }
+.page_login .p_divider::before, .page_login .p_divider::after { content: ""; height: 1px; background: var(--color-border-subtle); flex: 1; }
+.page_login .p_social { display: flex; flex-direction: column; gap: 8px; }
+.page_login .p_signup { font-size: var(--text-sm); color: var(--color-text-secondary); text-align: center; }
+.page_login .p_signup a { font-weight: var(--weight-medium); color: var(--color-text-brand); text-decoration: none; }
+.page_login .p_signup a:hover { text-decoration: underline; }

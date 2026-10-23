@@ -10,70 +10,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="../../../../slur-guidelines/assets/global.css">
-<link rel="stylesheet" href="../../tokens/colors.css">
-<link rel="stylesheet" href="../../tokens/typography.css">
-<link rel="stylesheet" href="../../tokens/spacing.css">
-<link rel="stylesheet" href="../../tokens/radius.css">
-<link rel="stylesheet" href="../../tokens/shadows.css">
-<link rel="stylesheet" href="../../tokens/motion.css">
-<link rel="stylesheet" href="../../tokens/breakpoints.css">
-<link rel="stylesheet" href="../../tokens/z-index.css">
-<link rel="stylesheet" href="../../components/button.css">
-<link rel="stylesheet" href="../../components/input.css">
-<link rel="stylesheet" href="../../components/select.css">
-<link rel="stylesheet" href="../../components/selection.css">
-<link rel="stylesheet" href="../../components/badge.css">
-<link rel="stylesheet" href="../../components/card.css">
-<link rel="stylesheet" href="../../components/alert.css">
-<link rel="stylesheet" href="../../components/navigation.css">
-<link rel="stylesheet" href="../../components/table.css">
-<link rel="stylesheet" href="../../components/modal.css">
-<link rel="stylesheet" href="../../components/toast.css">
-<link rel="stylesheet" href="../../components/state.css">
-<link rel="stylesheet" href="../../components/menu.css">
-<link rel="stylesheet" href="../../components/tooltip.css">
-<link rel="stylesheet" href="../../components/pagination.css">
-<link rel="stylesheet" href="../../patterns/app-shell.css">
+<link rel="stylesheet" href="../../css/global.css">
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="styles/dashboard/page.css">
 <script src="../../../../slur-guidelines/assets/slur.js" defer></script>
-<style>
-/* 페이지 CSS — 레이아웃 구조 간격은 px 직접. 컴포넌트는 페이지가 조합한다 */
-.page_dash { display: flex; flex-direction: column; gap: 24px; }
-.page_dash .p_toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.page_dash .p_toolbar .p_spacer { flex: 1; }
-.page_dash .p_toolbar .field { width: 240px; }
-.page_dash .p_toolbar .select { width: 160px; }
-.page_dash .p_stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.page_dash .p_charts { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
-.page_dash .p_chart { display: flex; align-items: flex-end; gap: 8px; height: 200px; padding: 16px 0 0; }
-.page_dash .p_bar { flex: 1; border-radius: 4px 4px 0 0; background: var(--color-chart-1); }
-.page_dash .p_bar.m_2 { background: var(--color-chart-2); }
-/* 데모 데이터 — 실제 차트는 Recharts/Chart.js 등이 그리고 색만 토큰을 주입한다 */
-.page_dash .p_bar:nth-child(1) { height: 60%; } .page_dash .p_bar:nth-child(2) { height: 45%; } .page_dash .p_bar:nth-child(3) { height: 80%; } .page_dash .p_bar:nth-child(4) { height: 62%; } .page_dash .p_bar:nth-child(5) { height: 55%; }
-.page_dash .p_bar:nth-child(6) { height: 58%; } .page_dash .p_bar:nth-child(7) { height: 90%; } .page_dash .p_bar:nth-child(8) { height: 70%; } .page_dash .p_bar:nth-child(9) { height: 72%; } .page_dash .p_bar:nth-child(10) { height: 50%; }
-.page_dash .p_legend { display: flex; gap: 16px; margin-top: 12px; font-size: var(--text-xs); color: var(--color-text-secondary); }
-.page_dash .p_legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 2px; background: var(--color-chart-1); vertical-align: middle; }
-.page_dash .p_legend .m_2::before { background: var(--color-chart-2); }
-.page_dash .p_donut { display: grid; width: 140px; height: 140px; margin: 16px auto 0; border-radius: 50%; background: conic-gradient(var(--color-chart-1) 0 47.5%, var(--color-surface-card) 47.5% 48%, var(--color-chart-2) 48% 73.5%, var(--color-surface-card) 73.5% 74%, var(--color-chart-3) 74% 89.5%, var(--color-surface-card) 89.5% 90%, var(--color-chart-4) 90% 99.5%, var(--color-surface-card) 99.5% 100%); place-items: center; }
-.page_dash .p_donut::after { content: "1,284"; display: grid; width: 96px; height: 96px; border-radius: 50%; background: var(--color-surface-card); font-size: var(--text-lg); font-weight: var(--weight-bold); place-items: center; }
-.page_dash .p_donut_legend { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; font-size: var(--text-sm); }
-.page_dash .p_donut_legend li { display: flex; align-items: center; gap: 8px; list-style: none; }
-.page_dash .p_donut_legend li::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--color-chart-1); }
-.page_dash .p_donut_legend li:nth-child(2)::before { background: var(--color-chart-2); }
-.page_dash .p_donut_legend li:nth-child(3)::before { background: var(--color-chart-3); }
-.page_dash .p_donut_legend li:nth-child(4)::before { background: var(--color-chart-4); }
-.page_dash .p_donut_legend .p_num { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
-.page_dash .p_th_check { width: 44px; }
-.page_dash .p_th_action { width: 56px; }
-@media (max-width: 1023px) {
-  .page_dash .p_stats { grid-template-columns: 1fr 1fr; }
-  .page_dash .p_charts { grid-template-columns: 1fr; }
-}
-@media (max-width: 639px) {
-  .page_dash .p_stats { grid-template-columns: 1fr; }
-  .page_dash .p_toolbar .field, .page_dash .p_toolbar .select { width: 100%; }
-}
-</style>
 </head>
 <body>
 
