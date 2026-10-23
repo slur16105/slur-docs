@@ -7,6 +7,10 @@ description: SLUR Design System — UI와 문서의 시각 어휘. SLUR 룩앤�
 
 이 스킬은 **어휘**를 제공한다 — 색·타이포·간격 토큰과 컴포넌트의 생김새. 웹 UI에서는 **문법**(클래스 네이밍, `data-state`, CSS 작성 규칙, 단위·토큰 운영 원칙)과 **공통 레이어**(`global.css`: 리셋·포커스 링·`a11y_hidden`·4상태 스위치)를 담당하는 `slur-guidelines`를 항상 함께 쓴다. PDF 같은 정적 문서는 웹 클래스 문법 대신 이 스킬의 보고서 규칙과 해당 문서 도구의 생성·검수 절차를 따른다.
 
+## 정적 변형과 실행 상태의 적용
+
+m_는 정적 표현 유형이고 실행 상태는 data-* 또는 네이티브·ARIA 정본으로 관리한다. 모든 사용처에 항상 붙는 프로젝트 전용 변경자는 기본 스타일로 합친다. 단, 이 라이브러리가 문서·데모로 지원하는 여러 옵션은 한 소비 프로젝트에서 하나만 쓴다는 이유로 삭제하지 않는다. data-js/data-action/설정/상태의 구분은 slur-guidelines의 `references/naming.md`와 `references/js.md`를 따른다. 기존 자산·동작 계약을 일괄 치환하지 않는다.
+
 ## 층과 파일 위치 (이 스킬 폴더 기준 상대경로)
 
 ```
@@ -91,7 +95,7 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 | `check`, `radio`, `switch` | `components/selection.css` |
 | `badge`(+ `m_brand` `m_success` `m_warning` `m_danger` `m_count`), `chip` | `components/badge.css` |
 | `card`(+ `m_link` `m_list` `m_stat`) | `components/card.css` |
-| `alert`(+ `m_inline` `m_banner`, 상태 변형) | `components/alert.css` |
+| `alert`(+ `m_inline` `m_banner`, 정적 표현 유형) | `components/alert.css` |
 | `modal_dialog` — `<dialog>` 1순위(`[open]` 정본, `i_wrap` 없이 `i_head`/`i_body`/`i_foot` 직접), `div` 대안은 `data-state` + `i_wrap` | `components/modal.css` |
 | `tab_menu`(`i_list[role=tablist]` > `i_tab` + `i_panel`), `nav_side`, `breadcrumb` | `components/navigation.css` |
 | `table_wrap`, `table_data`(정렬 `th.m_sort` > `i_sort`, 정본 `aria-sort`) | `components/table.css` |

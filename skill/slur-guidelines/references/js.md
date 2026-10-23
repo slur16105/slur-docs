@@ -10,7 +10,7 @@ JavaScript는 HTML과 CSS를 존중한다. 동작만 담당하고 구조나 표�
 
 - JavaScript는 동작만 담당한다.
 - 이벤트는 JavaScript에서 등록한다. (HTML에 인라인 이벤트 사용 금지)
-- 상태는 `data-state`로 관리한다.
+- 일반 블록의 실행 상태는 `data-state`를 기본으로 한다. 네이티브·ARIA와 기존 명확한 상태 계약을 우선한다.
 - HTML과 CSS의 역할을 침범하지 않는다.
 - 컴포넌트 단위로 작성한다.
 - 전역 사용을 최소화한다.
@@ -51,6 +51,21 @@ React처럼 프레임워크가 상태를 들고 있는 위젯(탭 선택 등)은
 
 ---
 
+## data-*의 역할 구분
+
+| 역할 | 예 | 규칙 |
+|---|---|---|
+| 고정 대상 식별 | `data-js="search-input"` | 커스텀 JS는 `[data-js~="search-input"]`로 조회한다. 실행 상태로 바꾸거나 CSS 스타일 조건으로 사용하지 않습니다. |
+| 액션 계약 | `data-action="drawer_open"` | 기존 slur.js의 실행 명령을 유지한다. data-js로 기계적으로 치환하지 않습니다. |
+| 설정·입력 정보 | `data-activation="manual"` | 동작의 설정이며 계산된 현재 상태와 구분한다. |
+| 실행 상태 | `data-state="loading"`, `data-theme="dark"` | 해당 상태의 소유 블록에서 갱신하고 CSS가 해석한다. |
+
+신규 커스텀 동작은 고정 역할 표식으로 연결하되 기존 ID·role·ARIA·data-action·라이브러리 계약을 존중한다. 이미 의미 있는 연결이 있으면 같은 대상을 위해 data-js를 중복 추가하지 않습니다. 라이브러리 내부 구현을 일괄 재작성하는 규칙이 아닙니다.
+
+네이티브·표준 ARIA가 해당 상태를 제공하면 그 속성이 정본입니다. `dialog[open]`, `details[open]`, `:popover-open`, `aria-selected` 등과 동일한 상태를 data-state에 중복 저장하지 않습니다. 일반 블록의 상태는 data-state를 기본으로 하고 기존 data-theme 등 명확한 상태 계약도 유지한다.
+
+페이지·컴포넌트 상태는 해당 소유 블록에, 문서 전체 테마는 html에 기록한다. 고정 역할·설정·실행 상태를 하나의 속성에 섞지 않습니다. 연결 변경 후 이전 클래스·ID·속성이 불필요해졌는지 동적 참조와 반응형·외부 계약까지 확인한다.
+
 ## 이벤트 등록 방식
 
 ```js
@@ -58,7 +73,8 @@ React처럼 프레임워크가 상태를 들고 있는 위젯(탭 선택 등)은
 <button onclick="openModal()">열기</button>
 
 // 좋은 예 — JavaScript에서 등록
-const btnOpen = document.querySelector('.btn_open');
+// HTML: <button data-action="modal_login_open">열기</button>
+const btnOpen = document.querySelector('[data-action="modal_login_open"]');
 btnOpen.addEventListener('click', openModal);
 ```
 
@@ -66,7 +82,7 @@ btnOpen.addEventListener('click', openModal);
 
 ## 상태 관리 — `data-state`
 
-클래스로 상태를 관리하지 않는다. `data-state`만 사용한다.
+클래스로 실행 상태를 관리하지 않는다. 일반 블록은 `data-state`를 기본으로 하며 위의 네이티브·ARIA 정본과 기존 상태 계약을 따른다.
 
 ```js
 // 나쁜 예 — 클래스로 상태 관리
