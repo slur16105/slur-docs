@@ -8,6 +8,20 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const read = (p) => readFileSync(resolve(root, p), 'utf8');
 const screens = 'skill/slur-design/assets/patterns/screens';
 const pages = ['system/demo.html', ...readdirSync(resolve(root, screens)).filter((p) => p.endsWith('.html')).map((p) => `${screens}/${p}`)];
+// 배포 전 기본 토큰의 생성 결과와 표시 형식을 확인한다.
+const designGlobal = postcss.parse(read('skill/slur-design/assets/css/global.css'));
+const defaultRoots = designGlobal.nodes.filter((node) => node.type === 'rule' && node.selector === ':root');
+assert.equal(defaultRoots.length, 1, 'global.css: 조건 없는 기본 :root는 하나');
+assert.equal(designGlobal.nodes.find((node) => node.type !== 'comment'), defaultRoots[0], '기본 토큰은 상단에 배치');
+const tokenLines = new Set();
+for (const decl of defaultRoots[0].nodes.filter((node) => node.type === 'decl')) {
+  assert(decl.prop.startsWith('--'), '기본 :root에는 토큰만 선언');
+  assert.equal(decl.source.start.line, decl.source.end.line, '토큰 선언은 한 줄');
+  assert(!tokenLines.has(decl.source.start.line), '한 줄에 토큰 하나');
+  tokenLines.add(decl.source.start.line);
+  const line = designGlobal.source.input.css.split('\n')[decl.source.start.line - 1];
+  assert(/^ {4}--/.test(line), '토큰은 공백 4칸 들여쓰기');
+}
 let rules = 0;
 for (const htmlPath of pages) {
   const html = read(htmlPath);

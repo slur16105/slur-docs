@@ -38,10 +38,21 @@ description: SLUR UX/UI System에서 디자인 토큰과 CSS 변수를 사용하
 의미 기반 토큰은 `:root`에 선언하며, 이름에 역할과 목적이 드러나야 합니다.
 rem 값에는 px 환산 주석을 함께 답니다.
 
+조건 없는 전역 토큰은 `global.css` 상단의 `:root` 하나에 모으고, 공백 4칸으로 들여써 한 줄에 토큰 하나씩 펼칩니다. 일반 스타일 규칙의 한 줄 작성과 구분합니다. 다크 테마·미디어쿼리처럼 적용 조건이 다른 재정의와 블록 전용 변수는 합치지 않습니다. 저작 원본을 파일별로 유지하는 경우에도 브라우저용 생성본의 기본 토큰은 하나로 모읍니다.
+
 ```css
-:root { --color_primary: #2563eb; --color_text: #1a1a1a; --color_border: #e5e7eb; }
-:root { --space_sm: 0.5rem; /* 8 */ --space_md: 1rem; /* 16 */ --space_lg: 1.5rem; /* 24 */ }
-:root { --radius_md: 8px; --radius_lg: 16px; }
+:root {
+    --color_primary: #2563eb;
+    --color_text: #1a1a1a;
+    --color_border: #e5e7eb;
+
+    --space_sm: 0.5rem; /* 8px */
+    --space_md: 1rem; /* 16px */
+    --space_lg: 1.5rem; /* 24px */
+
+    --radius_md: 8px;
+    --radius_lg: 16px;
+}
 ```
 
 ---
