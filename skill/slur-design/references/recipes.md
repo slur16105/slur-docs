@@ -221,3 +221,10 @@ const series = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--color-chart-${
 - 색만으로 상태를 전하지 않는다 — 강도 막대·체크 아이콘은 `aria-hidden`, 읽히는 문장(`i_help`·`a11y_hidden` "충족"/"완료")을 함께 둔다. 진행률은 네이티브 `<progress>` + `aria-label`.
 
 React/Next로 옮길 때는 페이지 CSS를 CSS Module(같은 클래스명)로, 페이지 JS의 `data-action` 분기를 핸들러로 옮기고, `slur.js`는 `<Script>`로 그대로 로드한다(14절).
+
+
+## 헤더 배경 — 2026-10-27
+
+공통 앱 셸의 `.layout_app .l_head`는 `--color-surface-header`를 사용한다. 카드 면 색상의 85%와 투명을 혼합하고 `backdrop-filter: blur(12px)`를 적용해 스크롤 콘텐츠가 은은하게 비치도록 한다. 라이트·다크 모두 현재 카드 면 토큰을 따른다. 글자와 로고 자체의 opacity는 바꾸지 않는다.
+
+불투명 `--color-surface-card`를 기본 배경으로 두고, `@supports`에서 블러와 color-mix 지원 시에만 효과를 켠다. WebKit 접두사를 함께 선언한다. 새 sticky 헤더도 이 토큰과 효과를 사용하며, 불필요한 m_ 변경자를 추가하지 않는다. 사이드바·본문 카드·인증 화면에는 자동 확대 적용하지 않는다.

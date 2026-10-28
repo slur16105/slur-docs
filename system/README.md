@@ -119,6 +119,13 @@
 
 토큰 값이 바뀌면 클로드디자인 쪽을 먼저 수정하고 여기로 내려받는다(DesignSync). 컴포넌트 CSS는 이 레포가 원본이다 — 클로드디자인의 `.dc.html`은 갤러리/미리보기 용도.
 
+
+## 헤더 배경 — 2026-10-27
+
+공통 앱 셸의 `.layout_app .l_head`는 `--color-surface-header`를 사용한다. 카드 면 색상의 85%와 투명을 혼합하고 `backdrop-filter: blur(12px)`를 적용해 스크롤 콘텐츠가 은은하게 비치도록 한다. 라이트·다크 모두 현재 카드 면 토큰을 따른다. 글자와 로고 자체의 opacity는 바꾸지 않는다.
+
+불투명 `--color-surface-card`를 기본 배경으로 두고, `@supports`에서 블러와 color-mix 지원 시에만 효과를 켠다. WebKit 접두사를 함께 선언한다. 새 sticky 헤더도 이 토큰과 효과를 사용하며, 불필요한 m_ 변경자를 추가하지 않는다. 사이드바·본문 카드·인증 화면에는 자동 확대 적용하지 않는다.
+
 ## 확장 컴포넌트 정식 편입 — 2026-10-28
 
 로컬 가이드의 추가 10개 유형과 파일 첨부를 정식 원본으로 편입했다. 총 26개 유형, 25개 CSS 파일(드로어·시트 공유)이다. 저작 원본은 `skill/slur-design/assets/components/`, 선택적 동작은 `assets/js/{components,file-upload,date-time}.js`, 날짜 라이브러리는 `assets/vendor/vanilla-calendar-pro/3.3.1/`에 둔다. 기존 sync-assets 경로를 통해 사이트·설치 패키지에 함께 포함된다.
