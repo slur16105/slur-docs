@@ -75,6 +75,7 @@ Design System을 적용해도 모든 컴포넌트를 무조건 넣지는 않습�
 - **모바일 터치 타깃은 48**이 기본입니다. 아이콘만 있는 단독 버튼은 `.btn.m_icon`(정사각, 기본 40 / `m_large` 48) 또는 햄버거 `.btn_menu`(48×48).
 - **상태색 면 위 텍스트는 on-토큰**(`--color-on-brand` `-on-danger` `-on-success` `-on-warning`). 리터럴 `#fff`는 쓰지 않습니다.
 - **모든 실제 색 조합은 WCAG 2.2 AA** — 일반 텍스트 4.5:1, UI 경계·포커스·차트 표식 3:1 이상이며 빌드 전 대비 검사를 통과해야 합니다.
+- **기본 UI 아이콘은 [Lucide](/design/icons/)** — 공식 SVG를 로컬로 사용하고 라이선스를 함께 보관합니다.
 - **아이콘은 `em`**(`1.125em` 기본) + `stroke="currentColor"` — 글자 크기·색을 따라갑니다.
 - 포커스 링은 `global.css`가 한 곳에서 그립니다 — 컴포넌트에서 다시 선언하지 않습니다.
 - 네이티브·ARIA가 상태를 갖는 요소에는 `data-state`를 겹쳐 붙이지 않습니다 — `dialog[open]`, `details[open]`, `:popover-open`, `th[aria-sort]`, `a[aria-current="page"]`, `[role=switch][aria-checked]`가 정본입니다.

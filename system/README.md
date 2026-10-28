@@ -131,3 +131,7 @@
 로컬 가이드의 추가 10개 유형과 파일 첨부를 정식 원본으로 편입했다. 총 26개 유형, 25개 CSS 파일(드로어·시트 공유)이다. 저작 원본은 `skill/slur-design/assets/components/`, 선택적 동작은 `assets/js/{components,file-upload,date-time}.js`, 날짜 라이브러리는 `assets/vendor/vanilla-calendar-pro/3.3.1/`에 둔다. 기존 sync-assets 경로를 통해 사이트·설치 패키지에 함께 포함된다.
 
 드로어/시트는 로컬의 페이지 종속 구현 대신 native dialog로 배경 차단·포커스를 관리한다. 날짜/시간은 고정 데모 ID를 제거해 여러 인스턴스를 지원한다. 기본 동작에는 외부 JS가 필요 없고 커스텀 날짜 선택기만 동봉 라이브러리를 선택적으로 로드한다. 로컬 가이드는 참고용이며 정식 수정은 위 원본에서 진행한다.
+
+## 기본 아이콘 — Lucide (2026-10-28)
+
+UI 아이콘은 Lucide를 사용한다. 공식 `lucide-static@1.63.0` SVG 서브셋·전체 라이선스는 `skill/slur-design/assets/vendor/lucide/1.63.0/`에 보관한다. 기능별 매핑과 적용 기준은 `skill/slur-design/references/icons.md`, 공개 문서는 `/design/icons/`다. 컴포넌트 데모·화면 조립본·파일 업로드 삭제 버튼에 정적 인라인으로 적용한다. `node scripts/check-icons.mjs`로 공식 경로 일치와 속성을 검사한다.

@@ -32,7 +32,7 @@
 
           <!-- 폼 전체 실패(중복 이메일 등 서버 응답)는 폼 상단 인라인 alert — role=alert, 제출 결과에만 표시 -->
           <div class="alert m_inline m_danger" role="alert" data-state="close">
-            <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg></span>
+            <span class="i_icon"><svg data-icon="circle-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg></span>
             <span class="i_text">이미 가입된 이메일입니다. <a href="login.html">로그인</a>하거나 다른 이메일을 쓰세요.</span>
           </div>
 
@@ -51,7 +51,7 @@
               <label class="i_label" for="su_pw">비밀번호</label>
               <div class="input_wrap">
                 <input class="input_text m_large m_icon_right" type="password" id="su_pw" name="password" autocomplete="new-password" required aria-describedby="su_pw_help su_pw_rules">
-                <button class="i_action" type="button" data-action="pw_toggle" aria-controls="su_pw" aria-label="비밀번호 표시" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="i_action" type="button" data-action="pw_toggle" aria-controls="su_pw" aria-label="비밀번호 표시" aria-pressed="false"><svg data-icon="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /> <circle cx="12" cy="12" r="3" /></svg></button>
               </div>
               <div class="p_strength" data-state="" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
               <ul class="p_rules" id="su_pw_rules">
@@ -65,7 +65,7 @@
               <label class="i_label" for="su_pw2">비밀번호 확인</label>
               <div class="input_wrap">
                 <input class="input_text m_large m_icon_right" type="password" id="su_pw2" name="password2" autocomplete="new-password" required aria-describedby="su_pw2_help">
-                <button class="i_action" type="button" data-action="pw_toggle" aria-controls="su_pw2" aria-label="비밀번호 표시" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="i_action" type="button" data-action="pw_toggle" aria-controls="su_pw2" aria-label="비밀번호 표시" aria-pressed="false"><svg data-icon="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /> <circle cx="12" cy="12" r="3" /></svg></button>
               </div>
               <span class="i_help" id="su_pw2_help"></span>
             </div>
@@ -85,8 +85,8 @@
 
           <div class="p_divider"><span>또는</span></div>
           <div class="p_social">
-            <button class="btn m_large m_full" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10zM2 12h20"></path></svg>Google로 계속</button>
-            <button class="btn m_large m_full" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 22v-4a4 4 0 0 0-1-3c3 0 6-2 6-5.5a4.6 4.6 0 0 0-1-3.5 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2 4.6 4.6 0 0 0-1 3.5c0 3.5 3 5.5 6 5.5a4 4 0 0 0-1 3v4"></path></svg>GitHub로 계속</button>
+            <button class="btn m_large m_full" type="button">Google로 계속</button>
+            <button class="btn m_large m_full" type="button">GitHub로 계속</button>
           </div>
           <p class="p_login">이미 계정이 있으신가요? <a href="login.html">로그인</a></p>
         </div>
@@ -94,7 +94,7 @@
         <!-- 인증 메일 안내 — 가입 요청 성공 뒤. 포커스는 제목으로(화면이 바뀌었음을 알림) -->
         <div class="p_done">
           <div class="empty_state">
-            <span class="i_icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg></span>
+            <span class="i_icon"><svg data-icon="mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></span>
             <h1 class="i_title" tabindex="-1">인증 메일을 보냈습니다</h1>
             <p class="i_text"><strong class="p_sent_to">you@example.com</strong>으로 보낸 메일의 링크를 누르면 가입이 끝납니다. 링크는 24시간 동안 유효합니다.</p>
             <div class="i_action">
@@ -113,7 +113,7 @@
 </div>
 
 <!-- 토스트 컨테이너 — 라이브 영역은 미리 DOM에 -->
-<div class="toast_message" role="status" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div>
+<div class="toast_message" role="status" data-state="close"><p class="i_text"></p><button type="button" class="i_close" aria-label="닫기"><svg data-icon="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></button></div>
 
 <script>
 // 페이지 스크립트 — 검증·강도·약관·제출 흐름만. 위젯 동작(토스트·테마)은 slur.js

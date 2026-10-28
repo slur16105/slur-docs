@@ -166,6 +166,7 @@ export default defineConfig({
 					items: [
 						{ label: "개요", slug: "design/overview" },
 						{ label: "디자인 토큰", slug: "design/tokens" },
+						{ label: "아이콘 — Lucide", slug: "design/icons" },
 						{ label: "컴포넌트", slug: "design/components" },
 						{ label: "패턴 · 화면 조립본", slug: "design/screens" },
 						{ label: "보고서 디자인", slug: "design/reports" },
