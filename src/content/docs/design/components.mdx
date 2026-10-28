@@ -1,6 +1,6 @@
 ---
 title: 컴포넌트
-description: SLUR Design System 컴포넌트 CSS 15개의 블록·변형·상태 정본을 한 표로 정리하고, 라이브 데모와 4상태·토스트·모달의 기본 마크업을 보여 줍니다.
+description: SLUR Design System 컴포넌트 26개 유형의 블록·변형·상태 정본을 한 표로 정리하고, 라이브 데모와 4상태·토스트·모달의 기본 마크업을 보여 줍니다.
 ---
 
 import ScreenFrame from '../../../components/ScreenFrame.astro';
@@ -8,7 +8,9 @@ import ScreenFrame from '../../../components/ScreenFrame.astro';
 컴포넌트는 **모양만** 담은 CSS입니다.
 이름과 구조는 슬러 문법(블록 · `i_` 내부 요소 · `m_` 수정자 · `data-state`)을 따르고,
 동작은 [네이티브 → `slur.js` → 위임](/js/behaviors/)에서 옵니다.
-JS 라이브러리 의존은 없습니다.
+기본 동작은 외부 JS 라이브러리 없이 사용합니다. 커스텀 날짜 선택기만 동봉한 Vanilla Calendar Pro 3.3.1을 선택적으로 사용합니다.
+
+기존 15개와 확장 11개(파일 첨부 포함), **총 26개 유형**입니다. 드로어와 시트는 CSS를 공유하므로 컴포넌트 CSS 파일은 25개입니다.
 
 ---
 
@@ -39,6 +41,18 @@ JS 라이브러리 의존은 없습니다.
 | 상태 | 4상태 슬롯 `i_status`(> `i_loading` `i_empty` `i_error`) · `empty_state`(`i_icon` `i_title` `i_text` `i_action`, `m_error` `m_compact`) · `skeleton`(`m_title` `m_circle` `m_rect` `m_inline`) · `spinner`(`m_large`) | 블록의 `data-state="loading"` / `empty` / `error` / `success` — 전환은 `common.css` | `state.css` |
 | 메뉴 | `menu_action`(`i_group` `i_item` `i_divider` `i_shortcut`, 위험 항목 `m_danger`) — `popover` + `role="menu"` | **`:popover-open`**(네이티브) — `data-state` 없음 | `menu.css` |
 | 툴팁 | `tooltip_help` — `popover="manual"` + `role="tooltip"` + 트리거의 `aria-describedby` | **`:popover-open`** | `tooltip.css` |
+
+| 아바타 | `avatar`(`i_image` `i_fallback` `i_status`), `avatar_group` · `m_small` `m_large` `m_square` | 이미지 실패 시 이니셜 폴백 | `avatar.css` |
+| 아코디언 | `accordion` > `<details class="i_item">` · `i_title` `i_icon` `i_body` | 네이티브 `[open]` | `accordion.css` |
+| 콤보박스 | `combobox` · `i_input` `i_button` `i_list` `i_option` `i_empty` | `data-state="open|close"`, 활성 후보 `active`, 선택 `aria-selected` | `combobox.css` |
+| 날짜·시간 | `date_time`, `date_time_input`, `time_picker`, `slur_calendar` | 날짜는 라이브러리 관리, 시간 `open|close` · 오류 `aria-invalid` | `date-time.css` |
+| 슬라이더 | `range_slider` · `i_control` `i_value` `i_limits` | 네이티브 `input[type="range"]`의 값 | `slider.css` |
+| 세그먼트 컨트롤 | `segment_control` · `i_item` `i_input` `i_label` | 라디오 `:checked` | `segment.css` |
+| 프로그레스 | `progress_bar` · `i_head` `i_label` `i_value` `i_control` | `<progress value max>` · value 생략 시 불확정 | `progress.css` |
+| 스테퍼 | `stepper` · `i_item` `i_marker` `i_title` `i_text` | `complete|current|upcoming|error` · 현재 단계 `aria-current="step"` | `stepper.css` |
+| 드로어 | `<dialog class="drawer_panel">` · `i_dim` `i_panel` `i_head` `i_body` `i_foot` · `m_left` | 열림 정본 `[open]`, 모션 단계 `data-state="open|closing|close"` | `drawer.css` |
+| 바텀 시트 | `<dialog class="drawer_panel m_bottom">` | 드로어와 동일 | `drawer.css` |
+| 파일 첨부 | `file_upload` · `i_input` `i_drop` `i_list` `i_help` | `idle|filled|dragover`, 네이티브 `disabled` | `file-upload.css` |
 
 네이티브·ARIA 상태가 있는 곳에 `data-state`를 겹쳐 붙이지 않는 이유는 [동작 층](/js/behaviors/) 문서에 있습니다 — 브라우저가 관리하는 상태를 우리가 다시 관리하지 않습니다.
 
@@ -100,6 +114,30 @@ slur.toast('저장에 실패했습니다', { level: 'alert' }); // alert — 직
 `dialog.showModal()` 하나로 배경 차단(inert)·Esc·포커스 복귀·최상위 레이어를 브라우저가 처리합니다. 상태 정본은 `[open]`이고 배경 딤은 `::backdrop`(`--color-surface-overlay`)입니다 — [팝업 / 모달 패턴](/patterns/popup-modal/).
 
 ---
+
+## 확장 컴포넌트 연결
+
+스타일은 기존과 같이 `global.css → common.css → page.css` 순서로 연결합니다. 전체 공통 묶음에는 달력 구조 CSS와 SLUR 스킨이 포함되며, 프로젝트별로 묶을 때는 필요한 원본만 선택합니다.
+
+아래 경로는 배포된 `slur-design/assets/` 기준입니다. 스크립트는 마크업이 준비된 뒤 한 번 초기화하므로 `defer`로 로드합니다. 동적으로 추가하거나 재마운트하는 화면은 프로젝트에서 초기화 생명주기를 별도로 연결해야 합니다.
+
+```html
+<!-- 콤보박스·슬라이더·아바타 이미지 폴백·드로어/시트 -->
+<script src="/skill/slur-design/assets/js/components.js" defer></script>
+<!-- 파일 첨부를 쓰는 화면 -->
+<script src="/skill/slur-design/assets/js/file-upload.js" defer></script>
+<!-- 커스텀 날짜 선택기를 쓰는 화면: 라이브러리를 먼저 연결 -->
+<script src="/skill/slur-design/assets/vendor/vanilla-calendar-pro/3.3.1/index.js" defer></script>
+<script src="/skill/slur-design/assets/js/date-time.js" defer></script>
+```
+
+- **콤보박스:** 정적인 단일 선택 목록용입니다. 입력 필터·방향키·Enter 선택·Esc/포커스 이탈 닫기를 지원합니다. 선택 시 `slur:comboboxchange`의 `event.detail.value`를 받습니다. 서버 검색·다중 선택·가상 스크롤은 별도 위임 대상으로 둡니다.
+- **날짜·시간:** 날짜 입력에는 `data-js="date-picker"`를 붙이고, 시간은 `.time_picker` 안에 `role="combobox"` 입력·목록·안내 영역을 둡니다. 인스턴스별 label·aria-controls·aria-describedby ID는 고유하게 지정합니다. 라이브러리가 없으면 날짜는 네이티브 date 입력으로 폴백합니다. 시간은 30분 간격 목록과 자유로운 분 입력을 지원합니다. 확정 시 `change` 이벤트를 보냅니다.
+- **드로어·시트:** `<dialog>`를 사용합니다. 트리거의 `data-overlay-open` 값은 dialog ID이며, 내부 닫기 버튼에는 `data-overlay-close`를 붙입니다. 배경 차단·포커스 제한·포커스 복귀는 브라우저가 담당합니다. `data-state`는 열기·닫기 애니메이션 단계를 나타냅니다.
+- **파일 첨부:** `slur:filechange`의 `event.detail.files`로 선택 파일을 받습니다. 클릭 선택·드롭·삭제·폼 초기화를 처리하며 실제 업로드·파일 형식/크기 검증은 프로젝트가 담당합니다.
+- **프로그레스:** `<progress>`에 label 또는 `aria-label`을 제공합니다. 완료와 진행 중 모두 브랜드 색상을 사용합니다.
+
+전체 마크업은 위 라이브 데모의 `system/demo.html`에서 복사할 수 있습니다.
 
 ## 없는 컴포넌트가 필요할 때
 

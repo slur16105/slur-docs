@@ -1,0 +1,21 @@
+/* Stepper */
+.stepper { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+.stepper .i_item { display: flex; min-width: 0; flex-direction: column; gap: var(--space-8); padding-right: var(--space-12); color: var(--color-text-muted); position: relative; }
+.stepper .i_item::before { height: 2px; background: var(--color-border-subtle); content: ""; position: absolute; top: .9375rem; left: 2rem; right: 0; }
+.stepper .i_item:last-child::before { display: none; }
+.stepper .i_marker { display: inline-flex; width: 2rem; height: 2rem; align-items: center; justify-content: center; border: 2px solid var(--color-border-default); border-radius: var(--radius-full); background: var(--color-surface-card); color: inherit; font-size: var(--text-xs); font-weight: var(--weight-semibold); position: relative; z-index: 1; }
+.stepper .i_title { color: var(--color-text-secondary); font-size: var(--text-sm); font-weight: var(--weight-semibold); }
+.stepper .i_text { color: var(--color-text-muted); font-size: var(--text-xs); }
+.stepper .i_item[data-state="complete"]::before { background: var(--color-brand); }
+.stepper .i_item[data-state="complete"] .i_marker { border-color: var(--color-brand); background: var(--color-brand); color: var(--color-on-brand); }
+.stepper .i_item[data-state="current"] .i_marker { border-color: var(--color-brand); background: var(--color-surface-card); color: var(--color-text-brand); }
+.stepper .i_item[data-state="current"] .i_title { color: var(--color-text-primary); }
+.stepper .i_item[data-state="error"] .i_marker { border-color: var(--color-danger); color: var(--color-danger); }
+.stepper .i_item[data-state="error"] .i_title { color: var(--color-danger); }
+
+@media (max-width: 640px) {
+  .stepper { grid-auto-flow: row; grid-template-columns: 1fr; gap: var(--space-12); }
+  .stepper .i_item { display: grid; grid-template-columns: 2rem minmax(0, 1fr); padding: 0 0 var(--space-12); }
+  .stepper .i_item::before { width: 2px; height: auto; top: 2rem; bottom: 0; left: .9375rem; right: auto; }
+  .stepper .i_marker { grid-row: 1 / span 2; }
+}

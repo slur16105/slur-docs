@@ -69,7 +69,7 @@
 
 ## 동작 — 네이티브 → slur.js → 위임
 
-모달은 `<dialog>`(`[open]` 정본), 드롭다운 열고 닫기는 `popover="auto"`(`:popover-open` 정본), 아코디언은 `<details>`. 남는 동작(탭 방향키·메뉴 방향키와 위치·툴팁·토스트 큐·드로어 inert·테마)은 `slur.js`. 콤보박스처럼 복잡한 위젯만 검증된 헤드리스 라이브러리에 위임하되 모양·네이밍·`data-state`는 슬러. 어떤 JS 라이브러리에도 의존하지 않는다. 위치 계산은 slur.js가 한다 — CSS anchor positioning은 Safari 26에서 지원되나 popover 트리거의 암묵적 앵커 지원이 확인되지 않아 보류(확인되면 CSS로 이전).
+모달은 `<dialog>`(`[open]` 정본), 드롭다운 열고 닫기는 `popover="auto"`(`:popover-open` 정본), 아코디언은 `<details>`. 남는 동작(탭 방향키·메뉴 방향키와 위치·툴팁·토스트 큐·드로어 inert·테마)은 `slur.js`. 서버 검색·다중 선택 콤보박스처럼 복잡한 위젯만 검증된 헤드리스 라이브러리에 위임하되 모양·네이밍·`data-state`는 슬러. 기본 동작에는 외부 JS 라이브러리가 필요 없으며 커스텀 날짜 선택기는 동봉한 Vanilla Calendar Pro를 선택적으로 사용한다. 위치 계산은 slur.js가 한다 — CSS anchor positioning은 Safari 26에서 지원되나 popover 트리거의 암묵적 앵커 지원이 확인되지 않아 보류(확인되면 CSS로 이전).
 
 ## 파일 분할과 로드
 
@@ -102,7 +102,7 @@
 - [x] Card `m_stat`, 차트 토큰 `--color-chart-1~5`, `--color-surface-overlay` (1.7.0)
 - [x] patterns/app-shell (`layout_app`) (1.7.0) · auth-shell (`layout_auth`) (1.9.0)
 - [x] 화면 조립본 screens/ — dashboard(1.8.0, system/demo-dashboard에서 이동) · login · list · settings (1.9.0) · signup · reset · detail · onboarding (1.10.0)
-- [ ] 다음 후보: 콤보박스 위임 예시(실제 프로젝트에서 요구가 생기면), 앵커 포지셔닝 전환(Safari 확인 후)
+- [ ] 다음 후보: 서버 검색·다중 선택 콤보박스 위임 예시(실제 프로젝트에서 요구가 생기면), 앵커 포지셔닝 전환(Safari 확인 후)
 
 주의: 내부 요소(`i_`/`p_`/`l_`) 선택자는 반드시 블록 하위로 스코프한다(`.page_demo .p_head` ✅, `.p_head` 단독 ❌ — `css/internal-elements.md` 참고). 데모도 같은 규칙을 따른다 — 인라인 `style=`·CSS `id` 선택자 없음.
 
@@ -118,3 +118,9 @@
 - **`skill/slur-design/assets/` = UI 토큰(실사용 서브셋).** usage-driven 원칙은 여기에만 적용한다. 새 역할이 필요하면 팔레트에서 꺼내온다.
 
 토큰 값이 바뀌면 클로드디자인 쪽을 먼저 수정하고 여기로 내려받는다(DesignSync). 컴포넌트 CSS는 이 레포가 원본이다 — 클로드디자인의 `.dc.html`은 갤러리/미리보기 용도.
+
+## 확장 컴포넌트 정식 편입 — 2026-10-28
+
+로컬 가이드의 추가 10개 유형과 파일 첨부를 정식 원본으로 편입했다. 총 26개 유형, 25개 CSS 파일(드로어·시트 공유)이다. 저작 원본은 `skill/slur-design/assets/components/`, 선택적 동작은 `assets/js/{components,file-upload,date-time}.js`, 날짜 라이브러리는 `assets/vendor/vanilla-calendar-pro/3.3.1/`에 둔다. 기존 sync-assets 경로를 통해 사이트·설치 패키지에 함께 포함된다.
+
+드로어/시트는 로컬의 페이지 종속 구현 대신 native dialog로 배경 차단·포커스를 관리한다. 날짜/시간은 고정 데모 ID를 제거해 여러 인스턴스를 지원한다. 기본 동작에는 외부 JS가 필요 없고 커스텀 날짜 선택기만 동봉 라이브러리를 선택적으로 로드한다. 로컬 가이드는 참고용이며 정식 수정은 위 원본에서 진행한다.

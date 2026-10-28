@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 const base = new URL('../assets/', import.meta.url);
 const read = (path) => readFileSync(new URL(path, base), 'utf8');
 const tokens = ['colors', 'typography', 'spacing', 'radius', 'shadows', 'motion', 'breakpoints', 'z-index'];
-const components = ['button', 'input', 'select', 'selection', 'badge', 'card', 'alert', 'navigation', 'table', 'modal', 'toast', 'state', 'menu', 'tooltip', 'pagination'];
+const components = ['button', 'input', 'select', 'selection', 'badge', 'card', 'alert', 'navigation', 'table', 'modal', 'toast', 'state', 'menu', 'tooltip', 'pagination', 'avatar', 'accordion', 'combobox', 'date-time', 'slider', 'segment', 'progress', 'stepper', 'drawer', 'file-upload'];
 // 중첩 조건·문자열·주석 안의 :root를 기본 토큰으로 합치지 않는다.
 function topLevelRoots(css) {
   const offsets = new Set();
@@ -31,7 +31,7 @@ function topLevelRoots(css) {
 export function buildCss() {
   const files = {
     global: ['../../slur-guidelines/assets/global.css', ...tokens.map((name) => `tokens/${name}.css`)],
-    common: ['../../slur-guidelines/assets/common.css', 'patterns/app-shell.css', 'patterns/auth-shell.css', ...components.map((name) => `components/${name}.css`)],
+    common: ['../../slur-guidelines/assets/common.css', 'patterns/app-shell.css', 'patterns/auth-shell.css', 'vendor/vanilla-calendar-pro/3.3.1/layout.css', ...components.map((name) => `components/${name}.css`)],
   };
   mkdirSync(new URL('css/', base), { recursive: true });
   for (const [name, sources] of Object.entries(files)) {

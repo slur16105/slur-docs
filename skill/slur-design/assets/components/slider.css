@@ -1,0 +1,8 @@
+/* Range slider */
+.range_slider { display: flex; flex-direction: column; gap: var(--space-8); }
+.range_slider .i_head, .range_slider .i_limits { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); }
+.range_slider .i_label { color: var(--color-text-primary); font-size: var(--text-sm); font-weight: var(--weight-medium); }
+.range_slider .i_value { min-width: 3rem; color: var(--color-text-brand); font-size: var(--text-sm); font-weight: var(--weight-semibold); text-align: right; }
+.range_slider .i_control { width: 100%; height: 1.5rem; margin: 0; accent-color: var(--color-brand); cursor: pointer; }
+.range_slider .i_limits { color: var(--color-text-muted); font-size: var(--text-xs); }
+.range_slider .i_control:disabled { cursor: not-allowed; opacity: .5; }

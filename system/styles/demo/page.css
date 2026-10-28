@@ -48,3 +48,6 @@
   .page_demo .p_grid_3 { grid-template-columns: 1fr; }
   .page_demo .p_grid_side { grid-template-columns: 1fr; }
 }
+
+.page_demo .p_calendar_docs { display: inline-flex; align-items: center; gap: var(--space-4); color: var(--color-text-brand); font-size: var(--text-sm); }
+.page_demo .p_calendar_docs svg { width: 1em; height: 1em; }

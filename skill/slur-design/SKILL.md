@@ -22,7 +22,7 @@ slur-design/
     ├── brand/         # 로고 logo.svg(라이트)·logo-black.png(PDF)·logo-white.svg(다크) · favicon.svg
     ├── tokens/        # tokens 층 — colors(차트 5슬롯·overlay 포함), typography, spacing, radius, shadows, motion, breakpoints, z-index
     ├── components/    # components 층 — button, input, select, selection, badge, card, alert, modal, navigation, table,
-    │                  #                 toast, state, menu, tooltip, pagination
+    │                  #                 toast, state, menu, tooltip, pagination + avatar, accordion, combobox, date-time, slider, segment, progress, stepper, drawer, file-upload
     └── patterns/      # patterns 층 — app-shell(앱 셸 layout_app) · auth-shell(로그인류 틀 layout_auth)
         └── screens/   #   화면 조립본(마크업+페이지 CSS+JS, 그대로 열리는 HTML) — dashboard · login · list · settings · signup · reset · detail · onboarding
 ```
@@ -33,13 +33,13 @@ slur-design/
 
 ## 동작은 어디서 오나 — 3단 우선순위
 
-컴포넌트의 "동작"(키보드·포커스·열고 닫기·알림)은 이 순서로 가져온다. 이 시스템은 어떤 JS 라이브러리에도 의존하지 않는다.
+컴포넌트의 "동작"(키보드·포커스·열고 닫기·알림)은 이 순서로 가져온다. 기본 동작에는 외부 JS 라이브러리가 필요 없다. 커스텀 날짜 선택기만 동봉한 Vanilla Calendar Pro 3.3.1을 선택적으로 사용한다.
 
 | 순위 | 담당 | 예 |
 |---|---|---|
 | 1 | **브라우저 네이티브** | 모달 `<dialog>`·`showModal()`, 드롭다운 열고 닫기 `popover="auto"`, 아코디언 `<details>`, 셀렉트 `<select>`, 날짜 `<input type="date">` |
 | 2 | **slur.js** (슬러 자체, 바닐라) | 탭 방향키, 메뉴 방향키·위치, 툴팁 호버/포커스/Esc, 토스트 큐, 드로어 inert·포커스 복귀, 테마 전환 |
-| 3 | **위임** (검증된 헤드리스 라이브러리) | 콤보박스(검색되는 셀렉트), 메뉴바, 범위 달력 같은 복잡 위젯 — 동작만 빌리고 모양은 이 시스템의 클래스·토큰, 상태는 `data-state` |
+| 3 | **위임** (검증된 헤드리스 라이브러리) | 서버 검색·다중 선택 콤보박스, 메뉴바, 범위 달력 같은 복잡 위젯 — 동작만 빌리고 모양은 이 시스템의 클래스·토큰, 상태는 `data-state` |
 
 위임 예시·React에서의 취급은 `references/recipes.md`.
 
@@ -145,3 +145,15 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 
 - **클로드디자인 프로젝트**(SLUR Design System)는 전체 팔레트를 가진 **디자인 작업대** — 새 역할·컴포넌트 탐색은 거기서 하고, 확정된 것을 `assets/`로 내려받는다(DesignSync).
 - **`assets/`는 실사용 서브셋** — usage-driven 원칙 적용. 여기 없는 토큰이 필요하면 임의로 만들지 말고 클로드디자인 팔레트에서 꺼내온다.
+
+## 확장 컴포넌트 — 26개 유형 / 25개 CSS 원본
+
+아바타·아코디언·콤보박스·날짜/시간·슬라이더·세그먼트·프로그레스·스테퍼·드로어·바텀 시트·파일 첨부를 포함한다. 드로어와 시트는 `components/drawer.css`를 공유한다.
+
+- `assets/js/components.js`: 정적 단일 선택 콤보박스, 슬라이더 값 표시, 아바타 이미지 폴백, 네이티브 dialog 기반 드로어·시트. defer로 한 번 로드한다.
+- `assets/js/file-upload.js`: 클릭/드롭 선택·삭제·폼 리셋. `slur:filechange`의 `detail.files`를 받아 프로젝트가 검증·업로드한다.
+- `assets/js/date-time.js`: 여러 `[data-js="date-picker"]` 입력과 `.time_picker`를 초기화한다. 커스텀 달력 사용 시 `assets/vendor/vanilla-calendar-pro/3.3.1/index.js`를 먼저 defer로 연결한다. 라이선스·출처를 함께 유지한다. 미로드 시 날짜는 네이티브 입력으로 폴백한다.
+- 전체 common.css에는 vendor 구조 CSS → date-time.css 스킨이 포함된다. 필요한 원본만 묶는 프로젝트에서는 달력 사용 여부에 따라 포함한다.
+- ID는 인스턴스마다 고유하게 지정하고, 확장 스크립트는 초기 DOM에만 바인딩하므로 동적 마운트는 프로젝트 생명주기에 연결한다.
+- 드로어/시트 마크업은 `<dialog class="drawer_panel">`과 `m_left`/`m_bottom`. 열림 정본은 `[open]`, `data-state`는 모션 단계이다. 트리거 `data-overlay-open="dialogId"`, 닫기 `data-overlay-close`를 사용한다.
+- 전체 마크업과 상태·이벤트 계약은 `/design/components/` 문서와 `system/demo.html`에 있다.

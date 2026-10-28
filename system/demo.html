@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="../skill/slur-design/assets/css/common.css">
 <link rel="stylesheet" href="styles/demo/page.css">
 <script src="../skill/slur-guidelines/assets/slur.js" defer></script>
+<script src="../skill/slur-design/assets/vendor/vanilla-calendar-pro/3.3.1/index.js" defer></script>
+<script src="../skill/slur-design/assets/js/components.js" defer></script>
+<script src="../skill/slur-design/assets/js/file-upload.js" defer></script>
+<script src="../skill/slur-design/assets/js/date-time.js" defer></script>
 </head>
 <body>
 <div class="page_demo">
@@ -498,6 +502,172 @@
     </div>
   </section>
 
+  <!-- DATA DISPLAY — STABLE -->
+  <section class="p_component">
+    <h2 class="p_component_title">Avatar · Accordion</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">아바타 — 크기 · 형태 · 접속 상태</h3>
+      <div class="p_row">
+        <span class="avatar m_small" aria-label="김슬러"><span class="i_fallback">김</span></span>
+        <span class="avatar" aria-label="이디자인, 접속 중"><span class="i_fallback">이</span><span class="i_status" aria-hidden="true"></span></span>
+        <span class="avatar m_large" aria-label="SLUR"><span class="i_fallback">SL</span></span>
+        <span class="avatar m_large m_square" aria-label="디자인 팀"><span class="i_fallback">DS</span></span>
+      </div>
+      <div class="avatar_group" aria-label="참여자 4명">
+        <span class="avatar" aria-label="김슬러"><span class="i_fallback">김</span></span>
+        <span class="avatar" aria-label="이디자인"><span class="i_fallback">이</span></span>
+        <span class="avatar" aria-label="박개발"><span class="i_fallback">박</span></span>
+        <span class="avatar" aria-label="그 외 5명"><span class="i_fallback">+5</span></span>
+      </div>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">아코디언 — 네이티브 details · 상태 정본은 [open]</h3>
+      <div class="accordion">
+        <details class="i_item" open>
+          <summary class="i_title"><span>컴포넌트는 언제 추가하나요?</span><svg class="i_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></summary>
+          <div class="i_body">같은 역할의 UI가 두 화면 이상에서 반복되고, 토큰과 변형만으로 재사용할 수 있을 때 시스템 컴포넌트로 승격합니다.</div>
+        </details>
+        <details class="i_item">
+          <summary class="i_title"><span>한 번만 쓰는 UI는 어떻게 하나요?</span><svg class="i_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></summary>
+          <div class="i_body">페이지 블록 안에서 조립하고 실제 반복 사용이 확인될 때까지 시스템에 추가하지 않습니다.</div>
+        </details>
+        <details class="i_item">
+          <summary class="i_title"><span>열림 상태는 무엇으로 관리하나요?</span><svg class="i_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></summary>
+          <div class="i_body">브라우저가 제공하는 <code>details[open]</code>을 정본으로 사용하며 별도 <code>data-state</code>를 중복하지 않습니다.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVANCED INPUT — STABLE -->
+  <section class="p_component">
+    <h2 class="p_component_title">Input extensions</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">콤보박스 — 검색 · 방향키 · Enter 선택 · Esc 닫기</h3>
+      <div class="field">
+        <label class="i_label" for="demoAssignee">담당자</label>
+        <div class="combobox" data-state="close">
+          <div class="i_control">
+            <input class="input_text i_input" id="demoAssignee" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="assigneeList" autocomplete="off" placeholder="이름을 검색하세요">
+            <button type="button" class="i_button" aria-label="담당자 목록 열기" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+          </div>
+          <ul class="i_list" id="assigneeList" role="listbox" aria-label="담당자" hidden>
+            <li class="i_option" id="assignee1" role="option" aria-selected="false" data-value="kim">김슬러 · 기획</li>
+            <li class="i_option" id="assignee2" role="option" aria-selected="false" data-value="lee">이디자인 · 디자인</li>
+            <li class="i_option" id="assignee3" role="option" aria-selected="false" data-value="park">박개발 · 프론트엔드</li>
+            <li class="i_option" id="assignee4" role="option" aria-selected="false" data-value="choi">최테스트 · QA</li>
+            <li class="i_empty" role="presentation" hidden>검색 결과가 없습니다.</li>
+          </ul>
+        </div>
+        <span class="i_help">입력하거나 방향키로 후보를 탐색할 수 있습니다.</span>
+      </div>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">날짜 · 시간 — SLUR 커스텀 팝오버</h3>
+      <div class="date_time">
+        <div class="field">
+          <label class="i_label" for="demoStartDate">시작일</label>
+          <span class="date_time_input">
+            <input class="input_text" id="demoStartDate" data-js="date-picker" type="text" value="2026-09-08" placeholder="YYYY-MM-DD" readonly aria-describedby="dateTimeHelp">
+            <svg class="i_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg>
+          </span>
+        </div>
+        <div class="field">
+          <label class="i_label" for="demoStartTime">시작 시간</label>
+          <div class="time_picker" data-state="close">
+            <span class="date_time_input">
+              <input class="input_text" id="demoStartTime" type="text" value="10:30" placeholder="HH:mm" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="startTimeList" aria-describedby="dateTimeHelp demoStartTimeMessage" autocomplete="off">
+              <svg class="i_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            </span>
+            <div class="i_popover" hidden>
+              <span class="i_caption">30분 단위 빠른 선택</span>
+              <ul class="i_list" id="startTimeList" role="listbox" aria-label="시작 시간"></ul>
+              <span class="i_custom" id="demoStartTimeMessage" role="status" aria-live="polite" aria-atomic="true" hidden>시간을 직접 입력한 뒤 Enter를 누르세요.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="i_help" id="dateTimeHelp">날짜는 Vanilla Calendar Pro 3.3.1, 시간은 SLUR 목록·직접 입력 혼합형을 사용합니다.</span>
+      <a class="p_calendar_docs" href="https://vanilla-calendar.pro/docs/learn/date-management-enable-time-picker" target="_blank" rel="noopener noreferrer" aria-label="Vanilla Calendar Pro 캘린더·시간 선택기 공식 문서(새 탭)">
+        <span>캘린더·시간 선택기 공식 문서</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5h5v5M10 14 19 5M19 13v6H5V5h6"></path></svg>
+      </a>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">슬라이더 — 네이티브 range와 현재 값</h3>
+      <div class="range_slider">
+        <div class="i_head"><label class="i_label" for="demoVolume">알림 음량</label><output class="i_value" for="demoVolume" data-suffix="%">65%</output></div>
+        <input class="i_control" id="demoVolume" type="range" min="0" max="100" value="65">
+        <div class="i_limits" aria-hidden="true"><span>0%</span><span>100%</span></div>
+      </div>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">세그먼트 컨트롤 — 단일 선택 정본은 :checked</h3>
+      <fieldset class="segment_control" aria-label="보기 방식">
+        <label class="i_item"><input class="i_input" type="radio" name="viewMode" value="list" checked><span class="i_label">목록</span></label>
+        <label class="i_item"><input class="i_input" type="radio" name="viewMode" value="board"><span class="i_label">보드</span></label>
+        <label class="i_item"><input class="i_input" type="radio" name="viewMode" value="calendar"><span class="i_label">캘린더</span></label>
+      </fieldset>
+      <span class="i_help">세그먼트 컨트롤은 여러 선택지 중 하나만 고르는 라디오 버튼을, 서로 붙어 있는 버튼 형태로 보여주는 컴포넌트입니다. 같은 화면에서 보기 방식이나 정렬 기준 등을 빠르게 바꿀 때 사용하며, 다른 화면으로 이동하는 탭 메뉴와는 다릅니다.</span>
+    </div>
+  </section>
+
+  <!-- PROGRESS — STABLE -->
+  <section class="p_component">
+    <h2 class="p_component_title">Progress · Stepper</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">프로그레스 — determinate · complete · indeterminate</h3>
+      <div class="p_col">
+        <div class="progress_bar"><div class="i_head"><span class="i_label">파일 업로드</span><span class="i_value">68%</span></div><progress class="i_control" aria-label="파일 업로드" value="68" max="100">68%</progress></div>
+        <div class="progress_bar"><div class="i_head"><span class="i_label">설정 완료</span><span class="i_value">100%</span></div><progress class="i_control" aria-label="설정 완료" value="100" max="100">100%</progress></div>
+        <div class="progress_bar"><div class="i_head"><span class="i_label">처리 중</span><span class="i_value">진행 중</span></div><progress class="i_control" aria-label="처리 중" max="100">처리 중</progress></div>
+      </div>
+    </div>
+    <div class="p_section">
+      <h3 class="p_section_title">스테퍼 — 완료 · 현재 · 예정 · 오류</h3>
+      <ol class="stepper" aria-label="계정 설정 진행 단계">
+        <li class="i_item" data-state="complete"><span class="i_marker">✓</span><strong class="i_title">기본 정보</strong><span class="i_text">완료</span></li>
+        <li class="i_item" data-state="complete"><span class="i_marker">✓</span><strong class="i_title">팀 설정</strong><span class="i_text">완료</span></li>
+        <li class="i_item" data-state="current" aria-current="step"><span class="i_marker">3</span><strong class="i_title">권한 설정</strong><span class="i_text">현재 단계</span></li>
+        <li class="i_item" data-state="upcoming"><span class="i_marker">4</span><strong class="i_title">검토</strong><span class="i_text">예정</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- OVERLAY — STABLE -->
+  <section class="p_component">
+    <h2 class="p_component_title">Drawer · Sheet</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">오버레이 — 오른쪽 드로어 · 모바일형 바텀 시트</h3>
+      <div class="p_row">
+        <button type="button" class="btn m_primary" data-overlay-open="demoDrawer">오른쪽 드로어 열기</button>
+        <button type="button" class="btn" data-overlay-open="demoSheet">바텀 시트 열기</button>
+      </div>
+      <div class="alert m_inline"><span class="i_body"><strong class="i_title">Esc·딤·닫기 버튼을 모두 지원합니다.</strong><span class="i_text">열리면 내부로 포커스가 이동하고 닫힌 뒤에는 열었던 버튼으로 돌아갑니다.</span></span></div>
+    </div>
+  </section>
+
+  <section class="p_component"><h2 class="p_component_title">File upload</h2>
+    <div class="p_section">
+      <h3 class="p_section_title">파일 첨부 · 클릭 선택과 드래그앤드롭</h3>
+      <div class="field">
+        <label class="i_label" for="demoFiles">자료 파일</label>
+        <div class="file_upload" data-state="idle">
+          <input class="i_input" type="file" id="demoFiles" multiple aria-describedby="demoFilesHelp">
+          <div class="i_drop" role="button" tabindex="0" aria-controls="demoFiles">
+            <div class="i_content">
+              <span class="i_icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M20 15v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4"></path></svg></span>
+              <strong class="i_title">파일을 여기에 끌어다 놓으세요</strong>
+              <span class="i_text">또는 <span class="i_action">내 컴퓨터에서 선택</span></span>
+            </div>
+          </div>
+          <p class="i_help" id="demoFilesHelp">여러 파일을 선택할 수 있습니다. 실제 업로드는 프로젝트에서 처리합니다.</p>
+          <ul class="i_list" aria-live="polite" aria-label="선택한 파일"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <!-- 모달 블록 — 페이지 블록 밖. 네이티브 dialog: 배경 inert·Esc·포커스 복귀는 브라우저가 -->
@@ -526,6 +696,31 @@
   <p class="i_text"></p>
   <button type="button" class="i_close" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
 </div>
+
+<dialog class="drawer_panel" id="demoDrawer" data-state="close" aria-labelledby="drawerTitle">
+  <button type="button" class="i_dim" data-overlay-close aria-label="드로어 닫기"></button>
+  <div class="i_panel">
+    <header class="i_head"><h2 class="i_title" id="drawerTitle">필터 설정</h2><button type="button" class="i_close" data-overlay-close aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></header>
+    <div class="i_body">
+      <div class="field"><label class="i_label" for="drawerKeyword">키워드</label><input class="input_text" id="drawerKeyword" type="search" placeholder="검색어 입력"></div>
+      <div class="field"><span class="i_label">상태</span><label class="check"><input class="i_input" type="checkbox" checked><span>진행 중</span></label><label class="check"><input class="i_input" type="checkbox"><span>완료</span></label></div>
+    </div>
+    <footer class="i_foot"><button type="button" class="btn" data-overlay-close>취소</button><button type="button" class="btn m_primary" data-overlay-close>적용</button></footer>
+  </div>
+</dialog>
+
+<dialog class="drawer_panel m_bottom" id="demoSheet" data-state="close" aria-labelledby="sheetTitle">
+  <button type="button" class="i_dim" data-overlay-close aria-label="시트 닫기"></button>
+  <div class="i_panel">
+    <header class="i_head"><h2 class="i_title" id="sheetTitle">정렬 기준</h2><button type="button" class="i_close" data-overlay-close aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></header>
+    <div class="i_body">
+      <label class="radio"><input class="i_input" type="radio" name="sortSheet" checked><span>최근 업데이트순</span></label>
+      <label class="radio"><input class="i_input" type="radio" name="sortSheet"><span>이름순</span></label>
+      <label class="radio"><input class="i_input" type="radio" name="sortSheet"><span>생성일순</span></label>
+    </div>
+    <footer class="i_foot"><button type="button" class="btn m_primary m_full" data-overlay-close>선택 완료</button></footer>
+  </div>
+</dialog>
 
 <script>
 // 데모 전용 스크립트 — 탭·메뉴·툴팁·토스트·테마 동작은 slur.js가 위임으로 처리한다(별도 코드 없음)

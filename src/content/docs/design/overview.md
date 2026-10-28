@@ -20,12 +20,12 @@ UI Guidelines만 적용하면 프로젝트의 디자인은 그대로이고, Desi
 |---|---|---|---|
 | **guidelines** | 규칙 문서 + 공통 레이어 [`global.css`](/css/global-layer/) + 동작 층 [`slur.js`](/js/behaviors/) | `slur-guidelines/` | `slur-guidelines` |
 | **tokens** | [디자인 토큰](/design/tokens/) — 색·타이포·간격·라디우스·그림자·모션·브레이크포인트·z-index | `slur-design/assets/tokens/` | `slur-design` |
-| **components** | [컴포넌트 CSS](/design/components/) 15개 — 버튼·입력·셀렉트·선택·배지·카드·알림·모달·내비게이션·표·토스트·상태·메뉴·툴팁·페이지네이션 | `slur-design/assets/components/` | `slur-design` |
+| **components** | [컴포넌트 CSS](/design/components/) 26개 유형(25개 CSS 파일) — 버튼·입력·셀렉트·선택·배지·카드·알림·모달·내비게이션·표·토스트·상태·메뉴·툴팁·페이지네이션 및 아바타·아코디언·입력 확장·진행 상태·드로어/시트·파일 첨부 | `slur-design/assets/components/` | `slur-design` |
 | **patterns** | [앱 셸 · 인증 셸 · 화면 조립본](/design/screens/) 여덟 장 | `slur-design/assets/patterns/` | `slur-design` |
 
 - UI Guidelines는 **룩 무관**입니다. 기존 디자인이 있는 프로젝트에 적용해도 바뀌는 것은 코드의 구조와 표기법뿐입니다.
 - 어휘(design)는 **문법이 있어야 성립**합니다. 컴포넌트 CSS는 global의 리셋·포커스 링과 common의 4상태 스위치를 전제하고, 토큰 실명(`--color-brand` 등)에 의존합니다 — 토큰 없이 컴포넌트만 쓸 수 없습니다.
-- 동작은 CSS 밖입니다 — 네이티브 → `slur.js` → 위임의 [3단 우선순위](/js/behaviors/)를 따르며, 어떤 JS 라이브러리에도 의존하지 않습니다.
+- 동작은 CSS 밖입니다 — 네이티브 → `slur.js` → 위임의 [3단 우선순위](/js/behaviors/)를 따르며, 기본 동작에는 외부 JS 라이브러리가 필요하지 않습니다. 커스텀 날짜 선택기에만 Vanilla Calendar Pro를 선택적으로 사용합니다.
 
 ---
 
