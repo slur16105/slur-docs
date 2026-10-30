@@ -107,7 +107,7 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 | `tooltip_help`(`popover="manual"` + `role="tooltip"`) | `components/tooltip.css` |
 | `layout_app`(`l_side`/`l_panel`/`l_dim` · `l_head` · `l_main` …) | `patterns/app-shell.css` |
 | `layout_auth` — `l_main`은 필수, `l_brand`·`l_foot`은 선택. 존재하는 슬롯 전체를 가운데 정렬하는 로그인·가입·재설정 틀 | `patterns/auth-shell.css` |
-| 화면 조립본 — 대시보드 · 로그인 · 목록(선택 바·4상태·행 메뉴·삭제 확인) · 설정(구역 내비·스위치·저장 바·위험 구역) · 회원가입(강도·규칙·약관·인증 메일) · 비밀번호 재설정(4단계 한 파일) · 상세/편집(탭·보기↔편집·버리기 확인) · 온보딩(empty_state 히어로·progress 체크리스트) | `patterns/screens/*.html` |
+| 화면 조립본 — 대시보드 · 로그인 · 목록(선택 바·4상태·행 메뉴·삭제 확인) · 설정(구역 내비·스위치·저장 바·위험 구역) · 회원가입(강도·규칙·약관·인증 메일) · 비밀번호 재설정(4단계 한 파일) · 상세/편집(탭·보기↔편집·버리기 확인) · 온보딩(empty_state 히어로·progress 체크리스트) · 404/상황별 오류(복구 행동 데모) | `patterns/screens/*.html` |
 
 4상태 슬롯(`i_status` 안의 `i_loading`/`i_empty`/`i_error`, 그리고 `i_body`)의 **노출 스위치는 `common.css`**(slur-guidelines)가 하고, 이 시스템은 슬롯 기본형과 그 안에 넣는 `empty_state`·`skeleton`·`spinner`의 룩만 준다. 상태 값은 `loading|empty|error|success`. 로딩 기본형은 `spinner` + 읽힐 문장, `skeleton`은 표·카드 목록처럼 넓은 영역의 선택지(recipes.md 4절).
 
@@ -158,6 +158,10 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 - ID는 인스턴스마다 고유하게 지정하고, 확장 스크립트는 초기 DOM에만 바인딩하므로 동적 마운트는 프로젝트 생명주기에 연결한다.
 - 드로어/시트 마크업은 `<dialog class="drawer_panel">`과 `m_left`/`m_bottom`. 열림 정본은 `[open]`, `data-state`는 모션 단계이다. 트리거 `data-overlay-open="dialogId"`, 닫기 `data-overlay-close`를 사용한다.
 - 전체 마크업과 상태·이벤트 계약은 `/design/components/` 문서와 `system/demo.html`에 있다.
+
+## 오류 화면 조립
+
+404·독립 오류 화면을 만들 때 slur-guidelines의 `references/error-pages.md`를 읽는다. `assets/patterns/screens/404.html`과 `error.html`을 복사해 시작하고 기존 `empty_state.m_error`·`layout_auth`를 재사용한다. 예제의 데모 제어를 제거하고 실제 목적지·재시도·인증 복귀·서버 응답에 연결한다. 정적 오류 화면 자체에 4상태 슬롯을 강제하지 않는다.
 
 ## 폼 컨트롤 크기 — 2026.10.30 확정
 

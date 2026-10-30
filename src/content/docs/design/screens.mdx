@@ -1,12 +1,12 @@
 ---
 title: 패턴 · 화면 조립본
-description: SLUR Design System의 패턴 층 — 앱 셸(layout_app)·인증 셸(layout_auth)과, 슬러 토큰·컴포넌트·slur.js만으로 만든 화면 조립본 여덟 장을 사이트 안에서 바로 봅니다.
+description: SLUR Design System의 패턴 층 — 앱 셸(layout_app)·인증 셸(layout_auth)과, 슬러 토큰·컴포넌트·slur.js만으로 만든 화면 조립본 열 장을 사이트 안에서 바로 봅니다.
 ---
 
 import ScreenFrame from '../../../components/ScreenFrame.astro';
 
 패턴 층은 컴포넌트를 **화면으로 조합하는 법**입니다.
-틀 두 개(앱 셸·인증 셸)와, 그 틀 위에 컴포넌트를 얹어 완성한 **화면 조립본 여덟 장**이 있습니다.
+틀 두 개(앱 셸·인증 셸)와, 그 틀 위에 컴포넌트를 얹어 완성한 **화면 조립본 열 장**이 있습니다.
 조립본은 그대로 열리는 HTML(마크업 + 페이지 CSS + 페이지 JS)이며,
 새 화면은 처음부터 짜지 않고 **조립본을 복사해 시작**합니다.
 
@@ -25,7 +25,7 @@ import ScreenFrame from '../../../components/ScreenFrame.astro';
 
 ---
 
-## 화면 조립본 여덟 장
+## 화면 조립본 열 장
 
 목차 한 장: [`screens/index.html`](/skill/slur-design/assets/patterns/screens/index.html). 각 프레임의 「모바일 폭 375」로 좁은 화면을, 「새 탭에서 열기」로 전체 화면을 봅니다. 프레임은 이 사이트의 테마를 따릅니다.
 
@@ -76,6 +76,26 @@ import ScreenFrame from '../../../components/ScreenFrame.astro';
 `layout_app`. 빈 워크스페이스 첫 화면 — **히어로 = `empty_state`**, 진행 체크리스트(네이티브 `<progress>` + `aria-label`, `li[data-state=done]`), 첫 고객·팀원 초대 `<dialog>` 폼 → 단계 완료·히어로 내려감(`data-state="started"`), 4상태 활동 블록 `empty → success`.
 
 <ScreenFrame src="/skill/slur-design/assets/patterns/screens/onboarding.html" title="시작하기(온보딩) — onboarding.html" />
+
+---
+
+## 404 · 오류 페이지
+
+제작 대상·구성·문구·복구 원칙은 [404 · 오류 페이지](/ux/error-pages/)를 따릅니다. 기존 `layout_auth`에 `page_error`와 `empty_state.m_error`를 조합합니다. 정적 오류 안내에 4상태 슬롯을 강제하지 않습니다.
+
+### 404 — `404.html`
+
+JavaScript 없이도 제목·설명과 홈/목록 링크를 제공합니다. 뒤로 가기에 의존하지 않습니다.
+
+<ScreenFrame src="/skill/slur-design/assets/patterns/screens/404.html" title="404 · 페이지 없음" />
+
+### 상황별 오류 — `error.html`
+
+「데모 상황 선택」에서 권한 제한·로그인 만료·일시 장애·점검·연결 끊김의 문구와 행동을 확인합니다. `?kind=forbidden|session|server|maintenance|offline`으로 직접 열 수도 있습니다. 상황 적용 시 제목·문서 제목·초점을 갱신하고, 재시도는 진행 중 중복 방지와 실패 안내를 제공합니다. 데모 결과를 복구 성공으로 바꾸고 재시도하면 대시보드로 이동합니다.
+
+<ScreenFrame src="/skill/slur-design/assets/patterns/screens/error.html" title="상황별 오류 · 복구 행동 데모" />
+
+이 두 파일은 UI 예제입니다. 실제 404/5xx 응답·인증 복귀·장애/연결 감지 기능은 포함하지 않습니다. 적용 시 데모 제어를 제거하고 실제 목적지·안전한 조회·인증 흐름에 연결하며, [완료 검증](/quality/completion-checklist/#404--오류-페이지)은 운영 환경에서 별도로 수행합니다.
 
 ---
 

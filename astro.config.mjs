@@ -153,6 +153,7 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: "화면 상태 설계", slug: "ux/screen-states" },
+						{ label: "404 · 오류 페이지", slug: "ux/error-pages" },
 						{ label: "피드백 원칙", slug: "ux/feedback" },
 						{ label: "모션 원칙", slug: "ux/motion" },
 						{ label: "모바일 헤더 기준", slug: "ux/mobile-header" },

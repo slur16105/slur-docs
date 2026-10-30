@@ -228,3 +228,10 @@ React/Next로 옮길 때는 페이지 CSS를 CSS Module(같은 클래스명)로,
 공통 앱 셸의 `.layout_app .l_head`는 `--color-surface-header`를 사용한다. 카드 면 색상의 85%와 투명을 혼합하고 `backdrop-filter: blur(12px)`를 적용해 스크롤 콘텐츠가 은은하게 비치도록 한다. 라이트·다크 모두 현재 카드 면 토큰을 따른다. 글자와 로고 자체의 opacity는 바꾸지 않는다.
 
 불투명 `--color-surface-card`를 기본 배경으로 두고, `@supports`에서 블러와 color-mix 지원 시에만 효과를 켠다. WebKit 접두사를 함께 선언한다. 새 sticky 헤더도 이 토큰과 효과를 사용하며, 불필요한 m_ 변경자를 추가하지 않는다. 사이드바·본문 카드·인증 화면에는 자동 확대 적용하지 않는다.
+
+
+## 16. 404 · 오류 페이지
+
+`patterns/screens/404.html`은 JavaScript 없이도 안내·홈·목록 이동을 제공한다. `error.html`은 권한 제한·세션 만료·일시 장애·점검·연결 끊김을 선택해 보는 UI 데모다. 재시도는 진행·중복 방지·재실패 상태 안내와 모의 복구 성공을 제공한다. 실제 서버·인증·네트워크 검사는 하지 않는다.
+
+`layout_auth` 안의 `page_error`가 `empty_state.m_error`를 조합하고, CSS는 `styles/error/page.css`를 공유한다. 규칙은 slur-guidelines의 `references/error-pages.md`. 복사 시 데모 제어를 제거하고 홈/목록/로그인/문의·재시도 요청을 실제 서비스에 연결하며, 운영의 404/5xx 응답 상태를 따로 검증한다.

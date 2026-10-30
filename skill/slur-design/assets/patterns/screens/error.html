@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>일시적으로 페이지를 불러오지 못했습니다 — SLUR 화면 조립본</title>
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="icon" href="../../brand/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../css/global.css">
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="styles/error/page.css">
+<script src="../../../../slur-guidelines/assets/slur.js" defer></script>
+</head>
+<body>
+<div class="layout_auth">
+  <a class="l_brand" href="dashboard.html" aria-label="SLUR 홈으로 이동"><span class="l_logo" role="img" aria-label="SLUR"><img class="l_logo_light" src="../../brand/logo.svg" alt=""><img class="l_logo_dark" src="../../brand/logo-white.svg" alt=""></span></a>
+  <main class="l_main">
+    <div class="l_card">
+      <div class="page_error">
+        <div class="empty_state m_error">
+          <span class="i_icon"><svg data-icon="circle-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg></span>
+          <p class="p_code">500 · 일시 장애</p>
+          <h1 class="i_title" tabindex="-1">일시적으로 페이지를 불러오지 못했습니다</h1>
+          <p class="i_text">잠시 후 다시 시도해 주세요. 홈에서 다른 메뉴를 이용할 수 있습니다.</p>
+          <div class="i_action">
+            <button class="btn m_primary" type="button" data-action="retry" hidden>다시 시도</button>
+            <a class="btn m_primary" href="dashboard.html" data-js="primary-link">홈으로 이동</a>
+            <a class="btn" href="dashboard.html" data-js="home-link" hidden>홈으로 이동</a>
+          </div>
+        </div>
+        <p class="p_status" role="status" aria-atomic="true"></p>
+        <noscript><p class="p_note">홈으로 이동하거나 잠시 후 이 페이지를 다시 열어 주세요. 상황 선택·재시도 시연에는 JavaScript가 필요합니다.</p></noscript>
+        <details class="p_demo">
+          <summary>데모 상황 선택</summary>
+          <p class="p_note">문구와 복구 행동을 확인하는 모의 동작입니다. 실제 인증·서버·인터넷 연결은 검사하지 않습니다.</p>
+          <form class="p_form">
+            <div class="field">
+              <label class="i_label" for="error-kind">상황</label>
+              <div class="select"><select class="input_text" id="error-kind" name="kind">
+                <option value="server">일시 장애</option>
+                <option value="forbidden">권한 제한</option>
+                <option value="session">로그인 만료</option>
+                <option value="maintenance">점검</option>
+                <option value="offline">연결 끊김</option>
+              </select><span class="i_icon"><svg data-icon="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></span></div>
+            </div>
+            <button class="btn" type="submit">상황 적용</button>
+          </form>
+          <div class="field">
+            <label class="i_label" for="retry-result">다음 재시도 결과 (데모)</label>
+            <div class="select"><select class="input_text" id="retry-result" data-js="retry-result">
+              <option value="failure">실패 · 안내 유지</option>
+              <option value="success">복구 성공 · 홈으로 이동</option>
+            </select><span class="i_icon"><svg data-icon="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></span></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </main>
+  <footer class="l_foot"><a href="index.html">화면 예제 목차</a></footer>
+</div>
+<script>
+// UI 조립본: 서비스 적용 시 이 데모 제어를 제거하고 안전한 조회·실제 목적지에 연결한다.
+const page = document.querySelector('.page_error');
+const title = page.querySelector('h1');
+const description = page.querySelector('.i_text');
+const code = page.querySelector('.p_code');
+const retry = page.querySelector('[data-action="retry"]');
+const primary = page.querySelector('[data-js="primary-link"]');
+const home = page.querySelector('[data-js="home-link"]');
+const status = page.querySelector('.p_status');
+const form = page.querySelector('form');
+const kind = form.elements.kind;
+const result = page.querySelector('[data-js="retry-result"]');
+const situations = {
+  server: ['500 · 일시 장애', '일시적으로 페이지를 불러오지 못했습니다', '잠시 후 다시 시도해 주세요. 홈에서 다른 메뉴를 이용할 수 있습니다.'],
+  forbidden: ['403 · 권한 제한', '이 페이지에 접근할 권한이 없습니다', '현재 계정으로는 이 페이지를 볼 수 없습니다. 접근 가능한 홈에서 다른 메뉴를 이용해 주세요.'],
+  session: ['로그인 만료', '다시 로그인해 주세요', '로그인 정보가 만료되었습니다. 다시 로그인한 뒤 이용해 주세요.'],
+  maintenance: ['503 · 점검', '서비스 점검 중입니다', '지금은 서비스를 이용할 수 없습니다. 점검이 끝난 뒤 다시 이용해 주세요.'],
+  offline: ['연결 끊김', '인터넷 연결을 확인해 주세요', '연결 상태를 확인한 뒤 다시 시도해 주세요.']
+};
+function applySituation(value, moveFocus) {
+  const current = Object.hasOwn(situations, value) ? value : 'server';
+  const data = situations[current];
+  kind.value = current;
+  code.textContent = data[0];
+  title.textContent = data[1];
+  description.textContent = data[2];
+  document.title = data[1] + ' — SLUR 화면 조립본';
+  const canRetry = ['server', 'maintenance', 'offline'].includes(current);
+  retry.hidden = !canRetry;
+  primary.hidden = canRetry;
+  primary.href = current === 'session' ? 'login.html' : 'dashboard.html';
+  primary.textContent = current === 'session' ? '다시 로그인' : '홈으로 이동';
+  home.hidden = current === 'forbidden';
+  result.disabled = !canRetry;
+  status.textContent = '';
+  if (moveFocus) title.focus();
+}
+applySituation(new URLSearchParams(location.search).get('kind'), false);
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const url = new URL(location.href);
+  url.searchParams.set('kind', kind.value);
+  history.replaceState(null, '', url);
+  applySituation(kind.value, true);
+});
+retry.addEventListener('click', async () => {
+  if (retry.disabled) return;
+  const succeeds = result.value === 'success';
+  retry.disabled = true;
+  for (const control of form.elements) control.disabled = true;
+  result.disabled = true;
+  retry.textContent = '확인 중…';
+  status.textContent = '다시 불러오는 중… (데모)';
+  // 지연은 진행·중복 방지를 시연하기 위한 모의 처리다. 실제 앱에서는 안전한 조회를 await한다.
+  await new Promise(resolve => setTimeout(resolve, 700));
+  if (succeeds) { location.assign('dashboard.html'); return; }
+  retry.disabled = false;
+  for (const control of form.elements) control.disabled = false;
+  result.disabled = false;
+  retry.textContent = '다시 시도';
+  status.textContent = '아직 불러오지 못했습니다. 잠시 후 다시 시도하거나 홈으로 이동해 주세요. (데모)';
+});
+</script>
+</body>
+</html>

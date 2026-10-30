@@ -102,6 +102,7 @@
 - [x] Card `m_stat`, 차트 토큰 `--color-chart-1~5`, `--color-surface-overlay` (1.7.0)
 - [x] patterns/app-shell (`layout_app`) (1.7.0) · auth-shell (`layout_auth`) (1.9.0)
 - [x] 화면 조립본 screens/ — dashboard(1.8.0, system/demo-dashboard에서 이동) · login · list · settings (1.9.0) · signup · reset · detail · onboarding (1.10.0)
+- [x] 404 · 상황별 오류 조립본(제작 기준·문구·복구·검증은 `/ux/error-pages/`). UI 데모와 운영 응답·인증 검증은 구분한다.
 - [ ] 다음 후보: 서버 검색·다중 선택 콤보박스 위임 예시(실제 프로젝트에서 요구가 생기면), 앵커 포지셔닝 전환(Safari 확인 후)
 
 주의: 내부 요소(`i_`/`p_`/`l_`) 선택자는 반드시 블록 하위로 스코프한다(`.page_demo .p_head` ✅, `.p_head` 단독 ❌ — `css/internal-elements.md` 참고). 데모도 같은 규칙을 따른다 — 인라인 `style=`·CSS `id` 선택자 없음.

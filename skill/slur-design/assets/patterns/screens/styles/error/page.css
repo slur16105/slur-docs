@@ -1,0 +1,18 @@
+/* 오류 전용 UI 조립본 — 기존 셸·상태 패널 재사용, 배치만 페이지에서 담당 */
+.page_error .p_code { font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_error .empty_state { max-width: 100%; padding: var(--space-16) 0; }
+.page_error .empty_state .i_title { font-size: var(--text-2xl); overflow-wrap: anywhere; }
+.page_error .empty_state .i_text { overflow-wrap: anywhere; }
+.page_error .p_note { font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.page_error .p_status { margin-top: var(--space-8); font-size: var(--text-sm); color: var(--color-text-secondary); }
+.page_error .p_status:empty { margin-top: 0; }
+.page_error .p_demo { margin-top: var(--space-24); padding-top: var(--space-16); border-top: 1px solid var(--color-border-subtle); }
+.page_error .p_demo summary { font-size: var(--text-sm); cursor: pointer; }
+.page_error .p_demo .p_note, .page_error .p_form, .page_error .p_demo > .field { margin-top: var(--space-16); }
+.page_error .p_form { display: flex; gap: var(--space-12); flex-direction: column; }
+.page_error [hidden] { display: none; }
+
+@media (max-width: 767px), (any-pointer: coarse) {
+    .page_error .btn, .page_error .input_text { min-height: 3rem; }
+    .page_error .p_demo summary { display: flex; min-height: 3rem; align-items: center; }
+}
