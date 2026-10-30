@@ -147,9 +147,9 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 - **클로드디자인 프로젝트**(SLUR Design System)는 전체 팔레트를 가진 **디자인 작업대** — 새 역할·컴포넌트 탐색은 거기서 하고, 확정된 것을 `assets/`로 내려받는다(DesignSync).
 - **`assets/`는 실사용 서브셋** — usage-driven 원칙 적용. 여기 없는 토큰이 필요하면 임의로 만들지 말고 클로드디자인 팔레트에서 꺼내온다.
 
-## 확장 컴포넌트 — 26개 유형 / 25개 CSS 원본
+## 확장 컴포넌트 — 27개 유형 / 26개 CSS 원본
 
-아바타·아코디언·콤보박스·날짜/시간·슬라이더·세그먼트·프로그레스·스테퍼·드로어·바텀 시트·파일 첨부를 포함한다. 드로어와 시트는 `components/drawer.css`를 공유한다.
+아바타·아코디언·콤보박스·날짜/시간·슬라이더·세그먼트·프로그레스·스테퍼·드로어·바텀 시트·파일 첨부·수량 입력을 포함한다. 드로어와 시트는 `components/drawer.css`를 공유한다.
 
 - `assets/js/components.js`: 정적 단일 선택 콤보박스, 슬라이더 값 표시, 아바타 이미지 폴백, 네이티브 dialog 기반 드로어·시트. defer로 한 번 로드한다.
 - `assets/js/file-upload.js`: 클릭/드롭 선택·삭제·폼 리셋. `slur:filechange`의 `detail.files`를 받아 프로젝트가 검증·업로드한다.
@@ -158,3 +158,12 @@ PDF, AUDIT, 진단서, 제안서처럼 인쇄·공유되는 정적 문서를 만
 - ID는 인스턴스마다 고유하게 지정하고, 확장 스크립트는 초기 DOM에만 바인딩하므로 동적 마운트는 프로젝트 생명주기에 연결한다.
 - 드로어/시트 마크업은 `<dialog class="drawer_panel">`과 `m_left`/`m_bottom`. 열림 정본은 `[open]`, `data-state`는 모션 단계이다. 트리거 `data-overlay-open="dialogId"`, 닫기 `data-overlay-close`를 사용한다.
 - 전체 마크업과 상태·이벤트 계약은 `/design/components/` 문서와 `system/demo.html`에 있다.
+
+## 폼 컨트롤 크기 — 2026.10.30 확정
+
+- 신규·수정하는 일반 폼의 버튼·입력·셀렉트는 PC 2.5rem, 모바일·터치 3rem을 사용한다(루트 16px 기준 40/48px).
+- 분기는 `@media (max-width: 767px), (any-pointer: coarse)`이며 터치 가능한 태블릿·노트북도 포함한다. 같은 줄의 컨트롤 높이를 맞추고 수량 ± 버튼 너비도 높이에 맞춘다.
+- 조밀한 PC의 2rem 작은 변형은 실제 필요할 때만 사용하고 터치 영역은 최소 3rem을 확보한다. 기존 전체 화면을 자동 변경하는 지침은 아니다.
+- 40/48은 SLUR 설계 결정이며 WCAG AA 24×24 CSS px·AAA 44×44 CSS px, Apple pt·Android dp와 혼동하지 않는다. 조작 영역을 겹치지 않는다.
+- 근거 정본: https://docs.slur.co.kr/design/control-sizing/ (저장소 src/content/docs/design/control-sizing.md).
+- quantity는 components/quantity.css와 js/quantity.js를 사용한다. `data-js`로 연결하고 네이티브 disabled를 사용한다.

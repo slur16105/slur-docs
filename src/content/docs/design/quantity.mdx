@@ -1,0 +1,41 @@
+---
+title: 수량 입력
+description: quantity 컴포넌트의 구조, 수량 증감, 범위 보정과 반응형 컨트롤 높이입니다.
+---
+
+import ScreenFrame from '../../../components/ScreenFrame.astro';
+
+수량을 한 개씩 조절하거나 직접 입력합니다. **PC 2.5rem(40px), 모바일·터치 3rem(48px)**이며 px 환산은 루트 글꼴 16px 기준입니다. [크기 기준과 근거](/design/control-sizing/)를 따릅니다.
+
+<ScreenFrame src="/system/demo.html#quantity" title="수량 입력 실행 예제" tall />
+
+## 구조와 동작
+
+- 컴포넌트 블록 `quantity`, 내부 요소 `i_label`, `i_control`, `i_minus`, `i_input`, `i_plus`, `i_help`, `i_result`를 사용합니다.
+- 동작 연결은 고정 `data-js` 역할이며 `disabled`는 네이티브 상태를 사용합니다.
+- 정수 min·max와 step=1을 지정합니다. 입력 중 빈 값을 허용하고 입력 확정 시 범위 안 정수로 보정합니다.
+- 최솟값에서 감소, 최댓값에서 증가 버튼을 비활성화합니다. 버튼 변경은 input·change 이벤트를 발생시킵니다.
+- 여러 개를 사용할 때 label·input·help의 id와 참조를 고유하게 지정합니다. 폼 리셋도 지원합니다.
+
+## 사용
+
+CSS는 시스템 `global.css → common.css → page.css` 순서로 로드합니다. `quantity.css`는 common.css에 포함됩니다. 동작이 필요한 페이지에만 아래 스크립트를 defer로 연결합니다.
+
+```html
+<script src="../skill/slur-design/assets/js/quantity.js" defer></script>
+```
+
+```html
+<div class="quantity" data-js="quantity">
+    <label class="i_label" for="product-quantity">수량</label>
+    <div class="i_control">
+        <button type="button" class="i_minus" data-js="quantity-minus" aria-label="수량 감소" disabled>−</button>
+        <input type="number" class="i_input" data-js="quantity-input" id="product-quantity" name="quantity" value="1" min="1" max="99" step="1" inputmode="numeric" aria-describedby="quantity-help" required>
+        <button type="button" class="i_plus" data-js="quantity-plus" aria-label="수량 증가">+</button>
+    </div>
+    <span class="i_help" id="quantity-help">최소 1개 · 최대 99개</span>
+    <output class="i_result" data-js="quantity-result" for="product-quantity" aria-live="polite">선택 수량 1개</output>
+</div>
+```
+
+원본: `skill/slur-design/assets/components/quantity.css`, `skill/slur-design/assets/js/quantity.js`. 생성된 public 자산을 직접 수정하지 않습니다.

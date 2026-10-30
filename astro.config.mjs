@@ -168,6 +168,8 @@ export default defineConfig({
 						{ label: "디자인 토큰", slug: "design/tokens" },
 						{ label: "아이콘 — Lucide", slug: "design/icons" },
 						{ label: "컴포넌트", slug: "design/components" },
+						{ label: "수량 입력", slug: "design/quantity" },
+						{ label: "폼 컨트롤 크기 기준", slug: "design/control-sizing" },
 						{ label: "패턴 · 화면 조립본", slug: "design/screens" },
 						{ label: "보고서 디자인", slug: "design/reports" },
 						{ label: "AI 퀵스타트", slug: "design/ai-quickstart" },

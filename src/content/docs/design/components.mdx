@@ -1,6 +1,6 @@
 ---
 title: 컴포넌트
-description: SLUR Design System 컴포넌트 26개 유형의 블록·변형·상태 정본을 한 표로 정리하고, 라이브 데모와 4상태·토스트·모달의 기본 마크업을 보여 줍니다.
+description: SLUR Design System 컴포넌트 27개 유형의 블록·변형·상태 정본을 한 표로 정리하고, 라이브 데모와 4상태·토스트·모달의 기본 마크업을 보여 줍니다.
 ---
 
 import ScreenFrame from '../../../components/ScreenFrame.astro';
@@ -10,7 +10,7 @@ import ScreenFrame from '../../../components/ScreenFrame.astro';
 동작은 [네이티브 → `slur.js` → 위임](/js/behaviors/)에서 옵니다.
 기본 동작은 외부 JS 라이브러리 없이 사용합니다. 커스텀 날짜 선택기만 동봉한 Vanilla Calendar Pro 3.3.1을 선택적으로 사용합니다.
 
-기존 15개와 확장 11개(파일 첨부 포함), **총 26개 유형**입니다. 드로어와 시트는 CSS를 공유하므로 컴포넌트 CSS 파일은 25개입니다.
+기존 15개와 확장 12개(수량 입력·파일 첨부 포함), **총 27개 유형**입니다. 드로어와 시트는 CSS를 공유하므로 컴포넌트 CSS 파일은 26개입니다.
 
 ---
 
@@ -28,6 +28,7 @@ import ScreenFrame from '../../../components/ScreenFrame.astro';
 |---|---|---|---|
 | 버튼 | `btn` + `m_primary` `m_ghost` `m_danger` · 크기 `m_small` `m_large` · `m_full` · 아이콘 전용 `m_icon`(정사각) · 햄버거 `btn_menu`(48×48) | `data-state="loading"`, `disabled` | `button.css` |
 | 입력 | `field`(래퍼: `i_label` `i_help`) + `input_text`(+ `m_textarea` `m_icon_left` `m_icon_right` `m_small` `m_large`) · `input_wrap`(`i_icon`, 컨트롤 안 액션 `i_action`) | `field[data-state="error"]` · `success` · `disabled` + `aria-invalid` | `input.css` |
+| [수량 입력](/design/quantity/) | `quantity` · `i_control` `i_minus` `i_input` `i_plus` | 네이티브 `disabled` · input 값 | `quantity.css` |
 | 셀렉트 | `select`(네이티브 `<select>` + `i_icon` 화살표, 컨트롤은 `input_text`) | 네이티브 | `select.css` |
 | 선택 | `check` `radio`(`i_input`) · `switch`(`i_knob`) | 체크·라디오 `:checked`(네이티브) · 스위치 `role="switch"` + `aria-checked` | `selection.css` |
 | 배지 | `badge`(`i_dot`) + 색 `m_brand` `m_success` `m_warning` `m_danger` · 스타일 `m_solid` `m_outline` · 크기 `m_small` `m_medium` · 카운트 `m_count` · `chip`(`i_close`) | — | `badge.css` |
@@ -60,7 +61,7 @@ import ScreenFrame from '../../../components/ScreenFrame.astro';
 
 ## 함께 지키는 것
 
-- **공유 컨트롤 높이 `2 / 2.5 / 3rem`** — 버튼·입력·셀렉트가 같은 줄에서 키가 맞습니다. 모바일 터치 타깃은 48.
+- **공유 컨트롤 높이 `2 / 2.5 / 3rem`** — 버튼·입력·셀렉트가 같은 줄에서 키가 맞습니다. 일반 PC 폼은 2.5rem, 모바일·터치는 3rem. [적용 조건과 근거](/design/control-sizing/)를 따릅니다.
 - **상태색 면 위 텍스트는 on-토큰**, 포커스 링은 `global.css` 한 곳, 아이콘은 `em` + `currentColor`.
 - **컴포넌트 내부를 덮을 때는 페이지 스코프에서** — `.page_list .table_data { min-width: 760px; }`. 컴포넌트 CSS 파일 자체를 고치지 않습니다.
 - **토스트 컨테이너는 미리 DOM에** — 라이브 영역이 먼저 있어야 다음 알림이 보조 기술에 읽힙니다. 모달이 열린 동안은 토스트를 띄우지 않습니다(`slur.toast()`가 닫힐 때까지 기다립니다).

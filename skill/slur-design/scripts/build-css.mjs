@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 const base = new URL('../assets/', import.meta.url);
 const read = (path) => readFileSync(new URL(path, base), 'utf8');
 const tokens = ['colors', 'typography', 'spacing', 'radius', 'shadows', 'motion', 'breakpoints', 'z-index'];
-const components = ['button', 'input', 'select', 'selection', 'badge', 'card', 'alert', 'navigation', 'table', 'modal', 'toast', 'state', 'menu', 'tooltip', 'pagination', 'avatar', 'accordion', 'combobox', 'date-time', 'slider', 'segment', 'progress', 'stepper', 'drawer', 'file-upload'];
+const components = ['button', 'input', 'quantity', 'select', 'selection', 'badge', 'card', 'alert', 'navigation', 'table', 'modal', 'toast', 'state', 'menu', 'tooltip', 'pagination', 'avatar', 'accordion', 'combobox', 'date-time', 'slider', 'segment', 'progress', 'stepper', 'drawer', 'file-upload'];
 // 중첩 조건·문자열·주석 안의 :root를 기본 토큰으로 합치지 않는다.
 function topLevelRoots(css) {
   const offsets = new Set();

@@ -20,7 +20,7 @@ UI Guidelines만 적용하면 프로젝트의 디자인은 그대로이고, Desi
 |---|---|---|---|
 | **guidelines** | 규칙 문서 + 공통 레이어 [`global.css`](/css/global-layer/) + 동작 층 [`slur.js`](/js/behaviors/) | `slur-guidelines/` | `slur-guidelines` |
 | **tokens** | [디자인 토큰](/design/tokens/) — 색·타이포·간격·라디우스·그림자·모션·브레이크포인트·z-index | `slur-design/assets/tokens/` | `slur-design` |
-| **components** | [컴포넌트 CSS](/design/components/) 26개 유형(25개 CSS 파일) — 버튼·입력·셀렉트·선택·배지·카드·알림·모달·내비게이션·표·토스트·상태·메뉴·툴팁·페이지네이션 및 아바타·아코디언·입력 확장·진행 상태·드로어/시트·파일 첨부 | `slur-design/assets/components/` | `slur-design` |
+| **components** | [컴포넌트 CSS](/design/components/) 27개 유형(26개 CSS 파일) — 버튼·입력·셀렉트·선택·배지·카드·알림·모달·내비게이션·표·토스트·상태·메뉴·툴팁·페이지네이션 및 아바타·아코디언·입력 확장·진행 상태·드로어/시트·파일 첨부 | `slur-design/assets/components/` | `slur-design` |
 | **patterns** | [앱 셸 · 인증 셸 · 화면 조립본](/design/screens/) 여덟 장 | `slur-design/assets/patterns/` | `slur-design` |
 
 - UI Guidelines는 **룩 무관**입니다. 기존 디자인이 있는 프로젝트에 적용해도 바뀌는 것은 코드의 구조와 표기법뿐입니다.

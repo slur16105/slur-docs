@@ -225,6 +225,24 @@
 .input_wrap .i_action svg { width: 1.125em; height: 1.125em; }
 
 
+/* SOURCE: components/quantity.css */
+/* Quantity — component-owned elements; native disabled state. */
+.quantity {--quantity-control-size: 2.5rem; display: inline-flex; flex-direction: column; gap: var(--space-8);}
+.quantity .i_label {font-size: var(--text-sm); font-weight: var(--weight-medium);}
+.quantity .i_control {display: inline-flex; align-self: flex-start; border: 1px solid var(--color-border-default); border-radius: var(--radius-8); overflow: hidden;}
+.quantity .i_minus, .quantity .i_plus {display: inline-flex; align-items: center; justify-content: center; width: var(--quantity-control-size); height: var(--quantity-control-size); padding: 0; border: 0; background: var(--color-surface-card); font: inherit; font-size: var(--text-lg); color: var(--color-text-primary); cursor: pointer;}
+.quantity .i_input {box-sizing: border-box; width: 64px; height: var(--quantity-control-size); padding: 0; border: 0; border-inline: 1px solid var(--color-border-subtle); border-radius: 0; background: var(--color-surface-card); font: inherit; font-size: var(--text-base); color: var(--color-text-primary); text-align: center; appearance: textfield; -moz-appearance: textfield;}
+.quantity .i_input::-webkit-inner-spin-button, .quantity .i_input::-webkit-outer-spin-button {margin: 0; -webkit-appearance: none;}
+.quantity .i_minus:disabled, .quantity .i_plus:disabled {background: var(--color-surface-sunken); color: var(--color-text-muted); cursor: default;}
+.quantity .i_help {font-size: var(--text-xs); color: var(--color-text-secondary);}
+.quantity .i_result {font-size: var(--text-sm); color: var(--color-text-primary);}
+
+/* Mobile viewport or touch-capable device: 48px at a 16px root font. */
+@media (max-width: 767px), (any-pointer: coarse) {
+    .quantity {--quantity-control-size: 3rem;}
+}
+
+
 /* SOURCE: components/select.css */
 /* ─────────────────────────────────────────────
    SELECT — SLUR Design System × slur-guidelines
