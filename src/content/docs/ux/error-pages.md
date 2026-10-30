@@ -66,3 +66,17 @@ description: 페이지를 열 수 없는 상황의 제작 기준, 공통 구성,
 [패턴 · 화면 조립본](/design/screens/#404--오류-페이지)에서 404와 상황별 오류 예제를 확인합니다. 예제 파일은 **UI 조립본**이며 운영 라우트·인증·장애 복구를 대신하지 않습니다. 적용할 때 데모 제어를 제거하고 실제 목적지·요청에 연결합니다.
 
 완료 조건은 [완료 검증 체크리스트](/quality/completion-checklist/#404--오류-페이지), 재현 방법은 [브라우저 검증](/quality/browser-verification/#오류-페이지와-복구-검증)을 따릅니다.
+
+## 문서 사이트 적용 현황
+
+| 화면 | 주소 | 현재 연결 범위 |
+|---|---|---|
+| 페이지 없음 | `/404.html` | 존재하지 않는 주소에 자동 적용, 실제 404 응답 |
+| 일시 장애 | [500 안내 화면](/500.html) | 정적 안내 화면 준비. 실제 장애 응답으로 자동 교체하지 않음 |
+| 점검 | [점검 안내 화면](/maintenance/) | 정적 안내 화면 준비. 전체 사이트 점검 전환은 별도 설정 |
+
+500·점검 화면은 문서 홈에 안전한 GET 요청을 다시 보내는 링크와, 별도 도메인의 SLUR 홈페이지 이동을 제공합니다. 같은 오류 안내 URL을 새로고침하는 것을 재시도로 삼지 않습니다. 점검 종료 시간은 확정되지 않아 표시하지 않습니다.
+
+이 사이트는 Astro 정적 빌드를 Cloudflare Pages에 배포합니다. 404와 달리 500·점검 파일은 이름만으로 장애 응답에 연결되지 않으며, 안내 주소를 직접 열면 정상 정적 문서인 **200 응답**입니다. 실제 연결 시 원래 요청 주소에서 500/503 상태와 화면 본문을 함께 반환해야 합니다. Pages Functions/Worker 등의 응답 처리 또는 사용 가능한 Custom Error Rules 설정이 필요합니다. Cloudflare 자체 장애처럼 이 사이트 코드가 실행되지 않는 상황까지 대체할 수 있다고 보장하지 않습니다.
+
+근거: [Cloudflare Pages의 404 처리](https://developers.cloudflare.com/pages/configuration/serving-pages/#not-found-behavior), [Custom Errors의 범위와 제한](https://developers.cloudflare.com/rules/custom-errors/), [Pages Functions 미들웨어](https://developers.cloudflare.com/pages/functions/middleware/). 운영 연결·점검 전환·해제·검증 절차는 저장소 `docs-internal/site-error-operations.md`에 기록합니다.
